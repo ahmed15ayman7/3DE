@@ -66,7 +66,7 @@ export default function SignUp() {
                 >
                     <Image
                         src="/assets/images/logo.png"
-                        alt="IAFCE Logo"
+                        alt="3DE Logo"
                         width={120}
                         height={120}
                         style={{ marginBottom: '1rem', textAlign: 'center' }}

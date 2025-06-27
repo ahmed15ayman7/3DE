@@ -34,7 +34,7 @@ const Footer: React.FC<{ links: { quickLinks: { label: string; links: Array<{ la
                             {"من نحن"}
                         </Typography>
                         <Typography variant="body2" className="mb-4">
-                            {'IAFCE - الاكاديمية الدولية للتعلم المستمر'}
+                            {'3DE - اتعلم معنا'}
                         </Typography>
                         <Box className="flex space-x-4 rtl:space-x-reverse">
                             <IconButton

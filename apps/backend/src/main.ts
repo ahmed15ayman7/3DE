@@ -21,8 +21,8 @@ async function bootstrap() {
 
     // Swagger setup
     const config = new DocumentBuilder()
-        .setTitle('IAFCE Academy API')
-        .setDescription('The IAFCE Academy API description')
+        .setTitle('3DE Academy API')
+        .setDescription('The 3DE Academy API description')
         .setVersion('1.0')
         .addBearerAuth()
         .build();

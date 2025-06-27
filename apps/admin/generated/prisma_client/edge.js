@@ -1134,7 +1134,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/ahmedayman/Documents/MY-COMPNIES/IAFCE/apps/admin/generated/prisma_client",
+      "value": "/Users/ahmedayman/Documents/MY-COMPNIES/3DE/apps/admin/generated/prisma_client",
       "fromEnvVar": null
     },
     "config": {
@@ -1148,7 +1148,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/ahmedayman/Documents/MY-COMPNIES/IAFCE/packages/shared/prisma/schema.prisma",
+    "sourceFilePath": "/Users/ahmedayman/Documents/MY-COMPNIES/3DE/packages/shared/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

@@ -36,10 +36,10 @@ export default function RootLayout({
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="manifest" href="/manifest.json" />
                 <meta name="theme-color" content="#000000" />
-                <title>IAFCE - لوحة التحكم</title>
+                <title>3DE - لوحة التحكم</title>
                 <meta name="description" content="  لوحة التحكم " />
-                <meta name="author" content="IAFCE" />
-                <meta name="keywords" content="لوحة التحكم" />
+                <meta name="author" content="3DE" />
+                <meta name="keywords" content="3DE , 3DE مصر , 3DE المنصة العربية الاولي للتعليم المستمر" />
                 <meta name="robots" content="index, follow" />
                 <Script src="/assets/scripts/google-translate.js" strategy="beforeInteractive" />
 

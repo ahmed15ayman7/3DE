@@ -90,7 +90,7 @@ export default function LoginPage() {
                     <Box sx={{ mb: 3, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Image
                             src="/assets/images/logo.png"
-                            alt="IAFCE Logo"
+                            alt="3DE Logo"
                             width={120}
                             height={120}
                             style={{ marginBottom: '1rem', textAlign: 'center' }}
@@ -105,13 +105,13 @@ export default function LoginPage() {
                                 textShadow: '1px 1px 2px rgba(0,0,0,0.1)',
                             }}
                         >
-                            IAFCE
+                            3DE
                         </Typography>
                         <Typography
                             variant="subtitle1"
                             sx={{ color: 'primary', mb: 2 }}
                         >
-                            الأكاديمية الدولية للتعليم المستمر - لوحة التحكم
+                            3DE - لوحة التحكم
                         </Typography>
                     </Box>
 

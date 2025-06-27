@@ -28,19 +28,19 @@ const theme = createTheme({
     direction: 'rtl',
     palette: {
         primary: {
-            main: '#FBB34C',
-            light: '#FFD699',
-            dark: '#002D32',
+            main: '#249491',
+            light: '#249491',
+            dark: '#003f59',
             contrastText: '#FFFFFF',
         },
         secondary: {
-            main: '#002D32',
-            light: '#004A52',
-            dark: '#001A1D',
+            main: '#003f59',
+            light: '#003f59',
+            dark: '#003f59',
             contrastText: '#FFFFFF',
         },
         background: {
-            default: '#FFFFFF',
+            default: '#fff7e2',
             paper: '#F5F5F5',
         },
         text: {

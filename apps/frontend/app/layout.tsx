@@ -40,11 +40,11 @@ export default function RootLayout({
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="manifest" href="/manifest.json" />
-                <meta name="theme-color" content="#000000" />
-                <title>IAFCE - الاكاديمية الدوليه للتعليم المستمر</title>
-                <meta name="description" content="  الاكاديمية الدوليه للتعليم المستمر ، دورات تعليميه علي اعلي مستوي " />
-                <meta name="author" content="IAFCE" />
-                <meta name="keywords" content="الاكاديمية الدوليه للتعليم المستمر" />
+                <meta name="theme-color" content="#fff7e2" />
+                <title>3DE</title>
+                <meta name="description" content="3DE اتعلم مع افضل المدرسين في مصر " />
+                <meta name="author" content="3DE" />
+                <meta name="keywords" content="3DE , 3DE مصر , 3DE المنصة العربية الاولي للتعليم " />
                 <meta name="robots" content="index, follow" />
                 <Script src="/assets/scripts/google-translate.js" strategy="beforeInteractive" />
 
