@@ -99,11 +99,11 @@ export const layoutsConfig: UserLayoutConfig = {
                 href: '/instructor/attendance',
                 icon: 'clipboard-check',
             },
-            {
-                label: 'المتابعة اليومية',
-                href: '/instructor/daily-tracking',
-                icon: 'clipboard-check',
-            },
+            // {
+            //     label: 'المتابعة اليومية',
+            //     href: '/instructor/daily-tracking',
+            //     icon: 'clipboard-check',
+            // },
             {
                 label: 'الاختبارات',
                 href: '/instructor/quizzes',

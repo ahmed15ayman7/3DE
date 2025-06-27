@@ -1000,7 +1000,8 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   MESSAGE: 'MESSAGE',
   ACHIEVEMENT: 'ACHIEVEMENT',
   URGENT: 'URGENT',
-  EVENT: 'EVENT'
+  EVENT: 'EVENT',
+  ABSENCE: 'ABSENCE'
 };
 
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {

@@ -398,6 +398,7 @@ enum NotificationType {
     ACHIEVEMENT
     URGENT
     EVENT
+    ABSENCE
 }
 
 model NotificationSettings {

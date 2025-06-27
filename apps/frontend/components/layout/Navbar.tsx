@@ -33,6 +33,7 @@ import {
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import authService from '@/lib/auth.service';
+import { signOut } from 'next-auth/react';
 interface NavbarProps {
     user?: {
         id: string;
@@ -120,9 +121,15 @@ const Navbar: React.FC<NavbarProps> = ({
     };
 
     const handleLogout = async () => {
-        // Handle logout logic
-        await authService.clearTokens();
-        router.push('/auth/signin');
+        try {
+            await authService.clearTokens();
+            signOut();
+            router.push('/auth/signin');
+        } catch (error) {
+            signOut();
+            router.push('/auth/signin');
+            console.error('خطأ في تسجيل الخروج:', error);
+        }
         handleMenuClose();
     };
 

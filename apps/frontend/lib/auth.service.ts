@@ -112,6 +112,7 @@ class AuthService {
     this.accessToken = '';
     this.refresh_token = '';
     await removeTokens();
+    this.stopRefreshTokenTimer();    
   }
 }
 
