@@ -1,4 +1,5 @@
-// 'use client';
+import { redirect } from 'next/navigation';
+// "use client";
 
 // import React, { Suspense, useState } from 'react';
 // import { useQuery } from '@tanstack/react-query';
@@ -20,6 +21,7 @@
 // import { Plus as FaPlus} from 'lucide-react';
 // import { Alert } from '@mui/material';
 // import { Course, Milestone, Path, User } from '@shared/prisma';
+
 // let getPathsData = async () => {
 //     let { success, data } = await pathApi.getAll();
 //     if (success) {
@@ -27,6 +29,7 @@
 //     }
 //     return null;
 // }
+
 // let getCoursesData = async () => {
 //     let { success, data } = await courseApi.getAll();
 //     if (success) {
@@ -34,6 +37,7 @@
 //     }
 //     return null;
 // }
+
 // let initialPaths: (Path & { courses: Course[], milestones: Milestone[], peers: User[] })[] = [
 //     {
 //         id: '1',
@@ -759,8 +763,190 @@
 //     //         },
 //     //     ],
 //     // },
+//     // {
+//     //     id: '1',
+//     //     title: 'مسار التعلم',
+//     //     description: 'مسار التعلم',
+//     //     level: '1',
+//     //     progress: 50,
+//     //     completedTasks: 10,
+//     //     remainingTime: 10,
+//     //     studyTime: 10,
+//     //     totalTasks: 10,
+//     //     engagement: 50,
+//     //     createdAt: new Date(),
+//     //     updatedAt: new Date(),
+//     //     courses: [
+//     //         {
+//     //             id: '1',
+//     //             title: 'كورس python',
+//     //             description: ' كورس python هو كورس يعلمك كيفية البرمجة بلغة البايثون',
+//     //             image: 'https://via.placeholder.com/150',
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             academyId: '1',
+//     //             level: '1',
+//     //             status: 'COMPLETED',
+//     //         },
+//     //         {
+//     //             id: '2',
+//     //             title: 'كورس Machine Learning',
+//     //             description: ' كورس Machine Learning هو كورس يعلمك كيفية التعلم الآلي',
+//     //             image: 'https://via.placeholder.com/150',
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             academyId: '1',
+//     //             level: '1',
+//     //             status: 'COMPLETED',
+//     //         },
+//     //         {
+//     //             id: '3',
+//     //             title: 'كورس Data Science',
+//     //             description: ' كورس Data Science هو كورس يعلمك كيفية التعلم الآلي',
+//     //             image: 'https://via.placeholder.com/150',
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             academyId: '1',
+//     //             level: '1',
+//     //             status: 'COMPLETED',
+//     //         },
+//     //     ],
+//     //     milestones: [
+//     //         {
+//     //             id: '1',
+//     //             title: 'المهمة الأولى',
+//     //             description: 'المهمة الأولى',
+//     //             status: 'COMPLETED',
+//     //             createdAt: new Date(),
+//     //             pathId: '1',
+//     //         },
+//     //         {
+//     //             id: '2',
+//     //             title: 'المهمة الثانية',
+//     //             description: 'المهمة الثانية',
+//     //             status: 'COMPLETED',
+//     //             createdAt: new Date(),
+//     //             pathId: '1',
+//     //         },
+//     //     ],
+//     //     peers: [
+//     //         {
+//     //             id: '1',
+//     //             firstName: 'محمد',
+//     //             lastName: 'المحمدي',
+//     //             avatar: 'https://via.placeholder.com/150',
+//     //             isOnline: true,
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             academyId: '1',
+//     //             email: 'test@test.com',
+//     //             password: '123456',
+//     //             phone: '123456',
+//     //             role: 'STUDENT',
+//     //             subRole: 'STUDENT',
+//     //             isVerified: true,
+//     //             age: 20,
+//     //         },
+//     //         {
+//     //             id: '2',
+//     //             firstName: 'محمد',
+//     //             lastName: 'كريم',
+//     //             avatar: 'https://via.placeholder.com/150',
+//     //             isOnline: true,
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             academyId: '1',
+//     //             email: 'test@test.com',
+//     //             password: '123456',
+//     //             phone: '123456',
+//     //             role: 'STUDENT',
+//     //             subRole: 'STUDENT',
+//     //             isVerified: true,
+//     //             age: 20,
+//     //         },
+//     //     ],
+//     // },
+//     // {
+//     //     id: '2',
+//     //     title: 'مسار تعلم fullstack',
+//     //     description: 'مسار تعلم fullstack',
+//     //     level: '2',
+//     //     progress: 50,
+//     //     completedTasks: 10,
+//     //     remainingTime: 10,
+//     //     studyTime: 10,
+//     //     totalTasks: 10,
+//     //     engagement: 50,
+//     //     createdAt: new Date(),
+//     //     updatedAt: new Date(),
+//     //     courses: [
+//     //         {
+//     //             id: '1',
+//     //             title: ' كورس html',
+//     //             description: ' كورس html هو كورس يعلمك كيفية البرمجة بلغة البايثون',
+//     //             image: 'https://via.placeholder.com/150',
+//     //             academyId: '1',
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             level: '1',
+//     //             status: 'COMPLETED',
+//     //         },
+//     //         {
+//     //             id: '2',
+//     //             title: ' كورس css',
+//     //             description: ' كورس css هو كورس يعلمك كيفية البرمجة بلغة البايثون',
+//     //             image: 'https://via.placeholder.com/150',
+//     //             academyId: '1',
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             level: '1',
+//     //             status: 'COMPLETED',
+//     //         },
+//     //         {
+//     //             id: '3',
+//     //             title: ' كورس js',
+//     //             description: ' كورس js هو كورس يعلمك كيفية البرمجة بلغة البايثون',
+//     //             image: 'https://via.placeholder.com/150',
+//     //             academyId: '1',
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             level: '1',
+//     //             status: 'COMPLETED',
+//     //         },
+//     //     ],
+//     //     milestones: [
+//     //         {
+//     //             id: '1',
+//     //             title: 'مسار تعلم fullstack',
+//     //             description: 'مسار تعلم fullstack',
+//     //             status: 'COMPLETED',
+//     //             createdAt: new Date(),
+//     //             pathId: '2',
+//     //         },
+//     //     ],
+//     //     peers: [
+//     //         {
+//     //             id: '1',
+//     //             firstName: 'محمد',
+//     //             lastName: 'المحمدي',
+//     //             avatar: 'https://via.placeholder.com/150',
+//     //             isOnline: true,
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             academyId: '1',
+//     //             email: 'test@test.com',
+//     //             password: '123456',
+//     //             phone: '123456',
+//     //             role: 'STUDENT',
+//     //             subRole: 'STUDENT',
+//     //             isVerified: true,
+//     //             age: 20,
+//     //         },
+//     //     ],
+//     // },
 // ]
-//  function StudentPaths() {
+
+// function StudentPaths() {
 //     const [selectedPath, setSelectedPath] = useState<Path & { courses: Course[], milestones: Milestone[], peers: User[] } | null>(null);
 //     const [activeTab, setActiveTab] = useState(0);
 
@@ -939,9 +1125,9 @@
 //                             </Card>
 //                         </div>
 
-//                         {/* الدورات */}
+//                         {/* المواد */}
 //                         <div>
-//                             <h3 className="font-bold mb-4">الدورات</h3>
+//                             <h3 className="font-bold mb-4">المواد</h3>
 //                             <DataGrid
 //                                 rows={selectedPath.courses}
 //                                 columns={[
@@ -1019,17 +1205,16 @@
 //             )}
 //         </motion.div>
 //     );
-// } 
+// }
+
 // export default function StudentPathsSkeleton() {
 //     return (
 //         <Suspense fallback={<Skeleton />}>
-//   <StudentPaths />
-// </Suspense>
+//             <StudentPaths />
+//         </Suspense>
 //     );
 // }
 
-import { redirect } from "next/navigation";
-
-export default function StudentPathsPage() {
+export default function StudentPathsRoute() {
     redirect('/student/paths/overview');
 }

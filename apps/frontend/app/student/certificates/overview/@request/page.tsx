@@ -5,6 +5,7 @@ import { useUser } from '@/hooks/useUser';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { certificateApi } from '@/lib/api';
+import { Grid } from '@mui/material';
 
 const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div /> });
 const Button = dynamic(() => import('@/components/common/Button'), { loading: () => <div /> });
@@ -37,10 +38,20 @@ export default function RequestCertificateTab() {
           requestCertificate(requestData);
         }}
       >
-        <Input label="الاسم" value={requestData.name} onChange={e => setRequestData({ ...requestData, name: e.target.value })} required />
-        <Input label="العنوان" value={requestData.address} onChange={e => setRequestData({ ...requestData, address: e.target.value })} required />
-        <Input label="رقم الهاتف" value={requestData.phone} onChange={e => setRequestData({ ...requestData, phone: e.target.value })} required />
-        <Input label="ملاحظات" value={requestData.notes} onChange={e => setRequestData({ ...requestData, notes: e.target.value })} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Input label="الاسم" className="w-4/5" value={requestData.name} onChange={e => setRequestData({ ...requestData, name: e.target.value })} required />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Input label="العنوان" className="w-4/5" value={requestData.address} onChange={e => setRequestData({ ...requestData, address: e.target.value })} required />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Input label="رقم الهاتف" className="w-4/5" value={requestData.phone} onChange={e => setRequestData({ ...requestData, phone: e.target.value })} required />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Input label="ملاحظات" className="w-4/5" value={requestData.notes} onChange={e => setRequestData({ ...requestData, notes: e.target.value })} />
+          </Grid>
+        </Grid>
         <div className="flex justify-end">
           <Button type="submit" variant="contained" disabled={isPending}>
             {isPending ? 'جاري الإرسال...' : 'إرسال الطلب'}

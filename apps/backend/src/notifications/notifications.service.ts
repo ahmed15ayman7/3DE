@@ -12,9 +12,19 @@ export class NotificationsService {
     constructor(private prisma: PrismaService) { }
 
     async create(createNotificationDto: CreateNotificationDto): Promise<Notification> {
-        return this.prisma.notification.create({
-            data: createNotificationDto,
+        let user = await this.prisma.user.findUnique({
+            where: { id: createNotificationDto.userId },
         });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        let notification = await this.prisma.notification.create({
+            data: {
+                ...createNotificationDto,
+                userId: user.id,
+            },
+        });
+        return notification;
     }
 
     async findAll(): Promise<Notification[]> {

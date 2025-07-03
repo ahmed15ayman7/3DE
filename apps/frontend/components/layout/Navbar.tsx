@@ -34,6 +34,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import authService from '@/lib/auth.service';
 import { signOut } from 'next-auth/react';
+
 interface NavbarProps {
     user?: {
         id: string;
@@ -58,9 +59,6 @@ interface NavbarProps {
     showNotifications: boolean;
     showProfile: boolean;
     showSearch: boolean;
-    onToggleTheme: () => void;
-    onToggleLanguage: () => void;
-    isDarkMode: boolean;
     links: Array<{
         label: string;
         href: string;
@@ -75,19 +73,18 @@ const Navbar: React.FC<NavbarProps> = ({
     showProfile = false,
     showSearch = false,
     messages = [],
-    onToggleTheme,
-    onToggleLanguage,
-    isDarkMode,
     links,
 }) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null);
     const [messagesAnchor, setMessagesAnchor] = useState<null | HTMLElement>(null);
+    const [isDarkMode, setIsDarkMode] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const pathname = usePathname();
     const router = useRouter();
+
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -118,6 +115,15 @@ const Navbar: React.FC<NavbarProps> = ({
 
     const handleCloseMessages = () => {
         setMessagesAnchor(null);
+    };
+
+    const handleToggleTheme = () => {
+        setIsDarkMode(!isDarkMode);
+        // يمكن إضافة منطق إضافي هنا لتغيير الثيم
+    };
+
+    const handleToggleLanguage = () => {
+        // يمكن إضافة منطق إضافي هنا لتغيير اللغة
     };
 
     const handleLogout = async () => {
@@ -182,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     <img
                         src="/assets/images/logo.png"
                         alt="Logo"
-                        className="h-24 w-auto mr-4"
+                        className="h-24 w-auto mr-4 rounded-full"
                     />
                 </Link>
 
@@ -202,7 +208,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         className="relative"
                     >
                         <Badge badgeContent={notifications.filter(n => !n.read).length} color="primary">
-                            <NotificationsIcon className={`hover:text-white ${pathname === '/notifications' ? 'text-white' : 'text-secondary-main'}`} />
+                            <NotificationsIcon className={`hover:text-white ${pathname === '/notifications' || (pathname.startsWith('/notifications') && pathname !== '/notifications') ? 'text-white' : 'text-secondary-main'}`} />
                         </Badge>
                     </IconButton>
                     }
@@ -216,11 +222,11 @@ const Navbar: React.FC<NavbarProps> = ({
                         </Badge>
                     </IconButton>
                     {/* 
-                    <IconButton color="inherit" onClick={onToggleLanguage}>
+                    <IconButton color="inherit" onClick={handleToggleLanguage}>
                         <LanguageIcon />
                     </IconButton>
 
-                    <IconButton color="inherit" onClick={onToggleTheme}>
+                    <IconButton color="inherit" onClick={handleToggleTheme}>
                         {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
                     </IconButton> */}
 

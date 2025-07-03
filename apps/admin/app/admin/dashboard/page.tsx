@@ -289,7 +289,7 @@ export default function DashboardPage() {
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={3}>
                                     <StatCard
-                                        title="المحاضريين"
+                                        title="المدرسيين"
                                         value={stats.users.instructors}
                                         icon={<PersonIcon />}
                                     />
@@ -310,7 +310,7 @@ export default function DashboardPage() {
             {stats?.courses && (
                 <Box sx={{ mb: 4 }}>
                     <Typography variant="h5" gutterBottom>
-                        إحصائيات الدورات
+                        إحصائيات المواد
                     </Typography>
                     <Grid container spacing={3}>
                         {loadingSections.all ? (
@@ -338,14 +338,14 @@ export default function DashboardPage() {
                                     <Card>
                                         <CardContent>
                                             <Typography variant="h6" gutterBottom>
-                                                توزيع الدورات
+                                                توزيع المواد
                                             </Typography>
                                             <Bar
                                                 data={{
-                                                    labels: ['الدورات النشطة', 'الدورات المكتملة', 'الدورات المعلقة'],
+                                                    labels: ['المواد النشطة', 'المواد المكتملة', 'المواد المعلقة'],
                                                     datasets: [
                                                         {
-                                                            label: 'عدد الدورات',
+                                                            label: 'عدد المواد',
                                                             data: [
                                                                 stats.courses.active,
                                                                 stats.courses.completed,

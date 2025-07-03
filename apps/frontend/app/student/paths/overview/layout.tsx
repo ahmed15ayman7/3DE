@@ -12,7 +12,7 @@ const Tabs = dynamic(() => import('@/components/common/Tabs'), {
 
 const tabs = [
     { value: 0, label: 'نظرة عامة', path: '/student/paths/overview' },
-    { value: 1, label: 'الدورات', path: '/student/paths/overview?type=courses' },
+    { value: 1, label: 'المواد', path: '/student/paths/overview?type=courses' },
     { value: 2, label: 'التقدم', path: '/student/paths/overview?type=progress' },
     { value: 3, label: 'الزملاء', path: '/student/paths/overview?type=peers' },
 ];

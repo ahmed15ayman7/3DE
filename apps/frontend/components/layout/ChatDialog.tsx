@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import {
     TextField,
+    IconButton,
     Button,
     InputAdornment,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import {MessageCircle as MessageIcon} from "lucide-react"
+import MapsUgcIcon from '@mui/icons-material/MapsUgc';
 type Message = {
     question: string;
     answer: string;
@@ -33,22 +34,27 @@ export default function ChatDialog() {
     return (
         <>
             {/* Chat Button */}
-            <Button
+            <IconButton
                 onClick={() => setOpen(!open)}
+                className="shadow-md"
                 style={{
                     position: 'fixed',
                     bottom: '50px',
                     right: '20px',
-                    backgroundColor: '#FBB34C',
+                    border:"1px solid #fff",
+                    backgroundColor: '#249491',
                     color: 'white',
                     borderRadius: '50%',
-                    width: 30,
                     height: 50,
                     zIndex: 1001,
                 }}
+                
             >
-                <MessageIcon  />
-            </Button>
+                <MapsUgcIcon  sx={{
+                    fontSize: 30,
+                    color: 'white',
+                }} />
+            </IconButton>
 
             {/* Chat Container */}
             {open && (

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCommunityDto } from 'dtos/Community.create.dto';
 import { UpdateCommunityDto } from 'dtos/Community.update.dto';
@@ -87,6 +87,50 @@ export class CommunitiesService {
 
         return this.prisma.community.delete({
             where: { id },
+            include: {
+                participants: true,
+            },
+        });
+    }
+    async addParticipant(communityId: string, userId: string): Promise<Community> {
+        if(!userId || !communityId) {
+            throw new BadRequestException('User ID and community ID are required');
+        }
+        const community = await this.findOne(communityId);
+        if (!community) {
+            throw new NotFoundException(`Community with ID ${communityId} not found`);
+        }
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+        });
+        if (!user) {
+            throw new NotFoundException(`User with ID ${userId} not found`);
+        }
+        if (user.role !== 'STUDENT') {
+            throw new BadRequestException('User is not a student');
+        }
+        return this.prisma.community.update({
+            where: { id: community.id },
+            data: { participants: { connect: { id: userId } } },
+            include: {
+                participants: true,
+            },
+        });
+    }
+    async removeParticipant(communityId: string, userId: string): Promise<Community> {
+        const community = await this.findOne(communityId);
+        if (!community) {
+            throw new NotFoundException(`Community with ID ${communityId} not found`);
+        }
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+        });
+        if (!user) {
+            throw new NotFoundException(`User with ID ${userId} not found`);
+        }
+        return this.prisma.community.update({
+            where: { id: community.id },
+            data: { participants: { disconnect: { id: userId } } },
             include: {
                 participants: true,
             },

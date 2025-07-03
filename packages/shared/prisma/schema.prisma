@@ -174,8 +174,9 @@ model Instructor {
     id        String   @id @default(cuid())
     userId    String
     user      User     @relation(fields: [userId], references: [id])
-    academyId String
-    academy   Academy  @relation(fields: [academyId], references: [id])
+    title     String?
+    academyId String?   
+    academy   Academy?  @relation(fields: [academyId], references: [id])
     courses   Course[]
 }
 

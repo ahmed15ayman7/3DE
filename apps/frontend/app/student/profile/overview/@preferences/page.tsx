@@ -1,5 +1,5 @@
+"use client";
 // Parallel Route: التفضيلات
-'use client';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 

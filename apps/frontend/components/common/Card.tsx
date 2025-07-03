@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import {
     Card as MuiCard,
@@ -68,10 +69,10 @@ const Card: React.FC<CardProps> = ({
                     <>
                         <CardMedia
                             component="img"
-                            height="160"
+                            height="160px"
                             image={image}
                             alt={title}
-                            className="object-cover"
+                            className="object-cover max-h-[200px] w-auto"
                         />
                         <CardContent>
                             <Box className="flex justify-between items-start mb-2">

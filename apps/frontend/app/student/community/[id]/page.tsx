@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { Suspense, use, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -464,7 +464,7 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                         getOptionKey={(option) => option.value}
                         onChange={(event, value) => setFilters({ ...filters, participant: value?.value || "" })}
                         options={[
-                            { value: 'instructor', label: 'المحاضر' },
+                            { value: 'instructor', label: 'المدرس' },
                             { value: 'student', label: 'الطالب' },
                             { value: 'all', label: 'الكل' },
                             { value: "academy", label: 'الاكاديمية' },

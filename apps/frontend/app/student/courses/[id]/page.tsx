@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Suspense, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -63,7 +63,7 @@ let initialCourse: Course & {
         {
             id: 'lesson-1',
             title: 'مقدمة إلى JavaScript',
-            content: 'تعرف في هذه المحاضرة على تاريخ JavaScript، ولماذا تعتبر من أهم لغات الويب.',
+            content: 'تعرف في هذه الدرس على تاريخ JavaScript، ولماذا تعتبر من أهم لغات الويب.',
             files: [
                 {
                     id: 'video-1',
@@ -255,8 +255,8 @@ let initialCourse: Course & {
         },
         {
             id: '2',
-            title: 'المحاضرة الثانية',
-            content: 'هذه هي المحاضرة الثانية',
+            title: 'الدرس الثانية',
+            content: 'هذه هي الدرس الثانية',
             files: [
                 {
                     id: '4',
@@ -327,8 +327,8 @@ let initialCourse: Course & {
             quizzes: [
                 {
                     id: 'quiz-3',
-                    title: 'اختبار المحاضرة الثانية',
-                    description: 'اختبار المحاضرة الثانية',
+                    title: 'اختبار الدرس الثانية',
+                    description: 'اختبار الدرس الثانية',
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     lessonId: '2',
@@ -467,7 +467,7 @@ const CoursePage = ({ params }: { params: { id: string } }) => {
                                 {selectedLesson?.quizzes && selectedLesson.quizzes.length > 0 && (
                                     <Box sx={{ mt: 2 }}>
                                         <Typography variant="h6" gutterBottom>
-                                            اختبارات المحاضرة
+                                            اختبارات الدرس
                                         </Typography>
                                         <List className="w-full">
                                             {selectedLesson.quizzes.map((quiz) => (
@@ -593,7 +593,7 @@ const CoursePage = ({ params }: { params: { id: string } }) => {
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <VideoIcon color="primary" />
                                 <Typography>
-                                    عدد المحاضرات: {course.lessons?.length || 0}
+                                    عدد الدروس: {course.lessons?.length || 0}
                                 </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -626,7 +626,7 @@ const CoursePage = ({ params }: { params: { id: string } }) => {
                         </Paper>
                     </motion.div>
 
-                    {/* قائمة المحاضرات */}
+                    {/* قائمة الدروس */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -634,7 +634,7 @@ const CoursePage = ({ params }: { params: { id: string } }) => {
                     >
                         <Paper elevation={3} sx={{ p: 3 }}>
                             <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <VideoIcon /> المحاضرات
+                                <VideoIcon /> الدروس
                             </Typography>
                             <List>
                                 {course.lessons?.map((lesson) => (
@@ -712,7 +712,7 @@ const CoursePage = ({ params }: { params: { id: string } }) => {
                     >
 
 
-                        {/* تفاصيل المحاضرة المحددة */}
+                        {/* تفاصيل الدرس المحددة */}
                         {selectedLesson && (
                             <Paper elevation={3} sx={{ p: 3 }} >
                                 {selectedFile && (
@@ -724,7 +724,7 @@ const CoursePage = ({ params }: { params: { id: string } }) => {
                                     </Box>
                                 )}
                                 <Typography variant="h6" gutterBottom className={"mt-5"}>
-                                    تفاصيل المحاضرة
+                                    تفاصيل الدرس
                                 </Typography>
                                 <Typography variant="subtitle1" gutterBottom>
                                     {selectedLesson.title}
@@ -743,7 +743,7 @@ const CoursePage = ({ params }: { params: { id: string } }) => {
                             <Box sx={{ mt: 2 }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                                     <Typography variant="body2">
-                                        المحاضرات المكتملة
+                                        الدروس المكتملة
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         {Math.round((course.lessons?.filter(l => l.status === 'COMPLETED').length || 0) / (course.lessons?.length || 1) * 100)}%

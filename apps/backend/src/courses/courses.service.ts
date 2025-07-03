@@ -24,7 +24,11 @@ export class CoursesService {
                         user: true,
                     },
                 },
-                lessons: true,
+                lessons: {
+                    include: {
+                        files: true,
+                    },
+                },
                 quizzes: true,
             },
         });
@@ -64,7 +68,11 @@ export class CoursesService {
                     },
                 },
                 quizzes: true,
-                lessons: true,
+                lessons: {
+                    include: {
+                        files: true,
+                    },
+                },
             },
         });
 
@@ -92,7 +100,11 @@ export class CoursesService {
                     },
                 },
                 quizzes: true,
-                lessons: true,
+                lessons: {
+                    include: {
+                        files: true,
+                    },
+                },
             },
         });
     }

@@ -308,9 +308,9 @@ export default function PathsProgressPage() {
                                     />
                                 </div>
 
-                                {/* تقدم الدورات */}
+                                {/* تقدم المواد */}
                                 <div>
-                                    <h4 className="font-medium mb-3">تقدم الدورات</h4>
+                                    <h4 className="font-medium mb-3">تقدم المواد</h4>
                                     <div className="space-y-3">
                                         {path.courses.map((course) => (
                                             <div key={course.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">

@@ -111,9 +111,9 @@ export default function SignIn() {
                             alt="3DE Logo"
                             width={120}
                             height={120}
-                            style={{ marginBottom: '1rem', textAlign: 'center' }}
+                            style={{ marginBottom: '1rem', textAlign: 'center', borderRadius: '50%' }}
                         />
-                        <Typography
+                        {/* <Typography
                             component="h1"
                             variant="h4"
                             gutterBottom
@@ -124,7 +124,7 @@ export default function SignIn() {
                             }}
                         >
                             3DE
-                        </Typography>
+                        </Typography> */}
                         <Typography
                             variant="subtitle1"
                             sx={{ color: 'primary', mb: 2 }}

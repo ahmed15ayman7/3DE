@@ -38,6 +38,7 @@ let getCoursesData = async (id: string) => {
                     id: '1',
                     academyId: '1',
                     userId: '1',
+                    title: 'مدرس تطوير الويب',
                     user: {
                         id: '1',
                         firstName: 'أحمد',
@@ -87,6 +88,7 @@ let getCoursesData = async (id: string) => {
                     id: '1',
                     academyId: '1',
                     userId: '1',
+                    title: 'مدرس HTML',
                     user: {
                         id: '1',
                         firstName: 'سارة',
@@ -139,6 +141,7 @@ let getCoursesData = async (id: string) => {
                     id: '1',
                     academyId: '1',
                     userId: '1',
+                    title: 'مدرس تطوير الويب',
                     user: {
                         id: '1',
                         firstName: 'محمد',
@@ -199,6 +202,7 @@ let getCoursesData = async (id: string) => {
                     id: '1',
                     academyId: '1',
                     userId: '1',
+                    title: 'مدرس CSS',
                     user: {
                         id: '1',
                         firstName: 'فاطمة',
@@ -266,7 +270,7 @@ let getCoursesData = async (id: string) => {
 
     const activeColumns = [
         { field: 'title', headerName: 'عنوان الكورس', width: 200 },
-        { field: 'instructor', headerName: 'المحاضر', width: 150 },
+        { field: 'instructor', headerName: 'المدرس', width: 150 },
         { field: 'progress', headerName: 'التقدم', width: 100 },
         { field: 'lastAccessed', headerName: 'آخر دخول', width: 150 },
         { field: 'nextLesson', headerName: 'الدرس التالي', width: 200 },
@@ -274,7 +278,7 @@ let getCoursesData = async (id: string) => {
 
     const completedColumns = [
         { field: 'title', headerName: 'عنوان الكورس', width: 200 },
-        { field: 'instructor', headerName: 'المحاضر', width: 150 },
+        { field: 'instructor', headerName: 'المدرس', width: 150 },
         { field: 'completionDate', headerName: 'تاريخ الإكمال', width: 150 },
         { field: 'grade', headerName: 'الدرجة', width: 100 },
         {
@@ -301,7 +305,7 @@ let getCoursesData = async (id: string) => {
                         <Card
                             key={course.id}
                             title={course.title}
-                            description={`المحاضر: ${course.instructors[0].user.firstName} ${course.instructors[0].user.lastName}`}
+                            description={`المدرس: ${course.instructors[0].user.firstName} ${course.instructors[0].user.lastName}`}
                             className="h-full"
                         >
                             <div className="mt-4 space-y-2">

@@ -277,7 +277,7 @@ export class AdminAuthService {
                 };
             }
 
-            // إحصائيات الدورات
+            // إحصائيات المواد
             if (permissions.includes('VIEW_COURSES') || admin.AdminRole?.[0].name === AdminRoleType.SUPER_ADMIN) {
                 stats.courses = {
                     total: await this.prisma.course.count({

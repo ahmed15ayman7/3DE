@@ -49,6 +49,16 @@ export class CommunitiesController {
         return this.communitiesService.remove(id);
     }
 
+    @Post(':id/participants/:userId')
+    async addParticipant(@Param('id') id: string, @Param('userId') userId: string): Promise<Community> {
+        return this.communitiesService.addParticipant(id, userId);
+    }
+
+    @Delete(':id/participants/:userId')
+    async removeParticipant(@Param('id') id: string, @Param('userId') userId: string): Promise<Community> {
+        return this.communitiesService.removeParticipant(id, userId);
+    }
+
     @Post(':id/discussions')
     async createDiscussion(
         @Param('id') id: string,
@@ -116,8 +126,8 @@ export class CommunitiesController {
     }
 
     @Post(':id/groups')
-    async addGroup(@Param('id') id: string, @Body() addGroupDto: { groupId: string }): Promise<Group> {
-        return this.communitiesService.addGroup(id, addGroupDto.groupId);
+    async addGroup(@Param('id') id: string, @Param('groupId') groupId: string): Promise<Group> {
+        return this.communitiesService.addGroup(id, groupId);
     }
 
     @Delete(':id/groups/:groupId')

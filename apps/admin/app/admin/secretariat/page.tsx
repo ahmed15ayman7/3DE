@@ -690,7 +690,7 @@ export default function SecretariatPage() {
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                     <StatCard
-                        title="الدورات النشطة"
+                        title="المواد النشطة"
                         value={stats.activeCourses}
                         icon={<SchoolIcon sx={{ color: 'success.main' }} />}
                         color="success"

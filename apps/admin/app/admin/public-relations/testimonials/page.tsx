@@ -128,12 +128,12 @@ export default function TestimonialsPage() {
         },
     });
 
-    // جلب الدورات
+    // جلب المواد
     const { data: courses } = useQuery({
         queryKey: ['courses'],
         queryFn: async () => {
             const response = await fetch('/api/courses');
-            if (!response.ok) throw new Error('فشل في جلب الدورات');
+            if (!response.ok) throw new Error('فشل في جلب المواد');
             return response.json();
         },
     });

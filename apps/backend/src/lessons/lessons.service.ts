@@ -22,16 +22,18 @@ export class LessonsService {
             include: {
                 course: true,
                 completedBy: true,
+                files:true
             },
         });
     }
-
+    
     async findOne(id: string) {
         const lesson = await this.prisma.lesson.findUnique({
             where: { id },
             include: {
                 course: true,
                 completedBy: true,
+                files:true
             },
         });
 

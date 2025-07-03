@@ -39,7 +39,7 @@ export default function InstructorNotifications() {
         {
             id: 4,
             title: 'تنبيه مهم',
-            message: 'تم تغيير موعد المحاضرة القادمة إلى يوم الخميس',
+            message: 'تم تغيير موعد الدرس القادمة إلى يوم الخميس',
             type: 'error',
             date: '2024-04-22',
             time: '11:20',

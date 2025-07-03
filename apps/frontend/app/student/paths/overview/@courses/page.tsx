@@ -155,7 +155,7 @@ export default function PathsCoursesPage() {
         // placeholderData: keepPreviousData,
     });
 
-    // تجميع جميع الدورات من المسارات
+    // تجميع جميع المواد من المسارات
     const allCourses = (paths || initialPaths)?.flatMap(path => 
         path.courses.map(course => ({
             ...course,
@@ -195,14 +195,14 @@ export default function PathsCoursesPage() {
         >
             {/* العنوان */}
             <div>
-                <h2 className="text-xl font-bold mb-2">الدورات في المسارات</h2>
+                <h2 className="text-xl font-bold mb-2">المواد في المسارات</h2>
                 <p className="text-gray-600">
-                    جميع الدورات المتاحة في مساراتك الحالية
+                    جميع المواد المتاحة في مساراتك الحالية
                 </p>
             </div>
 
-            {/* جدول الدورات */}
-            <Card title="الدورات" className="bg-primary-50">
+            {/* جدول المواد */}
+            <Card title="المواد" className="bg-primary-50">
                 <DataGrid
                     rows={allCourses}
                     columns={[
@@ -277,10 +277,10 @@ export default function PathsCoursesPage() {
 
             {/* إحصائيات سريعة */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card title="إجمالي الدورات" className="bg-primary-50">
+                <Card title="إجمالي المواد" className="bg-primary-50">
                     <p className="text-2xl font-bold">{allCourses.length}</p>
                 </Card>
-                <Card title="الدورات المكتملة" className="bg-success-50">
+                <Card title="المواد المكتملة" className="bg-success-50">
                     <p className="text-2xl font-bold">
                         {allCourses.filter(course => course.status === 'COMPLETED').length}
                     </p>

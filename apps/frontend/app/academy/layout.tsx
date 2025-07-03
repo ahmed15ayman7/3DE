@@ -26,9 +26,6 @@ export default function AcademyLayout({
             <Navbar
                    links={layoutConfig.navbarLinks}
                    role={user?.role}
-                   isDarkMode={false}
-                   onToggleTheme={() => { }}
-                   onToggleLanguage={() => { }}
                    user={user}
                    showNotifications={layoutConfig.showNotifications ?? false}
                    showProfile={layoutConfig.showProfile ?? false}

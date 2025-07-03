@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import {
     Avatar as MuiAvatar,
@@ -16,6 +17,8 @@ interface AvatarProps {
     className?: string;
     onClick?: () => void;
     tooltip?: string;
+    cw?:string;
+    ch?:string;
     showTooltip?: boolean;
     badgeContent?: React.ReactNode;
     badgeColor?: 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
@@ -25,6 +28,8 @@ interface AvatarProps {
 const Avatar: React.FC<AvatarProps> = ({
     src,
     alt,
+    cw,
+    ch,
     name,
     size = 'md',
     status,
@@ -118,6 +123,7 @@ const Avatar: React.FC<AvatarProps> = ({
                 alt={alt || name}
                 variant={variant}
                 onClick={onClick}
+                sx={{width:cw??"",height:ch??""}}
                 className={`
           ${getSizeClasses()}
           ${className}

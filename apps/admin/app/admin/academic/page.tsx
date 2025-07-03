@@ -346,7 +346,7 @@ export default function AcademicPage() {
                             <TableCell>العنوان</TableCell>
                             <TableCell>النوع</TableCell>
                             <TableCell>المستوى</TableCell>
-                            <TableCell>المحاضر</TableCell>
+                            <TableCell>المدرس</TableCell>
                             <TableCell>تاريخ البدء</TableCell>
                             <TableCell>تاريخ الانتهاء</TableCell>
                             <TableCell>الحالة</TableCell>

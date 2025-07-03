@@ -32,7 +32,7 @@ export default function CompletedCoursesTab() {
   // أعمدة الجدول
   const completedColumns = [
     { field: 'title', headerName: 'عنوان الكورس', width: 200 },
-    { field: 'instructor', headerName: 'المحاضر', width: 150 },
+    { field: 'instructor', headerName: 'المدرس', width: 150 },
     { field: 'completionDate', headerName: 'تاريخ الإكمال', width: 150 },
     { field: 'grade', headerName: 'الدرجة', width: 100 },
     {

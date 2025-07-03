@@ -1,5 +1,4 @@
-// Parallel Route: الأمان
-'use client';
+"use client";
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';

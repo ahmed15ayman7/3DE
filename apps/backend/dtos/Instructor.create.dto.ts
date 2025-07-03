@@ -11,7 +11,12 @@ export class CreateInstructorDto {
   userId: string;
 
   @ApiProperty({ type: "string" })
+  // Field: title, Type: string
+  @Column()
+  title?: string;
+
+  @ApiProperty({ type: "string" })
   // Field: academyId, Type: string
   @Column()
-  academyId: string;
+  academyId?: string;
 }

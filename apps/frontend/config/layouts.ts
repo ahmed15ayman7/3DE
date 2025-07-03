@@ -8,15 +8,20 @@ export const layoutsConfig: UserLayoutConfig = {
                 href: '/student/dashboard',
                 icon: 'home',
             },
-            {
-                label: 'مساراتي',
-                href: '/student/paths',
-                icon: 'book',
-            },
+            // {
+            //     label: 'مساراتي',
+            //     href: '/student/paths',
+            //     icon: 'book',
+            // },
             {
                 label: 'كورساتي',
                 href: '/student/courses',
                 icon: 'school',
+            },
+            {
+                label: 'مُدرسي',
+                href: '/student/teachers',
+                icon: 'users',
             },
             {
                 label: 'شهاداتي',
@@ -80,7 +85,7 @@ export const layoutsConfig: UserLayoutConfig = {
                 icon: 'home',
             },
             {
-                label: 'إدارة دوراتي',
+                label: 'إدارة موادي',
                 href: '/instructor/courses',
                 icon: 'book',
             },
@@ -99,11 +104,11 @@ export const layoutsConfig: UserLayoutConfig = {
                 href: '/instructor/attendance',
                 icon: 'clipboard-check',
             },
-            // {
-            //     label: 'المتابعة اليومية',
-            //     href: '/instructor/daily-tracking',
-            //     icon: 'clipboard-check',
-            // },
+            {
+                label: 'المتابعة اليومية',
+                href: '/instructor/daily-tracking',
+                icon: 'clipboard-check',
+            },
             {
                 label: 'الاختبارات',
                 href: '/instructor/quizzes',
@@ -159,7 +164,7 @@ export const layoutsConfig: UserLayoutConfig = {
                 icon: 'bell',
             },
             {
-                label: 'المحاضرين',
+                label: 'المدرسين',
                 href: '/parent/teachers',
                 icon: 'bell',
             },

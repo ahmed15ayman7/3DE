@@ -29,9 +29,6 @@ export default function InstructorLayout({
         <div className="flex min-h-screen flex-col">
             <Navbar
                 role={user?.role}
-                onToggleTheme={() => { }}
-                onToggleLanguage={() => { }}
-                isDarkMode={false}
                 links={layoutConfig.navbarLinks}
                 user={user}
                 showNotifications={layoutConfig.showNotifications ?? false}

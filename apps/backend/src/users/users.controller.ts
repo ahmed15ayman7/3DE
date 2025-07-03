@@ -77,8 +77,8 @@ export class UsersController {
     }
 
     @Get(':id/created-courses')
-    @ApiOperation({ summary: 'الحصول على الدورات المنشئة' })
-    @ApiResponse({ status: 200, description: 'تم جلب الدورات المنشئة بنجاح' })
+    @ApiOperation({ summary: 'الحصول على المواد المنشئة' })
+    @ApiResponse({ status: 200, description: 'تم جلب المواد المنشئة بنجاح' })
     createdCourses(@Param('id') id: string) {
         return this.usersService.getCreatedCourses(id);
     }

@@ -9,17 +9,28 @@ export class EnrollmentsService {
 
     async create(createEnrollmentInput: CreateEnrollmentDto) {
         return this.prisma.enrollment.create({
-            data: createEnrollmentInput
+            data: createEnrollmentInput,include:{
+                course:true,
+                user:true
+            }
         });
     }
 
     async findAll() {
-        return this.prisma.enrollment.findMany();
+        return this.prisma.enrollment.findMany({
+            include:{
+                course:true,
+                user:true
+            }
+        });
     }
 
     async findOne(id: string) {
         return this.prisma.enrollment.findUnique({
-            where: { id }
+            where: { id },include:{
+                course:true,
+                user:true
+            }
         });
     }
 
@@ -27,18 +38,27 @@ export class EnrollmentsService {
         return this.prisma.enrollment.update({
             where: { id },
             data: updateEnrollmentInput
-        });
+        ,include:{
+            course:true,
+            user:true
+    }});
     }
 
     async remove(id: string) {
         return this.prisma.enrollment.delete({
-            where: { id }
+            where: { id },include:{
+                course:true,
+                user:true
+            }
         });
     }
 
     async findByUserId(userId: string) {
         return this.prisma.enrollment.findMany({
-            where: { userId }
+            where: { userId },include:{
+                course:true,
+                user:true
+            }
         });
     }
 } 

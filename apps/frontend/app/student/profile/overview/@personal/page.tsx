@@ -1,5 +1,5 @@
+"use client";
 // Parallel Route: البيانات الشخصية
-'use client';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';

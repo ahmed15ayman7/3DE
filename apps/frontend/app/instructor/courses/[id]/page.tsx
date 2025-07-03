@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -35,6 +35,8 @@ import {
     Alert,
     TextField,
     CircularProgress,
+    Snackbar,
+    MenuItem,
 } from '@mui/material';
 import {
     PlayCircleOutline,
@@ -63,6 +65,7 @@ import { courseApi, lessonApi } from '@/lib/api';
 import { Course, Lesson, LessonStatus, User, FileType, Quiz, File as FileModel, Enrollment, Submission, Question, Option } from '@shared/prisma';
 const QuizDialog = dynamic(() => import('./components/QuizDialog'), { loading: () => <div></div> });
 const QuizSubmissions = dynamic(() => import('./components/QuizSubmissions'), { loading: () => <div></div> });
+import MuiAlert from '@mui/material/Alert';
 
 
 let initialCourse: Course & {
@@ -82,7 +85,7 @@ let initialCourse: Course & {
         {
             id: 'lesson-1',
             title: 'مقدمة إلى JavaScript',
-            content: 'تعرف في هذه المحاضرة على تاريخ JavaScript، ولماذا تعتبر من أهم لغات الويب.',
+            content: 'تعرف في هذه الدرس على تاريخ JavaScript، ولماذا تعتبر من أهم لغات الويب.',
             files: [
                 {
                     id: 'video-1',
@@ -270,8 +273,8 @@ let initialCourse: Course & {
         },
         {
             id: '2',
-            title: 'المحاضرة الثانية',
-            content: 'هذه هي المحاضرة الثانية',
+            title: 'الدرس الثانية',
+            content: 'هذه هي الدرس الثانية',
             files: [
                 {
                     id: '4',
@@ -342,8 +345,8 @@ let initialCourse: Course & {
             quizzes: [
                 {
                     id: 'quiz-3',
-                    title: 'اختبار المحاضرة الثانية',
-                    description: 'اختبار المحاضرة الثانية',
+                    title: 'اختبار الدرس الثانية',
+                    description: 'اختبار الدرس الثانية',
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     lessonId: '2',
@@ -430,6 +433,17 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const queryClient = useQueryClient();
     const [openQuizDialog, setOpenQuizDialog] = useState(false);
     const [selectedQuiz, setSelectedQuiz] = useState<string | null>(null);
+    const [lessonDialogOpen, setLessonDialogOpen] = useState(false);
+    const [lessonEditMode, setLessonEditMode] = useState(false);
+    const [lessonForm, setLessonForm] = useState<{ id?: string; title: string; content: string }>({ title: '', content: '' });
+    const [snackbar, setSnackbar] = useState<{ open: boolean; msg: string; type: 'success' | 'error' }>({ open: false, msg: '', type: 'success' });
+    const [loadingAction, setLoadingAction] = useState(false);
+    const [fileDialogOpen, setFileDialogOpen] = useState(false);
+    const [fileEditMode, setFileEditMode] = useState(false);
+    const [fileForm, setFileForm] = useState<{ id?: string; name: string; type: FileType | ''; url: string; lessonId?: string }>({ name: '', type: '', url: '', lessonId: '' });
+    const [selectedLessonForFile, setSelectedLessonForFile] = useState<any>(null);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [fileToDelete, setFileToDelete] = useState<{ file: FileModel, lesson: any } | null>(null);
 
     const { data: courseResponse, isLoading: isCourseLoading } = useQuery({
         queryKey: ['course', params.id],
@@ -489,7 +503,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                 <Box sx={{ mt: 3 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                         <Typography variant="h6">
-                            اختبارات المحاضرة
+                            اختبارات الدرس
                         </Typography>
                         <Button
                             variant="contained"
@@ -519,7 +533,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                         </List>
                     ) : (
                         <Alert severity="info">
-                            لا توجد اختبارات لهذه المحاضرة
+                            لا توجد اختبارات لهذه الدرس
                         </Alert>
                     )}
                 </Box>
@@ -534,6 +548,108 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
 
     const course = courseResponse?.data || initialCourse;
     const lesson = lessonResponse?.data || initialCourse.lessons[0];
+
+    const addLessonMutation = useMutation({
+        mutationFn: (data: any) => lessonApi.create({ ...data, courseId: params.id }),
+        onSuccess: () => {
+            setSnackbar({ open: true, msg: 'تم إضافة الدرس بنجاح!', type: 'success' });
+            setLessonDialogOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['course', params.id] });
+        },
+        onError: () => setSnackbar({ open: true, msg: 'حدث خطأ أثناء الإضافة!', type: 'error' }),
+    });
+    const editLessonMutation = useMutation({
+        mutationFn: ({ id, data }: any) => lessonApi.update(id, data),
+        onSuccess: () => {
+            setSnackbar({ open: true, msg: 'تم تعديل الدرس بنجاح!', type: 'success' });
+            setLessonDialogOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['course', params.id] });
+        },
+        onError: () => setSnackbar({ open: true, msg: 'حدث خطأ أثناء التعديل!', type: 'error' }),
+    });
+
+    const handleOpenAddLesson = () => {
+        setLessonEditMode(false);
+        setLessonForm({ title: '', content: '' });
+        setLessonDialogOpen(true);
+    };
+    const handleOpenEditLesson = (lesson: any) => {
+        setLessonEditMode(true);
+        setLessonForm({ id: lesson.id, title: lesson.title, content: lesson.content });
+        setLessonDialogOpen(true);
+    };
+    const handleSaveLesson = () => {
+        setLoadingAction(true);
+        if (lessonEditMode && lessonForm.id) {
+            editLessonMutation.mutate({ id: lessonForm.id, data: { title: lessonForm.title, content: lessonForm.content } });
+        } else {
+            addLessonMutation.mutate({ title: lessonForm.title, content: lessonForm.content });
+        }
+        setLoadingAction(false);
+    };
+
+    const addFileMutation = useMutation({
+        mutationFn: (data: any) => lessonApi.getFiles(data.lessonId).then(() => lessonApi.create({ ...data, courseId: params.id })),
+        onSuccess: () => {
+            setSnackbar({ open: true, msg: 'تم إضافة الملف بنجاح!', type: 'success' });
+            setFileDialogOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['course', params.id] });
+        },
+        onError: () => setSnackbar({ open: true, msg: 'حدث خطأ أثناء إضافة الملف!', type: 'error' }),
+    });
+    const editFileMutation = useMutation({
+        mutationFn: ({ id, data }: any) => lessonApi.update(id, data),
+        onSuccess: () => {
+            setSnackbar({ open: true, msg: 'تم تعديل الملف بنجاح!', type: 'success' });
+            setFileDialogOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['course', params.id] });
+        },
+        onError: () => setSnackbar({ open: true, msg: 'حدث خطأ أثناء تعديل الملف!', type: 'error' }),
+    });
+
+    const handleOpenAddFile = (lesson: any) => {
+        setFileEditMode(false);
+        setFileForm({ name: '', type: '', url: '', lessonId: lesson.id });
+        setSelectedLessonForFile(lesson);
+        setFileDialogOpen(true);
+    };
+    const handleOpenEditFile = (file: any, lesson: any) => {
+        setFileEditMode(true);
+        setFileForm({ id: file.id, name: file.name, type: file.type, url: file.url, lessonId: lesson.id });
+        setSelectedLessonForFile(lesson);
+        setFileDialogOpen(true);
+    };
+    const handleSaveFile = () => {
+        setLoadingAction(true);
+        fileForm.url = fileForm.type === "VIDEO" ? `https://www.youtube.com/embed/${fileForm.url}` : fileForm.url;
+        if (fileEditMode && fileForm.id) {
+
+            editFileMutation.mutate({ id: fileForm.id, data: { name: fileForm.name, type: fileForm.type, url: fileForm.url } });
+        } else {
+            addFileMutation.mutate({ name: fileForm.name, type: fileForm.type, url: fileForm.url, lessonId: fileForm.lessonId });
+        }
+        setLoadingAction(false);
+    };
+
+    const deleteFileMutation = useMutation({
+        mutationFn: (id: string) => lessonApi.delete(id),
+        onSuccess: () => {
+            setSnackbar({ open: true, msg: 'تم حذف الملف بنجاح!', type: 'success' });
+            setDeleteDialogOpen(false);
+            setFileToDelete(null);
+            queryClient.invalidateQueries({ queryKey: ['course', params.id] });
+        },
+        onError: () => setSnackbar({ open: true, msg: 'حدث خطأ أثناء حذف الملف!', type: 'error' }),
+    });
+    const handleOpenDeleteFile = (file: FileModel, lesson: any) => {
+        setFileToDelete({ file, lesson });
+        setDeleteDialogOpen(true);
+    };
+    const handleConfirmDeleteFile = () => {
+        if (fileToDelete?.file?.id) {
+            deleteFileMutation.mutate(fileToDelete.file.id);
+        }
+    };
 
     if (isCourseLoading || isLessonLoading) {
         return (
@@ -608,7 +724,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                                     <Card>
                                         <CardContent>
                                             <Typography variant="h6" gutterBottom>
-                                                عدد المحاضرات
+                                                عدد الدروس
                                             </Typography>
                                             <Typography variant="h3">
                                                 {course.lessons.length}
@@ -632,7 +748,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                         </Paper>
                     </motion.div>
 
-                    {/* قائمة المحاضرات */}
+                    {/* قائمة الدروس */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -641,14 +757,14 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                         <Paper elevation={3} sx={{ p: 3 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                                 <Typography variant="h5" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <VideoLibrary /> المحاضرات
+                                    <VideoLibrary /> الدروس
                                 </Typography>
                                 <Button
                                     variant="contained"
-                                    startIcon={<Edit />}
-                                    onClick={() => setOpenDialog(true)}
+                                    startIcon={<Add />}
+                                    onClick={handleOpenAddLesson}
                                 >
-                                    إدارة المحاضرات
+                                    إضافة درس
                                 </Button>
                             </Box>
                             <List>
@@ -688,6 +804,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                                                     </Box>
                                                 }
                                             />
+                                            <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenEditLesson(lesson); }}><Edit /></IconButton>
                                             <IconButton
                                                 onClick={(e) => {
                                                     e.stopPropagation();
@@ -699,22 +816,23 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                                             <IconButton onClick={() => handleLessonExpand(lesson.id)}>
                                                 {expandedLessons[lesson.id] ? <ExpandLess /> : <ExpandMore />}
                                             </IconButton>
+                                            <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenAddFile(lesson); }}><Add /></IconButton>
                                         </ListItem>
                                         <Collapse in={expandedLessons[lesson.id]} timeout="auto" unmountOnExit>
-                                            <List component="div" disablePadding>
-                                                {lesson.files?.map((file) => (
-                                                    <ListItemButton
-                                                        key={file.id}
-                                                        sx={{ pl: 4 }}
-                                                        onClick={() => setSelectedFile(file)}
-                                                    >
-                                                        <ListItemIcon>
-                                                            {getFileIcon(file.type)}
-                                                        </ListItemIcon>
-                                                        <ListItemText primary={file.name} />
-                                                    </ListItemButton>
-                                                ))}
-                                            </List>
+                                            {lesson.files?.map((file) => (
+                                                <ListItemButton
+                                                    key={file.id}
+                                                    sx={{ pl: 4 }}
+                                                    onClick={() => setSelectedFile(file)}
+                                                >
+                                                    <ListItemIcon>
+                                                        {getFileIcon(file.type)}
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={file.name} />
+                                                    <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenEditFile(file, lesson); }}><Edit /></IconButton>
+                                                    <IconButton color="error" onClick={e => { e.stopPropagation(); handleOpenDeleteFile(file, lesson); }}><Delete /></IconButton>
+                                                </ListItemButton>
+                                            ))}
                                         </Collapse>
                                     </Box>
                                 ))}
@@ -731,7 +849,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                     >
-                        {/* تفاصيل المحاضرة المحددة */}
+                        {/* تفاصيل الدرس المحددة */}
                         {selectedLesson && (
                             <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
                                 {selectedFile && (
@@ -743,7 +861,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                                     </Box>
                                 )}
                                 <Typography variant="h6" gutterBottom>
-                                    تفاصيل المحاضرة
+                                    تفاصيل الدرس
                                 </Typography>
                                 <Typography variant="subtitle1" gutterBottom>
                                     {selectedLesson.title}
@@ -754,7 +872,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
 
                                 <Box sx={{ mt: 2 }}>
                                     <Typography variant="subtitle2" gutterBottom>
-                                        الطلاب الذين شاهدوا المحاضرة
+                                        الطلاب الذين شاهدوا الدرس
                                     </Typography>
                                     <AvatarGroup max={4}>
                                         {course.enrollments?.map((enrollment) => (
@@ -794,9 +912,9 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                 </Grid>
             </Grid>
 
-            {/* نافذة إدارة المحاضرات */}
+            {/* نافذة إدارة الدروس */}
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
-                <DialogTitle>إدارة المحاضرات</DialogTitle>
+                <DialogTitle>إدارة الدروس</DialogTitle>
                 <DialogContent>
                     <List>
                         {course.lessons.map((lesson) => (
@@ -826,6 +944,97 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                     <Button onClick={() => setOpenDialog(false)}>إغلاق</Button>
                 </DialogActions>
             </Dialog>
+
+            {/* Dialog إضافة/تعديل درس */}
+            <Dialog open={lessonDialogOpen} onClose={() => setLessonDialogOpen(false)} fullWidth maxWidth="sm">
+                <DialogTitle>{lessonEditMode ? 'تعديل الدرس' : 'إضافة درس جديد'}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="عنوان الدرس"
+                        value={lessonForm.title}
+                        onChange={e => setLessonForm({ ...lessonForm, title: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                    />
+                    <TextField
+                        label="وصف الدرس"
+                        value={lessonForm.content}
+                        onChange={e => setLessonForm({ ...lessonForm, content: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                        multiline
+                        rows={3}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setLessonDialogOpen(false)}>إلغاء</Button>
+                    <Button onClick={handleSaveLesson} variant="contained" color="primary" disabled={loadingAction}>
+                        {lessonEditMode ? 'حفظ التعديلات' : 'إضافة'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Dialog إضافة/تعديل ملف */}
+            <Dialog open={fileDialogOpen} onClose={() => setFileDialogOpen(false)} fullWidth maxWidth="sm">
+                <DialogTitle>{fileEditMode ? 'تعديل الملف' : 'إضافة ملف جديد'}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="اسم الملف"
+                        value={fileForm.name}
+                        onChange={e => setFileForm({ ...fileForm, name: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                    />
+                    <TextField
+                        label="نوع الملف"
+                        value={fileForm.type}
+                        onChange={e => setFileForm({ ...fileForm, type: e.target.value as FileType })}
+                        select
+                        fullWidth
+                        className="mb-4"
+                    >
+                        <MenuItem value="VIDEO">فيديو</MenuItem>
+                        <MenuItem value="PDF">PDF</MenuItem>
+                        <MenuItem value="DOCUMENT">مستند</MenuItem>
+                        <MenuItem value="IMAGE">صورة</MenuItem>
+                        <MenuItem value="AUDIO">صوتي</MenuItem>
+                    </TextField>
+                    <TextField
+                        label="رابط الملف"
+                        value={fileForm.url}
+                        onChange={e => setFileForm({ ...fileForm, url: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setFileDialogOpen(false)}>إلغاء</Button>
+                    <Button onClick={handleSaveFile} variant="contained" color="primary" disabled={loadingAction}>
+                        {fileEditMode ? 'حفظ التعديلات' : 'إضافة'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Dialog تأكيد حذف الملف */}
+            <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+                <DialogTitle>تأكيد حذف الملف</DialogTitle>
+                <DialogContent>
+                    <Typography>هل أنت متأكد أنك تريد حذف هذا الملف؟ لا يمكن التراجع عن هذه العملية.</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteDialogOpen(false)}>إلغاء</Button>
+                    <Button onClick={handleConfirmDeleteFile} color="error" variant="contained" disabled={deleteFileMutation.isPending}>
+                        حذف
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Snackbar */}
+            <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                <MuiAlert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.type} sx={{ width: '100%' }}>
+                    {snackbar.msg}
+                </MuiAlert>
+            </Snackbar>
         </Container>
     );
 };

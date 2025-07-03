@@ -46,6 +46,7 @@ import { RolesModule } from './roles/roles.module';
 import { SocialMediaModule } from './social-media/social-media.module';
 import { InstallmentsModule } from './installments/installments.module';
 import { ExpensesModule } from './expenses/expenses.module';
+import { InstructorsModule } from './instructors/instructors.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -107,7 +108,8 @@ import { ExpensesModule } from './expenses/expenses.module';
         SecretariatModule,
         SocialMediaModule,
         InstallmentsModule,
-        ExpensesModule
+        ExpensesModule,
+        InstructorsModule
     ],
     // providers: [
     //     {

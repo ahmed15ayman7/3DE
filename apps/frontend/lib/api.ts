@@ -552,7 +552,7 @@ export const certificateApi = {
 
 // Community APIs
 export const communityApi = {
-    getAll: (): Promise<{ success: boolean, data: (Community & { participants: User[] })[] }> => api.get('/communities'),
+    getAll: (): Promise<{ status: number, data: (Community & { participants: User[],posts:Post[],discussions:Discussion[],liveRooms:LiveRoom[],groups:Group[] })[] }> => api.get('/communities'),
     getById: (id: string) => api.get(`/communities/${id}`),
     create: (data: { name: string; description?: string }) => api.post('/communities', data),
     update: (id: string, data: { name?: string; description?: string }) => api.patch(`/communities/${id}`, data),
@@ -581,6 +581,9 @@ export const communityApi = {
     updateEvent: (id: string, eventId: string, data: { title?: string; description?: string }) => api.patch(`/communities/${id}/events/${eventId}`, data),
     deleteEvent: (id: string, eventId: string) => api.delete(`/communities/${id}/events/${eventId}`),
     getGroupsByUser: (userId: string): Promise<(Group & { members: User[] })[]> => api.get(`/communities/groups/user/${userId}`),
+    addParticipant: (id:string,userId: string): Promise<{status:number,data:Community}> => api.post(`/communities/${id}/participants/${userId}`),
+    removeParticipant: (id:string,userId: string): Promise<{status:number,data:Community}> => api.delete(`/communities/${id}/participants/${userId}`),
+    
 };
 
 // Path APIs
@@ -591,5 +594,16 @@ export const pathApi = {
     create: (data: Path) => api.post('/paths', data),
     update: (id: string, data: Path) => api.patch(`/paths/${id}`, data),
     delete: (id: string) => api.delete(`/paths/${id}`),
+};
+
+// Instructor APIs
+export const instructorApi = {
+    getAll: (skip: number, limit: number, search: string): Promise<{ success: boolean, data: (Instructor & { user: User, courses: Course[] })[] }> => api.get(`/instructors?skip=${skip}&limit=${limit}&search=${search}`),
+    getById: (id: string): Promise<{ success: boolean, data: Instructor & { user: User, courses: Course[] } }> => api.get(`/instructors/${id}`),
+    create: (data: Partial<Instructor>) => api.post('/instructors', data),
+    update: (id: string, data: Partial<Instructor>) => api.patch(`/instructors/${id}`, data),
+    getCourses: (id: string): Promise<{ success: boolean, data: (Course & { instructor: Instructor, quizzes: Quiz[], lessons: Lesson[], enrollments:( Enrollment &{user: User})[] })[] }> => api.get(`/instructors/${id}/courses`),
+    delete: (id: string) => api.delete(`/instructors/${id}`),
+    getAllForStudents: (): Promise<{ success: boolean, data: (Instructor & { user: User, courses: Course[] })[] }> => api.get('/instructors/for-students'),
 };
 export default api; 

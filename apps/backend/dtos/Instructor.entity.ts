@@ -23,15 +23,20 @@ export class InstructorEntity {
   @Column()
   user: User;
 
-  @ApiProperty({ type: "string" })
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: title, Type: string
+  @Column()
+  title?: string;
+
+  @ApiProperty({ type: "string", nullable: true })
   // Field: academyId, Type: string
   @Column()
-  academyId: string;
+  academyId?: string;
 
-  @ApiProperty({ type: AcademyEntity })
+  @ApiProperty({ type: AcademyEntity, nullable: true })
   // Field: academy, Type: Academy
   @Column()
-  academy: Academy;
+  academy?: Academy;
 
   @ApiProperty({ type: CourseEntity })
   // Field: courses, Type: Course[]

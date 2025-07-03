@@ -69,7 +69,7 @@ export default function SignUp() {
                         alt="3DE Logo"
                         width={120}
                         height={120}
-                        style={{ marginBottom: '1rem', textAlign: 'center' }}
+                        style={{ marginBottom: '1rem', textAlign: 'center', borderRadius: '50%' }}
                     />
                     <Typography component="h1" variant="h4" gutterBottom>
                         إنشاء حساب جديد

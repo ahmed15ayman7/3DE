@@ -24,6 +24,29 @@ module.exports = {
           light: '#003f59',
           dark: '#001A1D',
           contrast: '#FFFFFF',
+        },success: {
+          main: '#4CAF50',
+          light: '#81C784',
+          dark: '#388E3C',
+          contrast: '#FFFFFF',
+        },
+        error: {
+          main: '#F44336',
+          light: '#E57373',
+          dark: '#D32F2F',
+          contrast: '#FFFFFF',
+        },
+        warning: {
+          main: '#FF9800',
+          light: '#FFB74D',
+          dark: '#F57C00',
+          contrast: '#FFFFFF',
+        },
+        info: {
+          main: '#2196F3',
+          light: '#64B5F6',
+          dark: '#1976D2',
+          contrast: '#FFFFFF',
         },
         background: {
           main: '#FFFFFF',

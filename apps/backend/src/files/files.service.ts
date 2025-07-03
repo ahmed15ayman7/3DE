@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateFileDto } from 'dtos/File.create.dto';
 import { UpdateFileDto } from 'dtos/File.update.dto';
@@ -8,8 +8,16 @@ export class FilesService {
     constructor(private prisma: PrismaService) { }
 
     async create(createFileInput: CreateFileDto) {
+        let lesson = await this.prisma.lesson.findUnique({
+            where: { id: createFileInput.lessonId }
+        });
+        if (!lesson) {
+            throw new NotFoundException('Lesson not found');
+        }
         return this.prisma.file.create({
-            data: createFileInput
+            data: {...createFileInput,
+                lessonId: lesson.id,
+            }
         });
     }
 

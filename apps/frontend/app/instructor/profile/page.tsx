@@ -85,7 +85,7 @@ export default function InstructorProfile() {
                         </div>
                     </Card>
 
-                    <Card title='الدورات التدريبية'>
+                    <Card title='المواد التدريبية'>
                         <div className="space-y-4">
                             {profile.courses.map(course => (
                                 <div key={course.id} className="border-b pb-4">
@@ -133,7 +133,7 @@ export default function InstructorProfile() {
                                 </p>
                             </div>
                             <div>
-                                <h3 className="font-medium mb-2">{('عدد الدورات')}</h3>
+                                <h3 className="font-medium mb-2">{('عدد المواد')}</h3>
                                 <p className="text-2xl font-bold">{profile.courses.length}</p>
                             </div>
                         </div>
