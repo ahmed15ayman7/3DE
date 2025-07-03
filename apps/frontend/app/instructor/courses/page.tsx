@@ -4,14 +4,40 @@ import dynamic from "next/dynamic";
 import { useUser } from "@/hooks/useUser";
 import { instructorApi, courseApi } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Box, Grid, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Snackbar, Alert, IconButton, MenuItem, CircularProgress } from "@mui/material";
-import { Add, Edit, Delete, School, CheckCircle } from "@mui/icons-material";
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Snackbar,
+  Alert,
+  IconButton,
+  MenuItem,
+  CircularProgress,
+  Select,
+} from "@mui/material";
+import { Add, Edit, Delete, School, CheckCircle, Visibility } from "@mui/icons-material";
 import { motion } from "framer-motion";
+import { Course } from "@shared/prisma";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import router from "next/router";
 
-const HeroSection = dynamic(() => import("@/components/common/HeroSection"), { ssr: false });
+const HeroSection = dynamic(() => import("@/components/common/HeroSection"), {
+  ssr: false,
+});
 const Card = dynamic(() => import("@/components/common/Card"), { ssr: false });
-const DataGrid = dynamic(() => import("@/components/common/DataGrid"), { ssr: false });
-const Skeleton = dynamic(() => import("@/components/common/Skeleton"), { ssr: false });
+const DataGrid = dynamic(() => import("@/components/common/DataGrid"), {
+  ssr: false,
+});
+const Skeleton = dynamic(() => import("@/components/common/Skeleton"), {
+  ssr: false,
+});
 
 export default function InstructorCourses() {
   const { user } = useUser();
@@ -19,7 +45,11 @@ export default function InstructorCourses() {
   const queryClient = useQueryClient();
 
   // جلب الكورسات
-  const { data: coursesData, isLoading } = useQuery({
+  const {
+    data: coursesData,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["instructor-courses", instructorId],
     queryFn: () => instructorApi.getCourses(instructorId),
     enabled: !!instructorId,
@@ -27,57 +57,111 @@ export default function InstructorCourses() {
   });
 
   // تقسيم الكورسات
-  const activeCourses = useMemo(() => (coursesData || []).filter((c: any) => c.status === "ACTIVE"), [coursesData]);
-  const completedCourses = useMemo(() => (coursesData || []).filter((c: any) => c.status === "COMPLETED"), [coursesData]);
+  const activeCourses = useMemo(
+    () => (coursesData || []).filter((c: any) => c.status === "ACTIVE"),
+    [coursesData]
+  );
+  const pendingCourses = useMemo(
+    () => (coursesData || []).filter((c: any) => c.status === "PENDING"),
+    [coursesData]
+  );
+  const completedCourses = useMemo(
+    () => (coursesData || []).filter((c: any) => c.status === "COMPLETED"),
+    [coursesData]
+  );
 
   // Dialog state
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [courseForm, setCourseForm] = useState<any>({ title: "", description: "", level: "", image: "" });
+  const [courseForm, setCourseForm] = useState<any>({
+    title: "",
+    description: "",
+    level: "",
+    image: "",
+    startDate: new Date(),
+  });
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [snackbar, setSnackbar] = useState<{ open: boolean; msg: string; type: "success" | "error" }>({ open: false, msg: "", type: "success" });
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    msg: string;
+    type: "success" | "error";
+  }>({ open: false, msg: "", type: "success" });
   const [loadingAction, setLoadingAction] = useState(false);
 
   // Mutations
   const addCourseMutation = useMutation({
-    mutationFn: (data: any) => courseApi.create(data),
+    mutationFn: (data: Partial<Course>) => courseApi.create(data, user?.id),
     onSuccess: () => {
-      setSnackbar({ open: true, msg: "تم إضافة الدورة بنجاح!", type: "success" });
+      refetch();
+      setSnackbar({
+        open: true,
+        msg: "تم إضافة الدورة بنجاح!",
+        type: "success",
+      });
       setDialogOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["instructor-courses", instructorId] });
+      queryClient.invalidateQueries({
+        queryKey: ["instructor-courses", instructorId],
+      });
     },
-    onError: () => setSnackbar({ open: true, msg: "حدث خطأ أثناء الإضافة!", type: "error" }),
+    onError: () =>
+      setSnackbar({ open: true, msg: "حدث خطأ أثناء الإضافة!", type: "error" }),
   });
   const editCourseMutation = useMutation({
     mutationFn: ({ id, data }: any) => courseApi.update(id, data),
     onSuccess: () => {
-      setSnackbar({ open: true, msg: "تم تعديل الدورة بنجاح!", type: "success" });
+      refetch();
+      setSnackbar({
+        open: true,
+        msg: "تم تعديل الدورة بنجاح!",
+        type: "success",
+      });
       setDialogOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["instructor-courses", instructorId] });
+      queryClient.invalidateQueries({
+        queryKey: ["instructor-courses", instructorId],
+      });
     },
-    onError: () => setSnackbar({ open: true, msg: "حدث خطأ أثناء التعديل!", type: "error" }),
+    onError: () =>
+      setSnackbar({ open: true, msg: "حدث خطأ أثناء التعديل!", type: "error" }),
   });
   const deleteCourseMutation = useMutation({
     mutationFn: (id: string) => courseApi.delete(id),
     onSuccess: () => {
+      refetch();
       setSnackbar({ open: true, msg: "تم حذف الدورة بنجاح!", type: "success" });
       setDeleteDialogOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["instructor-courses", instructorId] });
+      queryClient.invalidateQueries({
+        queryKey: ["instructor-courses", instructorId],
+      });
     },
-    onError: () => setSnackbar({ open: true, msg: "حدث خطأ أثناء الحذف!", type: "error" }),
+    onError: () =>
+      setSnackbar({ open: true, msg: "حدث خطأ أثناء الحذف!", type: "error" }),
   });
 
   // Handlers
   const handleOpenAdd = () => {
     setEditMode(false);
-    setCourseForm({ title: "", description: "", level: "", image: "" });
+    setCourseForm({
+      title: "",
+      description: "",
+      level: "",
+      image: "",
+      startDate: new Date(),
+      status:"PENDING"
+    });
     setDialogOpen(true);
   };
   const handleOpenEdit = (course: any) => {
     setEditMode(true);
     setSelectedCourse(course);
-    setCourseForm({ title: course.title, description: course.description, level: course.level, image: course.image });
+    setCourseForm({
+      title: course.title,
+      description: course.description,
+      level: course.level,
+      image: course.image,
+      startDate: course.startDate,
+      status: course.status,
+    });
     setDialogOpen(true);
   };
   const handleSave = () => {
@@ -102,22 +186,50 @@ export default function InstructorCourses() {
   // DataGrid columns
   const completedColumns = [
     { field: "title", headerName: "عنوان الدورة", width: 200 },
-    { field: "students", headerName: "عدد الطلاب", width: 150, valueGetter: (params: any) => params.row.enrollments?.length || 0 },
-    { field: "completionDate", headerName: "تاريخ الإكمال", width: 150, valueGetter: (params: any) => params.row.updatedAt ? params.row.updatedAt.split("T")[0] : "-" },
-    { field: "averageGrade", headerName: "المعدل العام", width: 150, valueGetter: () => Math.floor(Math.random() * 20) + 80 + "%" },
     {
-      field: "actions", headerName: "إجراءات", width: 120, renderCell: (params: any) => (
+      field: "enrollments",
+      headerName: "عدد الطلاب",
+      width: 150,
+      valueGetter: (row: any) => row?.enrollments?.length || 0,
+    },
+    {
+      field: "updatedAt",
+      headerName: "تاريخ الإكمال",
+      width: 150,
+      valueGetter: (row: any) =>
+        row?.updatedAt ? row?.updatedAt.split("T")[0] : "-",
+    },
+    {
+      field: "averageGrade",
+      headerName: "المعدل العام",
+      width: 150,
+      valueGetter: () => Math.floor(Math.random() * 20) + 80 + "%",
+    },
+    {
+      field: "actions",
+      headerName: "إجراءات",
+      width: 120,
+      renderCell: (row: any) => (
         <Box className="flex gap-2">
-          <IconButton color="primary" onClick={() => handleOpenEdit(params.row)}><Edit /></IconButton>
-          <IconButton color="error" onClick={() => handleDelete(params.row)}><Delete /></IconButton>
+          <IconButton
+            color="primary"
+            onClick={() => handleOpenEdit(row)}
+          >
+            <Edit />
+          </IconButton>
+          <IconButton color="error" onClick={() => handleDelete(row)}>
+            <Delete />
+          </IconButton>
         </Box>
-      )
+      ),
     },
   ];
 
   return (
     <Box className="container mx-auto px-4 py-8">
-      <Suspense fallback={<Skeleton variant="rectangular" height={200} count={1} />}>
+      <Suspense
+        fallback={<Skeleton variant="rectangular" height={200} count={1} />}
+      >
         <HeroSection
           title="إدارة موادي"
           subtitle={user?.firstName ? `مرحباً ${user.firstName}` : ""}
@@ -127,9 +239,16 @@ export default function InstructorCourses() {
         />
       </Suspense>
 
-      <Box className="flex justify-between items-center mb-8">
-        <Typography variant="h4" className="font-bold">دوراتي النشطة</Typography>
-        <Button variant="contained" color="primary" startIcon={<Add />} onClick={handleOpenAdd}>
+      <Box className="flex justify-between items-center my-8">
+        <Typography variant="h4" className="font-bold">
+          دوراتي النشطة
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<Add />}
+          onClick={handleOpenAdd}
+        >
           إضافة دورة جديدة
         </Button>
       </Box>
@@ -142,11 +261,17 @@ export default function InstructorCourses() {
             </Grid>
           ))
         ) : activeCourses.length === 0 ? (
-          <Typography className="text-center w-full">لا توجد دورات نشطة حالياً.</Typography>
+          <Typography className="text-center w-full">
+            لا توجد دورات نشطة حالياً.
+          </Typography>
         ) : (
           activeCourses.map((course: any, idx: number) => (
             <Grid item xs={12} md={6} key={course.id}>
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 + idx * 0.2 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 + idx * 0.2 }}
+              >
                 <Card
                   title={course.title}
                   description={`عدد الطلاب: ${course.enrollments?.length || 0}`}
@@ -155,23 +280,152 @@ export default function InstructorCourses() {
                   <Box className="mt-4 space-y-2">
                     <Box className="flex justify-between items-center">
                       <span className="text-sm text-gray-600 ">التقدم</span>
-                      <span className="font-medium">{course.progress || Math.floor(Math.random() * 40) + 60}%</span>
+                      <span className="font-medium">
+                        {course.progress || Math.floor(Math.random() * 40) + 60}
+                        %
+                      </span>
                     </Box>
                     <Box className="w-full bg-gray-200 rounded-full h-2">
                       <Box
                         className="bg-primary-main h-2 rounded-full"
-                        style={{ width: `${course.progress || Math.floor(Math.random() * 40) + 60}%` }}
+                        style={{
+                          width: `${
+                            course.progress ||
+                            Math.floor(Math.random() * 40) + 60
+                          }%`,
+                        }}
                       />
                     </Box>
                     <Box className="text-sm text-gray-600 ">
-                      آخر نشاط: {course.updatedAt ? course.updatedAt.split("T")[0] : "-"}
+                      آخر نشاط:{" "}
+                      {course.updatedAt ? course.updatedAt.split("T")[0] : "-"}
+                    </Box>
+                    <Box className="text-sm text-gray-600 ">
+                       ميعاد البدأ:{" "}
+                      {course.startDate ? course.startDate.split("T")[0] : "-"}
                     </Box>
                     <Box className="text-sm text-gray-600 ">
                       الدرس التالي: {course.lessons?.[0]?.title || "-"}
                     </Box>
                     <Box className="flex gap-2 mt-2">
-                      <Button size="small" color="primary" startIcon={<Edit />} onClick={() => handleOpenEdit(course)}>تعديل</Button>
-                      <Button size="small" color="error" startIcon={<Delete />} onClick={() => handleDelete(course)}>حذف</Button>
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={() => router.push(`/instructor/courses/${course.id}`)}
+                      >
+                        <Visibility />
+                      </IconButton>
+                      <Button
+                        size="small"
+                        color="primary"
+                        startIcon={<Edit />}
+                        className="flex gap-4"
+                        onClick={() => handleOpenEdit(course)}
+                        >
+                        تعديل
+                      </Button>
+                      <Button
+                        size="small"
+                        className="flex gap-4"
+                        color="error"
+                        startIcon={<Delete />}
+                        onClick={() => handleDelete(course)}
+                      >
+                        حذف
+                      </Button>
+                    </Box>
+                  </Box>
+                </Card>
+              </motion.div>
+            </Grid>
+          ))
+        )}
+      </Grid>
+      <Box className="flex justify-between items-center my-8">
+        <Typography variant="h4" className="font-bold">
+          دوراتي الغير نشطة
+        </Typography>
+      </Box>
+      <Grid container spacing={3} className="mb-8">
+        {isLoading ? (
+          Array.from({ length: 2 }).map((_, i) => (
+            <Grid item xs={12} md={6} key={i}>
+              <Skeleton variant="rectangular" height={180} />
+            </Grid>
+          ))
+        ) : pendingCourses.length === 0 ? (
+          <Typography className="text-center w-full">
+            لا توجد دورات نشطة حالياً.
+          </Typography>
+        ) : (
+          pendingCourses.map((course: any, idx: number) => (
+            <Grid item xs={12} md={6} key={course.id}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 + idx * 0.2 }}
+              >
+                <Card
+                  title={course.title}
+                  description={`عدد الطلاب: ${course.enrollments?.length || 0}`}
+                  className="h-full"
+                >
+                  <Box className="mt-4 space-y-2">
+                    <Box className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600 ">التقدم</span>
+                      <span className="font-medium">
+                        {course.progress || Math.floor(Math.random() * 40) + 60}
+                        %
+                      </span>
+                    </Box>
+                    <Box className="w-full bg-gray-200 rounded-full h-2">
+                      <Box
+                        className="bg-primary-main h-2 rounded-full"
+                        style={{
+                          width: `${
+                            course.progress ||
+                            Math.floor(Math.random() * 40) + 60
+                          }%`,
+                        }}
+                      />
+                    </Box>
+                    <Box className="text-sm text-gray-600 ">
+                      آخر نشاط:{" "}
+                      {course.updatedAt ? course.updatedAt.split("T")[0] : "-"}
+                    </Box>
+                    <Box className="text-sm text-gray-600 ">
+                       ميعاد البدأ:{" "}
+                      {course.startDate ? course.startDate.split("T")[0] : "-"}
+                    </Box>
+                    <Box className="text-sm text-gray-600 ">
+                      الدرس التالي: {course.lessons?.[0]?.title || "-"}
+                    </Box>
+                    <Box className="flex gap-2 mt-2">
+                    <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={() => router.push(`/instructor/courses/${course.id}`)}
+                      >
+                        <Visibility />
+                      </IconButton>
+                      <Button
+                        size="small"
+                        color="primary"
+                        startIcon={<Edit />}
+                        className="flex gap-4"
+                        onClick={() => handleOpenEdit(course)}
+                        >
+                        تعديل
+                      </Button>
+                      <Button
+                        size="small"
+                        className="flex gap-4"
+                        color="error"
+                        startIcon={<Delete />}
+                        onClick={() => handleDelete(course)}
+                      >
+                        حذف
+                      </Button>
                     </Box>
                   </Box>
                 </Card>
@@ -182,7 +436,9 @@ export default function InstructorCourses() {
       </Grid>
 
       <Box>
-        <Typography variant="h5" className="font-bold mb-4">الدورات المكتملة</Typography>
+        <Typography variant="h5" className="font-bold mb-4">
+          الدورات المكتملة
+        </Typography>
         {isLoading ? (
           <Skeleton variant="rectangular" height={200} />
         ) : (
@@ -196,20 +452,32 @@ export default function InstructorCourses() {
       </Box>
 
       {/* Dialog إضافة/تعديل */}
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>{editMode ? "تعديل الدورة" : "إضافة دورة جديدة"}</DialogTitle>
-        <DialogContent>
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>
+          {editMode ? "تعديل الدورة" : "إضافة دورة جديدة"}
+        </DialogTitle>
+        <DialogContent className="flex flex-col gap-5">
           <TextField
             label="عنوان الدورة"
             value={courseForm.title}
-            onChange={e => setCourseForm({ ...courseForm, title: e.target.value })}
+            onChange={(e) =>
+              setCourseForm({ ...courseForm, title: e.target.value })
+            }
             fullWidth
             className="mb-4"
           />
+
           <TextField
             label="وصف الدورة"
             value={courseForm.description}
-            onChange={e => setCourseForm({ ...courseForm, description: e.target.value })}
+            onChange={(e) =>
+              setCourseForm({ ...courseForm, description: e.target.value })
+            }
             fullWidth
             className="mb-4"
             multiline
@@ -218,7 +486,9 @@ export default function InstructorCourses() {
           <TextField
             label="المستوى"
             value={courseForm.level}
-            onChange={e => setCourseForm({ ...courseForm, level: e.target.value })}
+            onChange={(e) =>
+              setCourseForm({ ...courseForm, level: e.target.value })
+            }
             select
             fullWidth
             className="mb-4"
@@ -230,37 +500,96 @@ export default function InstructorCourses() {
           <TextField
             label="رابط صورة الدورة (اختياري)"
             value={courseForm.image}
-            onChange={e => setCourseForm({ ...courseForm, image: e.target.value })}
+            onChange={(e) =>
+              setCourseForm({ ...courseForm, image: e.target.value })
+            }
             fullWidth
             className="mb-4"
           />
+          <Select
+            label="حالة الدورة"
+            value={courseForm.status}
+            onChange={(e) =>
+              setCourseForm({ ...courseForm, status: e.target.value })
+            }
+            fullWidth
+            className="mb-4"
+          >
+            <MenuItem value="PENDING">قيد المراجعة</MenuItem>
+            <MenuItem value="ACTIVE">نشط</MenuItem>
+            <MenuItem value="COMPLETED">مكتمل</MenuItem>
+          </Select>
+          {(courseForm.status !== "COMPLETED") && (
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="تاريخ البدء"
+                value={courseForm.startDate}
+                format="DD/MM/YYYY"
+                onChange={(e) => setCourseForm({ ...courseForm, startDate: e })}
+                className="mb-4 flex flex-row-reverse text-center"
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    
+                  },
+                }}
+              />
+            </LocalizationProvider>
+          )}
         </DialogContent>
+
         <DialogActions>
           <Button onClick={() => setDialogOpen(false)}>إلغاء</Button>
-          <Button onClick={handleSave} variant="contained" color="primary" disabled={loadingAction}>
+          <Button
+            onClick={handleSave}
+            variant="contained"
+            color="primary"
+            disabled={loadingAction}
+          >
             {editMode ? "حفظ التعديلات" : "إضافة"}
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Dialog حذف */}
-      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
         <DialogTitle>تأكيد الحذف</DialogTitle>
         <DialogContent>
-          <Typography>هل أنت متأكد أنك تريد حذف الدورة؟ لا يمكن التراجع عن هذا الإجراء.</Typography>
+          <Typography>
+            هل أنت متأكد أنك تريد حذف الدورة؟ لا يمكن التراجع عن هذا الإجراء.
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>إلغاء</Button>
-          <Button onClick={handleConfirmDelete} color="error" variant="contained" disabled={loadingAction}>حذف</Button>
+          <Button
+            onClick={handleConfirmDelete}
+            color="error"
+            variant="contained"
+            disabled={loadingAction}
+          >
+            حذف
+          </Button>
         </DialogActions>
       </Dialog>
 
       {/* Snackbar */}
-      <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.type} sx={{ width: '100%' }}>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.type}
+          sx={{ width: "100%" }}
+        >
           {snackbar.msg}
         </Alert>
       </Snackbar>
     </Box>
   );
-} 
+}

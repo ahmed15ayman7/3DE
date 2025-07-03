@@ -26,15 +26,20 @@ export class UpdateCourseDto {
   @Column()
   description: string;
 
-  @ApiProperty({ type: "string" })
+  @ApiProperty({ type: "string", nullable: true })
   // Field: academyId, Type: string
   @Column()
-  academyId: string;
+  academyId?: string;
 
   @ApiProperty({ type: "string", nullable: true })
   // Field: image, Type: string
   @Column()
   image?: string;
+
+  @ApiProperty({ type: "string", format: "date-time", nullable: true })
+  // Field: startDate, Type: Date
+  @Column()
+  startDate?: Date;
 
   @ApiProperty({ type: "string" })
   // Field: level, Type: string

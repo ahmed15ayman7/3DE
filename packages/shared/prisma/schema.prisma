@@ -185,10 +185,11 @@ model Course {
     id          String        @id @default(cuid())
     title       String
     description String
-    academyId   String
+    academyId   String?
     image       String?
+    startDate   DateTime?
     level       String
-    academy     Academy       @relation(fields: [academyId], references: [id])
+    academy     Academy?       @relation(fields: [academyId], references: [id])
     lessons     Lesson[]
     enrollments Enrollment[]
     quizzes     Quiz[]

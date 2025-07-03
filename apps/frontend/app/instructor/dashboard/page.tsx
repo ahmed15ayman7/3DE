@@ -7,7 +7,7 @@ import { useUser } from "@/hooks/useUser";
 import { Box, Grid, Typography, Container, Avatar, Chip, Badge, IconButton, Tooltip, Paper } from "@mui/material";
 import { School, Group, EmojiEvents, TrendingUp, Notifications, Star, Info, PlayCircle } from "@mui/icons-material";
 import { Course, Achievement, Notification, Enrollment } from "@shared/prisma";
-
+import { useRouter } from "next/navigation";
 // Dynamic imports
 const StatsCard = dynamic(() => import("@/components/common/StatsCard"), { loading: () => <div>...</div> });
 const Card = dynamic(() => import("@/components/common/Card"), { loading: () => <div>...</div> });
@@ -35,7 +35,7 @@ export default function InstructorDashboard() {
   const [achievements, setAchievements] = useState<AchievementType[]>([]);
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   // جلب البيانات من الـ APIs
   useEffect(() => {
     if (!user?.id) return;
@@ -142,7 +142,7 @@ export default function InstructorDashboard() {
         title={`مرحباً ${user?.firstName || ""}!`}
         subtitle="لوحة تحكم المحاضر"
         description="تابع تقدمك، إدارة الكورسات، واطلع على أحدث الأنشطة."
-        backgroundImage="/assets/images/hero-instructor.jpg"
+        backgroundImage="/assets/images/hero-instructor.avif"
         primaryAction={{
           label: "إضافة كورس جديد",
           onClick: () => {/* ... */},
@@ -178,7 +178,9 @@ export default function InstructorDashboard() {
                     onClick={() => {/* ... */}}
                     className="h-full cursor-pointer hover-lift card-shadow bg-white/90"
                     actionText="إدارة الكورس"
-                    onAction={() => {/* ... */}}
+                    onAction={() => {
+                      router.push(`/instructor/courses/${course.id}`);
+                    }}
                   >
                     <Box className="flex items-center gap-2 mt-2">
                       <Tooltip title="عدد الطلاب">

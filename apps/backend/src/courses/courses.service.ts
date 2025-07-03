@@ -225,11 +225,13 @@ export class CoursesService {
 
     async getCourseStudents(courseId: string) {
         await this.findOne(courseId);
-        return this.prisma.user.findMany({
+        return this.prisma.enrollment.findMany({
             where: {
-                enrollments: {
-                    some: { courseId },
-                },
+                courseId ,
+            },
+            include: {
+                user: true,
+                course:true
             },
         });
     }
@@ -280,17 +282,14 @@ export class CoursesService {
         return academy.courses;
     }
     async getCoursesByInstructorId(instructorId: string): Promise<Course[]> {
-        const instructor = await this.prisma.instructor.findUnique({
-            where: { id: instructorId },
-            include: {
-                user: true,
-            },
+        const instructor = await this.prisma.instructor.findFirst({
+            where: { userId: instructorId },
         });
         if (!instructor) {
             throw new NotFoundException('Instructor not found');
         }
         return this.prisma.course.findMany({
-            where: { instructors: { some: { id: instructorId } } },
+            where: { instructors: { some: { id: instructor.id } } },
             include: {
                 instructors: {
                     include: {

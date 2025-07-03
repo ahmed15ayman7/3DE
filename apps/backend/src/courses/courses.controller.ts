@@ -3,7 +3,7 @@ import { CoursesService } from './courses.service';
 import { CreateCourseDto } from '../../dtos/Course.create.dto';
 import { UpdateCourseDto } from '../../dtos/Course.update.dto';
 import { AuthGuard } from '../auth/auth.guard';
-import { Course, Instructor, Lesson, Quiz, User } from '@shared/prisma';
+import { Course, Enrollment, Instructor, Lesson, Quiz, User } from '@shared/prisma';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('الكورسات')
 @Controller('courses')
@@ -64,7 +64,7 @@ export class CoursesController {
         return this.coursesService.getCourseQuizzes(id);
     }
     @Get(':id/students')
-    async getCourseStudents(@Param('id') id: string): Promise<User[]> {
+    async getCourseStudents(@Param('id') id: string): Promise<Enrollment[]> {
         return this.coursesService.getCourseStudents(id);
     }
     @Get(':id/instructors')

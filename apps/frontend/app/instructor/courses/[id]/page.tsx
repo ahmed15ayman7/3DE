@@ -61,7 +61,7 @@ import {
     VideoFile,
     Add,
 } from '@mui/icons-material';
-import { courseApi, lessonApi } from '@/lib/api';
+import { courseApi, fileApi, lessonApi } from '@/lib/api';
 import { Course, Lesson, LessonStatus, User, FileType, Quiz, File as FileModel, Enrollment, Submission, Question, Option } from '@shared/prisma';
 const QuizDialog = dynamic(() => import('./components/QuizDialog'), { loading: () => <div></div> });
 const QuizSubmissions = dynamic(() => import('./components/QuizSubmissions'), { loading: () => <div></div> });
@@ -451,12 +451,12 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const [uploadProgress, setUploadProgress] = useState<number>(0);
     const [uploading, setUploading] = useState(false);
 
-    const { data: courseResponse, isLoading: isCourseLoading } = useQuery({
+    const { data: courseResponse, isLoading: isCourseLoading ,refetch:refetchCourse } = useQuery({
         queryKey: ['course', params.id],
         queryFn: () => courseApi.getById(params.id),
     });
 
-    const { data: lessonResponse, isLoading: isLessonLoading } = useQuery({
+    const { data: lessonResponse, isLoading: isLessonLoading,refetch:refetchLesson } = useQuery({
         queryKey: ['lesson', params.id],
         queryFn: () => lessonApi.getById(params.id),
     });
@@ -464,6 +464,8 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const toggleLessonStatus = useMutation({
         mutationFn: (lessonId: string) => lessonApi.update(lessonId, { ...selectedLesson!, status: selectedLesson?.status === 'COMPLETED' ? 'NOT_STARTED' : 'COMPLETED' as LessonStatus }),
         onSuccess: () => {
+            refetchCourse();
+            refetchLesson();
             queryClient.invalidateQueries({ queryKey: ['lessons', params.id] });
         },
     });
@@ -558,6 +560,8 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const addLessonMutation = useMutation({
         mutationFn: (data: any) => lessonApi.create({ ...data, courseId: params.id }),
         onSuccess: () => {
+            refetchLesson();
+            refetchCourse();
             setSnackbar({ open: true, msg: 'تم إضافة الدرس بنجاح!', type: 'success' });
             setLessonDialogOpen(false);
             queryClient.invalidateQueries({ queryKey: ['course', params.id] });
@@ -567,6 +571,8 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const editLessonMutation = useMutation({
         mutationFn: ({ id, data }: any) => lessonApi.update(id, data),
         onSuccess: () => {
+            refetchCourse();
+            refetchLesson();
             setSnackbar({ open: true, msg: 'تم تعديل الدرس بنجاح!', type: 'success' });
             setLessonDialogOpen(false);
             queryClient.invalidateQueries({ queryKey: ['course', params.id] });
@@ -595,8 +601,10 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     };
 
     const addFileMutation = useMutation({
-        mutationFn: (data: any) => lessonApi.getFiles(data.lessonId).then(() => lessonApi.create({ ...data, courseId: params.id })),
+        mutationFn: (data: Partial<FileModel>) => fileApi.create({ ...data, }),
         onSuccess: () => {
+            refetchCourse();
+            refetchLesson();
             setSnackbar({ open: true, msg: 'تم إضافة الملف بنجاح!', type: 'success' });
             setFileDialogOpen(false);
             queryClient.invalidateQueries({ queryKey: ['course', params.id] });
@@ -604,8 +612,10 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
         onError: () => setSnackbar({ open: true, msg: 'حدث خطأ أثناء إضافة الملف!', type: 'error' }),
     });
     const editFileMutation = useMutation({
-        mutationFn: ({ id, data }: any) => lessonApi.update(id, data),
+        mutationFn: ({ id, data }: any) => fileApi.update(id, data),
         onSuccess: () => {
+            refetchCourse();
+            refetchLesson();
             setSnackbar({ open: true, msg: 'تم تعديل الملف بنجاح!', type: 'success' });
             setFileDialogOpen(false);
             queryClient.invalidateQueries({ queryKey: ['course', params.id] });
@@ -626,20 +636,21 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
         setFileDialogOpen(true);
     };
     const handleSaveFile = () => {
-        setLoadingAction(true);
-        fileForm.url = fileForm.type === "VIDEO" ? `https://www.youtube.com/embed/${fileForm.url}` : fileForm.url;
+        setLoadingAction(true);;
         if (fileEditMode && fileForm.id) {
 
-            editFileMutation.mutate({ id: fileForm.id, data: { name: fileForm.name, type: fileForm.type, url: fileForm.url } });
+            editFileMutation.mutate({ id: fileForm.id, data: { name: fileForm.name, type: fileForm.type, url: fileForm.type === "VIDEO" ? `https://www.youtube.com/embed/${fileForm.url}` : fileForm.url } });
         } else {
-            addFileMutation.mutate({ name: fileForm.name, type: fileForm.type, url: fileForm.url, lessonId: fileForm.lessonId });
+            addFileMutation.mutate({ name: fileForm.name, type: fileForm.type as FileType, url:  fileForm.type === "VIDEO" ? `https://www.youtube.com/embed/${fileForm.url}` : fileForm.url, lessonId: fileForm.lessonId });
         }
         setLoadingAction(false);
     };
 
     const deleteFileMutation = useMutation({
-        mutationFn: (id: string) => lessonApi.delete(id),
+        mutationFn: (id: string) => fileApi.delete(id),
         onSuccess: () => {
+            refetchCourse();
+            refetchLesson();
             setSnackbar({ open: true, msg: 'تم حذف الملف بنجاح!', type: 'success' });
             setDeleteDialogOpen(false);
             setFileToDelete(null);
@@ -863,19 +874,22 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                                                     </Box>
                                                 }
                                             />
+                                            <Box className={"grid grid-cols-2 items-center"}>
+
                                             <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenEditLesson(lesson); }}><Edit /></IconButton>
                                             <IconButton
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     toggleLessonStatus.mutate(lesson.id);
                                                 }}
-                                            >
+                                                >
                                                 {lesson.status === 'COMPLETED' ? <LockOpen /> : lesson.status === 'IN_PROGRESS' ? <LockOpen /> : <Lock />}
                                             </IconButton>
                                             <IconButton onClick={() => handleLessonExpand(lesson.id)}>
                                                 {expandedLessons[lesson.id] ? <ExpandLess /> : <ExpandMore />}
                                             </IconButton>
                                             <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenAddFile(lesson); }}><Add /></IconButton>
+                                                </Box>
                                         </ListItem>
                                         <Collapse in={expandedLessons[lesson.id]} timeout="auto" unmountOnExit>
                                             {lesson.files?.map((file) => (
@@ -974,7 +988,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
             {/* نافذة إدارة الدروس */}
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
                 <DialogTitle>إدارة الدروس</DialogTitle>
-                <DialogContent>
+                <DialogContent className="py-4">
                     <List>
                         {course.lessons.map((lesson) => (
                             <ListItem key={lesson.id}>
@@ -1007,7 +1021,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
             {/* Dialog إضافة/تعديل درس */}
             <Dialog open={lessonDialogOpen} onClose={() => setLessonDialogOpen(false)} fullWidth maxWidth="sm">
                 <DialogTitle>{lessonEditMode ? 'تعديل الدرس' : 'إضافة درس جديد'}</DialogTitle>
-                <DialogContent>
+                <DialogContent className="py-4 flex flex-col gap-7">
                     <TextField
                         label="عنوان الدرس"
                         value={lessonForm.title}
@@ -1036,7 +1050,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
             {/* Dialog إضافة/تعديل ملف */}
             <Dialog open={fileDialogOpen} onClose={() => setFileDialogOpen(false)} fullWidth maxWidth="sm">
                 <DialogTitle>{fileEditMode ? 'تعديل الملف' : 'إضافة ملف جديد'}</DialogTitle>
-                <DialogContent>
+                <DialogContent className="py-4 flex flex-col gap-7">
                     <TextField
                         label="اسم الملف"
                         value={fileForm.name}
@@ -1093,7 +1107,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                     {/* إدخال رابط للفيديو فقط */}
                     {fileForm.type === 'VIDEO' && (
                         <TextField
-                            label="رابط الفيديو (YouTube Embed)"
+                            label="ID الفيديو (YouTube Embed)"
                             value={fileForm.url}
                             onChange={e => setFileForm({ ...fileForm, url: e.target.value })}
                             fullWidth
@@ -1112,7 +1126,7 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
             {/* Dialog تأكيد حذف الملف */}
             <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
                 <DialogTitle>تأكيد حذف الملف</DialogTitle>
-                <DialogContent>
+                <DialogContent className="py-4 flex flex-col gap-7">
                     <Typography>هل أنت متأكد أنك تريد حذف هذا الملف؟ لا يمكن التراجع عن هذه العملية.</Typography>
                 </DialogContent>
                 <DialogActions>

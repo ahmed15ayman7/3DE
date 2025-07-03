@@ -91,8 +91,26 @@ export class InstructorsService {
 
 
     async getCourses(id: string) {
+        const instructor = await this.prisma.instructor.findFirst({
+            where: { userId: id },
+        });
+        if (!instructor) {
+            throw new NotFoundException('Instructor not found');
+        }
         return this.prisma.course.findMany({
-            where: { instructors: { some: { id } } },
+            where: { instructors: { some: { id: instructor.id } } },
+            include: {
+                instructors: {
+                    include: {
+                        user: true,
+                    },
+                },
+                enrollments: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
         });
     }
 

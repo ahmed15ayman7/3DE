@@ -200,7 +200,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                                                     size="large"
                                                     onClick={primaryAction.onClick}
                                                     startIcon={primaryAction.icon || <ArrowForwardIcon />}
-                                                    className="px-8 py-3 text-lg font-semibold"
+                                                    className="px-8 py-3 text-lg font-semibold flex justify-center gap-3"
                                                 >
                                                     {primaryAction.label}
                                                 </Button>

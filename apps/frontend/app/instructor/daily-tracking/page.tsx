@@ -137,7 +137,7 @@ export default function InstructorDailyTracking() {
           title="المتابعة اليومية للمحاضر"
           subtitle={user?.firstName ? `مرحباً ${user.firstName}` : ""}
           description="تابع حضور الطلاب وجدول الحصص اليومية بشكل تفاعلي واحترافي."
-          backgroundImage="/assets/images/teacher-bg.jpg"
+          backgroundImage="/assets/images/teacher-bg.avif"
           animate
         />
       </Suspense>

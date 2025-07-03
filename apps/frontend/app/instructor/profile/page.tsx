@@ -1,145 +1,201 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import { useUser } from '@/hooks/useUser';
+import { instructorApi, certificateApi } from '@/lib/api';
+import { useQuery } from '@tanstack/react-query';
+import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, Typography } from '@mui/material';
+import { motion } from 'framer-motion';
+
 const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div>جاري التحميل...</div> });
+const StatsCard = dynamic(() => import('@/components/common/StatsCard'), { loading: () => <div>جاري التحميل...</div> });
+const Skeleton = dynamic(() => import('@/components/common/Skeleton'), { loading: () => <div className="my-8"><div className="skeleton-shimmer h-32 w-full rounded-xl mb-4" /><div className="skeleton-shimmer h-32 w-full rounded-xl" /></div> });
 
 export default function InstructorProfile() {
-
-    const profile = {
-        name: 'أحمد محمد',
-        email: 'ahmed@example.com',
-        phone: '+966501234567',
-        specialization: 'تطوير البرمجيات',
-        experience: '5 سنوات',
-        bio: 'مطور برمجيات ومدرس متخصص في تطوير تطبيقات الويب والذكاء الاصطناعي. حاصل على شهادة الماجستير في علوم الحاسب.',
-        courses: [
-            {
-                id: 1,
-                title: 'البرمجة بلغة Python',
-                students: 45,
-                rating: 4.8,
+    const { user } = useUser();
+    // بيانات المحاضر
+    const { data: instructorData, isLoading: isLoadingInstructor } = useQuery({
+        queryKey: ['instructor-profile', user?.id],
+        queryFn: () => instructorApi.getById(user?.id),
+        enabled: !!user?.id,
+        select: res => res.data,
+    });
+    // الدورات
+    const { data: courses, isLoading: isLoadingCourses } = useQuery({
+        queryKey: ['instructor-courses', user?.id],
+        queryFn: () => instructorApi.getCourses(user?.id),
+        enabled: !!user?.id,
+        select: res => res.data,
+    });
+    // الشهادات
+    const { data: certificates, isLoading: isLoadingCertificates } = useQuery({
+        queryKey: ['instructor-certificates', user?.id],
+        queryFn: () => certificateApi.getByStudent(user?.id),
+        enabled: !!user?.id,
+        select: res => res.data,
+    });
+    // إحصائيات
+    const stats = [
+        {
+            label: 'إجمالي الطلاب',
+            value: courses ? courses.reduce((acc, c) => acc + (c.enrollments?.length || 0), 0) : '-',
+            color: 'primary' as const,
             },
             {
-                id: 2,
-                title: 'تطوير تطبيقات الويب',
-                students: 30,
-                rating: 4.9,
+            label: 'عدد المواد',
+            value: courses ? courses.length : '-',
+            color: 'info' as const,
             },
-            {
-                id: 3,
-                title: 'أساسيات HTML',
-                students: 50,
-                rating: 4.7,
-            },
-        ],
-        certificates: [
-            {
-                id: 1,
-                title: 'شهادة تدريب المعلمين',
-                issuer: 'وزارة التعليم',
-                date: '2023-01-15',
-            },
-            {
-                id: 2,
-                title: 'شهادة تطوير الويب المتقدم',
-                issuer: 'جامعة الملك سعود',
-                date: '2022-06-20',
-            },
-        ],
+    ];
+    // Dialog تعديل الملف الشخصي (اختياري)
+    const [editOpen, setEditOpen] = React.useState(false);
+    const [editForm, setEditForm] = React.useState<any>({});
+    const handleOpenEdit = () => {
+        setEditForm({
+            name: `${instructorData?.user?.firstName || ''} ${instructorData?.user?.lastName || ''}`.trim(),
+            email: instructorData?.user?.email,
+            phone: instructorData?.user?.phone,
+            specialization: instructorData?.title,
+            bio: instructorData?.user?.profile?.bio || '',
+        });
+        setEditOpen(true);
     };
-
+    // أنيميشن
+    const fadeIn = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+    };
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">{('الملف الشخصي')}</h1>
-                <button className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600">
-                    {('تعديل الملف الشخصي')}
-                </button>
+        <Box className="container mx-auto px-4 py-8">
+            <Suspense fallback={<Skeleton height={40} width={300} />}>
+                <motion.div initial="hidden" animate="visible" variants={fadeIn}>
+                    <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                        <h1 className="text-3xl font-bold">الملف الشخصي</h1>
+                        <Button variant="contained" color="primary" onClick={handleOpenEdit}>
+                            تعديل الملف الشخصي
+                        </Button>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="md:col-span-2">
-                    <Card className="mb-6" title="">
-                        <div className="flex items-center gap-6 mb-6">
-                            <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
-                                <span className="text-4xl">👨‍🏫</span>
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold">{profile.name}</h2>
-                                <p className="text-gray-600">{profile.specialization}</p>
-                                <p className="text-gray-600">{profile.experience} خبرة</p>
-                            </div>
-                        </div>
+                </motion.div>
+            </Suspense>
+            <Grid container spacing={4} className="mb-8">
+                <Grid item xs={12} md={4}>
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                        <Card title="الإحصائيات">
+                            <StatsCard stats={stats} animate={true} />
+                        </Card>
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+                        <Card title="الشهادات">
+                            {isLoadingCertificates ? <Skeleton height={120} /> : (
                         <div className="space-y-4">
-                            <div>
-                                <h3 className="font-medium mb-2">{('البريد الإلكتروني')}</h3>
-                                <p>{profile.email}</p>
+                                    {certificates && certificates.length ? certificates.map((cert: any) => (
+                                        <motion.div key={cert.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }} className="border-b pb-4">
+                                            <h3 className="font-medium">{cert.title}</h3>
+                                            <p className="text-gray-600">{cert.issuer || cert.description}</p>
+                                            <p className="text-sm text-gray-500">{cert.earnedAt?.split('T')[0]}</p>
+                                        </motion.div>
+                                    )) : <Typography color="text.secondary">لا توجد شهادات</Typography>}
                             </div>
-                            <div>
-                                <h3 className="font-medium mb-2">{('رقم الهاتف')}</h3>
-                                <p>{profile.phone}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium mb-2">{('نبذة عني')}</h3>
-                                <p>{profile.bio}</p>
-                            </div>
-                        </div>
+                            )}
                     </Card>
-
-                    <Card title='المواد التدريبية'>
-                        <div className="space-y-4">
-                            {profile.courses.map(course => (
-                                <div key={course.id} className="border-b pb-4">
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="font-medium">{course.title}</h3>
-                                        <div className="flex items-center gap-2">
-                                            <span>⭐ {course.rating}</span>
-                                            <span className="text-gray-600">({course.students} طالب)</span>
+                    </motion.div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+                        <Card title="">
+                            {isLoadingInstructor ? <Skeleton height={200} /> : (
+                                <div className="flex flex-col md:flex-row items-center gap-6 mb-6">
+                                    <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-4xl">
+                                        👨‍🏫
                                         </div>
+                                    <div className="flex-1">
+                                        <h2 className="text-2xl font-bold">{`${instructorData?.user?.firstName || ''} ${instructorData?.user?.lastName || ''}`.trim()}</h2>
+                                        <p className="text-gray-600">{instructorData?.title || '-'}</p>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </Card>
-                </div>
-
+                            )}
+                            <div className="space-y-4">
                 <div>
-                    <Card className="mb-6" title='الشهادات'>
-                        <div className="space-y-4">
-                            {profile.certificates.map(cert => (
-                                <div key={cert.id} className="border-b pb-4">
-                                    <h3 className="font-medium">{cert.title}</h3>
-                                    <p className="text-gray-600">{cert.issuer}</p>
-                                    <p className="text-sm text-gray-500">{cert.date}</p>
+                                    <h3 className="font-medium mb-2">البريد الإلكتروني</h3>
+                                    <p>{instructorData?.user?.email || '-'}</p>
                                 </div>
-                            ))}
-                        </div>
-                    </Card>
-
-                    <Card title='الإحصائيات'>
-                        <div className="space-y-4">
                             <div>
-                                <h3 className="font-medium mb-2">{('إجمالي الطلاب')}</h3>
-                                <p className="text-2xl font-bold">
-                                    {profile.courses.reduce((acc, course) => acc + course.students, 0)}
-                                </p>
+                                    <h3 className="font-medium mb-2">رقم الهاتف</h3>
+                                    <p>{instructorData?.user?.phone || '-'}</p>
                             </div>
                             <div>
-                                <h3 className="font-medium mb-2">{('متوسط التقييم')}</h3>
-                                <p className="text-2xl font-bold">
-                                    {Math.round(
-                                        profile.courses.reduce((acc, course) => acc + course.rating, 0) /
-                                        profile.courses.length * 10
-                                    ) / 10}
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium mb-2">{('عدد المواد')}</h3>
-                                <p className="text-2xl font-bold">{profile.courses.length}</p>
+                                    <h3 className="font-medium mb-2">نبذة عني</h3>
+                                    <p>-</p>
                             </div>
                         </div>
                     </Card>
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+                        <Card title="المواد التدريبية">
+                            {isLoadingCourses ? <Skeleton height={120} /> : (
+                                <div className="space-y-4">
+                                    {courses && courses.length ? courses.map((course: any) => (
+                                        <motion.div key={course.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }} className="border-b pb-4">
+                                            <div className="flex justify-between items-center">
+                                                <h3 className="font-medium">{course.title}</h3>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-gray-600">({course.enrollments?.length || 0} طالب)</span>
                 </div>
             </div>
+                                        </motion.div>
+                                    )) : <Typography color="text.secondary">لا توجد مواد</Typography>}
         </div>
+                            )}
+                        </Card>
+                    </motion.div>
+                </Grid>
+            </Grid>
+            {/* Dialog تعديل الملف الشخصي */}
+            <Dialog open={editOpen} onClose={() => setEditOpen(false)} fullWidth maxWidth="sm">
+                <DialogTitle>تعديل الملف الشخصي</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="الاسم"
+                        value={editForm.name || ''}
+                        onChange={e => setEditForm({ ...editForm, name: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                    />
+                    <TextField
+                        label="البريد الإلكتروني"
+                        value={editForm.email || ''}
+                        onChange={e => setEditForm({ ...editForm, email: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                    />
+                    <TextField
+                        label="رقم الهاتف"
+                        value={editForm.phone || ''}
+                        onChange={e => setEditForm({ ...editForm, phone: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                    />
+                    <TextField
+                        label="التخصص"
+                        value={editForm.specialization || ''}
+                        onChange={e => setEditForm({ ...editForm, specialization: e.target.value })}
+                        fullWidth
+                        className="mb-4"
+                    />
+                    <TextField
+                        label="نبذة عني"
+                        value={editForm.bio || ''}
+                        onChange={e => setEditForm({ ...editForm, bio: e.target.value })}
+                        fullWidth
+                        multiline
+                        minRows={3}
+                        className="mb-4"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setEditOpen(false)}>إلغاء</Button>
+                    <Button variant="contained" color="primary" onClick={() => setEditOpen(false)}>حفظ</Button>
+                </DialogActions>
+            </Dialog>
+        </Box>
     );
 } 

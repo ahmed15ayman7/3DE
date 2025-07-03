@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 import authService from './auth.service';
-import { Achievement, Badge, Certificate, Community, Course, Discussion, Enrollment, File as FileModel, Group, Instructor, Lesson, LiveRoom, LoginHistory, Milestone, Notification, NotificationSettings, Option, Path, Post, Question, Quiz, Submission, TwoFactor, User } from '@shared/prisma';
+import { Achievement, Badge, Certificate, Community, Course, Discussion, Enrollment, File as FileModel, Group, Instructor, Lesson, LiveRoom, LoginHistory, Milestone, Notification, NotificationSettings, Option, Path, Post, Profile, Question, Quiz, Submission, TwoFactor, User } from '@shared/prisma';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
@@ -143,15 +143,17 @@ export const userApi = {
 export const courseApi = {
     getAll: (): Promise<{ success: boolean, data: Course[] }> => api.get('/courses'),
     getById: (id: string): Promise<{ success: boolean, data: Course & { lessons: (Lesson & { files: FileModel[], quizzes: Quiz[] })[], quizzes: Quiz[], enrollments: (Enrollment & { user: User })[] } }> => api.get(`/courses/${id}`),
-    create: (data: {
-        title: string;
-        description: string;
-        academyId: string;
-    }) => api.post('/courses', data),
-    update: (id: string, data: {
-        title?: string;
-        description?: string;
-    }) => api.patch(`/courses/${id}`, data),
+    create: async (data: Partial<Course>,instructorId?:string) => {
+        try {
+            const response = await api.post('/courses', { ...data })
+            let resAddInstructor= await api.post(`/courses/${response.data.id}/add-instructor/${instructorId}` )
+            return response.data
+        } catch (error:any) {
+            console.log(error)
+            throw new Error(error.response.data.message)
+        }
+    },
+    update: (id: string, data: Partial<Course>) => api.put(`/courses/${id}`, data),
     delete: (id: string) => api.delete(`/courses/${id}`),
     enroll: (courseId: string) => api.post(`/courses/${courseId}/enroll`),
     unenroll: (courseId: string) => api.post(`/courses/${courseId}/unenroll`),
@@ -159,7 +161,7 @@ export const courseApi = {
     removeInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/remove-instructor`, { instructorId }),
     getLessons: (courseId: string) => api.get(`/courses/${courseId}/lessons`),
     getQuizzes: (courseId: string) => api.get(`/courses/${courseId}/quizzes`),
-    getStudents: (courseId: string) => api.get(`/courses/${courseId}/students`),
+    getStudents: (courseId: string): Promise<{ status:number, data: (Enrollment & { user: User })[] }> => api.get(`/courses/${courseId}/students`),
     getInstructors: (courseId: string) => api.get(`/courses/${courseId}/instructors`),
     getByStudentId: (studentId: string): Promise<{ success: boolean, data: (Course & { instructors: (Instructor & { user: User })[] ,lessons: (Lesson & { files: FileModel[], quizzes: Quiz[] })[] })[] }> => api.get(`/courses/by-student/${studentId}`),
     getByInstructorId: (instructorId: string) => api.get(`/courses/by-instructor/${instructorId}`),
@@ -176,7 +178,7 @@ export const lessonApi = {
         videoUrl?: string;
         courseId: string;
     }) => api.post('/lessons', data),
-    update: (id: string, data: Lesson) => api.patch(`/lessons/${id}`, data),
+    update: (id: string, data: Lesson) => api.put(`/lessons/${id}`, data),
     delete: (id: string) => api.delete(`/lessons/${id}`),
     getFiles: (lessonId: string) => api.get(`/lessons/${lessonId}/files`),
     getQuizzes: (lessonId: string) => api.get(`/lessons/${lessonId}/quizzes`),
@@ -291,6 +293,8 @@ export const notificationApi = {
 
 // File APIs
 export const fileApi = {
+    create: (data: Partial<FileModel>) => api.post('/files', data),
+    getAll: (): Promise<{ success: boolean, data: FileModel[] }> => api.get('/files'),
     upload: (file: File) => {
         const formData = new FormData();
         formData.append('file', file);
@@ -300,6 +304,7 @@ export const fileApi = {
             },
         });
     },
+    update: (id: string, data: Partial<FileModel>) => api.put(`/files/${id}`, data),
     delete: (id: string) => api.delete(`/files/${id}`),
     getByLesson: (lessonId: string) => api.get(`/files/lesson/${lessonId}`),
     download: (id: string) => api.get(`/files/${id}/download`, {
@@ -599,7 +604,7 @@ export const pathApi = {
 // Instructor APIs
 export const instructorApi = {
     getAll: (skip: number, limit: number, search: string): Promise<{ success: boolean, data: (Instructor & { user: User, courses: Course[] })[] }> => api.get(`/instructors?skip=${skip}&limit=${limit}&search=${search}`),
-    getById: (id: string): Promise<{ success: boolean, data: Instructor & { user: User, courses: Course[] } }> => api.get(`/instructors/${id}`),
+    getById: (id: string): Promise<{ success: boolean, data: Instructor & { user: User & { profile: Profile }, courses: Course[] } }> => api.get(`/instructors/${id}`),
     create: (data: Partial<Instructor>) => api.post('/instructors', data),
     update: (id: string, data: Partial<Instructor>) => api.patch(`/instructors/${id}`, data),
     getCourses: (id: string): Promise<{ success: boolean, data: (Course & { instructor: Instructor, quizzes: Quiz[], lessons: Lesson[], enrollments:( Enrollment &{user: User})[] })[] }> => api.get(`/instructors/${id}/courses`),
