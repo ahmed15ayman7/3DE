@@ -1135,7 +1135,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/ahmedayman/Documents/MY-COMPNIES/3DE/apps/admin/generated/prisma_client",
+      "value": "C:\\Users\\LENOVO\\3DE\\apps\\admin\\generated\\prisma_client",
       "fromEnvVar": null
     },
     "config": {
@@ -1144,17 +1144,17 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/ahmedayman/Documents/MY-COMPNIES/3DE/packages/shared/prisma/schema.prisma",
+    "sourceFilePath": "C:\\Users\\LENOVO\\3DE\\packages\\shared\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
     "rootEnvPath": null,
-    "schemaEnvPath": "../../../../packages/shared/.env"
+    "schemaEnvPath": "../../../../packages/shared/prisma/.env"
   },
   "relativePath": "../../../../packages/shared/prisma",
   "clientVersion": "6.9.0",
@@ -1163,6 +1163,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
