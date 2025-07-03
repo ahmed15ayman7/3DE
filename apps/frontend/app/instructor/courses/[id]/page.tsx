@@ -66,7 +66,10 @@ import { Course, Lesson, LessonStatus, User, FileType, Quiz, File as FileModel, 
 const QuizDialog = dynamic(() => import('./components/QuizDialog'), { loading: () => <div></div> });
 const QuizSubmissions = dynamic(() => import('./components/QuizSubmissions'), { loading: () => <div></div> });
 import MuiAlert from '@mui/material/Alert';
+import { useUser } from '@/hooks/useUser';
 
+const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dwnkplp6b';
+const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'unsigned_preset';
 
 let initialCourse: Course & {
     lessons: (Lesson & { files: FileModel[], quizzes: (Quiz & { submissions: Submission[], questions: (Question & { options: Option[] })[] })[] })[];
@@ -444,6 +447,9 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const [selectedLessonForFile, setSelectedLessonForFile] = useState<any>(null);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [fileToDelete, setFileToDelete] = useState<{ file: FileModel, lesson: any } | null>(null);
+    const { user } = useUser();
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
+    const [uploading, setUploading] = useState(false);
 
     const { data: courseResponse, isLoading: isCourseLoading } = useQuery({
         queryKey: ['course', params.id],
@@ -648,6 +654,59 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const handleConfirmDeleteFile = () => {
         if (fileToDelete?.file?.id) {
             deleteFileMutation.mutate(fileToDelete.file.id);
+        }
+    };
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setUploading(true);
+        setUploadProgress(0);
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        try {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`);
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    setUploadProgress(Math.round((event.loaded / event.total) * 100));
+                }
+            };
+            xhr.onload = () => {
+                setUploading(false);
+                if (xhr.status === 200) {
+                    const res = JSON.parse(xhr.responseText);
+                    setFileForm((prev) => ({ ...prev, url: res.secure_url }));
+                    setSnackbar({ open: true, msg: 'تم رفع الملف بنجاح!', type: 'success' });
+                } else {
+                    setSnackbar({ open: true, msg: 'فشل رفع الملف!', type: 'error' });
+                }
+            };
+            xhr.onerror = () => {
+                setUploading(false);
+                setSnackbar({ open: true, msg: 'حدث خطأ أثناء رفع الملف!', type: 'error' });
+            };
+            xhr.send(formData);
+        } catch (err) {
+            setUploading(false);
+            setSnackbar({ open: true, msg: 'حدث خطأ أثناء رفع الملف!', type: 'error' });
+        }
+    };
+
+    const renderUploadedFilePreview = () => {
+        if (!fileForm.url) return null;
+        switch (fileForm.type) {
+            case 'IMAGE':
+                return <img src={fileForm.url} alt={fileForm.name} style={{ maxWidth: '100%', maxHeight: 200, margin: '10px 0' }} />;
+            case 'PDF':
+                return <iframe src={fileForm.url} style={{ width: '100%', height: 300, margin: '10px 0' }} title="pdf-preview" />;
+            case 'AUDIO':
+                return <audio controls src={fileForm.url} style={{ width: '100%', margin: '10px 0' }} />;
+            case 'DOCUMENT':
+                return <a href={fileForm.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', margin: '10px 0' }}>معاينة المستند</a>;
+            default:
+                return null;
         }
     };
 
@@ -988,28 +1047,63 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                     <TextField
                         label="نوع الملف"
                         value={fileForm.type}
-                        onChange={e => setFileForm({ ...fileForm, type: e.target.value as FileType })}
+                        onChange={e => setFileForm({ ...fileForm, type: e.target.value as FileType, url: '' })}
                         select
                         fullWidth
                         className="mb-4"
                     >
-                        <MenuItem value="VIDEO">فيديو</MenuItem>
+                        <MenuItem value="VIDEO">فيديو (رابط يوتيوب)</MenuItem>
                         <MenuItem value="PDF">PDF</MenuItem>
                         <MenuItem value="DOCUMENT">مستند</MenuItem>
                         <MenuItem value="IMAGE">صورة</MenuItem>
                         <MenuItem value="AUDIO">صوتي</MenuItem>
                     </TextField>
-                    <TextField
-                        label="رابط الملف"
-                        value={fileForm.url}
-                        onChange={e => setFileForm({ ...fileForm, url: e.target.value })}
-                        fullWidth
-                        className="mb-4"
-                    />
+                    {/* رفع ملف حقيقي إذا لم يكن فيديو */}
+                    {fileForm.type && fileForm.type !== 'VIDEO' && (
+                        <Box sx={{ mb: 2 }}>
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                disabled={uploading}
+                                sx={{ mb: 1 }}
+                            >
+                                اختر ملف للرفع
+                                <input
+                                    type="file"
+                                    accept={
+                                        fileForm.type === 'PDF' ? 'application/pdf' :
+                                        fileForm.type === 'IMAGE' ? 'image/*' :
+                                        fileForm.type === 'AUDIO' ? 'audio/*' :
+                                        fileForm.type === 'DOCUMENT' ? '.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx,.csv,.odt,.ods' :
+                                        '*/*'
+                                    }
+                                    hidden
+                                    onChange={handleFileUpload}
+                                />
+                            </Button>
+                            {uploading && (
+                                <Box sx={{ width: '100%', mb: 1 }}>
+                                    <LinearProgress variant="determinate" value={uploadProgress} />
+                                    <Typography variant="caption">جاري رفع الملف... {uploadProgress}%</Typography>
+                                </Box>
+                            )}
+                            {renderUploadedFilePreview()}
+                        </Box>
+                    )}
+                    {/* إدخال رابط للفيديو فقط */}
+                    {fileForm.type === 'VIDEO' && (
+                        <TextField
+                            label="رابط الفيديو (YouTube Embed)"
+                            value={fileForm.url}
+                            onChange={e => setFileForm({ ...fileForm, url: e.target.value })}
+                            fullWidth
+                            className="mb-4"
+                        />
+                    )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setFileDialogOpen(false)}>إلغاء</Button>
-                    <Button onClick={handleSaveFile} variant="contained" color="primary" disabled={loadingAction}>
+                    <Button onClick={handleSaveFile} variant="contained" color="primary" disabled={Boolean(loadingAction || uploading || (fileForm.type && fileForm.type !== 'VIDEO' && !fileForm.url))}>
                         {fileEditMode ? 'حفظ التعديلات' : 'إضافة'}
                     </Button>
                 </DialogActions>
