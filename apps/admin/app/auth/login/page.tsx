@@ -94,6 +94,7 @@ export default function LoginPage() {
                             width={120}
                             height={120}
                             placeholder='blur'
+                            blurDataURL='/assets/images/logo.png'
                             style={{ marginBottom: '1rem', textAlign: 'center', borderRadius: '50%' }}
                         />
                         {/* <Typography
