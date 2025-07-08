@@ -1136,7 +1136,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/root/3DE/apps/frontend/generated/prisma_client",
+      "value": "/Users/ahmedayman/Documents/MY-COMPNIES/3DE/apps/frontend/generated/prisma_client",
       "fromEnvVar": null
     },
     "config": {
@@ -1145,12 +1145,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/root/3DE/packages/shared/prisma/schema.prisma",
+    "sourceFilePath": "/Users/ahmedayman/Documents/MY-COMPNIES/3DE/packages/shared/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -1164,7 +1164,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
