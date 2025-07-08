@@ -32,7 +32,7 @@ export default function InstructorStudents() {
             if (!coursesData) return [];
             // اجمع كل الطلاب من جميع الدورات
             const all = await Promise.all(
-                coursesData.map((course: any) => enrollmentApi.getByCourse(course.id))
+                coursesData.map((course: any) => courseApi.getStudents(course.id))
             );
             // دمج النتائج في مصفوفة واحدة
             return all.flatMap((res: any) => res.data || []);

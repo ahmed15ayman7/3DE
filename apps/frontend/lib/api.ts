@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 import authService from './auth.service';
-import { Achievement, Badge, Certificate, Community, Course, Discussion, Enrollment, File as FileModel, Group, Instructor, Lesson, LiveRoom, LoginHistory, Milestone, Notification, NotificationSettings, Option, Path, Post, Profile, Question, Quiz, Submission, TwoFactor, User } from '@shared/prisma';
+import { Achievement, Attendance, Badge, Certificate, Community, Course, Discussion, Enrollment, File as FileModel, Group, Instructor, Lesson, LiveRoom, LoginHistory, Milestone, Notification, NotificationSettings, Option, Path, Post, Profile, Question, Quiz, Submission, TwoFactor, User } from '@shared/prisma';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
@@ -231,6 +231,11 @@ export const assignmentApi = {
 
 // Attendance APIs
 export const attendanceApi = {
+    getAll: () => api.get('/attendance'),
+    getById: (id: string) => api.get(`/attendance/${id}`),
+    create: (data: Partial<Attendance>) => api.post('/attendance', data),
+    update: (id: string, data: Partial<Attendance>) => api.patch(`/attendance/${id}`, data),
+    delete: (id: string) => api.delete(`/attendance/${id}`),
     track: (data: {
         lessonId: string;
         studentId: string;
@@ -243,6 +248,11 @@ export const attendanceApi = {
     updateStatus: (id: string, status: 'PRESENT' | 'ABSENT' | 'LATE') =>
         api.patch(`/attendance/${id}/status`, { status }),
     getByDate: (date: string) => api.get(`/attendance/date/${date}`),
+    getByDateAndLesson: (date: string, lessonId: string) => api.get(`/attendance/date/${date}/lesson/${lessonId}`),
+    getByStudent: (studentId: string) => api.get(`/attendance/student/${studentId}`),
+    getByDateAndStudent: (date: string, studentId: string) => api.get(`/attendance/date/${date}/student/${studentId}`),
+    getByDateAndStudentAndLesson: (date: string, studentId: string, lessonId: string) => api.get(`/attendance/date/${date}/student/${studentId}/lesson/${lessonId}`),
+    getByDateAndStudentAndLessonAndStatus: (date: string, studentId: string, lessonId: string, status: 'PRESENT' | 'ABSENT' | 'LATE') => api.get(`/attendance/date/${date}/student/${studentId}/lesson/${lessonId}/status/${status}`),
 };
 
 // Notification APIs

@@ -39,4 +39,33 @@ export class AttendanceController {
     async remove(@Param('id') id: string): Promise<Attendance> {
         return this.attendanceService.remove(id);
     }
+    @Get('student/:studentId')
+    async getStudentAttendance(@Param('studentId') studentId: string): Promise<Attendance[]> {
+        return this.attendanceService.getStudentAttendance(studentId);
+    }
+    @Get('lesson/:lessonId')
+    async getStudentAttendanceByLesson(@Param('lessonId') lessonId: string): Promise<Attendance[]> {
+        return this.attendanceService.getStudentAttendanceByLesson(lessonId);
+    }
+    @Get('date/:date')
+    async getStudentAttendanceByDate(@Param('date') date: string): Promise<Attendance[]> {
+        return this.attendanceService.getStudentAttendanceByDate(new Date(date));
+    }
+    @Get('date/:date/lesson/:lessonId')
+    async getStudentAttendanceByDateAndLesson(@Param('date') date: string, @Param('lessonId') lessonId: string): Promise<Attendance[]> {
+        return this.attendanceService.getStudentAttendanceByDateAndLesson(new Date(date), lessonId);
+    }
+    @Get('date/:date/student/:studentId')
+    async getStudentAttendanceByDateAndStudent(@Param('date') date: string, @Param('studentId') studentId: string): Promise<Attendance[]> {
+        return this.attendanceService.getStudentAttendanceByDateAndStudent(new Date(date), studentId);
+    }
+    @Get('date/:date/student/:studentId/lesson/:lessonId')
+    async getStudentAttendanceByDateAndStudentAndLesson(@Param('date') date: string, @Param('studentId') studentId: string, @Param('lessonId') lessonId: string): Promise<Attendance[]> {
+        return this.attendanceService.getStudentAttendanceByDateAndStudentAndLesson(new Date(date), studentId, lessonId);
+    }
+    @Get('date/:date/student/:studentId/lesson/:lessonId/status/:status')
+    async getStudentAttendanceByDateAndStudentAndLessonAndStatus(@Param('date') date: string, @Param('studentId') studentId: string, @Param('lessonId') lessonId: string, @Param('status') status: 'PRESENT' | 'ABSENT' | 'LATE'): Promise<Attendance[]> {
+        return this.attendanceService.getStudentAttendanceByDateAndStudentAndLessonAndStatus(new Date(date), studentId, lessonId, status);
+    }
+
 } 

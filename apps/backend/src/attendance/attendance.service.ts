@@ -78,4 +78,40 @@ export class AttendanceService {
 
         return stats;
     }
+    async getStudentAttendance(studentId: string) {
+        return this.prisma.attendance.findMany({
+            where: { studentId }
+        });
+    }
+    async getStudentAttendanceByLesson(lessonId: string) {
+        return this.prisma.attendance.findMany({
+            where: { lessonId }
+        });
+    }
+    async getStudentAttendanceByDate(date: Date) {
+        return this.prisma.attendance.findMany({
+            where: { createdAt: { gte: date, lte: date } }
+        });
+    }
+    async getStudentAttendanceByDateAndLesson(date: Date, lessonId: string) {
+        return this.prisma.attendance.findMany({
+            where: { createdAt: { gte: date, lte: date }, lessonId }
+        });
+
+    }
+    async getStudentAttendanceByDateAndStudent(date: Date, studentId: string) {
+        return this.prisma.attendance.findMany({
+            where: { createdAt: { gte: date, lte: date }, studentId }
+        });
+    }
+    async getStudentAttendanceByDateAndStudentAndLesson(date: Date, studentId: string, lessonId: string) {
+        return this.prisma.attendance.findMany({
+            where: { createdAt: { gte: date, lte: date }, studentId, lessonId }
+        });
+    }
+    async getStudentAttendanceByDateAndStudentAndLessonAndStatus(date: Date, studentId: string, lessonId: string, status: 'PRESENT' | 'ABSENT' | 'LATE') {
+        return this.prisma.attendance.findMany({
+            where: { createdAt: { gte: date, lte: date }, studentId, lessonId, status }
+        });
+    }
 } 

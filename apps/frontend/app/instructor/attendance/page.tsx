@@ -2,7 +2,7 @@
 import React, { useMemo, useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { useUser } from "@/hooks/useUser";
-import { instructorApi, lessonApi, attendanceApi } from "@/lib/api";
+import { instructorApi, lessonApi, attendanceApi ,courseApi } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { arSA } from "date-fns/locale";
@@ -42,7 +42,7 @@ export default function InstructorAttendance() {
     queryFn: async () => {
       if (!coursesData) return [];
       const allLessons = await Promise.all(
-        coursesData.map((course) => lessonApi.getByCourse(course.id))
+        coursesData.map((course) => courseApi.getLessons(course.id))
       );
       return allLessons.flatMap((res) => res.data);
     },
@@ -55,7 +55,7 @@ export default function InstructorAttendance() {
     queryFn: async () => {
       if (!lessonsData) return [];
       const allAttendance = await Promise.all(
-        lessonsData.map((lesson) => attendanceApi.getLessonAttendance(lesson.id).then((res) => res.data))
+        lessonsData.map((lesson) => attendanceApi.getByDateAndLesson(today, lesson.id).then((res) => res.data))
       );
       return allAttendance.flat();
     },
@@ -295,7 +295,7 @@ export default function InstructorAttendance() {
               <DatePicker
                 label="التاريخ"
                 value={selectedDate}
-                onChange={setSelectedDate}
+                onChange={(value) => setSelectedDate(value as Date)}
                 slotProps={{ textField: { size: "small", className: "bg-white min-w-[120px]" } }}
               />
             </LocalizationProvider>
@@ -346,7 +346,7 @@ export default function InstructorAttendance() {
               <DatePicker
                 label="التاريخ"
                 value={studentSelectedDate}
-                onChange={setStudentSelectedDate}
+                onChange={(value) => setStudentSelectedDate(value as Date)}
                 slotProps={{ textField: { size: "small", className: "bg-white min-w-[120px]" } }}
               />
             </LocalizationProvider>

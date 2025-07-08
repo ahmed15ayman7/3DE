@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useMemo, Suspense } from "react";
+import dayjs, { Dayjs } from 'dayjs';
 import dynamic from "next/dynamic";
 import { useUser } from "@/hooks/useUser";
 import { instructorApi, courseApi } from "@/lib/api";
@@ -78,7 +79,8 @@ export default function InstructorCourses() {
     description: "",
     level: "",
     image: "",
-    startDate: new Date(),
+    startDate: dayjs(),
+    status:"PENDING"
   });
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -146,12 +148,13 @@ export default function InstructorCourses() {
       description: "",
       level: "",
       image: "",
-      startDate: new Date(),
+      startDate: dayjs(),
       status:"PENDING"
     });
     setDialogOpen(true);
   };
   const handleOpenEdit = (course: any) => {
+    console.log(course);
     setEditMode(true);
     setSelectedCourse(course);
     setCourseForm({
@@ -159,7 +162,7 @@ export default function InstructorCourses() {
       description: course.description,
       level: course.level,
       image: course.image,
-      startDate: course.startDate,
+      startDate: dayjs(course.startDate),
       status: course.status,
     });
     setDialogOpen(true);
@@ -190,14 +193,14 @@ export default function InstructorCourses() {
       field: "enrollments",
       headerName: "عدد الطلاب",
       width: 150,
-      valueGetter: (row: any) => row?.enrollments?.length || 0,
+      valueGetter: (row: any) => row?.row?.enrollments?.length || 0,
     },
     {
       field: "updatedAt",
       headerName: "تاريخ الإكمال",
       width: 150,
       valueGetter: (row: any) =>
-        row?.updatedAt ? row?.updatedAt.split("T")[0] : "-",
+        row?.row?.updatedAt ? row?.row?.updatedAt.split("T")[0] : "-",
     },
     {
       field: "averageGrade",
@@ -213,11 +216,11 @@ export default function InstructorCourses() {
         <Box className="flex gap-2">
           <IconButton
             color="primary"
-            onClick={() => handleOpenEdit(row)}
+            onClick={() => handleOpenEdit(row.row)}
           >
             <Edit />
           </IconButton>
-          <IconButton color="error" onClick={() => handleDelete(row)}>
+          <IconButton color="error" onClick={() => handleDelete(row.row)}>
             <Delete />
           </IconButton>
         </Box>
@@ -523,7 +526,7 @@ export default function InstructorCourses() {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="تاريخ البدء"
-                value={courseForm.startDate}
+                defaultValue={courseForm.startDate}
                 format="DD/MM/YYYY"
                 onChange={(e) => setCourseForm({ ...courseForm, startDate: e })}
                 className="mb-4 flex flex-row-reverse text-center"
