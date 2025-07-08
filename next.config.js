@@ -7,11 +7,12 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  compress: true,
   images: {
-    domains: ['your-domain.com'],
+    domains: ['3de.school'],
   },
+  output: 'standalone',
   webpack: (config, { dev, isServer }) => {
-    // تحسين حجم الباندل
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',

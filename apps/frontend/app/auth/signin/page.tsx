@@ -111,6 +111,7 @@ export default function SignIn() {
                             alt="3DE Logo"
                             width={120}
                             height={120}
+                            placeholder='blur'
                             style={{ marginBottom: '1rem', textAlign: 'center', borderRadius: '50%' }}
                         />
                         {/* <Typography
