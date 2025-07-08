@@ -23,11 +23,11 @@ export const layoutsConfig: UserLayoutConfig = {
                 href: '/student/teachers',
                 icon: 'users',
             },
-            {
-                label: 'شهاداتي',
-                href: '/student/certificates',
-                icon: 'award',
-            },
+            // {
+            //     label: 'شهاداتي',
+            //     href: '/student/certificates',
+            //     icon: 'award',
+            // },
             {
                 label: 'المجتمع',
                 href: '/student/community',
