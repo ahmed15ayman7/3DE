@@ -2,17 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-    Box,
-    Typography,
-    Paper,
-    IconButton,
-    Tooltip,
-} from '@mui/material';
-import {
-    TrendingUp as TrendingUpIcon,
-    TrendingDown as TrendingDownIcon,
-} from '@mui/icons-material';
+import { cn } from '@/lib/utils';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 interface StatItem {
     label: string;
@@ -43,17 +34,17 @@ const StatsCard: React.FC<StatsCardProps> = ({
     const getColorClasses = (color?: string) => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main bg-primary-light/30';
+                return 'text-blue-700 bg-blue-100/30';
             case 'secondary':
-                return 'text-secondary-main bg-secondary-light/30';
+                return 'text-gray-700 bg-gray-100/30';
             case 'success':
-                return 'text-success-main bg-success-light/30';
+                return 'text-green-700 bg-green-100/30';
             case 'error':
-                return 'text-error-main bg-error-light/30';
+                return 'text-red-700 bg-red-100/30';
             case 'warning':
-                return 'text-warning-main bg-warning-light/30';
+                return 'text-yellow-700 bg-yellow-100/30';
             case 'info':
-                return 'text-info-main bg-info-light/30';
+                return 'text-cyan-700 bg-cyan-100/30';
             default:
                 return 'text-gray-700 bg-gray-100/30';
         }
@@ -83,92 +74,97 @@ const StatsCard: React.FC<StatsCardProps> = ({
     };
 
     const renderStatItem = (stat: StatItem, index: number) => {
-        const StatComponent = animate ? motion.div : Box;
+        const StatComponent = animate ? motion.div : 'div';
         const statProps = animate ? { variants: itemVariants } : {};
 
         return (
             <StatComponent
                 key={index}
                 {...statProps}
-                className={`
-                    flex items-center justify-between p-3 rounded-lg
-                    ${getColorClasses(stat.color)}
-                    ${variant === 'compact' ? 'p-2' : ''}
-                    ${variant === 'detailed' ? 'p-4' : ''}
-                `}
+                className={cn(
+                    "flex items-center justify-between rounded-lg",
+                    getColorClasses(stat.color),
+                    variant === 'compact' ? 'p-2' : variant === 'detailed' ? 'p-4' : 'p-3'
+                )}
             >
-                <Box className="flex items-center gap-3">
+                <div className="flex items-center gap-3">
                     {stat.icon && (
-                        <Box className="text-xl">
+                        <div className="text-xl">
                             {stat.icon}
-                        </Box>
+                        </div>
                     )}
-                    <Box>
-                        <Typography
-                            variant={variant === 'compact' ? 'body2' : 'body1'}
-                            className="font-medium"
+                    <div>
+                        <div
+                            className={cn(
+                                "font-medium",
+                                variant === 'compact' ? 'text-sm' : 'text-base'
+                            )}
                         >
                             {stat.label}
-                        </Typography>
+                        </div>
                         {variant === 'detailed' && stat.trend && (
-                            <Box className="flex items-center gap-1 mt-1">
+                            <div className="flex items-center gap-1 mt-1">
                                 {stat.trend.isPositive ? (
-                                    <TrendingUpIcon className="text-success-main text-sm" />
+                                    <TrendingUp className="text-green-600 text-sm" />
                                 ) : (
-                                    <TrendingDownIcon className="text-error-main text-sm" />
+                                    <TrendingDown className="text-red-600 text-sm" />
                                 )}
-                                <Typography
-                                    variant="caption"
-                                    className={stat.trend.isPositive ? 'text-success-main' : 'text-error-main'}
+                                <span
+                                    className={cn(
+                                        "text-xs",
+                                        stat.trend.isPositive ? 'text-green-600' : 'text-red-600'
+                                    )}
                                 >
                                     {stat.trend.value}%
-                                </Typography>
-                            </Box>
+                                </span>
+                            </div>
                         )}
-                    </Box>
-                </Box>
+                    </div>
+                </div>
                 
-                <Typography
-                    variant={variant === 'compact' ? 'h6' : 'h5'}
-                    className="font-bold"
+                <div
+                    className={cn(
+                        "font-bold",
+                        variant === 'compact' ? 'text-lg' : 'text-xl'
+                    )}
                 >
                     {stat.value}
-                </Typography>
+                </div>
             </StatComponent>
         );
     };
 
-    const ContainerComponent = animate ? motion.div : Box;
+    const ContainerComponent = animate ? motion.div : 'div';
     const containerProps = animate ? { variants: containerVariants, initial: "hidden", animate: "visible" } : {};
 
     return (
         <ContainerComponent {...containerProps}>
-            <Paper
-                elevation={variant === 'compact' ? 1 : 2}
-                className={`
-                    p-4 rounded-xl
-                    ${variant === 'compact' ? 'p-3' : ''}
-                    ${variant === 'detailed' ? 'p-6' : ''}
-                    ${className}
-                `}
+            <div
+                className={cn(
+                    "bg-white rounded-xl shadow-sm border border-gray-200",
+                    variant === 'compact' ? 'p-3' : variant === 'detailed' ? 'p-6' : 'p-4',
+                    className
+                )}
             >
                 {title && (
-                    <Typography
-                        variant={variant === 'compact' ? 'h6' : 'h5'}
-                        className="font-bold mb-4 text-gray-800"
+                    <h3
+                        className={cn(
+                            "font-bold mb-4 text-gray-800",
+                            variant === 'compact' ? 'text-lg' : 'text-xl'
+                        )}
                     >
                         {title}
-                    </Typography>
+                    </h3>
                 )}
                 
-                <Box className={`
-                    grid gap-3
-                    ${variant === 'compact' ? 'grid-cols-2' : 'grid-cols-1'}
-                    ${variant === 'detailed' ? 'grid-cols-1' : ''}
-                `}>
+                <div className={cn(
+                    "grid gap-3",
+                    variant === 'compact' ? 'grid-cols-2' : 'grid-cols-1',
+                    variant === 'detailed' && 'grid-cols-1'
+                )}>
                     {stats.map((stat, index) => renderStatItem(stat, index))}
-                </Box>
-            </Paper>
+                </div>
+            </div>
         </ContainerComponent>
     );
 };

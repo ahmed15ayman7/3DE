@@ -92,7 +92,7 @@ export default function PersonalTab() {
                     />
                 </div>
                 <div className="flex justify-center">
-                    <Button variant="contained" size="large" onClick={() => updateProfile(profileData)}>
+                    <Button variant="default" size="lg" onClick={() => updateProfile(profileData)}>
                         حفظ التغييرات
                     </Button>
                 </div>

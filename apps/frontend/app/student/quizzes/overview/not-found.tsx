@@ -17,12 +17,12 @@ export default function QuizzesOverflowNotFound() {
                     </p>
                     <div className="flex space-x-2 justify-center">
                         <Link href="/student/quizzes/overflow/calendar">
-                            <Button variant="contained">
+                            <Button variant="default">
                                 العودة للتقويم
                             </Button>
                         </Link>
                         <Link href="/student/dashboard">
-                            <Button variant="outlined">
+                            <Button variant="outline">
                                 العودة للرئيسية
                             </Button>
                         </Link>

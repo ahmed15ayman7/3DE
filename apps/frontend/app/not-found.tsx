@@ -20,7 +20,7 @@ export default function NotFound() {
                 />
                 <div className="mt-6">
                     <Button
-                        variant="contained"
+                        variant="default"
                         onClick={() => window.location.href = '/'}
                         className="bg-primary-600 hover:bg-primary-700"
                     >

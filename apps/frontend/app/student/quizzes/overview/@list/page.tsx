@@ -147,15 +147,15 @@ export default function ListPage() {
                             renderCell: (row: any) => (
                                 <div className="flex space-x-2">
                                     <Button
-                                        variant="outlined"
-                                        size="small"
+                                        variant="outline"
+                                        size="sm"
                                     >
                                         {row.status === 'pending' ? 'حل' : 'مراجعة'}
                                     </Button>
                                     {row.status === 'completed' && (
                                         <Button
-                                            variant="outlined"
-                                            size="small"
+                                            variant="outline"
+                                            size="sm"
                                         >
                                             إعادة تصحيح
                                         </Button>

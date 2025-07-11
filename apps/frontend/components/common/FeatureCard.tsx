@@ -2,20 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-    Box,
-    Typography,
-    Paper,
-    Chip,
-    IconButton,
-    Tooltip,
-} from '@mui/material';
-import {
-    Star as StarIcon,
-    StarBorder as StarBorderIcon,
-    Bookmark as BookmarkIcon,
-    BookmarkBorder as BookmarkBorderIcon,
-} from '@mui/icons-material';
+import { cn } from '@/lib/utils';
+import { Star, Bookmark } from 'lucide-react';
 
 interface FeatureCardProps {
     title: string;
@@ -77,25 +65,24 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 
     const renderStars = (rating: number) => {
         return Array.from({ length: 5 }, (_, index) => (
-            <IconButton
+            <button
                 key={index}
-                size="small"
                 onClick={(e) => {
                     e.stopPropagation();
                     onRate?.();
                 }}
-                className="p-0"
+                className="p-0 hover:scale-110 transition-transform"
             >
                 {index < rating ? (
-                    <StarIcon className="text-yellow-500 text-sm" />
+                    <Star className="text-yellow-500 text-sm fill-current" />
                 ) : (
-                    <StarBorderIcon className="text-gray-300 text-sm" />
+                    <Star className="text-gray-300 text-sm" />
                 )}
-            </IconButton>
+            </button>
         ));
     };
 
-    const CardComponent = animate ? motion.div : Box;
+    const CardComponent = animate ? motion.div : 'div';
     const cardProps = animate ? { 
         variants: cardVariants, 
         initial: "hidden", 
@@ -105,158 +92,108 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 
     return (
         <CardComponent {...cardProps}>
-            <Paper
-                elevation={variant === 'compact' ? 1 : 2}
-                className={`
-                    overflow-hidden rounded-xl cursor-pointer transition-all duration-300
-                    ${variant === 'compact' ? 'p-3' : 'p-4'}
-                    ${variant === 'detailed' ? 'p-6' : ''}
-                    ${className}
-                    ${onClick ? 'hover:shadow-lg' : ''}
-                `}
+            <div
+                className={cn(
+                    "bg-white overflow-hidden rounded-xl cursor-pointer transition-all duration-300 shadow-sm border border-gray-200",
+                    variant === 'compact' ? 'p-3' : variant === 'detailed' ? 'p-6' : 'p-4',
+                    onClick && "hover:shadow-lg",
+                    className
+                )}
                 onClick={onClick}
             >
                 {/* Featured Badge */}
                 {isFeatured && (
-                    <Box className="absolute top-2 right-2 z-10">
-                        <Chip
-                            label="مميز"
-                            size="small"
-                            color="warning"
-                            className="text-white font-bold"
-                        />
-                    </Box>
+                    <div className="absolute top-2 right-2 z-10">
+                        <span className="px-2 py-1 text-xs bg-yellow-500 text-white font-bold rounded-full">
+                            مميز
+                        </span>
+                    </div>
                 )}
 
                 {/* Image Section */}
                 {image && (
-                    <Box className="relative mb-4">
+                    <div className="relative mb-4">
                         <img
                             src={image}
                             alt={title}
-                            className={`
-                                w-full object-cover rounded-lg
-                                ${variant === 'compact' ? 'h-24' : 'h-32'}
-                                ${variant === 'detailed' ? 'h-40' : ''}
-                            `}
+                            className={cn(
+                                "w-full object-cover rounded-lg",
+                                variant === 'compact' ? 'h-24' : variant === 'detailed' ? 'h-40' : 'h-32'
+                            )}
                         />
                         {onBookmark && (
-                            <IconButton
-                                className="absolute top-2 left-2 bg-white/80 hover:bg-white"
-                                size="small"
+                            <button
+                                className="absolute top-2 left-2 bg-white/80 hover:bg-white p-1 rounded-full transition-colors"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     onBookmark();
                                 }}
                             >
-                                {isBookmarked ? (
-                                    <BookmarkIcon className="text-primary-main" />
-                                ) : (
-                                    <BookmarkBorderIcon className="text-gray-600" />
-                                )}
-                            </IconButton>
+                                <Bookmark className={cn(
+                                    "h-4 w-4",
+                                    isBookmarked ? "text-blue-600 fill-current" : "text-gray-600"
+                                )} />
+                            </button>
                         )}
-                    </Box>
+                    </div>
                 )}
 
                 {/* Icon Section (if no image) */}
                 {!image && icon && (
-                    <Box className="flex justify-center mb-4">
-                        <Box className="text-4xl text-primary-main">
+                    <div className="flex justify-center mb-4">
+                        <div className="text-4xl text-blue-600">
                             {icon}
-                        </Box>
-                    </Box>
+                        </div>
+                    </div>
                 )}
 
                 {/* Content Section */}
-                <Box>
-                    <Typography
-                        variant={variant === 'compact' ? 'h6' : 'h5'}
-                        className="font-bold mb-2 text-gray-800 line-clamp-2"
+                <div>
+                    <h3
+                        className={cn(
+                            "font-bold mb-2 text-gray-800 line-clamp-2",
+                            variant === 'compact' ? 'text-lg' : 'text-xl'
+                        )}
                     >
                         {title}
-                    </Typography>
+                    </h3>
 
                     {description && (
-                        <Typography
-                            variant="body2"
-                            className="text-gray-600 mb-3 line-clamp-3"
-                        >
+                        <p className="text-gray-600 mb-3 line-clamp-3 text-sm">
                             {description}
-                        </Typography>
+                        </p>
                     )}
 
                     {/* Tags */}
                     {tags.length > 0 && (
-                        <Box className="flex flex-wrap gap-1 mb-3">
+                        <div className="flex flex-wrap gap-1 mb-3">
                             {tags.slice(0, 3).map((tag, index) => (
-                                <Chip
+                                <span
                                     key={index}
-                                    label={tag}
-                                    size="small"
-                                    variant="outlined"
-                                    className="text-xs"
-                                />
+                                    className="px-2 py-1 text-xs border border-gray-300 text-gray-600 rounded-full"
+                                >
+                                    {tag}
+                                </span>
                             ))}
                             {tags.length > 3 && (
-                                <Chip
-                                    label={`+${tags.length - 3}`}
-                                    size="small"
-                                    variant="outlined"
-                                    className="text-xs"
-                                />
+                                <span className="px-2 py-1 text-xs text-gray-500">
+                                    +{tags.length - 3}
+                                </span>
                             )}
-                        </Box>
+                        </div>
                     )}
 
                     {/* Rating */}
                     {rating > 0 && (
-                        <Box className="flex items-center gap-1 mb-2">
+                        <div className="flex items-center gap-1 mb-3">
                             {renderStars(rating)}
-                            <Typography variant="body2" className="text-gray-600 ml-2">
-                                ({rating}/5)
-                            </Typography>
-                        </Box>
+                            <span className="text-sm text-gray-600 ml-1">
+                                ({rating})
+                            </span>
+                        </div>
                     )}
-
-                    {/* Action Buttons */}
-                    {variant === 'detailed' && (onBookmark || onRate) && (
-                        <Box className="flex justify-between items-center pt-3 border-t border-gray-100">
-                            {onRate && (
-                                <Tooltip title="قيّم">
-                                    <IconButton
-                                        size="small"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            onRate();
-                                        }}
-                                    >
-                                        <StarBorderIcon className="text-gray-400" />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-                            
-                            {onBookmark && (
-                                <Tooltip title={isBookmarked ? "إزالة من المفضلة" : "إضافة للمفضلة"}>
-                                    <IconButton
-                                        size="small"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            onBookmark();
-                                        }}
-                                    >
-                                        {isBookmarked ? (
-                                            <BookmarkIcon className="text-primary-main" />
-                                        ) : (
-                                            <BookmarkBorderIcon className="text-gray-400" />
-                                        )}
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-                        </Box>
-                    )}
-                </Box>
-            </Paper>
+                </div>
+            </div>
         </CardComponent>
     );
 };

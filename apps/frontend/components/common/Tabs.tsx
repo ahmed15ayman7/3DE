@@ -1,10 +1,6 @@
 "use client" 
 import React, { useState } from 'react';
-import {
-    Tabs as MuiTabs,
-    Tab as MuiTab,
-    Box,
-} from '@mui/material';
+import { cn } from '@/lib/utils';
 
 interface Tab {
     value: number;
@@ -36,7 +32,7 @@ const Tabs: React.FC<TabsProps> = ({
     const [uncontrolledValue, setUncontrolledValue] = useState(0);
     const value = controlledValue ?? uncontrolledValue;
 
-    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (newValue: number) => {
         if (onChange) {
             onChange(newValue);
         } else {
@@ -47,61 +43,68 @@ const Tabs: React.FC<TabsProps> = ({
     const getColorClass = () => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main';
+                return 'text-blue-600 border-blue-600';
             case 'secondary':
-                return 'text-secondary-main';
+                return 'text-gray-600 border-gray-600';
             case 'success':
-                return 'text-success-main';
+                return 'text-green-600 border-green-600';
             case 'error':
-                return 'text-error-main';
+                return 'text-red-600 border-red-600';
             case 'warning':
-                return 'text-warning-main';
+                return 'text-yellow-600 border-yellow-600';
             case 'info':
-                return 'text-info-main';
+                return 'text-cyan-600 border-cyan-600';
             default:
-                return '';
+                return 'text-blue-600 border-blue-600';
+        }
+    };
+
+    const getVariantClasses = () => {
+        switch (variant) {
+            case 'fullWidth':
+                return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+            case 'scrollable':
+                return 'flex overflow-x-auto';
+            default:
+                return 'flex';
         }
     };
 
     return (
-        <Box className={className}>
-            <MuiTabs
-                value={value}
-                onChange={handleChange}
-                variant={variant}
-                centered={centered}
-                className={`
-          ${getColorClass()}
-          [&_.MuiTabs-indicator]:bg-current
-          [&_.MuiTab-root]:text-gray-600
-          [&_.MuiTab-root.Mui-selected]:text-current
-          [&_.MuiTab-root.Mui-selected]:font-medium
-          [&_.MuiTab-root]:min-h-[48px]
-          [&_.MuiTab-root]:px-4
-          [&_.MuiTab-root]:py-2
-          [&_.MuiTab-root]:text-sm
-          [&_.MuiTab-root]:capitalize
-          [&_.MuiTab-root]:transition-colors
-          [&_.MuiTab-root]:duration-200
-        `}
-            >
+        <div className={className}>
+            <div className={cn(
+                "border-b border-gray-200",
+                centered && "flex justify-center",
+                getVariantClasses()
+            )}>
                 {tabs.map((tab, index) => (
-                    <MuiTab
+                    <button
                         key={index}
-                        label={tab.label}
-                        value={tab.value}
-                        icon={tab.icon}
+                        onClick={() => !tab.disabled && handleChange(tab.value)}
                         disabled={tab.disabled}
-                        className={`
-              ${tab.disabled ? 'opacity-50 cursor-not-allowed' : ''}
-            `}
-                    />
+                        className={cn(
+                            "flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 text-sm font-medium transition-colors duration-200 border-b-2 border-transparent min-h-[48px]",
+                            variant === 'fullWidth' && "justify-center",
+                            tab.disabled && "opacity-50 cursor-not-allowed",
+                            value === tab.value 
+                                ? cn(getColorClass(), "font-semibold")
+                                : "text-gray-600 hover:text-gray-800 hover:border-gray-300"
+                        )}
+                    >
+                        {tab.icon && (
+                            <span className="flex-shrink-0">
+                                {tab.icon}
+                            </span>
+                        )}
+                        <span>{tab.label}</span>
+                    </button>
                 ))}
-            </MuiTabs>
-            <Box className="mt-4">
-                {tabs[value].content}
-            </Box>
-        </Box>
+            </div>
+            
+            <div className="mt-4">
+                {tabs.find(tab => tab.value === value)?.content}
+            </div>
+        </div>
     );
 };
 

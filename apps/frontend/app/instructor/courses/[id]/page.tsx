@@ -5,68 +5,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 const Skeleton = dynamic(() => import('@/components/common/Skeleton'), { loading: () => <div></div> });
-import {
-    Box,
-    Container,
-    Typography,
-    Grid,
-    Paper,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemIcon,
-    IconButton,
-    Button,
-    Chip,
-    Avatar,
-    AvatarGroup,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Switch,
-    FormControlLabel,
-    Divider,
-    Card,
-    CardContent,
-    LinearProgress,
-    Collapse,
-    ListItemButton,
-    Alert,
-    TextField,
-    CircularProgress,
-    Snackbar,
-    MenuItem,
-} from '@mui/material';
-import {
-    PlayCircleOutline,
-    AccessTime,
-    School,
-    Person,
-    VideoLibrary,
-    Description,
-    Lock,
-    LockOpen,
-    Visibility,
-    Edit,
-    Delete,
-    CheckCircle,
-    Cancel,
-    ExpandLess,
-    ExpandMore,
-    PictureAsPdf,
-    Image,
-    AudioFile,
-    Description as DescriptionIcon,
-    VideoFile,
-    Add,
-} from '@mui/icons-material';
 import { courseApi, fileApi, lessonApi } from '@/lib/api';
 import { Course, Lesson, LessonStatus, User, FileType, Quiz, File as FileModel, Enrollment, Submission, Question, Option } from '@shared/prisma';
 const QuizDialog = dynamic(() => import('./components/QuizDialog'), { loading: () => <div></div> });
 const QuizSubmissions = dynamic(() => import('./components/QuizSubmissions'), { loading: () => <div></div> });
-import MuiAlert from '@mui/material/Alert';
 import { useUser } from '@/hooks/useUser';
+import { Play, FileText, Image, Music, File, Plus, Eye, Edit, Delete, CheckCircle, X, ChevronDown, ChevronUp, File as FileIcon, Clock, Lock, LockOpen, Video } from 'lucide-react';
 
 const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dwnkplp6b';
 const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'unsigned_preset';
@@ -480,17 +424,17 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
     const getFileIcon = (type: FileType) => {
         switch (type) {
             case 'VIDEO':
-                return <VideoFile />;
+                return <Play />;
             case 'PDF':
-                return <PictureAsPdf />;
+                return <FileText />;
             case 'IMAGE':
                 return <Image />;
             case 'AUDIO':
-                return <AudioFile />;
+                return <Music />;
             case 'DOCUMENT':
-                return <DescriptionIcon />;
+                return <File />;
             default:
-                return <DescriptionIcon />;
+                return <File />;
         }
     };
 
@@ -508,43 +452,42 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                     style={{ width: '100%', height: '500px', border: 'none' }}
                     allowFullScreen
                 />
-                <Box sx={{ mt: 3 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                        <Typography variant="h6">
+                <div className="mt-6">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-bold">
                             اختبارات الدرس
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            startIcon={<Add />}
+                        </h3>
+                        <button
+                            className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
                             onClick={() => setOpenQuizDialog(true)}
                         >
+                            <Plus className="h-4 w-4" />
                             إضافة اختبار
-                        </Button>
-                    </Box>
+                        </button>
+                    </div>
                     {selectedLesson?.quizzes && selectedLesson.quizzes.length > 0 ? (
-                        <List>
+                        <div className="space-y-2">
                             {selectedLesson.quizzes.map((quiz) => (
-                                <ListItem key={quiz.id} style={{ justifyContent: "space-between" }} className="flex items-center w-full">
-                                    <ListItemText
-                                        className="flex flex-col justify-center items-start"
-                                        primary={quiz.title}
-                                        secondary={quiz.description}
-                                    />
-                                    <Button
-                                        variant="outlined"
+                                <div key={quiz.id} className="flex items-center justify-between p-3 border rounded">
+                                    <div className="flex flex-col">
+                                        <span className="font-medium">{quiz.title}</span>
+                                        <span className="text-sm text-gray-600">{quiz.description}</span>
+                                    </div>
+                                    <button
+                                        className="border border-blue-600 text-blue-600 px-4 py-2 rounded hover:bg-blue-50"
                                         onClick={() => setSelectedQuiz(quiz.id)}
                                     >
                                         عرض النتائج
-                                    </Button>
-                                </ListItem>
+                                    </button>
+                                </div>
                             ))}
-                        </List>
+                        </div>
                     ) : (
-                        <Alert severity="info">
+                        <div className="bg-blue-50 border border-blue-200 text-blue-700 rounded p-4 text-center">
                             لا توجد اختبارات لهذه الدرس
-                        </Alert>
+                        </div>
                     )}
-                </Box>
+                </div>
                 <QuizDialog
                     open={openQuizDialog}
                     onClose={() => setOpenQuizDialog(false)}
@@ -740,82 +683,70 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
 
     if (!course) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                <Typography>لم يتم العثور على الكورس</Typography>
-            </Box>
+            <div className="flex justify-center items-center min-h-screen">
+                <p>لم يتم العثور على الكورس</p>
+            </div>
         );
     }
 
     return (
-        <Container maxWidth="xl" sx={{ py: 4, position: "relative" }}>
+        <div className="container mx-auto px-4 py-8 relative">
             {/* عنوان الكورس */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <Box sx={{ mb: 6, textAlign: 'center' }}>
-                    <Typography variant="h2" component="h1" gutterBottom>
+                <div className="mb-8 text-center">
+                    <h1 className="text-3xl font-bold mb-4">
                         {course.title}
-                    </Typography>
-                    <Typography variant="h6" color="text.secondary" sx={{ maxWidth: '800px', mx: 'auto' }}>
+                    </h1>
+                    <p className="text-lg text-gray-600 max-w-4xl mx-auto">
                         {course.description}
-                    </Typography>
-                </Box>
+                    </p>
+                </div>
             </motion.div>
 
-            <Grid container spacing={4}>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                 {/* القسم الرئيسي */}
-                <Grid item xs={12} md={4}>
+                <div className="md:col-span-4">
                     {/* إحصائيات الكورس */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-                            <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <Description /> إحصائيات الكورس
-                            </Typography>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} sm={4}>
-                                    <Card>
-                                        <CardContent>
-                                            <Typography variant="h6" gutterBottom>
-                                                عدد الطلاب
-                                            </Typography>
-                                            <Typography variant="h3">
-                                                {course.enrollments?.length || 0}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={12} sm={4}>
-                                    <Card>
-                                        <CardContent>
-                                            <Typography variant="h6" gutterBottom>
-                                                عدد الدروس
-                                            </Typography>
-                                            <Typography variant="h3">
-                                                {course.lessons.length}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={12} sm={4}>
-                                    <Card>
-                                        <CardContent>
-                                            <Typography variant="h6" gutterBottom>
-                                                نسبة الإكمال
-                                            </Typography>
-                                            <Typography variant="h3">
-                                                {Math.round((course.lessons.filter(l => l.status === 'COMPLETED').length / course.lessons.length) * 100)}%
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            </Grid>
-                        </Paper>
+                        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                <FileIcon className="h-5 w-5" /> إحصائيات الكورس
+                            </h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div className="bg-white border rounded-lg p-4">
+                                    <h3 className="text-sm font-medium mb-2">
+                                        عدد الطلاب
+                                    </h3>
+                                    <p className="text-3xl font-bold">
+                                        {course.enrollments?.length || 0}
+                                    </p>
+                                </div>
+                                <div className="bg-white border rounded-lg p-4">
+                                    <h3 className="text-sm font-medium mb-2">
+                                        عدد الدروس
+                                    </h3>
+                                    <p className="text-3xl font-bold">
+                                        {course.lessons.length}
+                                    </p>
+                                </div>
+                                <div className="bg-white border rounded-lg p-4">
+                                    <h3 className="text-sm font-medium mb-2">
+                                        نسبة الإكمال
+                                    </h3>
+                                    <p className="text-3xl font-bold">
+                                        {Math.round((course.lessons.filter(l => l.status === 'COMPLETED').length / course.lessons.length) * 100)}%
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
 
                     {/* قائمة الدروس */}
@@ -824,98 +755,67 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
                     >
-                        <Paper elevation={3} sx={{ p: 3 }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                                <Typography variant="h5" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <VideoLibrary /> الدروس
-                                </Typography>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<Add />}
+                        <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-bold flex items-center gap-2">
+                                    <Video /> الدروس
+                                </h3>
+                                <button
+                                    className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
                                     onClick={handleOpenAddLesson}
                                 >
+                                    <Plus className="h-4 w-4" />
                                     إضافة درس
-                                </Button>
-                            </Box>
-                            <List>
+                                </button>
+                            </div>
+                            <div className="space-y-2">
                                 {course.lessons.map((lesson) => (
-                                    <Box key={lesson.id}>
-                                        <ListItem
-                                            button
-                                            selected={selectedLesson?.id === lesson.id}
-                                            onClick={() => {
-                                                setSelectedLesson(lesson as Lesson & { files: FileModel[], quizzes: (Quiz & { submissions: Submission[], questions: Question[] })[] });
-                                                handleLessonExpand(lesson.id);
-                                            }}
-                                            sx={{
-                                                mb: 1,
-                                                borderRadius: 1,
-                                                '&:hover': {
-                                                    backgroundColor: 'action.hover',
-                                                },
-                                            }}
-                                        >
-                                            <ListItemIcon>
-                                                <PlayCircleOutline />
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={lesson.title}
-                                                secondary={
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
-                                                        <AccessTime fontSize="small" />
-                                                        <Typography variant="body2" color="text.secondary">
-                                                            {lesson.files?.length || 0} ملفات مرفقة
-                                                        </Typography>
-                                                        <Chip
-                                                            size="small"
-                                                            label={lesson.status === 'COMPLETED' ? 'مكتملة' : lesson.status === 'IN_PROGRESS' ? 'قيد التنفيذ' : ' مغلقه'}
-                                                            color={lesson.status === 'COMPLETED' ? 'success' : lesson.status === 'IN_PROGRESS' ? 'warning' : "error"}
-                                                        />
-                                                    </Box>
-                                                }
-                                            />
-                                            <Box className={"grid grid-cols-2 items-center"}>
-
-                                            <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenEditLesson(lesson); }}><Edit /></IconButton>
-                                            <IconButton
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleLessonStatus.mutate(lesson.id);
-                                                }}
-                                                >
-                                                {lesson.status === 'COMPLETED' ? <LockOpen /> : lesson.status === 'IN_PROGRESS' ? <LockOpen /> : <Lock />}
-                                            </IconButton>
-                                            <IconButton onClick={() => handleLessonExpand(lesson.id)}>
-                                                {expandedLessons[lesson.id] ? <ExpandLess /> : <ExpandMore />}
-                                            </IconButton>
-                                            <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenAddFile(lesson); }}><Add /></IconButton>
-                                                </Box>
-                                        </ListItem>
-                                        <Collapse in={expandedLessons[lesson.id]} timeout="auto" unmountOnExit>
-                                            {lesson.files?.map((file) => (
-                                                <ListItemButton
-                                                    key={file.id}
-                                                    sx={{ pl: 4 }}
-                                                    onClick={() => setSelectedFile(file)}
-                                                >
-                                                    <ListItemIcon>
-                                                        {getFileIcon(file.type)}
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={file.name} />
-                                                    <IconButton color="primary" onClick={e => { e.stopPropagation(); handleOpenEditFile(file, lesson); }}><Edit /></IconButton>
-                                                    <IconButton color="error" onClick={e => { e.stopPropagation(); handleOpenDeleteFile(file, lesson); }}><Delete /></IconButton>
-                                                </ListItemButton>
-                                            ))}
-                                        </Collapse>
-                                    </Box>
+                                    <div key={lesson.id} className="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
+                                        <div className="flex items-center gap-3">
+                                            <Play className="h-5 w-5 text-gray-600" />
+                                            <div>
+                                                <h4 className="font-semibold">{lesson.title}</h4>
+                                                <p className="text-sm text-gray-600">
+                                                    {lesson.files?.length || 0} ملفات مرفقة
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+                                                onClick={() => handleOpenEditLesson(lesson)}
+                                            >
+                                                تعديل
+                                            </button>
+                                            <button
+                                                className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                                                onClick={() => toggleLessonStatus.mutate(lesson.id)}
+                                            >
+                                                {lesson.status === 'COMPLETED' ? <LockOpen className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                                            </button>
+                                            <button
+                                                className="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700"
+                                                onClick={() => handleLessonExpand(lesson.id)}
+                                            >
+                                                {expandedLessons[lesson.id] ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                                            </button>
+                                            <button
+                                                className="bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700"
+                                                onClick={() => handleOpenAddFile(lesson)}
+                                            >
+                                                <Plus className="h-4 w-4" />
+                                                ملف جديد
+                                            </button>
+                                        </div>
+                                    </div>
                                 ))}
-                            </List>
-                        </Paper>
+                            </div>
+                        </div>
                     </motion.div>
-                </Grid>
+                </div>
 
                 {/* القسم الجانبي */}
-                <Grid item xs={12} md={8}>
+                <div className="md:col-span-8">
                     <motion.div
                         style={{ position: "sticky", top: "10vh", zIndex: 1000 }}
                         initial={{ opacity: 0, x: 20 }}
@@ -924,164 +824,183 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                     >
                         {/* تفاصيل الدرس المحددة */}
                         {selectedLesson && (
-                            <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
+                            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
                                 {selectedFile && (
-                                    <Box>
-                                        <Typography variant="subtitle2" gutterBottom>
+                                    <div>
+                                        <h4 className="text-sm font-medium mb-2">
                                             {selectedFile.name}
-                                        </Typography>
+                                        </h4>
                                         {renderFilePreview(selectedFile)}
-                                    </Box>
+                                    </div>
                                 )}
-                                <Typography variant="h6" gutterBottom>
+                                <h3 className="text-lg font-bold mb-4">
                                     تفاصيل الدرس
-                                </Typography>
-                                <Typography variant="subtitle1" gutterBottom>
+                                </h3>
+                                <h4 className="text-md font-semibold mb-2">
                                     {selectedLesson.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" paragraph>
+                                </h4>
+                                <p className="text-gray-600 mb-4">
                                     {selectedLesson.content}
-                                </Typography>
+                                </p>
 
-                                <Box sx={{ mt: 2 }}>
-                                    <Typography variant="subtitle2" gutterBottom>
+                                <div className="mt-4">
+                                    <h4 className="text-sm font-medium mb-2">
                                         الطلاب الذين شاهدوا الدرس
-                                    </Typography>
-                                    <AvatarGroup max={4}>
-                                        {course.enrollments?.map((enrollment) => (
-                                            <Avatar key={enrollment.user.id} alt={enrollment.user?.firstName}>
+                                    </h4>
+                                    <div className="flex -space-x-2">
+                                        {course.enrollments?.slice(0, 4).map((enrollment) => (
+                                            <div key={enrollment.user.id} className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
                                                 {enrollment.user?.firstName?.[0]}
-                                            </Avatar>
+                                            </div>
                                         ))}
-                                    </AvatarGroup>
-                                </Box>
-                            </Paper>
+                                    </div>
+                                </div>
+                            </div>
                         )}
 
                         {/* إحصائيات الطلاب */}
-                        <Paper elevation={3} sx={{ p: 3 }}>
-                            <Typography variant="h6" gutterBottom>
+                        <div className="bg-white rounded-lg shadow-lg p-6">
+                            <h3 className="text-lg font-bold mb-4">
                                 إحصائيات الطلاب
-                            </Typography>
+                            </h3>
                             {course.enrollments?.map((enrollment) => (
-                                <Box key={enrollment.id} sx={{ mb: 2 }}>
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                        <Typography variant="body2">
+                                <div key={enrollment.id} className="mb-4">
+                                    <div className="flex justify-between mb-2">
+                                        <span className="text-sm">
                                             {enrollment.user?.firstName} {enrollment.user?.lastName}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        </span>
+                                        <span className="text-sm text-gray-600">
                                             {Math.round(enrollment.progress)}%
-                                        </Typography>
-                                    </Box>
-                                    <LinearProgress
-                                        variant="determinate"
-                                        value={enrollment.progress}
-                                        sx={{ height: 8, borderRadius: 4 }}
-                                    />
-                                </Box>
+                                        </span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div
+                                            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                            style={{ width: `${enrollment.progress}%` }}
+                                        />
+                                    </div>
+                                </div>
                             ))}
-                        </Paper>
+                        </div>
                     </motion.div>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
 
             {/* نافذة إدارة الدروس */}
-            <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
-                <DialogTitle>إدارة الدروس</DialogTitle>
-                <DialogContent className="py-4">
-                    <List>
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${openDialog ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
+                    <h2 className="text-xl font-bold mb-4">إدارة الدروس</h2>
+                    <div className="space-y-2 max-h-96 overflow-y-auto">
                         {course.lessons.map((lesson) => (
-                            <ListItem key={lesson.id}>
-                                <ListItemText
-                                    primary={lesson.title}
-                                    secondary={lesson.status === 'COMPLETED' ? 'مكتملة' : lesson.status === 'IN_PROGRESS' ? "قيد التنفيذ" : "مغلقة"}
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={lsessonStatus?.lessonId === lesson.id || lesson.status === 'COMPLETED' || lesson.status === 'IN_PROGRESS'}
-                                            onChange={() => {
-                                                setLsessonStatus({ lessonId: lesson.id, status: lesson.status === 'COMPLETED' || lesson.status === 'IN_PROGRESS' ? 'NOT_STARTED' : 'COMPLETED' as LessonStatus })
-                                                console.log(lsessonStatus)
-                                                toggleLessonStatus.mutate(lesson.id)
-                                            }}
-                                        />
-                                    }
-                                    label={lesson.status === 'COMPLETED' ? 'مفتوحة' : lesson.status === 'IN_PROGRESS' ? "مفتوحة" : 'مغلقة'}
-                                />
-                            </ListItem>
+                            <div key={lesson.id} className="flex items-center justify-between p-3 border rounded">
+                                <div>
+                                    <p className="font-medium">{lesson.title}</p>
+                                    <p className="text-sm text-gray-600">
+                                        {lesson.status === 'COMPLETED' ? 'مكتملة' : lesson.status === 'IN_PROGRESS' ? "قيد التنفيذ" : "مغلقة"}
+                                    </p>
+                                </div>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={lsessonStatus?.lessonId === lesson.id || lesson.status === 'COMPLETED' || lesson.status === 'IN_PROGRESS'}
+                                        onChange={() => {
+                                            setLsessonStatus({ lessonId: lesson.id, status: lesson.status === 'COMPLETED' || lesson.status === 'IN_PROGRESS' ? 'NOT_STARTED' : 'COMPLETED' as LessonStatus })
+                                            console.log(lsessonStatus)
+                                            toggleLessonStatus.mutate(lesson.id)
+                                        }}
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm">
+                                        {lesson.status === 'COMPLETED' ? 'مفتوحة' : lesson.status === 'IN_PROGRESS' ? "مفتوحة" : 'مغلقة'}
+                                    </span>
+                                </label>
+                            </div>
                         ))}
-                    </List>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpenDialog(false)}>إغلاق</Button>
-                </DialogActions>
-            </Dialog>
+                    </div>
+                    <div className="flex justify-end mt-6">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setOpenDialog(false)}
+                        >
+                            إغلاق
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             {/* Dialog إضافة/تعديل درس */}
-            <Dialog open={lessonDialogOpen} onClose={() => setLessonDialogOpen(false)} fullWidth maxWidth="sm">
-                <DialogTitle>{lessonEditMode ? 'تعديل الدرس' : 'إضافة درس جديد'}</DialogTitle>
-                <DialogContent className="py-4 flex flex-col gap-7">
-                    <TextField
-                        label="عنوان الدرس"
-                        value={lessonForm.title}
-                        onChange={e => setLessonForm({ ...lessonForm, title: e.target.value })}
-                        fullWidth
-                        className="mb-4"
-                    />
-                    <TextField
-                        label="وصف الدرس"
-                        value={lessonForm.content}
-                        onChange={e => setLessonForm({ ...lessonForm, content: e.target.value })}
-                        fullWidth
-                        className="mb-4"
-                        multiline
-                        rows={3}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setLessonDialogOpen(false)}>إلغاء</Button>
-                    <Button onClick={handleSaveLesson} variant="contained" color="primary" disabled={loadingAction}>
-                        {lessonEditMode ? 'حفظ التعديلات' : 'إضافة'}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${lessonDialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                    <h2 className="text-xl font-bold mb-4">{lessonEditMode ? 'تعديل الدرس' : 'إضافة درس جديد'}</h2>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-2">عنوان الدرس</label>
+                            <input
+                                type="text"
+                                className="w-full border rounded p-2"
+                                value={lessonForm.title}
+                                onChange={e => setLessonForm({ ...lessonForm, title: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">محتوى الدرس</label>
+                            <textarea
+                                className="w-full border rounded p-2 min-h-[100px]"
+                                value={lessonForm.content}
+                                onChange={e => setLessonForm({ ...lessonForm, content: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex justify-end gap-2 mt-6">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setLessonDialogOpen(false)}
+                        >
+                            إلغاء
+                        </button>
+                        <button
+                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                            onClick={handleSaveLesson}
+                            disabled={loadingAction}
+                        >
+                            {lessonEditMode ? 'حفظ التعديلات' : 'إضافة'}
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             {/* Dialog إضافة/تعديل ملف */}
-            <Dialog open={fileDialogOpen} onClose={() => setFileDialogOpen(false)} fullWidth maxWidth="sm">
-                <DialogTitle>{fileEditMode ? 'تعديل الملف' : 'إضافة ملف جديد'}</DialogTitle>
-                <DialogContent className="py-4 flex flex-col gap-7">
-                    <TextField
-                        label="اسم الملف"
-                        value={fileForm.name}
-                        onChange={e => setFileForm({ ...fileForm, name: e.target.value })}
-                        fullWidth
-                        className="mb-4"
-                    />
-                    <TextField
-                        label="نوع الملف"
-                        value={fileForm.type}
-                        onChange={e => setFileForm({ ...fileForm, type: e.target.value as FileType, url: '' })}
-                        select
-                        fullWidth
-                        className="mb-4"
-                    >
-                        <MenuItem value="VIDEO">فيديو (رابط يوتيوب)</MenuItem>
-                        <MenuItem value="PDF">PDF</MenuItem>
-                        <MenuItem value="DOCUMENT">مستند</MenuItem>
-                        <MenuItem value="IMAGE">صورة</MenuItem>
-                        <MenuItem value="AUDIO">صوتي</MenuItem>
-                    </TextField>
-                    {/* رفع ملف حقيقي إذا لم يكن فيديو */}
-                    {fileForm.type && fileForm.type !== 'VIDEO' && (
-                        <Box sx={{ mb: 2 }}>
-                            <Button
-                                variant="outlined"
-                                component="label"
-                                disabled={uploading}
-                                sx={{ mb: 1 }}
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${fileDialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
+                    <h2 className="text-xl font-bold mb-4">{fileEditMode ? 'تعديل الملف' : 'إضافة ملف جديد'}</h2>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-2">اسم الملف</label>
+                            <input
+                                type="text"
+                                className="w-full border rounded p-2"
+                                value={fileForm.name}
+                                onChange={e => setFileForm({ ...fileForm, name: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">نوع الملف</label>
+                            <select
+                                className="w-full border rounded p-2"
+                                value={fileForm.type}
+                                onChange={e => setFileForm({ ...fileForm, type: e.target.value as FileType, url: '' })}
                             >
-                                اختر ملف للرفع
+                                <option value="VIDEO">فيديو (رابط يوتيوب)</option>
+                                <option value="PDF">PDF</option>
+                                <option value="DOCUMENT">مستند</option>
+                                <option value="IMAGE">صورة</option>
+                                <option value="AUDIO">صوتي</option>
+                            </select>
+                        </div>
+                        {/* رفع ملف حقيقي إذا لم يكن فيديو */}
+                        {fileForm.type && fileForm.type !== 'VIDEO' && (
+                            <div>
+                                <label className="block text-sm font-medium mb-2">اختر ملف للرفع</label>
                                 <input
                                     type="file"
                                     accept={
@@ -1091,59 +1010,90 @@ const InstructorCoursePage = ({ params }: { params: { id: string } }) => {
                                         fileForm.type === 'DOCUMENT' ? '.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx,.csv,.odt,.ods' :
                                         '*/*'
                                     }
-                                    hidden
+                                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                                     onChange={handleFileUpload}
                                 />
-                            </Button>
-                            {uploading && (
-                                <Box sx={{ width: '100%', mb: 1 }}>
-                                    <LinearProgress variant="determinate" value={uploadProgress} />
-                                    <Typography variant="caption">جاري رفع الملف... {uploadProgress}%</Typography>
-                                </Box>
-                            )}
-                            {renderUploadedFilePreview()}
-                        </Box>
-                    )}
-                    {/* إدخال رابط للفيديو فقط */}
-                    {fileForm.type === 'VIDEO' && (
-                        <TextField
-                            label="ID الفيديو (YouTube Embed)"
-                            value={fileForm.url}
-                            onChange={e => setFileForm({ ...fileForm, url: e.target.value })}
-                            fullWidth
-                            className="mb-4"
-                        />
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setFileDialogOpen(false)}>إلغاء</Button>
-                    <Button onClick={handleSaveFile} variant="contained" color="primary" disabled={Boolean(loadingAction || uploading || (fileForm.type && fileForm.type !== 'VIDEO' && !fileForm.url))}>
-                        {fileEditMode ? 'حفظ التعديلات' : 'إضافة'}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                                {uploading && (
+                                    <div className="w-full mt-2">
+                                        <div className="w-full bg-gray-200 rounded-full h-2">
+                                            <div
+                                                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                                style={{ width: `${uploadProgress}%` }}
+                                            />
+                                        </div>
+                                        <p className="text-xs text-gray-700 mt-1">{uploadProgress}%</p>
+                                    </div>
+                                )}
+                                {renderUploadedFilePreview()}
+                            </div>
+                        )}
+                        {/* إدخال رابط للفيديو فقط */}
+                        {fileForm.type === 'VIDEO' && (
+                            <div>
+                                <label className="block text-sm font-medium mb-2">ID الفيديو (YouTube Embed)</label>
+                                <input
+                                    type="text"
+                                    className="w-full border rounded p-2"
+                                    value={fileForm.url}
+                                    onChange={e => setFileForm({ ...fileForm, url: e.target.value })}
+                                />
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex justify-end gap-2 mt-6">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setFileDialogOpen(false)}
+                        >
+                            إلغاء
+                        </button>
+                        <button
+                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                            onClick={handleSaveFile}
+                            disabled={Boolean(loadingAction || uploading || (fileForm.type && fileForm.type !== 'VIDEO' && !fileForm.url))}
+                        >
+                            {fileEditMode ? 'حفظ التعديلات' : 'إضافة'}
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             {/* Dialog تأكيد حذف الملف */}
-            <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-                <DialogTitle>تأكيد حذف الملف</DialogTitle>
-                <DialogContent className="py-4 flex flex-col gap-7">
-                    <Typography>هل أنت متأكد أنك تريد حذف هذا الملف؟ لا يمكن التراجع عن هذه العملية.</Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDeleteDialogOpen(false)}>إلغاء</Button>
-                    <Button onClick={handleConfirmDeleteFile} color="error" variant="contained" disabled={deleteFileMutation.isPending}>
-                        حذف
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${deleteDialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
+                    <h2 className="text-xl font-bold mb-4">تأكيد حذف الملف</h2>
+                    <div className="py-4">
+                        <p>هل أنت متأكد أنك تريد حذف هذا الملف؟ لا يمكن التراجع عن هذه العملية.</p>
+                    </div>
+                    <div className="flex justify-end gap-2">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setDeleteDialogOpen(false)}
+                        >
+                            إلغاء
+                        </button>
+                        <button
+                            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                            onClick={handleConfirmDeleteFile}
+                            disabled={deleteFileMutation.isPending}
+                        >
+                            حذف
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             {/* Snackbar */}
-            <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-                <MuiAlert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.type} sx={{ width: '100%' }}>
-                    {snackbar.msg}
-                </MuiAlert>
-            </Snackbar>
-        </Container>
+            {snackbar.open && (
+                <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+                    <div className={`rounded border px-4 py-3 shadow-lg ${snackbar.type === "error" ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}>
+                        <p className={`font-bold ${snackbar.type === "error" ? "text-red-700" : "text-green-700"}`}>
+                            {snackbar.msg}
+                        </p>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

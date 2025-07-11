@@ -1,15 +1,7 @@
 "use client"
 import React, { useState } from 'react';
-import {
-    Accordion as MuiAccordion,
-    AccordionSummary as MuiAccordionSummary,
-    AccordionDetails as MuiAccordionDetails,
-    Typography,
-} from '@mui/material';
-import {
-    ExpandMore as ExpandMoreIcon,
-} from '@mui/icons-material';
-
+import { cn } from '@/lib/utils';
+import { ChevronDown } from 'lucide-react';
 
 interface AccordionItem {
     id: string;
@@ -54,75 +46,74 @@ const Accordion: React.FC<AccordionProps> = ({
     const getColorClass = () => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main';
+                return 'text-blue-600';
             case 'secondary':
-                return 'text-secondary-main';
+                return 'text-gray-600';
             case 'success':
-                return 'text-success-main';
+                return 'text-green-600';
             case 'error':
-                return 'text-error-main';
+                return 'text-red-600';
             case 'warning':
-                return 'text-warning-main';
+                return 'text-yellow-600';
             case 'info':
-                return 'text-info-main';
+                return 'text-cyan-600';
             default:
-                return '';
+                return 'text-blue-600';
         }
     };
 
     return (
-        <div className={className}>
-            {items.map((item) => (
-                <MuiAccordion
-                    key={item.id}
-                    expanded={expanded.includes(item.id)}
-                    onChange={() => handleChange(item.id)}
-                    disabled={item.disabled}
-                    className={`
-            ${variant === 'outlined' ? 'border border-gray-200 ' : ''}
-            ${item.disabled ? 'opacity-50 cursor-not-allowed' : ''}
-            mb-2
-            rounded-lg
-            shadow-sm
-            bg-white
-            [&_.MuiAccordionSummary-root]:min-h-[48px]
-            [&_.MuiAccordionSummary-root]:px-4
-            [&_.MuiAccordionSummary-root]:py-2
-            [&_.MuiAccordionSummary-content]:my-2
-            [&_.MuiAccordionDetails-root]:px-4
-            [&_.MuiAccordionDetails-root]:py-3
-            [&_.MuiAccordionDetails-root]:bg-gray-50
-            [&_.MuiAccordionDetails-root]:rounded-b-lg
-          `}
-                >
-                    <MuiAccordionSummary
-                        expandIcon={<ExpandMoreIcon className={getColorClass()} />}
-                        className={`
-              ${expanded.includes(item.id) ? 'bg-gray-50 ' : ''}
-            `}
+        <div className={cn("space-y-2", className)}>
+            {items.map((item) => {
+                const isExpanded = expanded.includes(item.id);
+                
+                return (
+                    <div
+                        key={item.id}
+                        className={cn(
+                            "bg-white rounded-lg shadow-sm overflow-hidden",
+                            variant === 'outlined' && "border border-gray-200",
+                            item.disabled && "opacity-50 cursor-not-allowed"
+                        )}
                     >
-                        <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                            {item.icon && (
-                                <div className={getColorClass()}>
-                                    {item.icon}
-                                </div>
+                        <button
+                            onClick={() => !item.disabled && handleChange(item.id)}
+                            disabled={item.disabled}
+                            className={cn(
+                                "w-full flex items-center justify-between p-4 text-left transition-colors duration-200",
+                                isExpanded ? "bg-gray-50" : "hover:bg-gray-50",
+                                item.disabled && "cursor-not-allowed"
                             )}
-                            <Typography
-                                variant="subtitle1"
-                                className={`
-                  font-medium
-                  text-gray-900
-                `}
-                            >
-                                {item.title}
-                            </Typography>
-                        </div>
-                    </MuiAccordionSummary>
-                    <MuiAccordionDetails>
-                        {item.content}
-                    </MuiAccordionDetails>
-                </MuiAccordion>
-            ))}
+                        >
+                            <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                                {item.icon && (
+                                    <div className={getColorClass()}>
+                                        {item.icon}
+                                    </div>
+                                )}
+                                <h3 className="font-medium text-gray-900">
+                                    {item.title}
+                                </h3>
+                            </div>
+                            <ChevronDown
+                                className={cn(
+                                    "h-5 w-5 transition-transform duration-200",
+                                    getColorClass(),
+                                    isExpanded && "rotate-180"
+                                )}
+                            />
+                        </button>
+                        
+                        {isExpanded && (
+                            <div className="px-4 pb-4 bg-gray-50">
+                                <div className="pt-2">
+                                    {item.content}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                );
+            })}
         </div>
     );
 };

@@ -4,12 +4,16 @@ import dynamic from 'next/dynamic';
 import { useUser } from '@/hooks/useUser';
 import { notificationApi } from '@/lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Box, Button, Select, MenuItem, Typography, CircularProgress, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { motion } from 'framer-motion';
+import { Loader2, Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div></div> });
 const DataGrid = dynamic(() => import('@/components/common/DataGrid'), { loading: () => <div></div> });
+const Button = dynamic(() => import('@/components/common/Button'), { loading: () => <div></div> });
+const Modal = dynamic(() => import('@/components/common/Modal'), { loading: () => <div></div> });
+const Alert = dynamic(() => import('@/components/common/Alert'), { loading: () => <div></div> });
+
 
 export default function InstructorNotifications() {
     const { user } = useUser();
@@ -77,7 +81,7 @@ export default function InstructorNotifications() {
             headerName: 'تفاصيل',
             width: 90,
             renderCell: (params: any) => (
-                <Button size="small" variant="outlined" onClick={() => { setSelected(params.row); setDialogOpen(true); }}>
+                <Button size="sm" variant="outline" onClick={() => { setSelected(params.row); setDialogOpen(true); }}>
                     عرض
                 </Button>
             )
@@ -106,13 +110,14 @@ export default function InstructorNotifications() {
             <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold">الإشعارات</h1>
                 <div className="flex gap-4">
-                        <Button variant="contained" color="primary" onClick={() => markAllAsRead.mutate()} disabled={markAllAsRead.isPending}>
-                            {markAllAsRead.isPending ? <CircularProgress size={18} /> : 'تمييز الكل كمقروء'}
+                        <Button variant="default" onClick={() => markAllAsRead.mutate()} disabled={markAllAsRead.isPending}>
+                            {markAllAsRead.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'تمييز الكل كمقروء'}
                         </Button>
-                        <Button variant="outlined" color="error" onClick={() => deleteAll.mutate()} disabled={deleteAll.isPending}>
-                            {deleteAll.isPending ? <CircularProgress size={18} /> : 'حذف الكل'}
+                        <Button variant="outline" onClick={() => deleteAll.mutate()} disabled={deleteAll.isPending}>
+                            {deleteAll.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'حذف الكل'}
                         </Button>
-                        <Button variant="outlined" color="info" onClick={handleExport}>
+                        <Button variant="outline" onClick={handleExport}>
+                            <Download className="h-4 w-4 mr-2" />
                             تصدير Excel
                         </Button>
                     </div>
@@ -121,13 +126,13 @@ export default function InstructorNotifications() {
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <Card title='إجمالي الإشعارات'>
-                    <div className="text-4xl font-bold">{isLoading ? <CircularProgress size={32} /> : data?.length || 0}</div>
+                    <div className="text-4xl font-bold">{isLoading ? <Loader2 className="h-8 w-8 animate-spin" /> : data?.length || 0}</div>
                 </Card>
                 <Card title='الإشعارات غير المقروءة'>
-                    <div className="text-4xl font-bold">{isLoading ? <CircularProgress size={32} /> : data?.filter((n: any) => !n.read).length || 0}</div>
+                    <div className="text-4xl font-bold">{isLoading ? <Loader2 className="h-8 w-8 animate-spin" /> : data?.filter((n: any) => !n.read).length || 0}</div>
                 </Card>
                 <Card title='الإشعارات اليوم'>
-                    <div className="text-4xl font-bold">{isLoading ? <CircularProgress size={32} /> : data?.filter((n: any) => n.createdAt?.slice(0, 10) === new Date().toISOString().slice(0, 10)).length || 0}</div>
+                    <div className="text-4xl font-bold">{isLoading ? <Loader2 className="h-8 w-8 animate-spin" /> : data?.filter((n: any) => n.createdAt?.slice(0, 10) === new Date().toISOString().slice(0, 10)).length || 0}</div>
                 </Card>
             </motion.div>
 
@@ -142,21 +147,21 @@ export default function InstructorNotifications() {
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                         />
-                        <Select value={readFilter} onChange={e => setReadFilter(e.target.value)} size="small">
-                            <MenuItem value="all">جميع الإشعارات</MenuItem>
-                            <MenuItem value="unread">غير مقروء</MenuItem>
-                            <MenuItem value="read">مقروء</MenuItem>
-                        </Select>
-                        <Select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} size="small">
-                            <MenuItem value="all">جميع الأنواع</MenuItem>
-                            <MenuItem value="ASSIGNMENT">واجب</MenuItem>
-                            <MenuItem value="GRADE">درجة</MenuItem>
-                            <MenuItem value="MESSAGE">رسالة</MenuItem>
-                            <MenuItem value="ACHIEVEMENT">إنجاز</MenuItem>
-                            <MenuItem value="URGENT">هام</MenuItem>
-                            <MenuItem value="EVENT">فعالية</MenuItem>
-                            <MenuItem value="ABSENCE">غياب</MenuItem>
-                        </Select>
+                        <select value={readFilter} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setReadFilter(e.target.value)} className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="all">جميع الإشعارات</option>
+                            <option value="unread">غير مقروء</option>
+                            <option value="read">مقروء</option>
+                        </select>
+                        <select value={typeFilter} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTypeFilter(e.target.value)} className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="all">جميع الأنواع</option>
+                            <option value="ASSIGNMENT">واجب</option>
+                            <option value="GRADE">درجة</option>
+                            <option value="MESSAGE">رسالة</option>
+                            <option value="ACHIEVEMENT">إنجاز</option>
+                            <option value="URGENT">هام</option>
+                            <option value="EVENT">فعالية</option>
+                            <option value="ABSENCE">غياب</option>
+                        </select>
                     </div>
                 </div>
                 <DataGrid
@@ -168,30 +173,34 @@ export default function InstructorNotifications() {
                 />
             </motion.div>
             {/* Dialog معاينة التفاصيل */}
-            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-                <DialogTitle>تفاصيل الإشعار</DialogTitle>
-                <DialogContent>
-                    {selected && (
-                        <Box className="space-y-2">
-                            <Typography variant="h6">{selected.title}</Typography>
-                            <Typography variant="body1">{selected.message}</Typography>
-                            <Typography variant="body2">النوع: {selected.type}</Typography>
-                            <Typography variant="body2">التاريخ: {selected.date} {selected.time}</Typography>
-                            <Typography variant="body2">تم القراءة: {selected.read ? 'نعم' : 'لا'}</Typography>
-                            {selected.action !== '-' && <Button variant="contained" color="primary" className="mt-2">{selected.action}</Button>}
-                        </Box>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)}>إغلاق</Button>
-                </DialogActions>
-            </Dialog>
+            <Modal open={dialogOpen} onClose={() => setDialogOpen(false)} title="تفاصيل الإشعار">
+                {selected && (
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">{selected.title}</h3>
+                        <p className="text-gray-700">{selected.message}</p>
+                        <p className="text-sm text-gray-600">النوع: {selected.type}</p>
+                        <p className="text-sm text-gray-600">التاريخ: {selected.date} {selected.time}</p>
+                        <p className="text-sm text-gray-600">تم القراءة: {selected.read ? 'نعم' : 'لا'}</p>
+                        {selected.action !== '-' && <Button variant="default" className="mt-2">{selected.action}</Button>}
+                    </div>
+                )}
+                <div className="flex justify-end mt-6">
+                    <Button variant="outline" onClick={() => setDialogOpen(false)}>إغلاق</Button>
+                </div>
+            </Modal>
             {/* Snackbar */}
-            <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={() => setSnackbar({ ...snackbar, open: false })} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-                <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.type as any} variant="filled">
-                    {snackbar.msg}
-                </Alert>
-            </Snackbar>
+            {snackbar.open && (
+                <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+                    <div className={`px-4 py-2 rounded-md ${snackbar.type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'}`}>
+                        <div className="flex items-center justify-between">
+                            <span>{snackbar.msg}</span>
+                            <button onClick={() => setSnackbar({ ...snackbar, open: false })} className="ml-2 text-gray-500 hover:text-gray-700">
+                                ×
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 } 

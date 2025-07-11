@@ -6,14 +6,9 @@ import { instructorApi, lessonApi, attendanceApi ,courseApi } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { arSA } from "date-fns/locale";
-import { Box, Grid, Typography, Button, InputAdornment, TextField, Snackbar, Alert, Drawer, IconButton, MenuItem } from "@mui/material";
-import { School, Group, CheckCircle, Cancel, AccessTime, FileDownload } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import * as XLSX from "xlsx";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import CloseIcon from "@mui/icons-material/Close";
+import { Users, School, CheckCircle, Download, Clock, X } from "lucide-react";
 
 const HeroSection = dynamic(() => import("@/components/common/HeroSection"), { ssr: false });
 const StatsCard = dynamic(() => import("@/components/common/StatsCard"), { ssr: false });
@@ -111,9 +106,9 @@ export default function InstructorAttendance() {
     const totalStudents = attendanceRecords.reduce((acc: number, r: any) => acc + r.totalStudents, 0);
     const max = Math.max(...attendanceRecords.map((r: any) => parseInt(r.percentage)));
     return [
-      { label: "متوسط نسبة الحضور", value: avg + "%", icon: <Group fontSize="large" />, color: "primary" as const },
-      { label: "إجمالي الطلاب", value: totalStudents, icon: <School fontSize="large" />, color: "success" as const },
-      { label: "أعلى نسبة حضور", value: max + "%", icon: <CheckCircle fontSize="large" />, color: "info" as const },
+      { label: "متوسط نسبة الحضور", value: avg + "%", icon: <Users className="h-6 w-6" />, color: "blue" },
+      { label: "إجمالي الطلاب", value: totalStudents, icon: <School className="h-6 w-6" />, color: "green" },
+      { label: "أعلى نسبة حضور", value: max + "%", icon: <CheckCircle className="h-6 w-6" />, color: "purple" },
     ];
   }, [attendanceRecords]);
 
@@ -123,9 +118,9 @@ export default function InstructorAttendance() {
 
   // فلاتر متقدمة
   const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>("");
   const [studentSelectedCourse, setStudentSelectedCourse] = useState("");
-  const [studentSelectedDate, setStudentSelectedDate] = useState<Date | null>(null);
+  const [studentSelectedDate, setStudentSelectedDate] = useState<string>("");
 
   // Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -154,8 +149,7 @@ export default function InstructorAttendance() {
       records = records.filter((r: any) => r.course === selectedCourse);
     }
     if (selectedDate) {
-      const d = format(selectedDate, "yyyy-MM-dd");
-      records = records.filter((r: any) => r.date === d);
+      records = records.filter((r: any) => r.date === selectedDate);
     }
     return records;
   }, [attendanceRecords, search, selectedCourse, selectedDate]);
@@ -172,8 +166,7 @@ export default function InstructorAttendance() {
       records = records.filter((r: any) => r.course === studentSelectedCourse);
     }
     if (studentSelectedDate) {
-      const d = format(studentSelectedDate, "yyyy-MM-dd");
-      records = records.filter((r: any) => r.date === d);
+      records = records.filter((r: any) => r.date === studentSelectedDate);
     }
     return records;
   }, [studentAttendance, studentSearch, studentSelectedCourse, studentSelectedDate]);
@@ -198,212 +191,241 @@ export default function InstructorAttendance() {
     { field: "late", headerName: "متأخر", width: 100 },
     { field: "percentage", headerName: "نسبة الحضور", width: 100,
       renderCell: (params: any) => (
-        <span className={
-          parseInt(params.value) >= 90 ? "text-green-600 font-bold" :
-          parseInt(params.value) >= 75 ? "text-yellow-600 font-bold" :
-          "text-red-600 font-bold"
-        }>{params.value}</span>
+        <span className={`px-2 py-1 rounded text-sm font-medium ${
+          parseInt(params.value) >= 80 ? 'bg-green-100 text-green-800' :
+          parseInt(params.value) >= 60 ? 'bg-yellow-100 text-yellow-800' :
+          'bg-red-100 text-red-800'
+        }`}>
+          {params.value}
+        </span>
       )
     },
   ];
 
-    const studentColumns = [
-    { field: "name", headerName: "اسم الطالب", width: 200,
+  const studentColumns = [
+    { field: "name", headerName: "اسم الطالب", width: 200 },
+    { field: "course", headerName: "الدورة", width: 200 },
+    { field: "attendance", headerName: "الحضور", width: 100,
       renderCell: (params: any) => (
-        <Button color="primary" onClick={() => {
-          setSelectedStudent(filteredStudentAttendance.find((s: any) => s.name === params.value));
-          setDrawerOpen(true);
-        }}>{params.value}</Button>
+        <span className={`px-2 py-1 rounded text-sm font-medium ${
+          params.value === "حاضر" ? 'bg-green-100 text-green-800' :
+          params.value === "متأخر" ? 'bg-yellow-100 text-yellow-800' :
+          'bg-red-100 text-red-800'
+        }`}>
+          {params.value}
+        </span>
       )
     },
-    { field: "course", headerName: "الدورة", width: 200 },
-    { field: "attendance", headerName: "الحضور", width: 100 },
     { field: "date", headerName: "التاريخ", width: 150 },
     { field: "time", headerName: "الوقت", width: 100 },
     { field: "status", headerName: "الحالة", width: 100 },
   ];
 
-  const loading = loadingCourses || loadingLessons || loadingAttendance;
+  return (
+    <div className="container mx-auto px-4 py-8">
+      {/* العنوان والإحصائيات */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-4">إدارة الحضور والانصراف</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {stats.map((stat, index) => (
+            <div key={index} className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className={`text-${stat.color}-600`}>
+                  {stat.icon}
+                </div>
+                <h3 className="text-lg font-semibold">{stat.label}</h3>
+              </div>
+              <p className={`text-3xl font-bold text-${stat.color}-600`}>{stat.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
-    return (
-    <Box className="container mx-auto px-4 py-8">
-      <Suspense fallback={<Skeleton variant="rectangular" height={200} count={1} />}>
-        <HeroSection
-          title="تتبع الحضور للمحاضر"
-          subtitle={user?.firstName ? `مرحباً ${user.firstName}` : ""}
-          description="تابع حضور الطلاب في جميع الدورات مع إمكانية البحث والتصفية والتصدير."
-          backgroundImage="/assets/images/attendance-bg.jpg"
-          animate
-        />
-      </Suspense>
-
-      <Box className="my-8">
-        {loading ? (
-          <Skeleton variant="rectangular" height={120} count={1} />
-        ) : (
-          <StatsCard stats={stats} animate />
-        )}
-      </Box>
-
-      <Grid container spacing={3} className="mb-8">
-        <Grid item xs={12} md={4}>
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Card title="متوسط نسبة الحضور">
-              <Typography className="text-4xl font-bold text-center">
-                {stats[0]?.value || "-"}
-              </Typography>
-                </Card>
-          </motion.div>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <Card title="إجمالي الطلاب">
-              <Typography className="text-4xl font-bold text-center">
-                {stats[1]?.value || "-"}
-              </Typography>
-                </Card>
-          </motion.div>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-            <Card title="أعلى نسبة حضور">
-              <Typography className="text-4xl font-bold text-center">
-                {stats[2]?.value || "-"}
-              </Typography>
-                </Card>
-          </motion.div>
-        </Grid>
-      </Grid>
-
-      {/* جدول سجلات الحضور */}
-      <Box className="mb-8">
-        <Box className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-          <Typography variant="h5" className="font-bold text-right">سجلات الحضور</Typography>
-          <Box className="flex gap-2 w-full md:w-auto">
-            <TextField
-              select
-              label="الدورة"
-              value={selectedCourse}
-              onChange={e => setSelectedCourse(e.target.value)}
-              size="small"
-              className="bg-white min-w-[120px]"
+      {/* سجلات الحضور */}
+      <div className="bg-white rounded-lg shadow mb-8">
+        <div className="p-6 border-b">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">سجلات الحضور</h2>
+            <button
+              className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
+              onClick={() => exportToExcel(filteredAttendanceRecords, "سجلات_الحضور.xlsx")}
             >
-              <MenuItem value="">الكل</MenuItem>
-              {allCourses.map((c, i) => <MenuItem key={i} value={c}>{c}</MenuItem>)}
-            </TextField>
-            <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={arSA}>
-              <DatePicker
-                label="التاريخ"
+              <Download className="h-4 w-4" />
+              تصدير Excel
+            </button>
+          </div>
+          
+          {/* فلاتر البحث */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">البحث</label>
+              <input
+                type="text"
+                className="w-full border rounded p-2"
+                placeholder="البحث بالدورة أو التاريخ..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">تصفية بالدورة</label>
+              <select
+                className="w-full border rounded p-2"
+                value={selectedCourse}
+                onChange={e => setSelectedCourse(e.target.value)}
+              >
+                <option value="">جميع الدورات</option>
+                {allCourses.map((course) => (
+                  <option key={course} value={course}>{course}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">تصفية بالتاريخ</label>
+              <input
+                type="date"
+                className="w-full border rounded p-2"
                 value={selectedDate}
-                onChange={(value) => setSelectedDate(value as Date)}
-                slotProps={{ textField: { size: "small", className: "bg-white min-w-[120px]" } }}
+                onChange={e => setSelectedDate(e.target.value)}
               />
-            </LocalizationProvider>
-            <TextField
-              placeholder="بحث عن الدورة أو التاريخ..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              size="small"
-              className="bg-white"
-              InputProps={{
-                startAdornment: <InputAdornment position="start">🔍</InputAdornment>,
-              }}
+            </div>
+          </div>
+        </div>
+        
+        <div className="p-6">
+          {loadingAttendance ? (
+            <Skeleton variant="rectangular" height={400} />
+          ) : (
+            <DataGrid
+              columns={columns}
+              rows={filteredAttendanceRecords}
+              pageSize={10}
+              checkboxSelection={false}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<FileDownload />}
-              onClick={() => exportToExcel(filteredAttendanceRecords, "attendance-records.xlsx")}
-            >
-              تصدير Excel
-            </Button>
-          </Box>
-        </Box>
-        {loading ? (
-          <Skeleton variant="rectangular" height={300} />
-        ) : (
-          <DataGrid columns={columns} rows={filteredAttendanceRecords} pageSize={8} checkboxSelection />
-        )}
-      </Box>
+          )}
+        </div>
+      </div>
 
-      {/* جدول حضور الطلاب */}
-      <Box>
-        <Box className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-          <Typography variant="h5" className="font-bold text-right">حضور الطلاب</Typography>
-          <Box className="flex gap-2 w-full md:w-auto">
-            <TextField
-              select
-              label="الدورة"
-              value={studentSelectedCourse}
-              onChange={e => setStudentSelectedCourse(e.target.value)}
-              size="small"
-              className="bg-white min-w-[120px]"
+      {/* حضور الطلاب */}
+      <div className="bg-white rounded-lg shadow">
+        <div className="p-6 border-b">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">حضور الطلاب</h2>
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-green-700"
+              onClick={() => exportToExcel(filteredStudentAttendance, "حضور_الطلاب.xlsx")}
             >
-              <MenuItem value="">الكل</MenuItem>
-              {allCourses.map((c, i) => <MenuItem key={i} value={c}>{c}</MenuItem>)}
-            </TextField>
-            <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={arSA}>
-              <DatePicker
-                label="التاريخ"
+              <Download className="h-4 w-4" />
+              تصدير Excel
+            </button>
+          </div>
+          
+          {/* فلاتر البحث */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">البحث</label>
+              <input
+                type="text"
+                className="w-full border rounded p-2"
+                placeholder="البحث بالاسم أو الدورة..."
+                value={studentSearch}
+                onChange={e => setStudentSearch(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">تصفية بالدورة</label>
+              <select
+                className="w-full border rounded p-2"
+                value={studentSelectedCourse}
+                onChange={e => setStudentSelectedCourse(e.target.value)}
+              >
+                <option value="">جميع الدورات</option>
+                {allCourses.map((course) => (
+                  <option key={course} value={course}>{course}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">تصفية بالتاريخ</label>
+              <input
+                type="date"
+                className="w-full border rounded p-2"
                 value={studentSelectedDate}
-                onChange={(value) => setStudentSelectedDate(value as Date)}
-                slotProps={{ textField: { size: "small", className: "bg-white min-w-[120px]" } }}
+                onChange={e => setStudentSelectedDate(e.target.value)}
               />
-            </LocalizationProvider>
-            <TextField
-              placeholder="بحث عن اسم الطالب أو الدورة أو التاريخ..."
-              value={studentSearch}
-              onChange={e => setStudentSearch(e.target.value)}
-              size="small"
-              className="bg-white"
-              InputProps={{
-                startAdornment: <InputAdornment position="start">🔍</InputAdornment>,
-              }}
+            </div>
+          </div>
+        </div>
+        
+        <div className="p-6">
+          {loadingAttendance ? (
+            <Skeleton variant="rectangular" height={400} />
+          ) : (
+            <DataGrid
+              columns={studentColumns}
+              rows={filteredStudentAttendance}
+              pageSize={10}
+              checkboxSelection={false}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<FileDownload />}
-              onClick={() => exportToExcel(filteredStudentAttendance, "student-attendance.xlsx")}
-            >
-              تصدير Excel
-            </Button>
-          </Box>
-        </Box>
-        {loading ? (
-          <Skeleton variant="rectangular" height={300} />
-        ) : (
-          <DataGrid columns={studentColumns} rows={filteredStudentAttendance} pageSize={8} checkboxSelection />
-        )}
-      </Box>
-
-      {/* Snackbar */}
-      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
-          {snackbarMsg}
-        </Alert>
-      </Snackbar>
+          )}
+        </div>
+      </div>
 
       {/* Drawer تفاصيل الطالب */}
-      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <Box className="w-80 p-6" role="presentation">
-          <Box className="flex justify-between items-center mb-4">
-            <Typography variant="h6" className="font-bold">تفاصيل الطالب</Typography>
-            <IconButton onClick={() => setDrawerOpen(false)}><CloseIcon /></IconButton>
-          </Box>
+      <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${drawerOpen ? '' : 'hidden'}`}>
+        <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold">تفاصيل الطالب</h2>
+            <button
+              className="text-gray-500 hover:text-gray-700"
+              onClick={() => setDrawerOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
           {selectedStudent && (
-            <>
-              <Avatar name={selectedStudent.name} size="xl" />
-              <Typography className="mt-4 font-bold">{selectedStudent.name}</Typography>
-              <Typography className="text-gray-600">الدورة: {selectedStudent.course}</Typography>
-              <Typography className="text-gray-600">الحضور: {selectedStudent.attendance}</Typography>
-              <Typography className="text-gray-600">التاريخ: {selectedStudent.date}</Typography>
-              <Typography className="text-gray-600">الوقت: {selectedStudent.time}</Typography>
-              <Typography className="text-gray-600">الحالة: {selectedStudent.status}</Typography>
-            </>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium">الاسم</label>
+                <p className="text-gray-700">{selectedStudent.name}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium">الدورة</label>
+                <p className="text-gray-700">{selectedStudent.course}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium">الحضور</label>
+                <span className={`px-2 py-1 rounded text-sm font-medium ${
+                  selectedStudent.attendance === "حاضر" ? 'bg-green-100 text-green-800' :
+                  selectedStudent.attendance === "متأخر" ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-red-100 text-red-800'
+                }`}>
+                  {selectedStudent.attendance}
+                </span>
+              </div>
+              <div>
+                <label className="block text-sm font-medium">التاريخ</label>
+                <p className="text-gray-700">{selectedStudent.date}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium">الوقت</label>
+                <p className="text-gray-700">{selectedStudent.time}</p>
+              </div>
+            </div>
           )}
-        </Box>
-      </Drawer>
-    </Box>
-    );
+        </div>
+      </div>
+
+      {/* Snackbar */}
+      {snackbarOpen && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+          <div className="rounded border px-4 py-3 shadow-lg border-green-500 bg-green-50">
+            <p className="font-bold text-green-700">
+              {snackbarMsg}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 } 

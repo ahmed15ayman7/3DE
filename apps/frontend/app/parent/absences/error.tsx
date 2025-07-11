@@ -27,14 +27,14 @@ export default function AbsencesError({
                 />
                 <div className="mt-6 space-x-4 space-x-reverse">
                     <Button
-                        variant="contained"
+                        variant="default"
                         onClick={reset}
                         className="bg-primary-600 hover:bg-primary-700"
                     >
                         إعادة المحاولة
                     </Button>
                     <Button
-                        variant="outlined"
+                        variant="outline"
                         onClick={() => window.location.href = '/parent/dashboard'}
                     >
                         العودة للرئيسية

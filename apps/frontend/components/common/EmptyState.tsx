@@ -1,12 +1,8 @@
 'use client';
 
 import React from 'react';
-import {
-    Box,
-    Typography,
-    Button,
-} from '@mui/material';
-
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface EmptyStateProps {
     title?: string;
@@ -33,23 +29,22 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     variant = 'default',
     color = 'primary',
 }) => {
-
     const getColorClasses = () => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main';
+                return 'text-blue-600';
             case 'secondary':
-                return 'text-secondary-main';
+                return 'text-gray-600';
             case 'success':
-                return 'text-success-main';
+                return 'text-green-600';
             case 'error':
-                return 'text-error-main';
+                return 'text-red-600';
             case 'warning':
-                return 'text-warning-main';
+                return 'text-yellow-600';
             case 'info':
-                return 'text-info-main';
+                return 'text-cyan-600';
             default:
-                return '';
+                return 'text-blue-600';
         }
     };
 
@@ -65,76 +60,64 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     };
 
     return (
-        <Box
-            className={`
-        flex
-        flex-col
-        items-center
-        justify-center
-        text-center
-        ${getVariantClasses()}
-        ${className}
-        rounded-lg
-        bg-gray-50
-
-      `}
+        <div
+            className={cn(
+                "flex flex-col items-center justify-center text-center rounded-lg bg-gray-50",
+                getVariantClasses(),
+                className
+            )}
         >
             {image && (
-                <Box className="mb-4">
+                <div className="mb-4">
                     <img
                         src={image}
                         alt="Empty state illustration"
                         className="w-48 h-48 object-contain"
                     />
-                </Box>
+                </div>
             )}
 
             {icon && !image && (
-                <Box
-                    className={`
-            mb-4
-            ${getColorClasses()}
-            text-4xl
-          `}
+                <div
+                    className={cn(
+                        "mb-4 text-4xl",
+                        getColorClasses()
+                    )}
                 >
                     {icon}
-                </Box>
+                </div>
             )}
 
             {title && (
-                <Typography
-                    variant="h5"
-                    className={`
-            mb-2
-            font-medium
-            ${getColorClasses()}
-          `}
+                <h3
+                    className={cn(
+                        "mb-2 text-xl font-medium",
+                        getColorClasses()
+                    )}
                 >
                     {title}
-                </Typography>
+                </h3>
             )}
 
             {description && (
-                <Typography
-                    variant="body1"
-                    className="mb-4 text-gray-600 "
-                >
+                <p className="mb-4 text-gray-600">
                     {description}
-                </Typography>
+                </p>
             )}
 
             {action && (
                 <Button
-                    variant="contained"
-                    color={color}
+                    variant="default"
                     onClick={action.onClick}
-                    startIcon={action.icon}
                     className="mt-4"
                 >
+                    {action.icon && (
+                        <span className="mr-2">{action.icon}</span>
+                    )}
                     {action.label}
                 </Button>
             )}
-        </Box>
+        </div>
     );
 };
 

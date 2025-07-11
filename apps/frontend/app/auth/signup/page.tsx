@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Container, Paper, Typography, Button, Box, Alert } from '@mui/material';
 import { FormInput } from '@/components/ui/FormInput';
 import { signUpSchema, type SignUpInput } from '@/lib/validations/auth';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authApi } from '@/lib/api';
 import Image from 'next/image';
+import { AlertCircle } from 'lucide-react';
 
 export default function SignUp() {
     const router = useRouter();
@@ -48,40 +48,30 @@ export default function SignUp() {
     };
 
     return (
-        <Container maxWidth="sm">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                className="max-w-md w-full"
             >
-                <Paper
-                    elevation={3}
-                    sx={{
-                        p: 4,
-                        mt: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Image
-                        src="/assets/images/logo.png"
-                        alt="3DE Logo"
-                        width={120}
-                        height={120}
-                        placeholder='blur'
-                        blurDataURL='/assets/images/logo.png'
-                        style={{ marginBottom: '1rem', textAlign: 'center', borderRadius: '50%' }}
-                    />
-                    <Typography component="h1" variant="h4" gutterBottom>
-                        إنشاء حساب جديد
-                    </Typography>
+                <div className="bg-white rounded-lg shadow-lg p-8">
+                    <div className="text-center mb-6">
+                        <Image
+                            src="/assets/images/logo.png"
+                            alt="3DE Logo"
+                            width={120}
+                            height={120}
+                            placeholder='blur'
+                            blurDataURL='/assets/images/logo.png'
+                            className="mx-auto mb-4 rounded-full"
+                        />
+                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            إنشاء حساب جديد
+                        </h1>
+                    </div>
 
-                    <Box
-                        component="form"
-                        onSubmit={handleSubmit(onSubmit)}
-                        sx={{ width: '100%', mt: 2 }}
-                    >
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <Controller
                             control={control}
                             name="firstName"
@@ -91,7 +81,6 @@ export default function SignUp() {
                                     label="الاسم الأول"
                                     error={!!errors.firstName}
                                     helperText={errors.firstName?.message}
-                                    sx={{ mb: 2 }}
                                 />
                             )}
                         />
@@ -105,7 +94,6 @@ export default function SignUp() {
                                     label="الاسم الأخير"
                                     error={!!errors.lastName}
                                     helperText={errors.lastName?.message}
-                                    sx={{ mb: 2 }}
                                 />
                             )}
                         />
@@ -120,7 +108,6 @@ export default function SignUp() {
                                     type="text"
                                     error={!!errors.identifier}
                                     helperText={errors.identifier?.message}
-                                    sx={{ mb: 2 }}
                                 />
                             )}
                         />
@@ -135,40 +122,40 @@ export default function SignUp() {
                                     type="password"
                                     error={!!errors.password}
                                     helperText={errors.password?.message}
-                                    sx={{ mb: 2 }}
                                 />
                             )}
                         />
 
                         {error && (
-                            <Alert severity="error" sx={{ mb: 2 }}>
-                                {error}
-                            </Alert>
+                            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                                <div className="flex items-center">
+                                    <AlertCircle className="h-5 w-5 text-red-400 mr-2" />
+                                    <p className="text-sm font-medium text-red-800">
+                                        {error}
+                                    </p>
+                                </div>
+                            </div>
                         )}
 
-                        <Button
+                        <button
                             type="submit"
-                            fullWidth
-                            variant="contained"
                             disabled={loading}
-                            sx={{ mt: 3, mb: 2 }}
+                            className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                         >
                             {loading ? 'جاري التسجيل...' : 'تسجيل'}
-                        </Button>
+                        </button>
 
-                        <Box sx={{ textAlign: 'center', mt: 2 }}>
+                        <div className="text-center mt-4">
                             <Link
                                 href="/auth/signin"
-                                style={{ textDecoration: 'none' }}
+                                className="text-primary hover:text-primary-dark hover:underline text-sm font-medium"
                             >
-                                <Typography color="primary">
-                                    لديك حساب بالفعل؟ تسجيل الدخول
-                                </Typography>
+                                لديك حساب بالفعل؟ تسجيل الدخول
                             </Link>
-                        </Box>
-                    </Box>
-                </Paper>
+                        </div>
+                    </form>
+                </div>
             </motion.div>
-        </Container>
+        </div>
     );
 } 

@@ -172,7 +172,7 @@ export default function StudentAbsenceDetails() {
                 className="mb-6"
             >
                 <Button
-                    variant="outlined"
+                    variant="outline"
                     onClick={() => router.back()}
                     className="mb-4"
                 >

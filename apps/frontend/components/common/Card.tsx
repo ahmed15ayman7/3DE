@@ -1,21 +1,15 @@
 "use client"
 import React from 'react';
 import {
-    Card as MuiCard,
+    Card as ShadcnCard,
     CardContent,
-    CardMedia,
-    Typography,
-    Box,
-    Chip,
-    IconButton,
-    CardActions,
-    Button,
-} from '@mui/material';
-import {
-    Favorite as FavoriteIcon,
-    Share as ShareIcon,
-    Bookmark as BookmarkIcon,
-} from '@mui/icons-material';
+    CardHeader,
+    CardTitle,
+    CardFooter,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { Heart, Share2, Bookmark } from 'lucide-react';
 
 interface CardProps {
     title: string;
@@ -61,39 +55,38 @@ const Card: React.FC<CardProps> = ({
     children,
     className,
 }) => {
-
     const renderCardContent = () => {
         switch (variant) {
             case 'course':
                 return (
                     <>
-                        <CardMedia
-                            component="img"
-                            height="160px"
-                            image={image}
-                            alt={title}
-                            className="object-cover max-h-[200px] w-auto"
-                        />
-                        <CardContent>
-                            <Box className="flex justify-between items-start mb-2">
-                                <Typography variant="h6" className="font-bold">
+                        {image && (
+                            <div className="relative h-40 overflow-hidden rounded-t-lg">
+                                <img
+                                    src={image}
+                                    alt={title}
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
+                        )}
+                        <CardContent className="p-4">
+                            <div className="flex justify-between items-start mb-2">
+                                <CardTitle className="text-lg font-bold">
                                     {title}
-                                </Typography>
+                                </CardTitle>
                                 {tags.length > 0 && (
-                                    <Chip
-                                        label={tags[0]}
-                                        size="small"
-                                        className="bg-primary-light text-primary-dark"
-                                    />
+                                    <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                                        {tags[0]}
+                                    </span>
                                 )}
-                            </Box>
+                            </div>
                             {description && (
-                                <Typography variant="body2" className="text-gray-600  mb-4">
+                                <p className="text-gray-600 text-sm mb-4">
                                     {description}
-                                </Typography>
+                                </p>
                             )}
                             {author && (
-                                <Box className="flex items-center space-x-2 rtl:space-x-reverse">
+                                <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                     {author.avatar ? (
                                         <img
                                             src={author.avatar}
@@ -101,16 +94,16 @@ const Card: React.FC<CardProps> = ({
                                             className="w-8 h-8 rounded-full"
                                         />
                                     ) : (
-                                        <Box className="w-8 h-8 rounded-full bg-primary-light flex items-center justify-center">
-                                            <Typography variant="body2" className="text-primary-dark">
+                                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                            <span className="text-blue-800 text-sm font-medium">
                                                 {author.name[0]}
-                                            </Typography>
-                                        </Box>
+                                            </span>
+                                        </div>
                                     )}
-                                    <Typography variant="body2" className="text-gray-600 ">
+                                    <span className="text-gray-600 text-sm">
                                         {author.name}
-                                    </Typography>
-                                </Box>
+                                    </span>
+                                </div>
                             )}
                         </CardContent>
                         {children}
@@ -120,35 +113,37 @@ const Card: React.FC<CardProps> = ({
             case 'blog':
                 return (
                     <>
-                        <CardMedia
-                            component="img"
-                            height="200"
-                            image={image}
-                            alt={title}
-                            className="object-cover"
-                        />
-                        <CardContent>
-                            <Typography variant="h6" className="font-bold mb-2">
+                        {image && (
+                            <div className="relative h-48 overflow-hidden rounded-t-lg">
+                                <img
+                                    src={image}
+                                    alt={title}
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
+                        )}
+                        <CardContent className="p-4">
+                            <CardTitle className="text-lg font-bold mb-2">
                                 {title}
-                            </Typography>
+                            </CardTitle>
                             {description && (
-                                <Typography variant="body2" className="text-gray-600  mb-4">
+                                <p className="text-gray-600 text-sm mb-4">
                                     {description}
-                                </Typography>
+                                </p>
                             )}
-                            <Box className="flex flex-wrap gap-2 mb-4">
+                            <div className="flex flex-wrap gap-2 mb-4">
                                 {tags.map((tag) => (
-                                    <Chip
+                                    <span
                                         key={tag}
-                                        label={tag}
-                                        size="small"
-                                        className="bg-primary-light text-primary-dark"
-                                    />
+                                        className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+                                    >
+                                        {tag}
+                                    </span>
                                 ))}
-                            </Box>
-                            <Box className="flex justify-between items-center">
+                            </div>
+                            <div className="flex justify-between items-center">
                                 {author && (
-                                    <Box className="flex items-center space-x-2 rtl:space-x-reverse">
+                                    <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                         {author.avatar ? (
                                             <img
                                                 src={author.avatar}
@@ -156,23 +151,23 @@ const Card: React.FC<CardProps> = ({
                                                 className="w-8 h-8 rounded-full"
                                             />
                                         ) : (
-                                            <Box className="w-8 h-8 rounded-full bg-primary-light flex items-center justify-center">
-                                                <Typography variant="body2" className="text-primary-dark">
+                                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                                <span className="text-blue-800 text-sm font-medium">
                                                     {author.name[0]}
-                                                </Typography>
-                                            </Box>
+                                                </span>
+                                            </div>
                                         )}
-                                        <Typography variant="body2" className="text-gray-600 ">
+                                        <span className="text-gray-600 text-sm">
                                             {author.name}
-                                        </Typography>
-                                    </Box>
+                                        </span>
+                                    </div>
                                 )}
                                 {date && (
-                                    <Typography variant="body2" className="text-gray-500">
+                                    <span className="text-gray-500 text-sm">
                                         {date}
-                                    </Typography>
+                                    </span>
                                 )}
-                            </Box>
+                            </div>
                         </CardContent>
                         {children}
                     </>
@@ -181,37 +176,39 @@ const Card: React.FC<CardProps> = ({
             case 'event':
                 return (
                     <>
-                        <CardMedia
-                            component="img"
-                            height="200"
-                            image={image}
-                            alt={title}
-                            className="object-cover"
-                        />
-                        <CardContent>
-                            <Typography variant="h6" className="font-bold mb-2">
+                        {image && (
+                            <div className="relative h-48 overflow-hidden rounded-t-lg">
+                                <img
+                                    src={image}
+                                    alt={title}
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
+                        )}
+                        <CardContent className="p-4">
+                            <CardTitle className="text-lg font-bold mb-2">
                                 {title}
-                            </Typography>
+                            </CardTitle>
                             {description && (
-                                <Typography variant="body2" className="text-gray-600  mb-4">
+                                <p className="text-gray-600 text-sm mb-4">
                                     {description}
-                                </Typography>
+                                </p>
                             )}
                             {date && (
-                                <Typography variant="body2" className="text-primary-main mb-4">
+                                <p className="text-blue-600 text-sm mb-4">
                                     {date}
-                                </Typography>
+                                </p>
                             )}
-                            <Box className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2">
                                 {tags.map((tag) => (
-                                    <Chip
+                                    <span
                                         key={tag}
-                                        label={tag}
-                                        size="small"
-                                        className="bg-primary-light text-primary-dark"
-                                    />
+                                        className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+                                    >
+                                        {tag}
+                                    </span>
                                 ))}
-                            </Box>
+                            </div>
                         </CardContent>
                         {children}
                     </>
@@ -219,14 +216,14 @@ const Card: React.FC<CardProps> = ({
 
             default:
                 return (
-                    <CardContent>
-                        <Typography variant="h6" className="font-bold mb-2">
+                    <CardContent className="p-4">
+                        <CardTitle className="text-lg font-bold mb-2">
                             {title}
-                        </Typography>
+                        </CardTitle>
                         {description && (
-                            <Typography variant="body2" className="text-gray-600 ">
+                            <p className="text-gray-600 text-sm">
                                 {description}
-                            </Typography>
+                            </p>
                         )}
                         {children}
                     </CardContent>
@@ -235,65 +232,72 @@ const Card: React.FC<CardProps> = ({
     };
 
     return (
-        <MuiCard
-            className={`bg-white  text-primary-dark  rounded-lg shadow-card hover:shadow-card-hover transition-shadow duration-300 ${className}`}
+        <ShadcnCard
+            className={cn(
+                "bg-white text-gray-900 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer",
+                className
+            )}
             onClick={onClick}
         >
             {renderCardContent()}
-            <CardActions className="flex justify-between p-4">
-                <Box className="flex space-x-2 rtl:space-x-reverse">
-                    {onLike && (
-                        <IconButton
-                            size="small"
+            {(onLike || onShare || onBookmark || onAction) && (
+                <CardFooter className="flex justify-between p-4 border-t border-gray-100">
+                    <div className="flex space-x-2 rtl:space-x-reverse">
+                        {onLike && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onLike();
+                                }}
+                                className={cn(
+                                    "p-2 rounded-full transition-colors",
+                                    isLiked ? "text-red-500" : "text-gray-400 hover:text-gray-600"
+                                )}
+                            >
+                                <Heart className={cn("h-4 w-4", isLiked && "fill-current")} />
+                            </button>
+                        )}
+                        {onShare && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onShare();
+                                }}
+                                className="p-2 rounded-full text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                <Share2 className="h-4 w-4" />
+                            </button>
+                        )}
+                        {onBookmark && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onBookmark();
+                                }}
+                                className={cn(
+                                    "p-2 rounded-full transition-colors",
+                                    isBookmarked ? "text-blue-500" : "text-gray-400 hover:text-gray-600"
+                                )}
+                            >
+                                <Bookmark className={cn("h-4 w-4", isBookmarked && "fill-current")} />
+                            </button>
+                        )}
+                    </div>
+                    {onAction && actionText && (
+                        <Button
+                            variant="default"
+                            size="sm"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onLike();
+                                onAction();
                             }}
-                            className={isLiked ? 'text-primary-main' : 'text-gray-400'}
                         >
-                            <FavoriteIcon />
-                        </IconButton>
+                            {actionText}
+                        </Button>
                     )}
-                    {onShare && (
-                        <IconButton
-                            size="small"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onShare();
-                            }}
-                            className="text-gray-400"
-                        >
-                            <ShareIcon />
-                        </IconButton>
-                    )}
-                    {onBookmark && (
-                        <IconButton
-                            size="small"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onBookmark();
-                            }}
-                            className={isBookmarked ? 'text-primary-main' : 'text-gray-400'}
-                        >
-                            <BookmarkIcon />
-                        </IconButton>
-                    )}
-                </Box>
-                {onAction && actionText && (
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onAction();
-                        }}
-                    >
-                        {actionText}
-                    </Button>
-                )}
-            </CardActions>
-        </MuiCard>
+                </CardFooter>
+            )}
+        </ShadcnCard>
     );
 };
 

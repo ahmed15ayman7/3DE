@@ -15,9 +15,10 @@ import { ar } from 'date-fns/locale';
 import { FaSearch, FaPlus, FaComments, FaUsers, FaVideo, FaThumbsUp, FaComment } from 'react-icons/fa';
 import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
-import Autocomplete from '@mui/material/Autocomplete';
 import { years } from '@/constant';
 import { Comment, Discussion, Group, LiveRoom, Post, User } from '@shared/prisma';
+import { ChevronDown } from 'lucide-react';
+
 const getCourses = async () => {
     let res = await courseApi.getAll();
     if (res.success) {
@@ -413,7 +414,7 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                     </p>
                 </div>
                 <Button
-                    variant="contained"
+                    variant="default"
                     onClick={() => setShowNewQuestionModal(true)}
                 >
                     <FaPlus className="ml-2" />
@@ -430,48 +431,92 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                         onChange={(e) => setSearchQuery(e.target.value)}
                         startIcon={<FaSearch />}
                     />
-                    <Autocomplete
-                        title='المادة'
-                        getOptionLabel={(option) => option.label}
-                        getOptionKey={(option) => option.value}
-                        onChange={(event, value) => setFilters({ ...filters, subject: value?.value || "" })}
-                        options={courses ?? initialCourses}
-                        renderInput={(params) => <Input {...params} label="المادة" />}
-                    />
-                    <Autocomplete
-                        title='النوع'
-                        getOptionLabel={(option) => option.label}
-                        getOptionKey={(option) => option.value}
-                        onChange={(event, value) => setFilters({ ...filters, type: value?.value || "" })}
-                        options={[
-                            { value: 'question', label: 'سؤال' },
-                            { value: 'discussion', label: 'مناقشة' },
-                            { value: 'resource', label: 'مصدر' },
-                        ]}
-                        renderInput={(params) => <Input {...params} label="النوع" />}
-                    />
-                    <Autocomplete
-                        title='السنة'
-                        getOptionLabel={(option) => option.label}
-                        getOptionKey={(option) => option.value}
-                        onChange={(event, value) => setFilters({ ...filters, year: value?.value || "" })}
-                        options={years}
-                        renderInput={(params) => <Input {...params} label="السنة" />}
-                    />
-                    <Autocomplete
-                        title='المشارك'
-                        getOptionLabel={(option) => option.label}
-                        getOptionKey={(option) => option.value}
-                        onChange={(event, value) => setFilters({ ...filters, participant: value?.value || "" })}
-                        options={[
-                            { value: 'instructor', label: 'المدرس' },
-                            { value: 'student', label: 'الطالب' },
-                            { value: 'all', label: 'الكل' },
-                            { value: "academy", label: 'الاكاديمية' },
-                            { value: "parent", label: 'اولياء الامور' },
-                        ]}
-                        renderInput={(params) => <Input {...params} label="المشارك" />}
-                    />
+                    <div className="relative">
+                        <Input
+                            placeholder="المادة"
+                            value={filters.subject}
+                            onChange={(e) => setFilters({ ...filters, subject: e.target.value })}
+                            startIcon={<ChevronDown className="text-gray-500" />}
+                        />
+                        <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                            {courses?.map((course) => (
+                                <li
+                                    key={course.value}
+                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    onClick={() => setFilters({ ...filters, subject: course.value })}
+                                >
+                                    {course.label}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="relative">
+                        <Input
+                            placeholder="النوع"
+                            value={filters.type}
+                            onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                            startIcon={<ChevronDown className="text-gray-500" />}
+                        />
+                        <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                            {[
+                                { value: 'question', label: 'سؤال' },
+                                { value: 'discussion', label: 'مناقشة' },
+                                { value: 'resource', label: 'مصدر' },
+                            ].map((option) => (
+                                <li
+                                    key={option.value}
+                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    onClick={() => setFilters({ ...filters, type: option.value })}
+                                >
+                                    {option.label}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="relative">
+                        <Input
+                            placeholder="السنة"
+                            value={filters.year}
+                            onChange={(e) => setFilters({ ...filters, year: e.target.value })}
+                            startIcon={<ChevronDown className="text-gray-500" />}
+                        />
+                        <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                            {years.map((year) => (
+                                <li
+                                    key={year.value}
+                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    onClick={() => setFilters({ ...filters, year: year.value })}
+                                >
+                                    {year.label}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="relative">
+                        <Input
+                            placeholder="المشارك"
+                            value={filters.participant}
+                            onChange={(e) => setFilters({ ...filters, participant: e.target.value })}
+                            startIcon={<ChevronDown className="text-gray-500" />}
+                        />
+                        <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                            {[
+                                { value: 'instructor', label: 'المدرس' },
+                                { value: 'student', label: 'الطالب' },
+                                { value: 'all', label: 'الكل' },
+                                { value: "academy", label: 'الاكاديمية' },
+                                { value: "parent", label: 'اولياء الامور' },
+                            ].map((option) => (
+                                <li
+                                    key={option.value}
+                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    onClick={() => setFilters({ ...filters, participant: option.value })}
+                                >
+                                    {option.label}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </Card>
 
@@ -511,11 +556,11 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                                                         </span>
                                                     </div>
                                                     <div className="flex items-center space-x-4">
-                                                        <Button variant="contained" size="small">
+                                                        <Button variant="default" size="sm">
                                                             <FaThumbsUp className="ml-2" />
                                                             {discussion.post.likesCount}
                                                         </Button>
-                                                        <Button variant="contained" size="small">
+                                                        <Button variant="default" size="sm">
                                                             <FaComment className="ml-2" />
                                                             {discussion.post.comments.length}
                                                         </Button>
@@ -579,7 +624,7 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                                                 <span className="text-sm text-gray-500">{post.author.firstName} {post.author.lastName}</span>
                                             </div>
                                             <div className="flex items-center space-x-4">
-                                                <Button variant="contained" size="small">
+                                                <Button variant="default" size="sm">
                                                     <FaThumbsUp className="ml-2" />
                                                     {post.likesCount}
                                                 </Button>
@@ -677,7 +722,7 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                                                 <span className="text-sm text-gray-600">{room.participants} مشارك</span>
                                             </div>
                                             <Button
-                                                variant="contained"
+                                                variant="default"
                                             // onClick={() => communityApi.joinRoom(room.id)}
                                             >
                                                 انضم الآن
@@ -705,14 +750,25 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                                 placeholder="اكتب عنواناً واضحاً لسؤالك"
                                 required
                             />
-                            <Autocomplete
-                                title='المادة'
-                                getOptionLabel={(option) => option.label}
-                                getOptionKey={(option) => option.value}
-                                onChange={(event, value) => setFilters({ ...filters, subject: value?.value || "" })}
-                                options={courses ?? initialCourses}
-                                renderInput={(params) => <Input {...params} label="المادة" />}
-                            />
+                            <div className="relative">
+                                <Input
+                                    label="المادة"
+                                    value={filters.subject}
+                                    onChange={(e) => setFilters({ ...filters, subject: e.target.value })}
+                                    startIcon={<ChevronDown className="text-gray-500" />}
+                                />
+                                <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                    {courses?.map((course) => (
+                                        <li
+                                            key={course.value}
+                                            className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                            onClick={() => setFilters({ ...filters, subject: course.value })}
+                                        >
+                                            {course.label}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                             <Input
                                 label="تفاصيل السؤال"
                                 placeholder="اكتب تفاصيل سؤالك هنا..."
@@ -722,12 +778,12 @@ const initialMyPosts: (Post & { author: User, comments: Comment[] })[] = [
                             />
                             <div className="flex justify-end space-x-2">
                                 <Button
-                                    variant="outlined"
+                                    variant="outline"
                                     onClick={() => setShowNewQuestionModal(false)}
                                 >
                                     إلغاء
                                 </Button>
-                                <Button variant="contained">
+                                <Button variant="default">
                                     نشر السؤال
                                 </Button>
                             </div>

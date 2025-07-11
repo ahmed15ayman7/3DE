@@ -5,34 +5,22 @@ import dynamic from "next/dynamic";
 import { useUser } from "@/hooks/useUser";
 import { instructorApi, courseApi } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Box,
-  Grid,
-  Typography,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Snackbar,
-  Alert,
-  IconButton,
-  MenuItem,
-  CircularProgress,
-  Select,
-} from "@mui/material";
-import { Add, Edit, Delete, School, CheckCircle, Visibility } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { Course } from "@shared/prisma";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import router from "next/router";
+import { Plus, Edit, Trash2, School, CheckCircle, Eye, Delete } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { ar } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 const HeroSection = dynamic(() => import("@/components/common/HeroSection"), {
   ssr: false,
 });
-const Card = dynamic(() => import("@/components/common/Card"), { ssr: false });
 const DataGrid = dynamic(() => import("@/components/common/DataGrid"), {
   ssr: false,
 });
@@ -44,6 +32,7 @@ export default function InstructorCourses() {
   const { user } = useUser();
   const instructorId = user?.id;
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   // جلب الكورسات
   const {
@@ -79,7 +68,7 @@ export default function InstructorCourses() {
     description: "",
     level: "",
     image: "",
-    startDate: dayjs(),
+    startDate: new Date(),
     status:"PENDING"
   });
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
@@ -148,7 +137,7 @@ export default function InstructorCourses() {
       description: "",
       level: "",
       image: "",
-      startDate: dayjs(),
+      startDate: new Date(),
       status:"PENDING"
     });
     setDialogOpen(true);
@@ -162,7 +151,7 @@ export default function InstructorCourses() {
       description: course.description,
       level: course.level,
       image: course.image,
-      startDate: dayjs(course.startDate),
+      startDate: course.startDate ? new Date(course.startDate) : new Date(),
       status: course.status,
     });
     setDialogOpen(true);
@@ -213,23 +202,28 @@ export default function InstructorCourses() {
       headerName: "إجراءات",
       width: 120,
       renderCell: (row: any) => (
-        <Box className="flex gap-2">
-          <IconButton
-            color="primary"
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => handleOpenEdit(row.row)}
           >
-            <Edit />
-          </IconButton>
-          <IconButton color="error" onClick={() => handleDelete(row.row)}>
-            <Delete />
-          </IconButton>
-        </Box>
+            <Edit className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDelete(row.row)}
+          >
+            <Delete className="h-4 w-4" />
+          </Button>
+        </div>
       ),
     },
   ];
 
   return (
-    <Box className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <Suspense
         fallback={<Skeleton variant="rectangular" height={200} count={1} />}
       >
@@ -242,206 +236,197 @@ export default function InstructorCourses() {
         />
       </Suspense>
 
-      <Box className="flex justify-between items-center my-8">
-        <Typography variant="h4" className="font-bold">
+      <div className="flex justify-between items-center my-8">
+        <h2 className="text-2xl font-bold">
           دوراتي النشطة
-        </Typography>
+        </h2>
         <Button
-          variant="contained"
-          color="primary"
-          startIcon={<Add />}
           onClick={handleOpenAdd}
+          className="flex gap-2"
         >
+          <Plus className="h-4 w-4" />
           إضافة دورة جديدة
         </Button>
-      </Box>
+      </div>
 
-      <Grid container spacing={3} className="mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {isLoading ? (
           Array.from({ length: 2 }).map((_, i) => (
-            <Grid item xs={12} md={6} key={i}>
+            <div key={i}>
               <Skeleton variant="rectangular" height={180} />
-            </Grid>
+            </div>
           ))
         ) : activeCourses.length === 0 ? (
-          <Typography className="text-center w-full">
+          <p className="text-center w-full col-span-2">
             لا توجد دورات نشطة حالياً.
-          </Typography>
+          </p>
         ) : (
           activeCourses.map((course: any, idx: number) => (
-            <Grid item xs={12} md={6} key={course.id}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 + idx * 0.2 }}
-              >
-                <Card
-                  title={course.title}
-                  description={`عدد الطلاب: ${course.enrollments?.length || 0}`}
-                  className="h-full"
-                >
-                  <Box className="mt-4 space-y-2">
-                    <Box className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 ">التقدم</span>
-                      <span className="font-medium">
-                        {course.progress || Math.floor(Math.random() * 40) + 60}
-                        %
-                      </span>
-                    </Box>
-                    <Box className="w-full bg-gray-200 rounded-full h-2">
-                      <Box
-                        className="bg-primary-main h-2 rounded-full"
-                        style={{
-                          width: `${
-                            course.progress ||
-                            Math.floor(Math.random() * 40) + 60
-                          }%`,
-                        }}
-                      />
-                    </Box>
-                    <Box className="text-sm text-gray-600 ">
-                      آخر نشاط:{" "}
-                      {course.updatedAt ? course.updatedAt.split("T")[0] : "-"}
-                    </Box>
-                    <Box className="text-sm text-gray-600 ">
-                       ميعاد البدأ:{" "}
-                      {course.startDate ? course.startDate.split("T")[0] : "-"}
-                    </Box>
-                    <Box className="text-sm text-gray-600 ">
-                      الدرس التالي: {course.lessons?.[0]?.title || "-"}
-                    </Box>
-                    <Box className="flex gap-2 mt-2">
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => router.push(`/instructor/courses/${course.id}`)}
-                      >
-                        <Visibility />
-                      </IconButton>
-                      <Button
-                        size="small"
-                        color="primary"
-                        startIcon={<Edit />}
-                        className="flex gap-4"
-                        onClick={() => handleOpenEdit(course)}
-                        >
-                        تعديل
-                      </Button>
-                      <Button
-                        size="small"
-                        className="flex gap-4"
-                        color="error"
-                        startIcon={<Delete />}
-                        onClick={() => handleDelete(course)}
-                      >
-                        حذف
-                      </Button>
-                    </Box>
-                  </Box>
-                </Card>
-              </motion.div>
-            </Grid>
+            <motion.div
+              key={course.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 + idx * 0.2 }}
+            >
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle>{course.title}</CardTitle>
+                  <CardDescription>
+                    عدد الطلاب: {course.enrollments?.length || 0}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">التقدم</span>
+                    <span className="font-medium">
+                      {course.progress || Math.floor(Math.random() * 40) + 60}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{
+                        width: `${course.progress || Math.floor(Math.random() * 40) + 60}%`,
+                      }}
+                    />
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    آخر نشاط: {course.updatedAt ? course.updatedAt.split("T")[0] : "-"}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    ميعاد البدأ: {course.startDate ? course.startDate.split("T")[0] : "-"}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    الدرس التالي: {course.lessons?.[0]?.title || "-"}
+                  </div>
+                  <div className="flex gap-2 mt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => router.push(`/instructor/courses/${course.id}`)}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleOpenEdit(course)}
+                      className="flex gap-2"
+                    >
+                      <Edit className="h-4 w-4" />
+                      تعديل
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(course)}
+                      className="flex gap-2"
+                    >
+                      <Delete className="h-4 w-4" />
+                      حذف
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))
         )}
-      </Grid>
-      <Box className="flex justify-between items-center my-8">
-        <Typography variant="h4" className="font-bold">
+      </div>
+
+      <div className="flex justify-between items-center my-8">
+        <h2 className="text-2xl font-bold">
           دوراتي الغير نشطة
-        </Typography>
-      </Box>
-      <Grid container spacing={3} className="mb-8">
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {isLoading ? (
           Array.from({ length: 2 }).map((_, i) => (
-            <Grid item xs={12} md={6} key={i}>
+            <div key={i}>
               <Skeleton variant="rectangular" height={180} />
-            </Grid>
+            </div>
           ))
         ) : pendingCourses.length === 0 ? (
-          <Typography className="text-center w-full">
-            لا توجد دورات نشطة حالياً.
-          </Typography>
+          <p className="text-center w-full col-span-2">
+            لا توجد دورات غير نشطة حالياً.
+          </p>
         ) : (
           pendingCourses.map((course: any, idx: number) => (
-            <Grid item xs={12} md={6} key={course.id}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 + idx * 0.2 }}
-              >
-                <Card
-                  title={course.title}
-                  description={`عدد الطلاب: ${course.enrollments?.length || 0}`}
-                  className="h-full"
-                >
-                  <Box className="mt-4 space-y-2">
-                    <Box className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 ">التقدم</span>
-                      <span className="font-medium">
-                        {course.progress || Math.floor(Math.random() * 40) + 60}
-                        %
-                      </span>
-                    </Box>
-                    <Box className="w-full bg-gray-200 rounded-full h-2">
-                      <Box
-                        className="bg-primary-main h-2 rounded-full"
-                        style={{
-                          width: `${
-                            course.progress ||
-                            Math.floor(Math.random() * 40) + 60
-                          }%`,
-                        }}
-                      />
-                    </Box>
-                    <Box className="text-sm text-gray-600 ">
-                      آخر نشاط:{" "}
-                      {course.updatedAt ? course.updatedAt.split("T")[0] : "-"}
-                    </Box>
-                    <Box className="text-sm text-gray-600 ">
-                       ميعاد البدأ:{" "}
-                      {course.startDate ? course.startDate.split("T")[0] : "-"}
-                    </Box>
-                    <Box className="text-sm text-gray-600 ">
-                      الدرس التالي: {course.lessons?.[0]?.title || "-"}
-                    </Box>
-                    <Box className="flex gap-2 mt-2">
-                    <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => router.push(`/instructor/courses/${course.id}`)}
-                      >
-                        <Visibility />
-                      </IconButton>
-                      <Button
-                        size="small"
-                        color="primary"
-                        startIcon={<Edit />}
-                        className="flex gap-4"
-                        onClick={() => handleOpenEdit(course)}
-                        >
-                        تعديل
-                      </Button>
-                      <Button
-                        size="small"
-                        className="flex gap-4"
-                        color="error"
-                        startIcon={<Delete />}
-                        onClick={() => handleDelete(course)}
-                      >
-                        حذف
-                      </Button>
-                    </Box>
-                  </Box>
-                </Card>
-              </motion.div>
-            </Grid>
+            <motion.div
+              key={course.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 + idx * 0.2 }}
+            >
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle>{course.title}</CardTitle>
+                  <CardDescription>
+                    عدد الطلاب: {course.enrollments?.length || 0}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">التقدم</span>
+                    <span className="font-medium">
+                      {course.progress || Math.floor(Math.random() * 40) + 60}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{
+                        width: `${course.progress || Math.floor(Math.random() * 40) + 60}%`,
+                      }}
+                    />
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    آخر نشاط: {course.updatedAt ? course.updatedAt.split("T")[0] : "-"}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    ميعاد البدأ: {course.startDate ? course.startDate.split("T")[0] : "-"}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    الدرس التالي: {course.lessons?.[0]?.title || "-"}
+                  </div>
+                  <div className="flex gap-2 mt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => router.push(`/instructor/courses/${course.id}`)}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleOpenEdit(course)}
+                      className="flex gap-2"
+                    >
+                      <Edit className="h-4 w-4" />
+                      تعديل
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(course)}
+                      className="flex gap-2"
+                    >
+                      <Delete className="h-4 w-4" />
+                      حذف
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))
         )}
-      </Grid>
+      </div>
 
-      <Box>
-        <Typography variant="h5" className="font-bold mb-4">
+      <div>
+        <h3 className="text-xl font-bold mb-4">
           الدورات المكتملة
-        </Typography>
+        </h3>
         {isLoading ? (
           <Skeleton variant="rectangular" height={200} />
         ) : (
@@ -452,147 +437,149 @@ export default function InstructorCourses() {
             checkboxSelection={false}
           />
         )}
-      </Box>
+      </div>
 
       {/* Dialog إضافة/تعديل */}
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle>
-          {editMode ? "تعديل الدورة" : "إضافة دورة جديدة"}
-        </DialogTitle>
-        <DialogContent className="flex flex-col gap-5">
-          <TextField
-            label="عنوان الدورة"
-            value={courseForm.title}
-            onChange={(e) =>
-              setCourseForm({ ...courseForm, title: e.target.value })
-            }
-            fullWidth
-            className="mb-4"
-          />
-
-          <TextField
-            label="وصف الدورة"
-            value={courseForm.description}
-            onChange={(e) =>
-              setCourseForm({ ...courseForm, description: e.target.value })
-            }
-            fullWidth
-            className="mb-4"
-            multiline
-            rows={3}
-          />
-          <TextField
-            label="المستوى"
-            value={courseForm.level}
-            onChange={(e) =>
-              setCourseForm({ ...courseForm, level: e.target.value })
-            }
-            select
-            fullWidth
-            className="mb-4"
-          >
-            <MenuItem value="مبتدئ">مبتدئ</MenuItem>
-            <MenuItem value="متوسط">متوسط</MenuItem>
-            <MenuItem value="متقدم">متقدم</MenuItem>
-          </TextField>
-          <TextField
-            label="رابط صورة الدورة (اختياري)"
-            value={courseForm.image}
-            onChange={(e) =>
-              setCourseForm({ ...courseForm, image: e.target.value })
-            }
-            fullWidth
-            className="mb-4"
-          />
-          <Select
-            label="حالة الدورة"
-            value={courseForm.status}
-            onChange={(e) =>
-              setCourseForm({ ...courseForm, status: e.target.value })
-            }
-            fullWidth
-            className="mb-4"
-          >
-            <MenuItem value="PENDING">قيد المراجعة</MenuItem>
-            <MenuItem value="ACTIVE">نشط</MenuItem>
-            <MenuItem value="COMPLETED">مكتمل</MenuItem>
-          </Select>
-          {(courseForm.status !== "COMPLETED") && (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="تاريخ البدء"
-                defaultValue={courseForm.startDate}
-                format="DD/MM/YYYY"
-                onChange={(e) => setCourseForm({ ...courseForm, startDate: e })}
-                className="mb-4 flex flex-row-reverse text-center"
-                slotProps={{
-                  textField: {
-                    fullWidth: true,
-                    
-                  },
-                }}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              {editMode ? "تعديل الدورة" : "إضافة دورة جديدة"}
+            </DialogTitle>
+            <DialogDescription>
+              {editMode ? "قم بتعديل معلومات الدورة" : "أدخل معلومات الدورة الجديدة"}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <label htmlFor="title" className="font-medium">عنوان الدورة</label>
+              <Input
+                id="title"
+                value={courseForm.title}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setCourseForm({ ...courseForm, title: e.target.value })
+                }
               />
-            </LocalizationProvider>
-          )}
-        </DialogContent>
+            </div>
 
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)}>إلغاء</Button>
-          <Button
-            onClick={handleSave}
-            variant="contained"
-            color="primary"
-            disabled={loadingAction}
-          >
-            {editMode ? "حفظ التعديلات" : "إضافة"}
-          </Button>
-        </DialogActions>
+            <div className="grid gap-2">
+              <label htmlFor="description" className="font-medium">وصف الدورة</label>
+              <textarea
+                id="description"
+                className="border rounded p-2 min-h-[80px]"
+                value={courseForm.description}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setCourseForm({ ...courseForm, description: e.target.value })
+                }
+                rows={3}
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <label htmlFor="level" className="font-medium">المستوى</label>
+              <select
+                id="level"
+                className="border rounded p-2"
+                value={courseForm.level}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setCourseForm({ ...courseForm, level: e.target.value })
+                }
+              >
+                <option value="">اختر المستوى</option>
+                <option value="مبتدئ">مبتدئ</option>
+                <option value="متوسط">متوسط</option>
+                <option value="متقدم">متقدم</option>
+              </select>
+            </div>
+
+            <div className="grid gap-2">
+              <label htmlFor="image" className="font-medium">رابط صورة الدورة (اختياري)</label>
+              <Input
+                id="image"
+                value={courseForm.image}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setCourseForm({ ...courseForm, image: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <label htmlFor="status" className="font-medium">حالة الدورة</label>
+              <select
+                id="status"
+                className="border rounded p-2"
+                value={courseForm.status}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setCourseForm({ ...courseForm, status: e.target.value })
+                }
+              >
+                <option value="PENDING">قيد المراجعة</option>
+                <option value="ACTIVE">نشط</option>
+                <option value="COMPLETED">مكتمل</option>
+              </select>
+            </div>
+
+            {courseForm.status !== "COMPLETED" && (
+              <div className="grid gap-2">
+                <label className="font-medium">تاريخ البدء</label>
+                <Input
+                  type="date"
+                  value={courseForm.startDate ? courseForm.startDate.toISOString().split('T')[0] : ''}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setCourseForm({ ...courseForm, startDate: new Date(e.target.value) })
+                  }
+                />
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              إلغاء
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={loadingAction}
+            >
+              {editMode ? "حفظ التعديلات" : "إضافة"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
 
       {/* Dialog حذف */}
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-      >
-        <DialogTitle>تأكيد الحذف</DialogTitle>
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
-          <Typography>
-            هل أنت متأكد أنك تريد حذف الدورة؟ لا يمكن التراجع عن هذا الإجراء.
-          </Typography>
+          <DialogHeader>
+            <DialogTitle>تأكيد الحذف</DialogTitle>
+            <DialogDescription>
+              هل أنت متأكد أنك تريد حذف الدورة؟ لا يمكن التراجع عن هذا الإجراء.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
+              إلغاء
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleConfirmDelete}
+              disabled={loadingAction}
+            >
+              حذف
+            </Button>
+          </DialogFooter>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>إلغاء</Button>
-          <Button
-            onClick={handleConfirmDelete}
-            color="error"
-            variant="contained"
-            disabled={loadingAction}
-          >
-            حذف
-          </Button>
-        </DialogActions>
       </Dialog>
 
       {/* Snackbar */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          severity={snackbar.type}
-          sx={{ width: "100%" }}
-        >
-          {snackbar.msg}
-        </Alert>
-      </Snackbar>
-    </Box>
+      {snackbar.open && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+          <div className={`rounded border px-4 py-3 shadow-lg ${snackbar.type === "error" ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}>
+            <p className={`font-bold ${snackbar.type === "error" ? "text-red-700" : "text-green-700"}`}>
+              {snackbar.msg}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

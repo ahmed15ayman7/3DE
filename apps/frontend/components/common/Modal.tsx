@@ -2,21 +2,15 @@
 import React from 'react';
 import {
     Dialog,
-    DialogTitle,
     DialogContent,
-    DialogActions,
-    Button,
-    IconButton,
-    Typography,
-    Box,
-} from '@mui/material';
-import {
-    Close as CloseIcon,
-    Check as CheckIcon,
-    Warning as WarningIcon,
-    Error as ErrorIcon,
-    Info as InfoIcon,
-} from '@mui/icons-material';
+    DialogHeader,
+    DialogTitle,
+    DialogBody,
+    DialogFooter,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { X, Check, AlertTriangle, AlertCircle, Info } from 'lucide-react';
 
 interface ModalProps {
     open: boolean;
@@ -26,7 +20,7 @@ interface ModalProps {
     actions?: Array<{
         label: string;
         onClick: () => void;
-        variant?: 'text' | 'contained' | 'outlined';
+        variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
         color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
         startIcon?: React.ReactNode;
         endIcon?: React.ReactNode;
@@ -55,95 +49,108 @@ const Modal: React.FC<ModalProps> = ({
     showCloseButton = true,
     className = '',
 }) => {
-
     const getIcon = () => {
         switch (type) {
             case 'success':
-                return <CheckIcon className="text-success-main" />;
+                return <Check className="h-5 w-5 text-green-600" />;
             case 'warning':
-                return <WarningIcon className="text-warning-main" />;
+                return <AlertTriangle className="h-5 w-5 text-yellow-600" />;
             case 'error':
-                return <ErrorIcon className="text-error-main" />;
+                return <AlertCircle className="h-5 w-5 text-red-600" />;
             case 'info':
-                return <InfoIcon className="text-info-main" />;
+                return <Info className="h-5 w-5 text-blue-600" />;
             default:
                 return null;
         }
     };
 
-    const getColor = (actionColor?: string) => {
-        switch (actionColor) {
-            case 'primary':
-                return 'primary';
-            case 'secondary':
-                return 'secondary';
-            case 'error':
-                return 'error';
-            case 'warning':
-                return 'warning';
-            case 'info':
-                return 'info';
-            case 'success':
-                return 'success';
+    const getMaxWidthClass = () => {
+        switch (maxWidth) {
+            case 'xs':
+                return 'max-w-xs';
+            case 'sm':
+                return 'max-w-sm';
+            case 'md':
+                return 'max-w-md';
+            case 'lg':
+                return 'max-w-lg';
+            case 'xl':
+                return 'max-w-xl';
             default:
-                return 'primary';
+                return 'max-w-lg';
+        }
+    };
+
+    const handleBackdropClick = () => {
+        if (!disableBackdropClick) {
+            onClose();
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Escape' && !disableEscapeKeyDown) {
+            onClose();
         }
     };
 
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            maxWidth={maxWidth}
-            fullWidth={fullWidth}
-            disableEscapeKeyDown={disableEscapeKeyDown}
-            className={`rtl:font-arabic ${className}`}
-            PaperProps={{
-                className: 'bg-white  text-primary-dark  rounded-lg',
-            }}
-        >
-            <DialogTitle className="flex justify-between items-center p-4 border-b border-gray-200 ">
-                <Box className="flex items-center space-x-2 rtl:space-x-reverse">
-                    {getIcon()}
-                    <Typography variant="h6" className="font-bold">
-                        {title}
-                    </Typography>
-                </Box>
-                {showCloseButton && (
-                    <IconButton
-                        edge="end"
-                        color="inherit"
-                        onClick={onClose}
-                        aria-label="close"
-                        className="text-gray-500 hover:text-gray-700 "
-                    >
-                        <CloseIcon />
-                    </IconButton>
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogContent 
+                className={cn(
+                    getMaxWidthClass(),
+                    fullWidth && "w-full",
+                    className
                 )}
-            </DialogTitle>
+                onKeyDown={handleKeyDown}
+            >
+                <DialogHeader>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                            {getIcon()}
+                            <DialogTitle className="text-lg font-semibold">
+                                {title}
+                            </DialogTitle>
+                        </div>
+                        {showCloseButton && (
+                            <button
+                                onClick={onClose}
+                                className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+                            >
+                                <X className="h-4 w-4" />
+                                <span className="sr-only">إغلاق</span>
+                            </button>
+                        )}
+                    </div>
+                </DialogHeader>
 
-            <DialogContent className="p-4">
-                {children}
+                <DialogBody>
+                    {children}
+                </DialogBody>
+
+                {actions.length > 0 && (
+                    <DialogFooter>
+                        <div className="flex items-center justify-end space-x-2">
+                            {actions.map((action, index) => (
+                                <Button
+                                    key={index}
+                                    variant={action.variant || 'default'}
+                                    onClick={action.onClick}
+                                    disabled={action.disabled}
+                                    className="ml-2 rtl:ml-0 rtl:mr-2"
+                                >
+                                    {action.startIcon && (
+                                        <span className="mr-2">{action.startIcon}</span>
+                                    )}
+                                    {action.label}
+                                    {action.endIcon && (
+                                        <span className="ml-2">{action.endIcon}</span>
+                                    )}
+                                </Button>
+                            ))}
+                        </div>
+                    </DialogFooter>
+                )}
             </DialogContent>
-
-            {actions.length > 0 && (
-                    <DialogActions className="p-4 border-t border-gray-200 ">
-                    {actions.map((action, index) => (
-                        <Button
-                            key={index}
-                            variant={action.variant || 'contained'}
-                            color={getColor(action.color)}
-                            onClick={action.onClick}
-                            startIcon={action.startIcon}
-                            endIcon={action.endIcon}
-                            disabled={action.disabled}
-                            className="ml-2 rtl:ml-0 rtl:mr-2"
-                        >
-                            {action.label}
-                        </Button>
-                    ))}
-                </DialogActions>
-            )}
         </Dialog>
     );
 };

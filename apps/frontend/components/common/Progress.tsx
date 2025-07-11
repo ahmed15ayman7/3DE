@@ -1,10 +1,6 @@
 "use client"
 import React from 'react';
-import {
-    LinearProgress,
-    CircularProgress,
-    useTheme,
-} from '@mui/material';
+import { cn } from '@/lib/utils';
 
 interface ProgressProps {
     value?: number;
@@ -31,24 +27,22 @@ const Progress: React.FC<ProgressProps> = ({
     className = '',
     label = '',
 }) => {
-    const theme = useTheme();
-
     const getColorClass = () => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main';
+                return 'bg-blue-600';
             case 'secondary':
-                return 'text-secondary-main';
+                return 'bg-gray-600';
             case 'success':
-                return 'text-success-main';
+                return 'bg-green-600';
             case 'error':
-                return 'text-error-main';
+                return 'bg-red-600';
             case 'warning':
-                return 'text-warning-main';
+                return 'bg-yellow-600';
             case 'info':
-                return 'text-info-main';
+                return 'bg-cyan-600';
             default:
-                return '';
+                return 'bg-blue-600';
         }
     };
 
@@ -61,41 +55,98 @@ const Progress: React.FC<ProgressProps> = ({
             case 'large':
                 return type === 'linear' ? 'h-3' : 'w-12 h-12';
             default:
-                return '';
+                return type === 'linear' ? 'h-2' : 'w-8 h-8';
         }
     };
 
     if (type === 'linear') {
-        return (
-            <div className="flex items-center justify-between">
+        const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
 
-                <LinearProgress
-                    variant={variant}
-                    value={value / max * 100}
-                    className={`
-          ${className}
-          ${getColorClass()}
-          ${getSizeClass()}
-          rounded-full
-          bg-gray-200
-        `}
-                />
-                {showLabel && <span className="text-sm text-gray-600">{label}</span>}
+        return (
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                <div className="flex-1">
+                    <div className={cn(
+                        "w-full bg-gray-200 rounded-full overflow-hidden",
+                        getSizeClass(),
+                        className
+                    )}>
+                        {variant === 'indeterminate' ? (
+                            <div className={cn(
+                                "h-full rounded-full animate-pulse",
+                                getColorClass()
+                            )} />
+                        ) : (
+                            <div
+                                className={cn(
+                                    "h-full rounded-full transition-all duration-300 ease-out",
+                                    getColorClass()
+                                )}
+                                style={{ width: `${percentage}%` }}
+                            />
+                        )}
+                    </div>
+                </div>
+                {showLabel && (
+                    <span className="text-sm text-gray-600 min-w-[3rem] text-right">
+                        {label || `${Math.round(percentage)}%`}
+                    </span>
+                )}
             </div>
         );
     }
 
+    // Circular Progress
+    const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+    const radius = 16; // Default radius
+    const circumference = 2 * Math.PI * radius;
+    const strokeDasharray = circumference;
+    const strokeDashoffset = variant === 'indeterminate' 
+        ? circumference 
+        : circumference - (percentage / 100) * circumference;
+
     return (
-        <CircularProgress
-            variant={variant}
-            value={value / max * 100}
-            thickness={thickness}
-            className={`
-        ${className}
-        ${getColorClass()}
-        ${getSizeClass()}
-      `}
-        />
+        <div className="relative inline-block">
+            <svg
+                className={cn(
+                    "transform -rotate-90",
+                    getSizeClass(),
+                    className
+                )}
+                viewBox="0 0 36 36"
+            >
+                <circle
+                    cx="18"
+                    cy="18"
+                    r={radius}
+                    fill="none"
+                    className="stroke-gray-200"
+                    strokeWidth={thickness}
+                />
+                <circle
+                    cx="18"
+                    cy="18"
+                    r={radius}
+                    fill="none"
+                    className={cn(
+                        "transition-all duration-300 ease-out",
+                        variant === 'indeterminate' 
+                            ? "animate-spin" 
+                            : getColorClass().replace('bg-', 'stroke-')
+                    )}
+                    strokeWidth={thickness}
+                    strokeDasharray={strokeDasharray}
+                    strokeDashoffset={strokeDashoffset}
+                    strokeLinecap="round"
+                />
+            </svg>
+            {showLabel && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xs font-medium text-gray-600">
+                        {label || `${Math.round(percentage)}%`}
+                    </span>
+                </div>
+            )}
+        </div>
     );
 };
 

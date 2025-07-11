@@ -1,11 +1,6 @@
 "use client"
 import React from 'react';
-import {
-    Avatar as MuiAvatar,
-    Badge,
-    Box,    
-    Tooltip,
-} from '@mui/material';
+import { cn } from '@/lib/utils';
 
 interface AvatarProps {
     src?: string;
@@ -17,8 +12,8 @@ interface AvatarProps {
     className?: string;
     onClick?: () => void;
     tooltip?: string;
-    cw?:string;
-    ch?:string;
+    cw?: string;
+    ch?: string;
     showTooltip?: boolean;
     badgeContent?: React.ReactNode;
     badgeColor?: 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
@@ -42,7 +37,6 @@ const Avatar: React.FC<AvatarProps> = ({
     badgeColor = 'primary',
     badgePosition = 'bottom-right',
 }) => {
-
     const getSizeClasses = () => {
         switch (size) {
             case 'xs':
@@ -58,16 +52,27 @@ const Avatar: React.FC<AvatarProps> = ({
         }
     };
 
+    const getVariantClasses = () => {
+        switch (variant) {
+            case 'rounded':
+                return 'rounded-lg';
+            case 'square':
+                return 'rounded-none';
+            default:
+                return 'rounded-full';
+        }
+    };
+
     const getStatusColor = () => {
         switch (status) {
             case 'online':
-                return 'bg-success-main';
+                return 'bg-green-500';
             case 'offline':
                 return 'bg-gray-400';
             case 'busy':
-                return 'bg-error-main';
+                return 'bg-red-500';
             case 'away':
-                return 'bg-warning-main';
+                return 'bg-yellow-500';
             default:
                 return '';
         }
@@ -76,17 +81,17 @@ const Avatar: React.FC<AvatarProps> = ({
     const getBadgeColor = () => {
         switch (badgeColor) {
             case 'primary':
-                return 'bg-primary-main';
+                return 'bg-blue-600';
             case 'secondary':
-                return 'bg-secondary-main';
+                return 'bg-gray-600';
             case 'success':
-                return 'bg-success-main';
+                return 'bg-green-600';
             case 'error':
-                return 'bg-error-main';
+                return 'bg-red-600';
             case 'warning':
-                return 'bg-warning-main';
+                return 'bg-yellow-600';
             case 'info':
-                return 'bg-info-main';
+                return 'bg-cyan-600';
             default:
                 return '';
         }
@@ -117,68 +122,66 @@ const Avatar: React.FC<AvatarProps> = ({
     };
 
     const avatarContent = (
-        <Box className="relative">
-            <MuiAvatar
-                src={src}
-                alt={alt || name}
-                variant={variant}
+        <div className="relative inline-block">
+            <div
+                className={cn(
+                    getSizeClasses(),
+                    getVariantClasses(),
+                    'bg-blue-100 text-blue-800 font-medium flex items-center justify-center cursor-pointer transition-all duration-200 ease-in-out hover:opacity-80',
+                    className
+                )}
+                style={{ width: cw || undefined, height: ch || undefined }}
                 onClick={onClick}
-                sx={{width:cw??"",height:ch??""}}
-                className={`
-          ${getSizeClasses()}
-          ${className}
-          cursor-pointer
-          transition-all
-          duration-200
-          ease-in-out
-          hover:opacity-80
-          bg-primary-light
-          text-primary-dark
-        `}
+                title={tooltip}
             >
-                {!src && getInitials()}
-            </MuiAvatar>
+                {src ? (
+                    <img
+                        src={src}
+                        alt={alt || name}
+                        className={cn(
+                            getSizeClasses(),
+                            getVariantClasses(),
+                            'object-cover'
+                        )}
+                    />
+                ) : (
+                    getInitials()
+                )}
+            </div>
 
             {status && (
-                <Box
-                    className={`
-            absolute
-            ${getBadgePosition()}
-            w-2.5
-            h-2.5
-            ${getStatusColor()}
-            rounded-full
-            border-2
-            border-white
-          `}
+                <div
+                    className={cn(
+                        'absolute w-2.5 h-2.5 rounded-full border-2 border-white',
+                        getStatusColor(),
+                        getBadgePosition()
+                    )}
                 />
             )}
 
             {badgeContent && (
-                <Badge
-                    badgeContent={badgeContent}
-                    color={badgeColor}
-                    className={`
-            absolute
-            ${getBadgePosition()}
-            ${getBadgeColor()}
-            text-white
-            text-xs
-            font-medium
-            px-1.5
-            py-0.5
-            rounded-full
-          `}
-                />
+                <div
+                    className={cn(
+                        'absolute text-white text-xs font-medium px-1.5 py-0.5 rounded-full',
+                        getBadgeColor(),
+                        getBadgePosition()
+                    )}
+                >
+                    {badgeContent}
+                </div>
             )}
-        </Box>
+        </div>
     );
 
     if (showTooltip && tooltip) {
         return (
-            <Tooltip title={tooltip} arrow>
+            <div className="group relative">
                 {avatarContent}
-            </Tooltip>
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                    {tooltip}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                </div>
+            </div>
         );
     }
 

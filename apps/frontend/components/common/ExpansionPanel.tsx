@@ -1,14 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import {
-    Accordion as MuiAccordion,
-    AccordionSummary as MuiAccordionSummary,
-    AccordionDetails as MuiAccordionDetails,
-    Typography,
-} from '@mui/material';
-import {
-    ExpandMore as ExpandMoreIcon,
-} from '@mui/icons-material';
+import { ChevronDown } from 'lucide-react';
 
 interface ExpansionPanelItem {
     id: string;
@@ -57,17 +49,17 @@ const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
     const getColorClass = () => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main';
+                return 'text-blue-600';
             case 'secondary':
-                return 'text-secondary-main';
+                return 'text-purple-600';
             case 'success':
-                return 'text-success-main';
+                return 'text-green-600';
             case 'error':
-                return 'text-error-main';
+                return 'text-red-600';
             case 'warning':
-                return 'text-warning-main';
+                return 'text-yellow-600';
             case 'info':
-                return 'text-info-main';
+                return 'text-blue-600';
             default:
                 return '';
         }
@@ -76,33 +68,22 @@ const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
     return (
         <div className={className}>
             {items.map((item) => (
-                <MuiAccordion
+                <div
                     key={item.id}
-                    expanded={expanded.includes(item.id)}
-                    onChange={() => handleChange(item.id)}
-                    disabled={item.disabled}
                     className={`
-            ${variant === 'outlined' ? 'border border-gray-200 ' : ''}
-            ${item.disabled ? 'opacity-50 cursor-not-allowed' : ''}
-            mb-2
-            rounded-lg
-            shadow-sm
-            bg-white
-            [&_.MuiExpansionPanelSummary-root]:min-h-[56px]
-            [&_.MuiExpansionPanelSummary-root]:px-4
-            [&_.MuiExpansionPanelSummary-root]:py-2
-            [&_.MuiExpansionPanelSummary-content]:my-2
-            [&_.MuiExpansionPanelDetails-root]:px-4
-            [&_.MuiExpansionPanelDetails-root]:py-3
-            [&_.MuiExpansionPanelDetails-root]:bg-gray-50
-            [&_.MuiExpansionPanelDetails-root]:rounded-b-lg
-          `}
+                        ${variant === 'outlined' ? 'border border-gray-200' : 'shadow-sm'}
+                        ${item.disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                        mb-2 rounded-lg bg-white overflow-hidden
+                    `}
                 >
-                    <MuiAccordionSummary
-                        expandIcon={<ExpandMoreIcon className={getColorClass()} />}
+                    <button
+                        onClick={() => !item.disabled && handleChange(item.id)}
+                        disabled={item.disabled}
                         className={`
-              ${expanded.includes(item.id) ? 'bg-gray-50 ' : ''}
-            `}
+                            w-full flex items-center justify-between p-4 text-left
+                            ${expanded.includes(item.id) ? 'bg-gray-50' : 'hover:bg-gray-50'}
+                            transition-colors duration-200
+                        `}
                     >
                         <div className="flex items-center space-x-3 rtl:space-x-reverse">
                             {item.icon && (
@@ -111,33 +92,31 @@ const ExpansionPanel: React.FC<ExpansionPanelProps> = ({
                                 </div>
                             )}
                             <div>
-                                <Typography
-                                    variant="subtitle1"
-                                    className={`
-                    font-medium
-                    text-gray-900
-                  `}
-                                >
+                                <h3 className="text-base font-medium text-gray-900">
                                     {item.title}
-                                </Typography>
+                                </h3>
                                 {item.description && (
-                                    <Typography
-                                        variant="body2"
-                                        className={`
-                      text-gray-500
-                      mt-1
-                    `}
-                                    >
+                                    <p className="text-sm text-gray-500 mt-1">
                                         {item.description}
-                                    </Typography>
+                                    </p>
                                 )}
                             </div>
                         </div>
-                    </MuiAccordionSummary>
-                    <MuiAccordionDetails>
-                        {item.content}
-                    </MuiAccordionDetails>
-                </MuiAccordion>
+                        <ChevronDown 
+                            className={`
+                                w-5 h-5 transition-transform duration-200
+                                ${expanded.includes(item.id) ? 'rotate-180' : ''}
+                                ${getColorClass()}
+                            `}
+                        />
+                    </button>
+                    
+                    {expanded.includes(item.id) && (
+                        <div className="px-4 py-3 bg-gray-50 border-t border-gray-100">
+                            {item.content}
+                        </div>
+                    )}
+                </div>
             ))}
         </div>
     );

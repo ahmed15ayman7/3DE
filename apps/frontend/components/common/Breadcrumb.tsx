@@ -1,11 +1,7 @@
 "use client"
 import React from 'react';
-import {
-    Breadcrumbs as MuiBreadcrumbs,
-    Link,
-    Typography,
-    Box,
-} from '@mui/material';
+import { cn } from '@/lib/utils';
+import { ChevronRight, Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface BreadcrumbItem {
@@ -25,7 +21,7 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
     items,
-    separator = '/',
+    separator = <ChevronRight className="h-4 w-4" />,
     maxItems = 5,
     className = '',
     color = 'primary',
@@ -36,19 +32,19 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     const getColorClasses = () => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main hover:text-primary-dark';
+                return 'text-blue-600 hover:text-blue-800';
             case 'secondary':
-                return 'text-secondary-main hover:text-secondary-dark';
+                return 'text-gray-600 hover:text-gray-800';
             case 'success':
-                return 'text-success-main hover:text-success-dark';
+                return 'text-green-600 hover:text-green-800';
             case 'error':
-                return 'text-error-main hover:text-error-dark';
+                return 'text-red-600 hover:text-red-800';
             case 'warning':
-                return 'text-warning-main hover:text-warning-dark';
+                return 'text-yellow-600 hover:text-yellow-800';
             case 'info':
-                return 'text-info-main hover:text-info-dark';
+                return 'text-cyan-600 hover:text-cyan-800';
             default:
-                return '';
+                return 'text-blue-600 hover:text-blue-800';
         }
     };
 
@@ -69,67 +65,56 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         }
     };
 
+    const displayItems = maxItems ? items.slice(-maxItems) : items;
+
     return (
-        <MuiBreadcrumbs
-            separator={separator}
-            maxItems={maxItems}
-            className={`
-        ${className}
-        ${getSizeClasses()}
-        py-2
-        px-4
-        rounded-lg
-        bg-gray-50
-      `}
+        <nav
+            className={cn(
+                "py-2 px-4 rounded-lg bg-gray-50",
+                getSizeClasses(),
+                className
+            )}
             aria-label="breadcrumb"
         >
-            {items.map((item, index) => (
-                <Box
-                    key={index}
-                    className={`
-            flex
-            items-center
-            space-x-1
-            rtl:space-x-reverse
-          `}
-                >
-                    {item.icon && (
-                        <Box className="flex-shrink-0">
-                            {item.icon}
-                        </Box>
-                    )}
-                    {index === items.length - 1 ? (
-                        <Typography
-                            className={`
-                ${getColorClasses()}
-                font-medium
-                opacity-70
-              `}
-                        >
-                            {item.label}
-                        </Typography>
-                    ) : (
-                        <Link
-                            component="button"
-                            onClick={() => handleClick(item.href)}
-                            className={`
-                ${getColorClasses()}
-                font-medium
-                hover:underline
-                focus:outline-none
-                focus:ring-2
-                focus:ring-opacity-50
-                transition-all
-                duration-200
-                ease-in-out
-              `}
-                        >
-                            {item.label}
-                        </Link>
-                    )}
-                </Box>
-            ))}
-        </MuiBreadcrumbs>
+            <ol className="flex items-center space-x-2 rtl:space-x-reverse">
+                {displayItems.map((item, index) => (
+                    <li key={index} className="flex items-center">
+                        {index > 0 && (
+                            <span className="mx-2 text-gray-400">
+                                {separator}
+                            </span>
+                        )}
+                        
+                        <div className="flex items-center space-x-1 rtl:space-x-reverse">
+                            {item.icon && (
+                                <span className="flex-shrink-0">
+                                    {item.icon}
+                                </span>
+                            )}
+                            
+                            {index === displayItems.length - 1 ? (
+                                <span className={cn(
+                                    getColorClasses(),
+                                    "font-medium opacity-70"
+                                )}>
+                                    {item.label}
+                                </span>
+                            ) : (
+                                <button
+                                    onClick={() => handleClick(item.href)}
+                                    className={cn(
+                                        getColorClasses(),
+                                        "font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200 ease-in-out"
+                                    )}
+                                >
+                                    {item.label}
+                                </button>
+                            )}
+                        </div>
+                    </li>
+                ))}
+            </ol>
+        </nav>
     );
 };
 

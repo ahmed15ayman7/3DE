@@ -88,7 +88,7 @@ export default function QuizzesOverflowLayout({
                             whileTap={{ scale: 0.98 }}
                         >
                             <Button
-                                variant={activeTab === tab.value ? 'contained' : 'text'}
+                                variant={activeTab === tab.value ? 'default' : 'link'}
                                 className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${
                                     activeTab === tab.value
                                         ? 'bg-primary-500 text-white shadow-md'

@@ -268,8 +268,8 @@ export default function AbsencesPage() {
                                             </span>
                                         </Badge>
                                         <Button
-                                            variant="outlined"
-                                            size="small"
+                                            variant="outline"
+                                            size="sm"
                                             onClick={() => handleStudentClick(student.id)}
                                         >
                                             عرض التفاصيل
@@ -291,23 +291,23 @@ export default function AbsencesPage() {
             >
                 <div className="flex flex-wrap gap-4">
                     <Button
-                        variant={filterType === 'all' ? 'contained' : 'outlined'}
+                        variant={filterType === 'all' ? 'default' : 'outline'}
                         onClick={() => setFilterType('all')}
-                        size="small"
+                        size="sm"
                     >
                         جميع الإشعارات
                     </Button>
                     <Button
-                        variant={filterType === 'unread' ? 'contained' : 'outlined'}
+                        variant={filterType === 'unread' ? 'default' : 'outline'}
                         onClick={() => setFilterType('unread')}
-                        size="small"
+                        size="sm"
                     >
                         غير المقروءة
                     </Button>
                     <Button
-                        variant={filterType === 'urgent' ? 'contained' : 'outlined'}
+                        variant={filterType === 'urgent' ? 'default' : 'outline'}
                         onClick={() => setFilterType('urgent')}
-                        size="small"
+                        size="sm"
                     >
                         عاجلة
                     </Button>

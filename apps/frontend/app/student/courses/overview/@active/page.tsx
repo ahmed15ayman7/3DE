@@ -6,7 +6,7 @@ import { useUser } from '@/hooks/useUser';
 import { courseApi } from '@/lib/api';
 import { Course, Instructor, Lesson, Quiz, User, File as FileModel } from '@shared/prisma';
 import { useRouter } from 'next/navigation';
-import Loading from "@mui/material/CircularProgress";
+const Skeleton = dynamic(() => import('@/components/common/Skeleton'), { loading: () => <div /> });
 const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div /> });
 
 // جلب بيانات الكورسات النشطة
@@ -26,8 +26,10 @@ export default function ActiveCoursesTab() {
     // placeholderData: [],
   });
   if(isLoading){
-    return <div className="text-center text-gray-400">
-      <Loading />
+    return <div className="space-y-4">
+      <Skeleton height={200} />
+      <Skeleton height={200} />
+      <Skeleton height={200} />
     </div>
   }
   // تصفية الكورسات النشطة فقط

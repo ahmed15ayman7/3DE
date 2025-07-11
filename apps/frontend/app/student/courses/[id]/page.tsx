@@ -3,28 +3,7 @@
 import { Suspense, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import {
-    Box,
-    Container,
-    Typography,
-    Grid,
-    Card,
-    CardContent,
-    CardMedia,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemIcon,
-    Chip,
-    Rating,
-    IconButton,
-    Paper,
-    Divider,
-    Collapse,
-    ListItemButton,
-    LinearProgress,
-    Button,
-} from '@mui/material';
+import dynamic from 'next/dynamic';
 import {
     PlayCircle,
     Clock,
@@ -42,724 +21,301 @@ import {
 } from 'lucide-react';
 import { courseApi } from '@/lib/api';
 import { Course, Lesson, FileType, File as FileModel, Enrollment, Quiz, Submission, Question, User, Option } from '@shared/prisma';
-import dynamic from 'next/dynamic';
+
 const Skeleton = dynamic(() => import('@/components/common/Skeleton'), { loading: () => <div className="h-[200px] w-[200px] bg-gray-200 rounded-2xl animate-pulse"></div> });
+const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div /> });
+const Button = dynamic(() => import('@/components/common/Button'), { loading: () => <div /> });
+const Badge = dynamic(() => import('@/components/common/Badge'), { loading: () => <div /> });
+const Progress = dynamic(() => import('@/components/common/Progress'), { loading: () => <div /> });
 import QuizSidebar from './components/QuizSidebar';
 
-// let initialCourse: Course & {
-//     lessons: (Lesson & { files: FileModel[], quizzes: (Quiz & { submissions: Submission[], questions: (Question & { options: Option[] })[] })[] })[];
-//     enrollments: (Enrollment & { user: User })[];
-// } = {
-//     id: 'js-course-1',
-//     status: 'COMPLETED',
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//     academyId: 'academy-frontend',
-//     title: 'مقدمة في JavaScript',
-//     description: 'دورة شاملة للمبتدئين لتعلم أساسيات لغة JavaScript من البداية حتى الاحتراف.',
-//     image: 'https://miro.medium.com/v2/resize:fit:1400/format:webp/1*snTDISrdwI0rjx3xCzQq4Q.jpeg',
-//     level: 'BEGINNER',
-//     lessons: [
-//         {
-//             id: 'lesson-1',
-//             title: 'مقدمة إلى JavaScript',
-//             content: 'تعرف في هذه الدرس على تاريخ JavaScript، ولماذا تعتبر من أهم لغات الويب.',
-//             files: [
-//                 {
-//                     id: 'video-1',
-//                     name: 'ما هي JavaScript؟',
-//                     url: 'https://www.youtube.com/embed/W6NZfCO5SIk',
-//                     type: 'VIDEO',
-//                     createdAt: new Date(),
-//                     lessonId: 'lesson-1',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: 'pdf-1',
-//                     name: 'ملف مقدمة',
-//                     url: 'https://web.stanford.edu/class/archive/cs/cs106a/cs106a.1214/handouts/01-JavaScript-Intro.pdf',
-//                     type: 'PDF',
-//                     createdAt: new Date(),
-//                     lessonId: 'lesson-1',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 }
-//             ],
-//             quizzes: [
-//                 {
-//                     id: 'quiz-1',
-//                     title: 'اختبار المقدمة',
-//                     description: 'اختبار المقدمة',
-//                     createdAt: new Date(),
-//                     updatedAt: new Date(),
-//                     lessonId: 'lesson-1',
-//                     timeLimit: 10,
-//                     passingScore: 70,
-//                     upComing: false,
-//                     isCompleted: true,
-//                     submissions: [],
-//                     questions: [
-//                         {
-//                             id: 'question-1',
-//                             createdAt: new Date(),
-//                             type: 'MULTIPLE_CHOICE',
-//                             quizId: 'quiz-1',
-//                             text: 'ما هي اللغة التي تستخدم لبرمجة الويب؟',
-//                             isMultiple: true,
-//                             options: [
-//                                 {
-//                                     id: 'option-1',
-//                                     text: 'JavaScript',
-//                                     isCorrect: true,
-//                                     createdAt: new Date(),
-//                                     updatedAt: new Date(),
-//                                     questionId: 'question-1',
-//                                 },
-//                                 {
-//                                     id: 'option-2',
-//                                     text: 'Python',
-//                                     isCorrect: false,
-//                                     createdAt: new Date(),
-//                                     updatedAt: new Date(),
-//                                     questionId: 'question-1',
-//                                 },
-//                                 {
-//                                     id: 'option-3',
-//                                     text: 'Java',
-//                                     isCorrect: false,
-//                                     createdAt: new Date(),
-//                                     updatedAt: new Date(),
-//                                     questionId: 'question-1',
-//                                 },
-//                                 {
-//                                     id: 'option-4',
-//                                     text: 'C++',
-//                                     isCorrect: false,
-//                                     createdAt: new Date(),
-//                                     updatedAt: new Date(),
-//                                     questionId: 'question-1',
-//                                 },
-//                             ],
-
-//                             points: 1,
-//                             isAnswered: false,
-//                         }
-//                     ],
-//                 }
-//             ],
-//             status: 'COMPLETED',
-//             courseId: 'js-course-1',
-//             createdAt: new Date(),
-//             updatedAt: new Date(),
-//         },
-//         {
-//             id: 'lesson-2',
-//             title: 'المتغيرات وأنواع البيانات',
-//             content: 'ستتعلم أنواع البيانات الأساسية مثل الأرقام، النصوص، البوليان، وكيفية تعريف المتغيرات باستخدام let و const.',
-//             files: [
-//                 {
-//                     id: 'video-2',
-//                     name: 'شرح المتغيرات وأنواع البيانات',
-//                     url: 'https://www.youtube.com/embed/Bv_5Zv5c-Ts',
-//                     type: 'VIDEO',
-//                     createdAt: new Date(),
-//                     lessonId: 'lesson-2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: 'doc-1',
-//                     name: 'توثيق أنواع البيانات',
-//                     url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures',
-//                     type: 'DOCUMENT',
-//                     createdAt: new Date(),
-//                     lessonId: 'lesson-2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: 'audio-1',
-//                     name: 'مراجعة صوتية للدرس',
-//                     url: 'https://soundcloud.com/user-652361680/js-data-types-overview',
-//                     type: 'AUDIO',
-//                     createdAt: new Date(),
-//                     lessonId: 'lesson-2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: 'pdf-2',
-//                     name: 'ملف شرح إضافي',
-//                     url: 'https://cs50.harvard.edu/weeks/0/notes/0.pdf',
-//                     type: 'PDF',
-//                     createdAt: new Date(),
-//                     lessonId: 'lesson-2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 }
-//             ],
-//             quizzes: [
-//                 {
-//                     id: 'quiz-2',
-//                     title: 'اختبار المتغيرات وأنواع البيانات',
-//                     description: 'اختبار المتغيرات وأنواع البيانات',
-//                     createdAt: new Date(),
-//                     updatedAt: new Date(),
-//                     lessonId: 'lesson-2',
-//                     timeLimit: 10,
-//                     passingScore: 70,
-//                     upComing: false,
-//                     isCompleted: false,
-//                     submissions: [],
-//                     questions: [
-//                         {
-//                             id: 'question-2',
-//                             createdAt: new Date(),
-//                             type: 'MULTIPLE_CHOICE',
-//                             quizId: 'quiz-2',
-//                             text: 'ما هي اللغة التي تستخدم لبرمجة الويب؟',
-//                             options: [],
-
-//                             points: 1,
-//                             isAnswered: false,
-//                             isMultiple: true,
-                           
-                            
-//                         }
-//                     ],
-//                 }
-//             ],
-//             status: 'IN_PROGRESS',
-//             courseId: 'js-course-1',
-//             createdAt: new Date(),
-//             updatedAt: new Date(),
-//         },
-//         {
-//             id: '2',
-//             title: 'الدرس الثانية',
-//             content: 'هذه هي الدرس الثانية',
-//             files: [
-//                 {
-//                     id: '4',
-//                     name: 'الملف الأول',
-//                     url: 'https://www.youtube.com/embed/4fRvHVre3n0',
-//                     type: 'VIDEO',
-//                     createdAt: new Date(),
-//                     lessonId: '2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: '5',
-//                     name: 'الملف الثاني',
-//                     url: 'https://www.google.com',
-//                     type: 'IMAGE',
-//                     createdAt: new Date(),
-//                     lessonId: '2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: '6',
-//                     name: 'الملف الثالث',
-//                     url: 'https://docs.google.com/document/d/1zgkauCCOCzzUKDgfgyO2SUBQDbWCY9DfIs0Wp4Bs55U/edit?tab=t.0',
-//                     type: 'DOCUMENT',
-//                     createdAt: new Date(),
-//                     lessonId: '2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: '7',
-//                     name: 'الملف الثالث',
-//                     url: 'https://soundcloud.com/beatlabaudio/stonebank-hard-essentials-vol-1-serum-2-presets?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing',
-//                     type: 'AUDIO',
-//                     createdAt: new Date(),
-//                     lessonId: '2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 },
-//                 {
-//                     id: '8',
-//                     name: 'الملف الثالث',
-//                     url: 'https://drive.uqu.edu.sa/_/yhafeef/files/JAVA%20Basics.pdf',
-//                     type: 'PDF',
-//                     createdAt: new Date(),
-//                     lessonId: '2',
-//                     accountingEntryId: null,
-//                     prRecordId: null,
-//                     meetingId: null,
-//                     adminRoleId: null,
-//                     legalCaseId: null,
-//                 }
-//             ],
-//             quizzes: [
-//                 {
-//                     id: 'quiz-3',
-//                     title: 'اختبار الدرس الثانية',
-//                     description: 'اختبار الدرس الثانية',
-//                     createdAt: new Date(),
-//                     updatedAt: new Date(),
-//                     lessonId: '2',
-//                     timeLimit: 10,
-//                     passingScore: 70,
-//                     upComing: false,
-//                     isCompleted: false,
-//                     submissions: [],
-//                     questions: [
-//                         {
-//                             id: 'question-3',
-//                             createdAt: new Date(),
-//                             type: 'MULTIPLE_CHOICE',
-//                             quizId: 'quiz-3',
-//                             text: 'ما هي اللغة التي تستخدم لبرمجة الويب؟',
-//                             options: [
-//                                 {
-//                                     id: 'option-1',
-//                                     text: 'JavaScript',
-//                                     isCorrect: true,
-//                                     createdAt: new Date(),
-//                                     updatedAt: new Date(),
-//                                     questionId: 'question-3',
-//                                 },
-//                                 {
-//                                     id: 'option-2',
-//                                     text: 'Python',
-//                                     isCorrect: false,
-//                                     createdAt: new Date(),
-//                                     updatedAt: new Date(),
-//                                     questionId: 'question-3',
-//                                 },
-//                             ],
-//                             points: 1,
-//                             isAnswered: false,
-//                             isMultiple: true,
-//                         }
-//                     ],
-//                 }
-//             ],
-//             status: 'NOT_STARTED',
-//             courseId: '1',
-//             createdAt: new Date(),
-//             updatedAt: new Date(),
-//         }],
-
-//     enrollments: [
-//         {
-//             id: 'enroll-1',
-//             userId: 'user-1',
-//             courseId: 'js-course-1',
-//             createdAt: new Date(),
-//             updatedAt: new Date(),
-//             status: 'COMPLETED',
-//             progress: 100,
-//             user: {
-//                 id: 'user-1',
-//                 role: 'STUDENT',
-//                 email: 'student@example.com',
-//                 academyId: 'academy-frontend',
-//                 createdAt: new Date(),
-//                 updatedAt: new Date(),
-//                 password: 'password',
-//                 phone: '1234567890',
-//                 firstName: 'John',
-//                 lastName: 'Doe',
-//                 age: 20,
-//                 subRole: 'STUDENT',
-//                 avatar: 'https://via.placeholder.com/150',
-//                 isOnline: true,
-//                 isVerified: true,
-//             }
-//         }
-//     ]
-// };
-
-
 let getCourse = async (id: string) => {
-    const course = await courseApi.getById(id);
-    return course.data;
-}
+    const response = await courseApi.getById(id);
+    return response.data;
+};
 
 const CoursePage = ({ params }: { params: { id: string } }) => {
-    const [selectedLesson, setSelectedLesson] = useState<Lesson & { files: FileModel[], quizzes: (Quiz & { submissions: Submission[], questions: Question[] })[] } | null>(null);
-    const [selectedFile, setSelectedFile] = useState<FileModel | null>(null);
-    const [expandedLessons, setExpandedLessons] = useState<{ [key: string]: boolean }>({});
+    const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set());
     const [selectedQuiz, setSelectedQuiz] = useState<string | null>(null);
 
-    const { data: courseData, isLoading: isCourseLoading } = useQuery({
+    const { data: course, isLoading } = useQuery({
         queryKey: ['course', params.id],
         queryFn: () => getCourse(params.id),
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 10,
     });
 
     const handleLessonExpand = (lessonId: string) => {
-        setExpandedLessons(prev => ({
-            ...prev,
-            [lessonId]: !prev[lessonId]
-        }));
+        const newExpanded = new Set(expandedLessons);
+        if (newExpanded.has(lessonId)) {
+            newExpanded.delete(lessonId);
+        } else {
+            newExpanded.add(lessonId);
+        }
+        setExpandedLessons(newExpanded);
     };
 
     const getFileIcon = (type: FileType) => {
         switch (type) {
             case 'VIDEO':
-                return <VideoIcon />;
-            case 'PDF':
-                return <FileText />;
-            case 'IMAGE':
-                return <Image />;
+                return <Video className="w-5 h-5 text-red-500" />;
             case 'AUDIO':
-                return <FileAudio />;
+                return <FileAudio className="w-5 h-5 text-blue-500" />;
+            case 'PDF':
+                return <FileText className="w-5 h-5 text-red-600" />;
             case 'DOCUMENT':
-                return <File />;
+                return <File className="w-5 h-5 text-green-500" />;
+            case 'IMAGE':
+                return <Image className="w-5 h-5 text-purple-500" />;
             default:
-                return <File />;
+                return <File className="w-5 h-5 text-gray-500" />;
         }
     };
 
     const renderFilePreview = (file: FileModel) => {
-        switch (file.type) {
-            case 'VIDEO':
-                return (
-                    <Box sx={{ mt: 2 }}>
-                        {selectedQuiz ? (
-                            <QuizSidebar quizId={selectedQuiz} lessonId={selectedLesson?.id || ''} />
-                        ) : (
-                            <>
-                                <iframe
-                                    width="100%"
-                                    className="h-[50vh]"
-                                    src={file.url}
-                                    title={file.name}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                                {selectedLesson?.quizzes && selectedLesson.quizzes.length > 0 && (
-                                    <Box sx={{ mt: 2 }}>
-                                        <Typography variant="h6" gutterBottom>
-                                            اختبارات الدرس
-                                        </Typography>
-                                        <List className="w-full">
-                                            {selectedLesson.quizzes.map((quiz) => (
-                                                <ListItem key={quiz.id} style={{ justifyContent: "space-between" }} className="flex items-center w-full">
-                                                    <ListItemText
-                                                        className="flex flex-col justify-center items-start"
-                                                        primary={quiz.title}
-                                                        secondary={quiz.description}
-                                                    />
-                                                    <Button
-                                                        variant="contained"
-                                                        onClick={() => setSelectedQuiz(quiz.id)}
-                                                    >
-                                                        بدء الاختبار
-                                                    </Button>
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                    </Box>
-                                )}
-                            </>
-                        )}
-                    </Box>
-                );
-            case 'PDF':
-                return (
-                    <Box sx={{ mt: 2, height: '500px' }}>
-                        <iframe
-                            width="100%"
-                            height="100%"
-                            src={file.url}
-                            title={file.name}
-                        />
-                    </Box>
-                );
-            case 'IMAGE':
-                return (
-                    <Box sx={{ mt: 2 }}>
-                        <img
-                            src={file.url}
-                            alt={file.name}
-                            style={{ width: '100%', maxHeight: '500px', objectFit: 'contain' }}
-                        />
-                    </Box>
-                );
-            case 'AUDIO':
-                return (
-                    <Box sx={{ mt: 2 }}>
-                        <audio controls style={{ width: '100%' }}>
-                            <source src={file.url} type="audio/mpeg" />
-                            Your browser does not support the audio element.
-                        </audio>
-                    </Box>
-                );
-            case 'DOCUMENT':
-                return (
-                    <Box sx={{ mt: 2 }}>
-                        <iframe
-                            width="100%"
-                            height="500px"
-                            src={`https://docs.google.com/viewer?url=${encodeURIComponent(file.url)}&embedded=true`}
-                            title={file.name}
-                        />
-                    </Box>
-                );
-            default:
-                return null;
+        if (file.type === 'VIDEO' && file.url.includes('youtube.com')) {
+            const videoId = file.url.split('embed/')[1];
+            return (
+                <div className="aspect-video w-full">
+                    <iframe
+                        src={file.url}
+                        title={file.name}
+                        className="w-full h-full rounded-lg"
+                        allowFullScreen
+                    />
+                </div>
+            );
         }
+        return (
+            <div className="flex items-center p-3 border rounded-lg bg-gray-50">
+                {getFileIcon(file.type)}
+                <span className="mr-3 text-sm">{file.name}</span>
+                <Button variant="outline" size="sm">
+                    عرض
+                </Button>
+            </div>
+        );
     };
 
-    if (isCourseLoading) {
+    if (isLoading) {
         return (
             <div className="space-y-6">
-                <Skeleton height={40} width={300} />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {[1, 2, 3, 4].map((i) => (
-                        <Skeleton key={i} height={120} />
-                    ))}
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <Skeleton height={300} />
-                    <Skeleton height={300} />
+                <Skeleton height={300} />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2">
+                        <Skeleton height={400} />
+                    </div>
+                    <div>
+                        <Skeleton height={400} />
+                    </div>
                 </div>
             </div>
         );
     }
-    let course = courseData;
+
     if (!course) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                <Typography>لم يتم العثور على الكورس</Typography>
-            </Box>
+            <div className="text-center py-12">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">لم يتم العثور على الدورة</h2>
+                <p className="text-gray-600">الدورة المطلوبة غير موجودة أو تم حذفها.</p>
+            </div>
         );
     }
 
+    const completedLessons = course.lessons?.filter(lesson => lesson.status === 'COMPLETED').length || 0;
+    const totalLessons = course.lessons?.length || 0;
+    const progressPercentage = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+
     return (
-        <Container maxWidth="xl" sx={{ py: 4, position: "relative" }}>
-            {/* عنوان الكورس */}
+        <div className="space-y-6">
+            {/* Course Header */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                className="bg-white rounded-lg shadow-lg overflow-hidden"
             >
-                <Box sx={{ mb: 6, textAlign: 'center' }}>
-                    <Typography variant="h2" component="h1" gutterBottom>
-                        {course.title}
-                    </Typography>
-                    <Typography variant="h6" color="text.secondary" sx={{ maxWidth: '800px', mx: 'auto' }}>
-                        {course.description}
-                    </Typography>
-                </Box>
+                <div className="relative h-64 bg-gradient-to-r from-blue-600 to-purple-600">
+                    <img
+                        src={course.image || 'https://via.placeholder.com/800x300'}
+                        alt={course.title}
+                        className="w-full h-full object-cover opacity-20"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center text-white">
+                            <h1 className="text-4xl font-bold mb-4">{course.title}</h1>
+                            <p className="text-xl opacity-90 max-w-2xl mx-auto">{course.description}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="p-6">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                        <div className="flex items-center space-x-4 space-x-reverse">
+                            <Badge variant="standard">
+                                <span>{course.level}</span>
+                            </Badge>
+                            <div className="flex items-center text-yellow-500">
+                                <Star className="w-5 h-5 fill-current" />
+                                <span className="mr-1">4.8</span>
+                            </div>
+                            <div className="flex items-center text-gray-600">
+                                <Clock className="w-4 h-4 mr-1" />
+                                <span>{course.lessons?.length || 0} درس</span>
+                            </div>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2 space-x-reverse">
+                            <UserIcon className="w-5 h-5 text-gray-600" />
+                            <span className="text-gray-600">
+                                {course.enrollments?.length || 0} طالب مسجل
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </motion.div>
 
-            <Grid container spacing={4}>
-                {/* القسم الرئيسي */}
-                <Grid item xs={12} md={4}>
-                    {/* معلومات الكورس */}
-                    <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-                        <Typography variant="h6" gutterBottom>
-                            معلومات الكورس
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <VideoIcon color="primary" />
-                                <Typography>
-                                    عدد الدروس: {course.lessons?.length || 0}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <UserIcon color="primary" />
-                                <Typography>
-                                    عدد الطلاب: {course.enrollments?.length || 0}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <School color="primary" />
-                                <Typography>
-                                    المستوى: {course.level || 'جميع المستويات'}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Paper>
-                    {/* مقدمة الكورس */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                        <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-                            <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <FileText /> مقدمة الكورس
-                            </Typography>
-                            <Typography variant="body1" paragraph>
-                                {course.description}
-                            </Typography>
-                        </Paper>
-                    </motion.div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Content */}
+                <div className="lg:col-span-2 space-y-6">
+                    {/* Progress Section */}
+                    <Card title="تقدمك في الدورة">
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-gray-600">التقدم العام</span>
+                                <span className="font-semibold">{Math.round(progressPercentage)}%</span>
+                            </div>
+                            <Progress
+                                value={completedLessons}
+                                max={totalLessons}
+                                showLabel
+                                label={`${completedLessons} من ${totalLessons} درس مكتمل`}
+                            />
+                        </div>
+                    </Card>
 
-                    {/* قائمة الدروس */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                    >
-                        <Paper elevation={3} sx={{ p: 3 }}>
-                            <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <VideoIcon /> الدروس
-                            </Typography>
-                            <List>
-                                {course.lessons?.map((lesson) => (
-                                    <Box key={lesson.id}>
-                                        <ListItem
-                                            button
-                                            selected={selectedLesson?.id === lesson.id}
-                                            disabled={lesson.status === 'NOT_STARTED'}
-                                            onClick={() => {
-                                                if (lesson.status === 'NOT_STARTED') return
-                                                setSelectedLesson(lesson as unknown as Lesson & { files: FileModel[], quizzes: (Quiz & { submissions: Submission[], questions: Question[] })[] });
-                                                handleLessonExpand(lesson.id);
-                                            }}
-                                            sx={{
-                                                mb: 1,
-                                                borderRadius: 1,
-                                                '&:hover': {
-                                                    backgroundColor: 'action.hover',
-                                                },
-                                            }}
+                    {/* Lessons Section */}
+                    <Card title="الدروس">
+                        <div className="space-y-4">
+                            {course.lessons?.map((lesson, index) => (
+                                <motion.div
+                                    key={lesson.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                                    className="border rounded-lg overflow-hidden"
+                                >
+                                    <div
+                                        className="flex items-center justify-between p-4 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
+                                        onClick={() => handleLessonExpand(lesson.id)}
+                                    >
+                                        <div className="flex items-center space-x-3 space-x-reverse">
+                                            <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm font-semibold">
+                                                {index + 1}
+                                            </div>
+                                            <div>
+                                                <h3 className="font-semibold text-gray-900">{lesson.title}</h3>
+                                                <p className="text-sm text-gray-600">{lesson.content}</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center space-x-2 space-x-reverse">
+                                            <Badge variant="standard">
+                                                <span>{lesson.status}</span>
+                                            </Badge>
+                                            {expandedLessons.has(lesson.id) ? (
+                                                <ChevronUp className="w-5 h-5 text-gray-500" />
+                                            ) : (
+                                                <ChevronDown className="w-5 h-5 text-gray-500" />
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {expandedLessons.has(lesson.id) && (
+                                        <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: 'auto' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            className="p-4 border-t"
                                         >
-                                            <ListItemIcon>
-                                                <PlayCircle />
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={lesson.title}
-                                                secondary={
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
-                                                        <Clock fontSize="small" />
-                                                        <Typography variant="body2" color="text.secondary">
-                                                            {lesson.files?.length || 0} ملفات مرفقة
-                                                        </Typography>
-                                                        <Chip
-                                                            size="small"
-                                                            label={lesson.status === 'COMPLETED' ? 'مكتملة' : lesson.status === 'IN_PROGRESS' ? 'قيد التنفيذ' : ' مغلقه'}
-                                                            color={lesson.status === 'COMPLETED' ? 'success' : lesson.status === 'IN_PROGRESS' ? 'warning' : "error"}
-                                                        />
-                                                    </Box>
-                                                }
-                                            />
-                                            {/* <IconButton onClick={() => handleLessonExpand(lesson.id)}> */}
-                                            {expandedLessons[lesson.id] ? <ChevronDown /> : <ChevronUp />}
-                                            {/* </IconButton> */}
-                                        </ListItem>
-                                        <Collapse in={expandedLessons[lesson.id]} timeout="auto" unmountOnExit>
-                                            <List component="div" disablePadding>
-                                                {lesson.files?.map((file) => (
-                                                    <ListItemButton
-                                                        key={file.id}
-                                                        sx={{ pl: 4 }}
-                                                        onClick={() => setSelectedFile(file)}
-                                                    >
-                                                        <ListItemIcon>
-                                                            {getFileIcon(file.type)}
-                                                        </ListItemIcon>
-                                                        <ListItemText primary={file.name} />
-                                                    </ListItemButton>
-                                                ))}
-                                            </List>
-                                        </Collapse>
-                                    </Box>
-                                ))}
-                            </List>
-                        </Paper>
-                    </motion.div>
-                </Grid>
+                                            <div className="space-y-4">
+                                                {/* Files */}
+                                                {lesson.files && lesson.files.length > 0 && (
+                                                    <div>
+                                                        <h4 className="font-semibold mb-3">الملفات المرفقة</h4>
+                                                        <div className="space-y-2">
+                                                            {lesson.files.map((file) => (
+                                                                <div key={file.id}>
+                                                                    {renderFilePreview(file)}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
 
-                {/* القسم الجانبي */}
-                <Grid item xs={12} md={8}>
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        style={{ position: "sticky", top: "10vh", zIndex: 1000 }}
-                    >
+                                                {/* Quizzes */}
+                                                {lesson.quizzes && lesson.quizzes.length > 0 && (
+                                                    <div>
+                                                        <h4 className="font-semibold mb-3">الاختبارات</h4>
+                                                        <div className="space-y-2">
+                                                            {lesson.quizzes.map((quiz) => (
+                                                                <div
+                                                                    key={quiz.id}
+                                                                    className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                                                                    onClick={() => setSelectedQuiz(quiz.id)}
+                                                                >
+                                                                    <div className="flex items-center space-x-2 space-x-reverse">
+                                                                        <FileText className="w-5 h-5 text-blue-500" />
+                                                                        <span className="font-medium">{quiz.title}</span>
+                                                                    </div>
+                                                                    <Badge variant="standard">
+                                                        <span>{quiz.isCompleted ? 'مكتمل' : 'غير مكتمل'}</span>
+                                                    </Badge>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </motion.div>
+                            ))}
+                        </div>
+                    </Card>
+                </div>
 
+                {/* Sidebar */}
+                <div className="space-y-6">
+                    {/* Course Info */}
+                    <Card title="معلومات الدورة">
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-600">المستوى</span>
+                                <Badge variant="standard">
+                                    <span>{course.level}</span>
+                                </Badge>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-600">عدد الدروس</span>
+                                <span className="font-semibold">{course.lessons?.length || 0}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-600">الحالة</span>
+                                <Badge variant="standard">
+                                    <span>{course.status}</span>
+                                </Badge>
+                            </div>
+                        </div>
+                    </Card>
 
-                        {/* تفاصيل الدرس المحددة */}
-                        {selectedLesson && (
-                            <Paper elevation={3} sx={{ p: 3 }} >
-                                {selectedFile && (
-                                    <Box>
-                                        <Typography variant="subtitle2" gutterBottom>
-                                            {selectedFile.name}
-                                        </Typography>
-                                        {renderFilePreview(selectedFile)}
-                                    </Box>
-                                )}
-                                <Typography variant="h6" gutterBottom className={"mt-5"}>
-                                    تفاصيل الدرس
-                                </Typography>
-                                <Typography variant="subtitle1" gutterBottom>
-                                    {selectedLesson.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" paragraph>
-                                    {selectedLesson.content}
-                                </Typography>
-                            </Paper>
-                        )}
-
-                        {/* تقدم الطالب */}
-                        <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
-                            <Typography variant="h6" gutterBottom>
-                                تقدمك في الكورس
-                            </Typography>
-                            <Box sx={{ mt: 2 }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                    <Typography variant="body2">
-                                        الدروس المكتملة
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {Math.round((course.lessons?.filter(l => l.status === 'COMPLETED').length || 0) / (course.lessons?.length || 1) * 100)}%
-                                    </Typography>
-                                </Box>
-                                <LinearProgress
-                                    variant="determinate"
-                                    value={(course.lessons?.filter(l => l.status === 'COMPLETED').length || 0) / (course.lessons?.length || 1) * 100}
-                                    sx={{ height: 8, borderRadius: 4 }}
-                                />
-                            </Box>
-                        </Paper>
-                    </motion.div>
-                </Grid>
-            </Grid>
-        </Container>
+                    {/* Quiz Sidebar */}
+                    {selectedQuiz && (
+                        <QuizSidebar quizId={selectedQuiz} lessonId="" />
+                    )}
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -1,12 +1,9 @@
 "use client"
 import React from 'react';
-import {
-    Chip as MuiChip,
-    ChipProps as MuiChipProps,
-    
-} from '@mui/material';
+import { cn } from '@/lib/utils';
+import { X } from 'lucide-react';
 
-interface ChipProps extends Omit<MuiChipProps, 'color'> {
+interface ChipProps {
     label: string;
     color?: 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
     variant?: 'filled' | 'outlined';
@@ -14,6 +11,7 @@ interface ChipProps extends Omit<MuiChipProps, 'color'> {
     icon?: React.ReactElement;
     onDelete?: () => void;
     className?: string;
+    onClick?: () => void;
 }
 
 const Chip: React.FC<ChipProps> = ({
@@ -24,61 +22,84 @@ const Chip: React.FC<ChipProps> = ({
     icon,
     onDelete,
     className = '',
+    onClick,
     ...props
 }) => {
-
     const getColorClass = () => {
         switch (color) {
             case 'primary':
                 return variant === 'filled'
-                    ? 'bg-primary-main text-white'
-                    : 'border-primary-main text-primary-main';
+                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    : 'border-blue-600 text-blue-600 hover:bg-blue-50';
             case 'secondary':
                 return variant === 'filled'
-                    ? 'bg-secondary-main text-white'
-                    : 'border-secondary-main text-secondary-main';
+                    ? 'bg-gray-600 text-white hover:bg-gray-700'
+                    : 'border-gray-600 text-gray-600 hover:bg-gray-50';
             case 'success':
                 return variant === 'filled'
-                    ? 'bg-success-main text-white'
-                    : 'border-success-main text-success-main';
+                    ? 'bg-green-600 text-white hover:bg-green-700'
+                    : 'border-green-600 text-green-600 hover:bg-green-50';
             case 'error':
                 return variant === 'filled'
-                    ? 'bg-error-main text-white'
-                    : 'border-error-main text-error-main';
+                    ? 'bg-red-600 text-white hover:bg-red-700'
+                    : 'border-red-600 text-red-600 hover:bg-red-50';
             case 'warning':
                 return variant === 'filled'
-                    ? 'bg-warning-main text-white'
-                    : 'border-warning-main text-warning-main';
+                    ? 'bg-yellow-600 text-white hover:bg-yellow-700'
+                    : 'border-yellow-600 text-yellow-600 hover:bg-yellow-50';
             case 'info':
                 return variant === 'filled'
-                    ? 'bg-info-main text-white'
-                    : 'border-info-main text-info-main';
+                    ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+                    : 'border-cyan-600 text-cyan-600 hover:bg-cyan-50';
             default:
-                return '';
+                return variant === 'filled'
+                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    : 'border-blue-600 text-blue-600 hover:bg-blue-50';
+        }
+    };
+
+    const getSizeClass = () => {
+        switch (size) {
+            case 'small':
+                return 'px-2 py-1 text-xs';
+            case 'medium':
+                return 'px-3 py-1.5 text-sm';
+            default:
+                return 'px-3 py-1.5 text-sm';
         }
     };
 
     return (
-        <MuiChip
-            label={label}
-            icon={icon}
-            onDelete={onDelete}
-            className={`
-        ${className}
-        ${getColorClass()}
-        ${size === 'small' ? 'text-xs' : 'text-sm'}
-        font-medium
-        rounded-full
-        transition-colors
-        duration-200
-        hover:opacity-90
-        focus:outline-none
-        focus:ring-2
-        focus:ring-offset-2
-        ${variant === 'outlined' ? 'bg-transparent' : ''}
-      `}
+        <div
+            className={cn(
+                'inline-flex items-center font-medium rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2',
+                variant === 'outlined' && 'bg-transparent border',
+                getColorClass(),
+                getSizeClass(),
+                (onClick || onDelete) && 'cursor-pointer',
+                className
+            )}
+            onClick={onClick}
             {...props}
-        />
+        >
+            {icon && (
+                <span className="mr-1 rtl:mr-0 rtl:ml-1">
+                    {icon}
+                </span>
+            )}
+            <span>{label}</span>
+            {onDelete && (
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete();
+                    }}
+                    className="ml-1 rtl:ml-0 rtl:mr-1 p-0.5 rounded-full hover:bg-black/10 transition-colors"
+                >
+                    <X className="h-3 w-3" />
+                </button>
+            )}
+        </div>
     );
 };
 

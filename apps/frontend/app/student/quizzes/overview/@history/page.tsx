@@ -143,8 +143,8 @@ export default function HistoryPage() {
                             headerName: 'الإجراءات',
                             renderCell: (row: any) => (
                                 <Button
-                                    variant="outlined"
-                                    size="small"
+                                    variant="outline"
+                                    size="sm"
                                 >
                                     استعراض الحل
                                 </Button>

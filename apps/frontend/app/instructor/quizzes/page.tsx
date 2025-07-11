@@ -4,9 +4,8 @@ import dynamic from 'next/dynamic';
 import { useUser } from '@/hooks/useUser';
 import { quizApi, courseApi, submissionApi } from '@/lib/api';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { Box, Grid, Typography, Button, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, IconButton, LinearProgress } from '@mui/material';
-import { Add, FileDownload, Edit, Delete } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { Plus, Download, Edit, Delete } from 'lucide-react';
 
 const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div></div> });
 const DataGrid = dynamic(() => import('@/components/common/DataGrid'), { loading: () => <div></div> });
@@ -199,225 +198,320 @@ export default function InstructorQuizzes() {
             xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`);
             xhr.upload.onprogress = (event) => {
                 if (event.lengthComputable) {
-                    setImportProgress(Math.round((event.loaded / event.total) * 100));
+                    const progress = Math.round((event.loaded / event.total) * 100);
+                    setImportProgress(progress);
                 }
             };
-            xhr.onload = async () => {
+            xhr.onload = () => {
                 if (xhr.status === 200) {
-                    const res = JSON.parse(xhr.responseText);
-                    // قراءة الملف من Cloudinary
-                    try {
-                        const XLSX = (await import('xlsx')).default;
-                        const response = await fetch(res.secure_url);
-                        const blob = await response.blob();
-                        const arrayBuffer = await blob.arrayBuffer();
-                        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-                        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                        const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                        // تحويل البيانات إلى أسئلة
-                        // توقع: ["النص", "النوع", "الخيارات (مفصولة بفاصلة)", "الإجابة الصحيحة"]
-                        const importedQuestions = data.slice(1).map((row: any) => {
-                            return {
-                                text: row[0] || '',
-                                type: row[1] || 'MULTIPLE_CHOICE',
-                                options: row[2] ? String(row[2]).split(',').map((s: string) => s.trim()) : [],
-                                answer: row[3] || '',
-                            };
-                        }).filter(q => q.text);
-                        setQuestions(prev => [...prev, ...importedQuestions]);
-                        setSnackbar({ open: true, msg: 'تم استيراد الأسئلة بنجاح!', type: 'success' });
-                        setImportDialogOpen(false);
-                    } catch (err) {
-                        setSnackbar({ open: true, msg: 'فشل قراءة الملف!', type: 'error' });
-                    }
+                    const response = JSON.parse(xhr.responseText);
+                    // هنا يمكن إضافة منطق قراءة الملف واستخراج الأسئلة
+                    setSnackbar({ open: true, msg: 'تم رفع الملف بنجاح!', type: 'success' });
                 } else {
-                    setSnackbar({ open: true, msg: 'فشل رفع الملف!', type: 'error' });
+                    setSnackbar({ open: true, msg: 'فشل في رفع الملف!', type: 'error' });
                 }
                 setImporting(false);
             };
             xhr.onerror = () => {
+                setSnackbar({ open: true, msg: 'فشل في رفع الملف!', type: 'error' });
                 setImporting(false);
-                setSnackbar({ open: true, msg: 'حدث خطأ أثناء رفع الملف!', type: 'error' });
             };
             xhr.send(formData);
-        } catch (err) {
+        } catch (error) {
+            setSnackbar({ open: true, msg: 'فشل في رفع الملف!', type: 'error' });
             setImporting(false);
-            setSnackbar({ open: true, msg: 'حدث خطأ أثناء رفع الملف!', type: 'error' });
         }
     };
 
     return (
-        <Box className="container mx-auto px-4 py-8">
-            <Suspense fallback={<Skeleton height={40} width={300} />}>
-            <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold">إدارة الاختبارات</h1>
-                    {(user?.role === 'INSTRUCTOR' || user?.role === 'ADMIN') && (
-                <div className="flex gap-4">
-                            <Button variant="contained" startIcon={<Add />} onClick={handleOpenAdd}>
-                                إنشاء اختبار جديد
-                            </Button>
-                            <Button variant="outlined" startIcon={<FileDownload />} onClick={() => setImportDialogOpen(true)}>
-                                استيراد أسئلة
-                            </Button>
-                        </div>
-                    )}
+        <div className="container mx-auto px-4 py-8">
+            {/* العنوان والإحصائيات */}
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold mb-4">إدارة الاختبارات</h1>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white rounded-lg shadow p-6">
+                        <h3 className="text-lg font-semibold mb-2">إجمالي الاختبارات</h3>
+                        <p className="text-3xl font-bold text-blue-600">{stats.total}</p>
+                    </div>
+                    <div className="bg-white rounded-lg shadow p-6">
+                        <h3 className="text-lg font-semibold mb-2">الاختبارات النشطة</h3>
+                        <p className="text-3xl font-bold text-green-600">{stats.active}</p>
+                    </div>
+                    <div className="bg-white rounded-lg shadow p-6">
+                        <h3 className="text-lg font-semibold mb-2">متوسط الدرجات</h3>
+                        <p className="text-3xl font-bold text-purple-600">{stats.avg}</p>
+                    </div>
                 </div>
-            </Suspense>
+            </div>
 
-            <Grid container spacing={3} className="mb-8">
-                <Grid item xs={12} md={4}>
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                        <Card title="إجمالي الاختبارات">
-                            <div className="text-4xl font-bold">{stats.total}</div>
-                </Card>
-                    </motion.div>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-                        <Card title="الاختبارات النشطة">
-                            <div className="text-4xl font-bold">{stats.active}</div>
-                </Card>
-                    </motion.div>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-                        <Card title="متوسط الدرجات">
-                            <div className="text-4xl font-bold">{stats.avg}</div>
-                </Card>
-                    </motion.div>
-                </Grid>
-            </Grid>
+            {/* أزرار الإجراءات */}
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold">الاختبارات</h2>
+                <div className="flex gap-2">
+                    <button
+                        className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
+                        onClick={() => setImportDialogOpen(true)}
+                    >
+                        <Download className="h-4 w-4" />
+                        استيراد
+                    </button>
+                    <button
+                        className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-green-700"
+                        onClick={handleOpenAdd}
+                    >
+                        <Plus className="h-4 w-4" />
+                        إضافة اختبار
+                    </button>
+                </div>
+            </div>
 
-            <Box className="bg-white rounded-xl shadow p-4">
-                {isQuizzesLoading ? (
-                    <Skeleton height={300} />
-                ) : (
-            <DataGrid
-                columns={columns}
+            {/* جدول الاختبارات */}
+            {isQuizzesLoading ? (
+                <div className="bg-white rounded-lg shadow p-6">
+                    <Skeleton variant="rectangular" height={400} />
+                </div>
+            ) : (
+                <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <DataGrid
+                        columns={columns}
                         rows={quizzesData || []}
-                pageSize={10}
-                checkboxSelection={true}
-            />
-                )}
-            </Box>
+                        pageSize={10}
+                        checkboxSelection={false}
+                    />
+                </div>
+            )}
 
             {/* Dialog إضافة/تعديل اختبار */}
-            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="sm">
-                <DialogTitle>{editMode ? 'تعديل الاختبار' : 'إضافة اختبار جديد'}</DialogTitle>
-                <DialogContent>
-                    {/* ... نموذج بيانات الاختبار ... */}
-                    {/* إدارة الأسئلة */}
-                    <Box sx={{ mt: 3, mb: 2 }}>
-                        <Typography variant="h6" className="mb-2">الأسئلة</Typography>
-                        {questions.length === 0 && <Typography color="text.secondary">لا توجد أسئلة مضافة بعد.</Typography>}
-                        <ul className="mb-4">
-                            {questions.map((q, idx) => (
-                                <li key={idx} className="flex items-center gap-2 mb-2">
-                                    <span className="font-bold">{idx + 1}.</span>
-                                    <span>{q.text}</span>
-                                    <IconButton size="small" color="primary" onClick={() => handleEditQuestion(idx)}><Edit fontSize="small" /></IconButton>
-                                    <IconButton size="small" color="error" onClick={() => handleDeleteQuestion(idx)}><Delete fontSize="small" /></IconButton>
-                                </li>
-                            ))}
-                        </ul>
-                        <Box className="mb-2">
-                            <TextField
-                                label="نص السؤال"
-                                value={questionForm.text}
-                                onChange={e => setQuestionForm({ ...questionForm, text: e.target.value })}
-                                fullWidth
-                                className="mb-2"
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${dialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 max-h-[90vh] overflow-y-auto">
+                    <h2 className="text-xl font-bold mb-4">{editMode ? 'تعديل الاختبار' : 'إضافة اختبار جديد'}</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label className="block text-sm font-medium mb-2">عنوان الاختبار</label>
+                            <input
+                                type="text"
+                                className="w-full border rounded p-2"
+                                value={quizForm.title}
+                                onChange={e => setQuizForm({ ...quizForm, title: e.target.value })}
                             />
-                            <TextField
-                                label="نوع السؤال"
-                                value={questionForm.type}
-                                onChange={e => setQuestionForm({ ...questionForm, type: e.target.value, options: e.target.value === 'MULTIPLE_CHOICE' ? [''] : [], answer: '' })}
-                                select
-                                fullWidth
-                                className="mb-2"
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">الدورة</label>
+                            <select
+                                className="w-full border rounded p-2"
+                                value={quizForm.courseId}
+                                onChange={e => setQuizForm({ ...quizForm, courseId: e.target.value })}
                             >
-                                {QUESTION_TYPES.map((t) => (
-                                    <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>
+                                <option value="">اختر الدورة</option>
+                                {coursesData?.map((course: any) => (
+                                    <option key={course.id} value={course.id}>{course.title}</option>
                                 ))}
-                            </TextField>
-                            {/* خيارات السؤال */}
-                            {questionForm.type === 'MULTIPLE_CHOICE' && (
-                                <Box className="mb-2">
-                                    <Typography variant="body2">الخيارات</Typography>
-                                    {questionForm.options?.map((opt: string, idx: number) => (
-                                        <Box key={idx} className="flex items-center gap-2 mb-1">
-                                            <TextField
-                                                value={opt}
-                                                onChange={e => handleOptionChange(idx, e.target.value)}
-                                                size="small"
-                                                label={`خيار ${idx + 1}`}
-                                            />
-                                            <IconButton size="small" color="error" onClick={() => handleDeleteOption(idx)} disabled={questionForm.options.length <= 1}><Delete fontSize="small" /></IconButton>
-                                        </Box>
-                                    ))}
-                                    <Button onClick={handleAddOption} size="small" variant="outlined" sx={{ mt: 1 }}>إضافة خيار</Button>
-                                    <TextField
-                                        label="الإجابة الصحيحة"
-                                        value={questionForm.answer}
-                                        onChange={e => setQuestionForm({ ...questionForm, answer: e.target.value })}
-                                        size="small"
-                                        fullWidth
-                                        className="mt-2"
-                                        placeholder="اكتب نص الخيار الصحيح بالضبط"
-                                    />
-                                </Box>
-                            )}
-                            {questionForm.type === 'SHORT_ANSWER' && (
-                                <TextField
-                                    label="الإجابة الصحيحة"
-                                    value={questionForm.answer}
-                                    onChange={e => setQuestionForm({ ...questionForm, answer: e.target.value })}
-                                    size="small"
-                                    fullWidth
-                                    className="mb-2"
-                                />
-                            )}
-                            <Button onClick={handleAddQuestion} variant="contained" color="primary" sx={{ mt: 2 }}>
-                                {editQuestionIndex !== null ? 'حفظ التعديل' : 'إضافة السؤال'}
-                            </Button>
-                        </Box>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)}>إلغاء</Button>
-                    <Button onClick={handleSaveQuiz} variant="contained" color="primary" disabled={loadingAction}>
-                        {editMode ? 'حفظ التعديلات' : 'إضافة'}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">المدة (دقيقة)</label>
+                            <input
+                                type="number"
+                                className="w-full border rounded p-2"
+                                value={quizForm.timeLimit}
+                                onChange={e => setQuizForm({ ...quizForm, timeLimit: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">درجة النجاح</label>
+                            <input
+                                type="number"
+                                className="w-full border rounded p-2"
+                                value={quizForm.passingScore}
+                                onChange={e => setQuizForm({ ...quizForm, passingScore: e.target.value })}
+                            />
+                        </div>
+                    </div>
 
-            {/* Dialog استيراد الأسئلة */}
-            <Dialog open={importDialogOpen} onClose={() => setImportDialogOpen(false)}>
-                <DialogTitle>استيراد أسئلة من ملف Excel/CSV</DialogTitle>
-                <DialogContent>
-                    <Typography className="mb-2">يرجى اختيار ملف Excel أو CSV يحتوي على الأعمدة: نص السؤال، نوع السؤال، الخيارات (مفصولة بفاصلة)، الإجابة الصحيحة.</Typography>
-                    <Button variant="outlined" component="label" disabled={importing}>
-                        اختر ملف
-                        <input type="file" accept=".xlsx,.xls,.csv" hidden ref={fileInputRef} onChange={handleImportFile} />
-                    </Button>
-                    {importing && (
-                        <Box sx={{ width: '100%', mt: 2 }}>
-                            <LinearProgress variant="determinate" value={importProgress} />
-                            <Typography variant="caption">جاري رفع الملف... {importProgress}%</Typography>
-                        </Box>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setImportDialogOpen(false)}>إلغاء</Button>
-                </DialogActions>
-            </Dialog>
+                    {/* إدارة الأسئلة */}
+                    <div className="border-t pt-6">
+                        <h3 className="text-lg font-bold mb-4">الأسئلة</h3>
+                        
+                        {/* إضافة سؤال جديد */}
+                        <div className="bg-gray-50 p-4 rounded mb-4">
+                            <h4 className="font-semibold mb-3">{editQuestionIndex !== null ? 'تعديل السؤال' : 'إضافة سؤال جديد'}</h4>
+                            <div className="space-y-3">
+                                <div>
+                                    <label className="block text-sm font-medium mb-1">نص السؤال</label>
+                                    <textarea
+                                        className="w-full border rounded p-2"
+                                        rows={2}
+                                        value={questionForm.text}
+                                        onChange={e => setQuestionForm({ ...questionForm, text: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-1">نوع السؤال</label>
+                                    <select
+                                        className="w-full border rounded p-2"
+                                        value={questionForm.type}
+                                        onChange={e => setQuestionForm({ ...questionForm, type: e.target.value })}
+                                    >
+                                        {QUESTION_TYPES.map(type => (
+                                            <option key={type.value} value={type.value}>{type.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                
+                                {questionForm.type === 'MULTIPLE_CHOICE' && (
+                                    <div>
+                                        <label className="block text-sm font-medium mb-1">الخيارات</label>
+                                        {questionForm.options?.map((option: string, idx: number) => (
+                                            <div key={idx} className="flex gap-2 mb-2">
+                                                <input
+                                                    type="text"
+                                                    className="flex-1 border rounded p-2"
+                                                    value={option}
+                                                    onChange={e => handleOptionChange(idx, e.target.value)}
+                                                    placeholder={`الخيار ${idx + 1}`}
+                                                />
+                                                <button
+                                                    className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+                                                    onClick={() => handleDeleteOption(idx)}
+                                                >
+                                                    <Delete className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                        <button
+                                            className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                                            onClick={handleAddOption}
+                                        >
+                                            إضافة خيار
+                                        </button>
+                                    </div>
+                                )}
+                                
+                                <div className="flex gap-2">
+                                    <button
+                                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                        onClick={handleAddQuestion}
+                                    >
+                                        {editQuestionIndex !== null ? 'حفظ التعديل' : 'إضافة السؤال'}
+                                    </button>
+                                    {editQuestionIndex !== null && (
+                                        <button
+                                            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                                            onClick={() => {
+                                                setEditQuestionIndex(null);
+                                                setQuestionForm({ text: '', type: 'MULTIPLE_CHOICE', options: [''], answer: '' });
+                                            }}
+                                        >
+                                            إلغاء
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* قائمة الأسئلة */}
+                        <div className="space-y-2">
+                            {questions.map((question, idx) => (
+                                <div key={idx} className="border rounded p-3 bg-white">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h5 className="font-medium">{idx + 1}. {question.text}</h5>
+                                        <div className="flex gap-2">
+                                            <button
+                                                className="bg-blue-500 text-white px-2 py-1 rounded text-sm hover:bg-blue-600"
+                                                onClick={() => handleEditQuestion(idx)}
+                                            >
+                                                <Edit className="h-3 w-3" />
+                                            </button>
+                                            <button
+                                                className="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600"
+                                                onClick={() => handleDeleteQuestion(idx)}
+                                            >
+                                                <Delete className="h-3 w-3" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-gray-600">النوع: {QUESTION_TYPES.find(t => t.value === question.type)?.label}</p>
+                                    {question.type === 'MULTIPLE_CHOICE' && question.options && (
+                                        <div className="mt-2">
+                                            <p className="text-sm text-gray-600">الخيارات:</p>
+                                            <ul className="list-disc list-inside text-sm">
+                                                {question.options.map((option: string, optIdx: number) => (
+                                                    <li key={optIdx}>{option}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end gap-2 mt-6">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setDialogOpen(false)}
+                        >
+                            إلغاء
+                        </button>
+                        <button
+                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                            onClick={handleSaveQuiz}
+                            disabled={loadingAction}
+                        >
+                            {editMode ? 'حفظ التعديلات' : 'إضافة الاختبار'}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Dialog استيراد الملفات */}
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${importDialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                    <h2 className="text-xl font-bold mb-4">استيراد الأسئلة</h2>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-2">اختر ملف Excel أو CSV</label>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept=".xlsx,.xls,.csv"
+                                className="w-full border rounded p-2"
+                                onChange={handleImportFile}
+                            />
+                        </div>
+                        {importing && (
+                            <div>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                    <div
+                                        className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                        style={{ width: `${importProgress}%` }}
+                                    />
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">جاري الرفع... {importProgress}%</p>
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex justify-end mt-6">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setImportDialogOpen(false)}
+                        >
+                            إغلاق
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             {/* Snackbar */}
-            <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-                <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.type} sx={{ width: '100%' }}>
-                    {snackbar.msg}
-                </Alert>
-            </Snackbar>
-        </Box>
+            {snackbar.open && (
+                <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+                    <div className={`rounded border px-4 py-3 shadow-lg ${snackbar.type === "error" ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}>
+                        <p className={`font-bold ${snackbar.type === "error" ? "text-red-700" : "text-green-700"}`}>
+                            {snackbar.msg}
+                        </p>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 } 

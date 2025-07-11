@@ -1,17 +1,13 @@
 "use client"
 import React from 'react';
-import {
-    Button as MuiButton,
-    CircularProgress,
-    Box,
-    useTheme,
-} from '@mui/material';
+import { Button as ShadcnButton } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface ButtonProps {
     children: React.ReactNode;
-    variant?: 'text' | 'contained' | 'outlined';
+    variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
     color?: 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
-    size?: 'small' | 'medium' | 'large';
+    size?: 'default' | 'sm' | 'lg' | 'icon';
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
     onClick?: () => void;
@@ -27,9 +23,9 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
     children,
-    variant = 'contained',
+    variant = 'default',
     color = 'primary',
-    size = 'medium',
+    size = 'default',
     startIcon,
     endIcon,
     onClick,
@@ -42,138 +38,89 @@ const Button: React.FC<ButtonProps> = ({
     target,
     rel,
 }) => {
-    const theme = useTheme();
-
-    const getSizeClasses = () => {
-        switch (size) {
-            case 'small':
-                return 'px-3 py-1.5 text-sm';
-            case 'large':
-                return 'px-6 py-3 text-lg';
-            default:
-                return 'px-4 py-2 text-base';
-        }
-    };
-
-    const getVariantClasses = () => {
-        switch (variant) {
-            case 'text':
-                return 'bg-transparent hover:bg-opacity-10';
-            case 'outlined':
-                return 'bg-transparent border-2';
-            default:
-                return '';
-        }
-    };
-
     const getColorClasses = () => {
+        if (variant !== 'default') return '';
+        
         switch (color) {
             case 'primary':
-                return variant === 'text'
-                    ? 'text-primary-main hover:bg-primary-light'
-                    : variant === 'outlined'
-                        ? 'text-primary-main border-primary-main hover:bg-primary-light'
-                        : 'bg-primary-main text-white hover:bg-primary-dark';
+                return 'bg-blue-600 hover:bg-blue-700 text-white';
             case 'secondary':
-                return variant === 'text'
-                    ? 'text-secondary-main hover:bg-secondary-light'
-                    : variant === 'outlined'
-                        ? 'text-secondary-main border-secondary-main hover:bg-secondary-light'
-                        : 'bg-secondary-main text-white hover:bg-secondary-dark';
+                return 'bg-gray-600 hover:bg-gray-700 text-white';
             case 'success':
-                return variant === 'text'
-                    ? 'text-success-main hover:bg-success-light'
-                    : variant === 'outlined'
-                        ? 'text-success-main border-success-main hover:bg-success-light'
-                        : 'bg-success-main text-white hover:bg-success-dark';
+                return 'bg-green-600 hover:bg-green-700 text-white';
             case 'error':
-                return variant === 'text'
-                    ? 'text-error-main hover:bg-error-light'
-                    : variant === 'outlined'
-                        ? 'text-error-main border-error-main hover:bg-error-light'
-                        : 'bg-error-main text-white hover:bg-error-dark';
+                return 'bg-red-600 hover:bg-red-700 text-white';
             case 'warning':
-                return variant === 'text'
-                    ? 'text-warning-main hover:bg-warning-light'
-                    : variant === 'outlined'
-                        ? 'text-warning-main border-warning-main hover:bg-warning-light'
-                        : 'bg-warning-main text-white hover:bg-warning-dark';
+                return 'bg-yellow-600 hover:bg-yellow-700 text-white';
             case 'info':
-                return variant === 'text'
-                    ? 'text-info-main hover:bg-info-light'
-                    : variant === 'outlined'
-                        ? 'text-info-main border-info-main hover:bg-info-light'
-                        : 'bg-info-main text-white hover:bg-info-dark';
+                return 'bg-cyan-600 hover:bg-cyan-700 text-white';
             default:
                 return '';
         }
     };
 
-    const getLoadingColor = () => {
+    const getOutlineColorClasses = () => {
+        if (variant !== 'outline') return '';
+        
         switch (color) {
             case 'primary':
-                return 'text-primary-main';
+                return 'border-blue-600 text-blue-600 hover:bg-blue-50';
             case 'secondary':
-                return 'text-secondary-main';
+                return 'border-gray-600 text-gray-600 hover:bg-gray-50';
             case 'success':
-                return 'text-success-main';
+                return 'border-green-600 text-green-600 hover:bg-green-50';
             case 'error':
-                return 'text-error-main';
+                return 'border-red-600 text-red-600 hover:bg-red-50';
             case 'warning':
-                return 'text-warning-main';
+                return 'border-yellow-600 text-yellow-600 hover:bg-yellow-50';
             case 'info':
-                return 'text-info-main';
+                return 'border-cyan-600 text-cyan-600 hover:bg-cyan-50';
             default:
-                return 'text-white';
+                return '';
         }
     };
 
-    return (
-        <MuiButton
-            component={href ? 'a' : 'button'}
+    const buttonContent = (
+        <ShadcnButton
             variant={variant}
-            color={color}
             size={size}
-            startIcon={startIcon}
-            endIcon={endIcon}
             onClick={onClick}
             disabled={disabled || loading}
-            fullWidth={fullWidth}
             type={type}
-            href={href}
-            target={target}
-            rel={rel}
-            className={`
-        ${getSizeClasses()}
-        ${getVariantClasses()}
-        ${getColorClasses()}
-        ${className}
-        rounded-lg
-        font-medium
-        transition-all
-        duration-200
-        ease-in-out
-        disabled:opacity-50
-        disabled:cursor-not-allowed
-        focus:outline-none
-        focus:ring-2
-        focus:ring-opacity-50
-        rtl:space-x-reverse
-      `}
-        >
-            {loading ? (
-                <Box className="flex items-center">
-                    <CircularProgress
-                        size={20}
-                        className={`${getLoadingColor()} mr-2 rtl:mr-0 rtl:ml-2`}
-                    />
-                    جاري التحميل
-                </Box>
-            ) : (
-                children
+            className={cn(
+                getColorClasses(),
+                getOutlineColorClasses(),
+                fullWidth && 'w-full',
+                className
             )}
-        </MuiButton>
+        >
+            {loading && (
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            )}
+            {!loading && startIcon && (
+                <span className="mr-2">{startIcon}</span>
+            )}
+            {loading ? "جاري التحميل..." : children}
+            {!loading && endIcon && (
+                <span className="ml-2">{endIcon}</span>
+            )}
+        </ShadcnButton>
     );
+
+    if (href) {
+        return (
+            <a
+                href={href}
+                target={target}
+                rel={rel}
+                className="inline-block"
+            >
+                {buttonContent}
+            </a>
+        );
+    }
+
+    return buttonContent;
 };
 
 export default Button; 

@@ -40,7 +40,7 @@ export default function SecurityTab() {
                         <p className="text-gray-600">قم بتغيير كلمة المرور الخاصة بك</p>
                     </div>
                     <Button
-                        variant="contained"
+                        variant="default"
                         onClick={() => setShowPasswordModal(true)}
                     >
                         تغيير كلمة المرور
@@ -54,7 +54,7 @@ export default function SecurityTab() {
                         <p className="text-gray-600">قم بتفعيل التحقق الثنائي لحماية حسابك</p>
                     </div>
                     <Button
-                        variant="contained"
+                        variant="default"
                         onClick={() => setShow2FAModal(true)}
                     >
                         إعداد التحقق الثنائي

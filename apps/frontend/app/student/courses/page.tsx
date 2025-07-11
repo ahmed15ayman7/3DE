@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 const Skeleton = dynamic(() => import('@/components/common/Skeleton'), { loading: () => <div className="h-[200px] w-[200px] bg-gray-200 rounded-2xl animate-pulse"></div>});
 const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div></div> });
 const DataGrid = dynamic(() => import('@/components/common/DataGrid'), { loading: () => <div></div> });
-import { GridRenderCellParams } from '@mui/x-data-grid';
+
 import { useQuery } from '@tanstack/react-query';
 import { courseApi } from '@/lib/api';
 import { useUser } from '@/hooks/useUser';
@@ -283,7 +283,7 @@ let getCoursesData = async (id: string) => {
         { field: 'completionDate', headerName: 'تاريخ الإكمال', width: 150 },
         { field: 'grade', headerName: 'الدرجة', width: 100 },
         {
-            field: 'certificate', headerName: 'الشهادة', width: 400, renderCell: (params: GridRenderCellParams) => {
+            field: 'certificate', headerName: 'الشهادة', width: 400, renderCell: (params: any) => {
                 return <img src={params.row.certificate} alt="certificate" className="w-16 h-16 border border-primary-main p-1" onClick={()=>{}} />
             }
         },

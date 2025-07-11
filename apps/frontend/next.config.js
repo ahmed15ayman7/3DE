@@ -6,11 +6,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   experimental: {
     optimizeCss: true,
+    optimizePackageImports: ['@mui/material', '@mui/icons-material'],
   },
   compiler: {
+    emotion: true,
     removeConsole: process.env.NODE_ENV === 'production',
   },
   compress: true,
+  reactStrictMode: true,
   output: 'standalone',
   images: {
     domains: ['3de.school'],

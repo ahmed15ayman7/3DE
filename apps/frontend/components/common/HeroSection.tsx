@@ -2,18 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-    Box,
-    Typography,
-    Button,
-    Container,
-    Grid,
-    Paper,
-} from '@mui/material';
-import {
-    ArrowForward as ArrowForwardIcon,
-    PlayArrow as PlayArrowIcon,
-} from '@mui/icons-material';
+import { ArrowRight, Play } from 'lucide-react';
+import  Button  from './Button';
+import  Card  from './Card';
 
 interface HeroSectionProps {
     title: string;
@@ -95,17 +86,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         }
     };
 
-    const ContainerComponent = animate ? motion.div : Box;
+    const ContainerComponent = animate ? motion.div : 'div';
     const containerProps = animate ? { 
         variants: containerVariants, 
         initial: "hidden", 
         animate: "visible" 
     } : {};
 
-    const ItemComponent = animate ? motion.div : Box;
+    const ItemComponent = animate ? motion.div : 'div';
     const itemProps = animate ? { variants: itemVariants } : {};
 
-    const ButtonComponent = animate ? motion.div : Box;
+    const ButtonComponent = animate ? motion.div : 'div';
     const buttonProps = animate ? { 
         variants: buttonVariants,
         whileHover: "hover"
@@ -113,7 +104,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
     return (
         <ContainerComponent {...containerProps}>
-            <Box
+            <div
                 className={`
                     relative overflow-hidden rounded-2xl
                     ${backgroundImage || backgroundVideo ? 'min-h-[500px]' : 'py-16'}
@@ -139,122 +130,117 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
                 {/* Overlay */}
                 {(backgroundImage || backgroundVideo) && (
-                    <Box className="absolute inset-0 bg-black/40" />
+                    <div className="absolute inset-0 bg-black/40" />
                 )}
 
                 {/* Content */}
-                <Container maxWidth="lg" className="relative z-10">
-                    <Grid container spacing={4} className="items-center min-h-[500px]">
-                        <Grid item xs={12} md={variant === 'split' ? 6 : 12}>
-                            <Box className={variant === 'centered' ? 'text-center' : ''}>
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center min-h-[500px]">
+                        <div className={`${variant === 'split' ? 'md:col-span-6' : 'md:col-span-12'}`}>
+                            <div className={variant === 'centered' ? 'text-center' : ''}>
                                 <ItemComponent {...itemProps}>
                                     {subtitle && (
-                                        <Typography
-                                            variant="overline"
-                                            className="text-primary-main font-bold mb-2 block"
-                                        >
+                                        <p className="text-blue-600 font-bold mb-2 block text-sm uppercase tracking-wider">
                                             {subtitle}
-                                        </Typography>
+                                        </p>
                                     )}
                                 </ItemComponent>
 
                                 <ItemComponent {...itemProps}>
-                                    <Typography
-                                        variant="h2"
+                                    <h1
                                         className={`
-                                            font-bold mb-4
+                                            text-4xl md:text-5xl lg:text-6xl font-bold mb-4
                                             ${backgroundImage || backgroundVideo ? 'text-white' : 'text-gray-900'}
                                             ${variant === 'centered' ? 'text-center' : ''}
                                         `}
                                     >
                                         {title}
-                                    </Typography>
+                                    </h1>
                                 </ItemComponent>
 
                                 {description && (
                                     <ItemComponent {...itemProps}>
-                                        <Typography
-                                            variant="h6"
+                                        <p
                                             className={`
-                                                mb-6 max-w-2xl
+                                                text-lg md:text-xl mb-6 max-w-2xl
                                                 ${backgroundImage || backgroundVideo ? 'text-gray-200' : 'text-gray-600'}
                                                 ${variant === 'centered' ? 'mx-auto text-center' : ''}
                                             `}
                                         >
                                             {description}
-                                        </Typography>
+                                        </p>
                                     </ItemComponent>
                                 )}
 
                                 {/* Action Buttons */}
                                 {(primaryAction || secondaryAction) && (
                                     <ButtonComponent {...buttonProps}>
-                                        <Box className={`
+                                        <div className={`
                                             flex gap-4
                                             ${variant === 'centered' ? 'justify-center' : ''}
                                             ${variant === 'default' ? 'flex-wrap' : ''}
                                         `}>
                                             {primaryAction && (
                                                 <Button
-                                                    variant="contained"
-                                                    size="large"
+                                                    variant="default"
+                                                    size="lg"
                                                     onClick={primaryAction.onClick}
-                                                    startIcon={primaryAction.icon || <ArrowForwardIcon />}
-                                                    className="px-8 py-3 text-lg font-semibold flex justify-center gap-3"
+                                                    className="px-8 py-3 text-lg font-semibold flex items-center gap-3"
                                                 >
+                                                    {primaryAction.icon || <ArrowRight className="w-5 h-5" />}
                                                     {primaryAction.label}
                                                 </Button>
                                             )}
 
                                             {secondaryAction && (
                                                 <Button
-                                                    variant="outlined"
-                                                    size="large"
+                                                    variant="outline"
+                                                    size="lg"
                                                     onClick={secondaryAction.onClick}
-                                                    startIcon={secondaryAction.icon || <PlayArrowIcon />}
                                                     className={`
-                                                        px-8 py-3 text-lg font-semibold
+                                                        px-8 py-3 text-lg font-semibold flex items-center gap-3
                                                         ${backgroundImage || backgroundVideo ? 'text-white border-white hover:bg-white hover:text-gray-900' : ''}
                                                     `}
                                                 >
+                                                    {secondaryAction.icon || <Play className="w-5 h-5" />}
                                                     {secondaryAction.label}
                                                 </Button>
                                             )}
-                                        </Box>
+                                        </div>
                                     </ButtonComponent>
                                 )}
-                            </Box>
-                        </Grid>
+                            </div>
+                        </div>
 
                         {/* Features Section */}
                         {features.length > 0 && variant === 'split' && (
-                            <Grid item xs={12} md={6}>
-                                <Box className="space-y-4">
+                            <div className="md:col-span-6">
+                                <div className="space-y-4">
                                     {features.map((feature, index) => (
                                         <ItemComponent key={index} {...itemProps}>
-                                            <Paper className="p-4 bg-white/90 backdrop-blur-sm">
-                                                <Box className="flex items-start gap-3">
-                                                    <Box className="text-2xl text-primary-main mt-1">
+                                            <Card title={""} className="p-4 bg-white/90 backdrop-blur-sm">
+                                                <div className="flex items-start gap-3">
+                                                    <div className="text-2xl text-blue-600 mt-1">
                                                         {feature.icon}
-                                                    </Box>
-                                                    <Box>
-                                                        <Typography variant="h6" className="font-semibold mb-1">
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="text-lg font-semibold mb-1">
                                                             {feature.title}
-                                                        </Typography>
-                                                        <Typography variant="body2" className="text-gray-600">
+                                                        </h3>
+                                                        <p className="text-gray-600 text-sm">
                                                             {feature.description}
-                                                        </Typography>
-                                                    </Box>
-                                                </Box>
-                                            </Paper>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </Card>
                                         </ItemComponent>
                                     ))}
-                                </Box>
-                            </Grid>
+                                </div>
+                            </div>
                         )}
-                    </Grid>
-                </Container>
-            </Box>
+                    </div>
+                </div>
+            </div>
         </ContainerComponent>
     );
 };

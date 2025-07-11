@@ -4,9 +4,8 @@ import dynamic from 'next/dynamic';
 import { useUser } from '@/hooks/useUser';
 import { enrollmentApi, courseApi, userApi } from '@/lib/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Box, Grid, Typography, Button, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, IconButton } from '@mui/material';
-import { Add, FileDownload, Edit, Delete, Visibility } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { Plus, Download, Edit, Delete, Eye } from 'lucide-react';
 
 const Card = dynamic(() => import('@/components/common/Card'), { loading: () => <div></div> });
 const DataGrid = dynamic(() => import('@/components/common/DataGrid'), { loading: () => <div></div> });
@@ -183,11 +182,26 @@ export default function InstructorStudents() {
             width: 120,
             renderCell: (params: any) => (
                 (user?.role === 'INSTRUCTOR' || user?.role === 'ADMIN') && (
-                    <>
-                        <IconButton color="info" onClick={() => handleOpenDetails(params.row)}><Visibility /></IconButton>
-                        <IconButton color="primary" onClick={() => handleOpenEdit(params.row)}><Edit /></IconButton>
-                        <IconButton color="error" onClick={() => handleOpenDelete(params.row)}><Delete /></IconButton>
-                    </>
+                    <div className="flex gap-1">
+                        <button
+                            className="bg-blue-500 text-white p-1 rounded hover:bg-blue-600"
+                            onClick={() => handleOpenDetails(params.row)}
+                        >
+                            <Eye className="h-4 w-4" />
+                        </button>
+                        <button
+                            className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
+                            onClick={() => handleOpenEdit(params.row)}
+                        >
+                            <Edit className="h-4 w-4" />
+                        </button>
+                        <button
+                            className="bg-red-500 text-white p-1 rounded hover:bg-red-600"
+                            onClick={() => handleOpenDelete(params.row)}
+                        >
+                            <Delete className="h-4 w-4" />
+                        </button>
+                    </div>
                 )
             ),
         },
@@ -201,176 +215,231 @@ export default function InstructorStudents() {
         const ws = XLSX.utils.json_to_sheet(exportData);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'الطلاب');
-        XLSX.writeFile(wb, 'students.xlsx');
-        setSnackbar({ open: true, msg: 'تم تصدير البيانات بنجاح!', type: 'success' });
+        XLSX.writeFile(wb, `طلاب_المحاضر_${new Date().toISOString().split('T')[0]}.xlsx`);
+        setSnackbar({ open: true, msg: 'تم تصدير البيانات بنجاح', type: 'success' });
     };
 
     return (
-        <Box className="container mx-auto px-4 py-8">
-            <Suspense fallback={<Skeleton height={40} width={300} />}>
-            <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold">الطلاب</h1>
-                    {(user?.role === 'INSTRUCTOR' || user?.role === 'ADMIN') && (
-                <div className="flex gap-4">
-                            <Button variant="contained" startIcon={<Add />} onClick={handleOpenAdd}>
-                                إضافة طالب
-                            </Button>
-                            <Button variant="outlined" startIcon={<FileDownload />} onClick={handleExportExcel}>
-                                تصدير البيانات
-                            </Button>
+        <div className="container mx-auto px-4 py-8">
+            {/* العنوان والإحصائيات */}
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold mb-4">إدارة الطلاب</h1>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white rounded-lg shadow p-6">
+                        <h3 className="text-lg font-semibold mb-2">إجمالي الطلاب</h3>
+                        <p className="text-3xl font-bold text-blue-600">{stats.total}</p>
+                    </div>
+                    <div className="bg-white rounded-lg shadow p-6">
+                        <h3 className="text-lg font-semibold mb-2">متوسط التقدم</h3>
+                        <p className="text-3xl font-bold text-green-600">{stats.avgProgress}</p>
+                    </div>
+                    <div className="bg-white rounded-lg shadow p-6">
+                        <h3 className="text-lg font-semibold mb-2">متوسط الدرجات</h3>
+                        <p className="text-3xl font-bold text-purple-600">{stats.avgGrade}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* أدوات البحث والتصفية */}
+            <div className="bg-white rounded-lg shadow p-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium mb-2">البحث</label>
+                        <input
+                            type="text"
+                            className="w-full border rounded p-2"
+                            placeholder="البحث بالاسم أو الإيميل أو الدورة..."
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-2">تصفية بالدورة</label>
+                        <select
+                            className="w-full border rounded p-2"
+                            value={courseFilter}
+                            onChange={e => setCourseFilter(e.target.value)}
+                        >
+                            <option value="">جميع الدورات</option>
+                            {coursesData?.map((course: any) => (
+                                <option key={course.id} value={course.title}>{course.title}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex items-end">
+                        <button
+                            className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
+                            onClick={handleExportExcel}
+                        >
+                            <Download className="h-4 w-4" />
+                            تصدير Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* جدول الطلاب */}
+            {isStudentsLoading ? (
+                <div className="bg-white rounded-lg shadow p-6">
+                    <Skeleton variant="rectangular" height={400} />
+                </div>
+            ) : (
+                <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <DataGrid
+                        columns={columns}
+                        rows={students}
+                        pageSize={10}
+                        checkboxSelection={false}
+                    />
+                </div>
+            )}
+
+            {/* Dialog إضافة/تعديل طالب */}
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${dialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                    <h2 className="text-xl font-bold mb-4">{editMode ? 'تعديل بيانات الطالب' : 'إضافة طالب جديد'}</h2>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-2">اسم الطالب</label>
+                            <input
+                                type="text"
+                                className="w-full border rounded p-2"
+                                value={studentForm.name}
+                                onChange={e => setStudentForm({ ...studentForm, name: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">البريد الإلكتروني</label>
+                            <input
+                                type="email"
+                                className="w-full border rounded p-2"
+                                value={studentForm.email}
+                                onChange={e => setStudentForm({ ...studentForm, email: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">الدورة</label>
+                            <select
+                                className="w-full border rounded p-2"
+                                value={studentForm.course}
+                                onChange={e => setStudentForm({ ...studentForm, course: e.target.value })}
+                            >
+                                <option value="">اختر الدورة</option>
+                                {coursesData?.map((course: any) => (
+                                    <option key={course.id} value={course.title}>{course.title}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">التقدم (%)</label>
+                            <input
+                                type="number"
+                                min="0"
+                                max="100"
+                                className="w-full border rounded p-2"
+                                value={studentForm.progress}
+                                onChange={e => setStudentForm({ ...studentForm, progress: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex justify-end gap-2 mt-6">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setDialogOpen(false)}
+                        >
+                            إلغاء
+                        </button>
+                        <button
+                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                            onClick={handleSaveStudent}
+                        >
+                            {editMode ? 'حفظ التعديلات' : 'إضافة الطالب'}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Dialog حذف طالب */}
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${deleteDialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                    <h2 className="text-xl font-bold mb-4">تأكيد الحذف</h2>
+                    <p className="mb-6">هل أنت متأكد من حذف الطالب "{selectedStudent?.name}"؟</p>
+                    <div className="flex justify-end gap-2">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setDeleteDialogOpen(false)}
+                        >
+                            إلغاء
+                        </button>
+                        <button
+                            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                            onClick={handleConfirmDelete}
+                        >
+                            حذف
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Dialog تفاصيل الطالب */}
+            <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${detailsDialogOpen ? '' : 'hidden'}`}>
+                <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                    <h2 className="text-xl font-bold mb-4">تفاصيل الطالب</h2>
+                    {selectedStudent && (
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-sm font-medium">الاسم</label>
+                                <p className="text-gray-700">{selectedStudent.name}</p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium">البريد الإلكتروني</label>
+                                <p className="text-gray-700">{selectedStudent.email}</p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium">الدورة</label>
+                                <p className="text-gray-700">{selectedStudent.course}</p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium">التقدم</label>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                    <div
+                                        className="bg-blue-600 h-2 rounded-full"
+                                        style={{ width: `${selectedStudent.progress}%` }}
+                                    />
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">{selectedStudent.progress}%</p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium">آخر نشاط</label>
+                                <p className="text-gray-700">{selectedStudent.lastActivity}</p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium">الدرجة</label>
+                                <p className="text-gray-700">{selectedStudent.grade}</p>
+                            </div>
                         </div>
                     )}
+                    <div className="flex justify-end mt-6">
+                        <button
+                            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={() => setDetailsDialogOpen(false)}
+                        >
+                            إغلاق
+                        </button>
+                    </div>
                 </div>
-            </Suspense>
-            <Grid container spacing={3} className="mb-8">
-                <Grid item xs={12} md={4}>
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                        <Card title="إجمالي الطلاب">
-                            <div className="text-4xl font-bold">{stats.total}</div>
-                </Card>
-                    </motion.div>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-                        <Card title="متوسط التقدم">
-                            <div className="text-4xl font-bold">{stats.avgProgress}</div>
-                </Card>
-                    </motion.div>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-                        <Card title="متوسط الدرجات">
-                            <div className="text-4xl font-bold">{stats.avgGrade}</div>
-                </Card>
-                    </motion.div>
-                </Grid>
-            </Grid>
-            <Box className="bg-white rounded-xl shadow p-4">
-                {isStudentsLoading ? (
-                    <Skeleton height={300} />
-                ) : (
-                    <>
-                        <Box className="mb-4 flex flex-col md:flex-row gap-4 items-center justify-between">
-                            <TextField
-                                label="بحث بالاسم أو البريد أو الدورة"
-                                value={search}
-                                onChange={e => setSearch(e.target.value)}
-                                className="w-full md:w-1/3"
-                            />
-                            <TextField
-                                label="تصفية حسب الدورة"
-                                value={courseFilter}
-                                onChange={e => setCourseFilter(e.target.value)}
-                                select
-                                className="w-full md:w-1/4"
-                            >
-                                <MenuItem value="">الكل</MenuItem>
-                                {coursesData?.map((course: any) => (
-                                    <MenuItem key={course.id} value={course.title}>{course.title}</MenuItem>
-                                ))}
-                            </TextField>
-                        </Box>
-            <DataGrid
-                columns={columns}
-                rows={students}
-                pageSize={10}
-                checkboxSelection={true}
-            />
-                    </>
-                )}
-            </Box>
-            {/* Dialog إضافة/تعديل طالب */}
-            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="sm">
-                <DialogTitle>{editMode ? 'تعديل الطالب' : 'إضافة طالب جديد'}</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        label="اسم الطالب"
-                        value={studentForm.name}
-                        onChange={e => setStudentForm({ ...studentForm, name: e.target.value })}
-                        fullWidth
-                        className="mb-4"
-                    />
-                    <TextField
-                        label="البريد الإلكتروني"
-                        value={studentForm.email}
-                        onChange={e => setStudentForm({ ...studentForm, email: e.target.value })}
-                        fullWidth
-                        className="mb-4"
-                    />
-                    <TextField
-                        label="الدورة"
-                        value={studentForm.course}
-                        onChange={e => setStudentForm({ ...studentForm, course: e.target.value })}
-                        select
-                        fullWidth
-                        className="mb-4"
-                    >
-                        {coursesData?.map((course: any) => (
-                            <MenuItem key={course.id} value={course.title}>{course.title}</MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        label="التقدم (%)"
-                        value={studentForm.progress}
-                        onChange={e => setStudentForm({ ...studentForm, progress: e.target.value })}
-                        type="number"
-                        fullWidth
-                        className="mb-4"
-                    />
-                    <TextField
-                        label="الدرجة (%)"
-                        value={studentForm.grade}
-                        onChange={e => setStudentForm({ ...studentForm, grade: e.target.value })}
-                        type="number"
-                        fullWidth
-                        className="mb-4"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)}>إلغاء</Button>
-                    <Button onClick={handleSaveStudent} variant="contained" color="primary">
-                        {editMode ? 'حفظ التعديلات' : 'إضافة'}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            {/* Dialog تأكيد حذف */}
-            <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-                <DialogTitle>تأكيد حذف الطالب</DialogTitle>
-                <DialogContent>
-                    <Typography>هل أنت متأكد أنك تريد حذف هذا الطالب؟ لا يمكن التراجع عن هذه العملية.</Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDeleteDialogOpen(false)}>إلغاء</Button>
-                    <Button onClick={handleConfirmDelete} color="error" variant="contained">
-                        حذف
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            {/* Dialog تفاصيل الطالب */}
-            <Dialog open={detailsDialogOpen} onClose={() => setDetailsDialogOpen(false)} fullWidth maxWidth="sm">
-                <DialogTitle>تفاصيل الطالب</DialogTitle>
-                <DialogContent>
-                    {selectedStudent && (
-                        <Box>
-                            <Typography variant="h6">{selectedStudent.name}</Typography>
-                            <Typography color="text.secondary">{selectedStudent.email}</Typography>
-                            <Typography>الدورة: {selectedStudent.course}</Typography>
-                            <Typography>التقدم: {selectedStudent.progress}%</Typography>
-                            <Typography>الدرجة: {selectedStudent.grade}</Typography>
-                            <Typography>آخر نشاط: {selectedStudent.lastActivity}</Typography>
-                        </Box>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDetailsDialogOpen(false)}>إغلاق</Button>
-                </DialogActions>
-            </Dialog>
+            </div>
+
             {/* Snackbar */}
-            <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-                <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.type} sx={{ width: '100%' }}>
-                    {snackbar.msg}
-                </Alert>
-            </Snackbar>
-        </Box>
+            {snackbar.open && (
+                <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+                    <div className={`rounded border px-4 py-3 shadow-lg ${snackbar.type === "error" ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}>
+                        <p className={`font-bold ${snackbar.type === "error" ? "text-red-700" : "text-green-700"}`}>
+                            {snackbar.msg}
+                        </p>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 } 

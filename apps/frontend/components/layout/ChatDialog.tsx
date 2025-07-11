@@ -1,14 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-import {
-    TextField,
-    IconButton,
-    Button,
-    InputAdornment,
-} from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import MapsUgcIcon from '@mui/icons-material/MapsUgc';
+import { Send, MessageCircle, X } from 'lucide-react';
+import { LazyMotion, domAnimation, m } from 'framer-motion';
+
 type Message = {
     question: string;
     answer: string;
@@ -32,142 +27,93 @@ export default function ChatDialog() {
     };
 
     return (
-        <>
-            {/* Chat Button */}
-            <IconButton
-                onClick={() => setOpen(!open)}
-                className="shadow-md"
-                style={{
-                    position: 'fixed',
-                    bottom: '50px',
-                    right: '20px',
-                    border:"1px solid #fff",
-                    backgroundColor: '#249491',
-                    color: 'white',
-                    borderRadius: '50%',
-                    height: 50,
-                    zIndex: 1001,
-                }}
-                
-            >
-                <MapsUgcIcon  sx={{
-                    fontSize: 30,
-                    color: 'white',
-                }} />
-            </IconButton>
-
-            {/* Chat Container */}
-            {open && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        bottom: '90px',
-                        right: '20px',
-                        width: 350,
-                        height: '60vh',
-                        backgroundColor: '#f9f9f9',
-                        borderRadius: 16,
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        overflow: 'hidden',
-                        zIndex: 1000,
-                    }}
+        <LazyMotion features={domAnimation}>
+            <>
+                {/* Chat Button */}
+                <m.button
+                    onClick={() => setOpen(!open)}
+                    className="fixed bottom-12 right-5 z-50 h-12 w-12 bg-primary text-white rounded-full shadow-lg border border-white hover:bg-primary-dark transition-colors duration-200"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                 >
-                    {/* Header with Image */}
-                    <div style={{ padding: 8, backgroundColor: 'primary.main' }}>
-                        {/* <Image
-                            src="/assets/images/logo.png"
-                            alt="Header"
-                            width={350}
-                            height={60}
-                            style={{ borderRadius: 12, objectFit: 'cover', width: '100%' }}
-                        /> */}
-                    </div>
+                    <MessageCircle className="h-6 w-6 mx-auto" />
+                </m.button>
 
-                    {/* Chat Messages */}
-                    <div
-                        style={{
-                            flex: 1,
-                            overflowY: 'auto',
-                            padding: '12px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
+                {/* Chat Container */}
+                {open && (
+                    <m.div
+                        initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 20, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed bottom-24 right-5 z-40 w-80 h-96 bg-white rounded-2xl shadow-xl border border-gray-200 flex flex-col overflow-hidden"
                     >
-                        {messages.length === 0 ? (
-                            <div className='text-secondary-main text-center text-sm' style={{
-                                margin: 'auto',
-                                textAlign: 'center',
-                            //     color: 'secondary.main',
-                            //     fontSize: 14,
-                            // 
-                            }}>
-                                ✨ اسألني أي شيء يخطر في بالك وسأساعدك!
-                            </div>
-                        ) : (
-                            messages.map((msg, index) => (
-                                <div key={index}>
-                                    {/* User message */}
-                                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 6 }}>
-                                        <div className='bg-primary-main text-white text-sm rounded-r-lg p-2'
-                                            style={{
-                                                // background: 'primary.main',
-                                                padding: '8px 12px',
-                                                borderRadius: '16px 16px 0 16px',
-                                                maxWidth: '80%',
-                                            }}
-                                        >
-                                            {msg.question}
-                                        </div>
-                                    </div>
+                        {/* Header */}
+                        <div className="bg-primary p-4 flex items-center justify-between">
+                            <h3 className="text-white font-semibold">المساعد الذكي</h3>
+                            <button
+                                onClick={() => setOpen(false)}
+                                className="text-white hover:text-gray-200 transition-colors"
+                            >
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
 
-                                    {/* Bot message */}
-                                    <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 10 }}>
-                                        <div className='bg-secondary-main text-white text-sm rounded-l-lg'
-                                            style={{
-                                                // background: 'secondary.main',
-                                                padding: '8px 12px',
-                                                borderRadius: '16px 16px 16px 0',
-                                                maxWidth: '80%',
-                                            }}
-                                        >
-                                            {msg.answer}
-                                        </div>
+                        {/* Chat Messages */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                            {messages.length === 0 ? (
+                                <div className="text-center text-gray-500 text-sm flex items-center justify-center h-full">
+                                    <div>
+                                        <div className="text-2xl mb-2">✨</div>
+                                        اسألني أي شيء يخطر في بالك وسأساعدك!
                                     </div>
                                 </div>
-                            ))
-                        )}
-                    </div>
+                            ) : (
+                                messages.map((msg, index) => (
+                                    <div key={index} className="space-y-3">
+                                        {/* User message */}
+                                        <div className="flex justify-end">
+                                            <div className="bg-primary text-white text-sm rounded-2xl rounded-br-md px-4 py-2 max-w-xs">
+                                                {msg.question}
+                                            </div>
+                                        </div>
 
-                    {/* Input Field */}
-                    <div style={{ padding: '10px' }}>
-                        <TextField
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            placeholder="اكتب سؤالك هنا..."
-                            fullWidth
-                            size="small"
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') sendMessage();
-                            }}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <Button onClick={sendMessage}>
-                                            <SendIcon />
-                                        </Button>
-                                    </InputAdornment>
-                                ),
-                                style: {
-                                    backgroundColor: 'white',
-                                    borderRadius: 8,
-                                },
-                            }}
-                        />
-                    </div>
-                </div>
-            )}
-        </>
+                                        {/* Bot message */}
+                                        <div className="flex justify-start">
+                                            <div className="bg-gray-100 text-gray-800 text-sm rounded-2xl rounded-bl-md px-4 py-2 max-w-xs">
+                                                {msg.answer}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Input Field */}
+                        <div className="p-4 border-t border-gray-200">
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="text"
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    placeholder="اكتب سؤالك هنا..."
+                                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') sendMessage();
+                                    }}
+                                />
+                                <button
+                                    onClick={sendMessage}
+                                    disabled={!input.trim()}
+                                    className="p-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <Send className="h-5 w-5" />
+                                </button>
+                            </div>
+                        </div>
+                    </m.div>
+                )}
+            </>
+        </LazyMotion>
     );
 }

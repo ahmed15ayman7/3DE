@@ -1,23 +1,13 @@
 "use client"
 import React, { useState } from 'react';
 import {
-    Box,
-    IconButton,
-    Badge,
-    Menu,
-    MenuItem,
-    Typography,
-    Divider,
-    Button,
-    Avatar,
-} from '@mui/material';
-import {
-    Chat as ChatIcon,
-    Send as SendIcon,
-    Check as CheckIcon,
-    CheckCircle as CheckCircleIcon,
-} from '@mui/icons-material';
-
+    MessageCircle,
+    Send,
+    Check,
+    CheckCircle,
+} from 'lucide-react';
+import Button from './Button';
+import Avatar from './Avatar';
 
 interface Message {
     id: string;
@@ -54,15 +44,15 @@ const MessageDropdown: React.FC<MessageDropdownProps> = ({
     onViewAll,
     className = '',
 }) => {
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
     const unreadCount = messages.filter((m) => !m.read).length;
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
     };
 
     const handleClose = () => {
-        setAnchorEl(null);
+        setIsOpen(false);
     };
 
     const formatTime = (timestamp: string) => {
@@ -71,177 +61,149 @@ const MessageDropdown: React.FC<MessageDropdownProps> = ({
     };
 
     return (
-        <Box className={className}>
-            <IconButton
-                onClick={handleClick}
-                className="relative"
+        <div className={`relative ${className}`}>
+            <button
+                onClick={handleToggle}
+                className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
                 aria-label="show messages"
             >
-                <Badge
-                    badgeContent={unreadCount}
-                    color="error"
-                    className="text-gray-600 "
-                >
-                    <ChatIcon />
-                </Badge>
-            </IconButton>
+                <MessageCircle className="w-6 h-6" />
+                {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {unreadCount}
+                    </span>
+                )}
+            </button>
 
-            <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                className="mt-2"
-                PaperProps={{
-                    className: `
-            w-80
-            max-h-96
-            rounded-lg
-            shadow-lg
-            bg-white
-          `,
-                }}
-            >
-                <Box className="p-4">
-                    <Box className="flex items-center justify-between mb-4">
-                        <Typography variant="h6" className="font-medium">
-                            الرسائل
-                        </Typography>
-                        {unreadCount > 0 && onMarkAllAsRead && (
-                            <Button
-                                size="small"
-                                onClick={() => {
-                                    onMarkAllAsRead();
-                                    handleClose();
-                                }}
-                                className="text-primary-main"
-                            >
-                                تحديث الكل
-                            </Button>
-                        )}
-                    </Box>
+            {isOpen && (
+                <>
+                    {/* Backdrop */}
+                    <div 
+                        className="fixed inset-0 z-40" 
+                        onClick={handleClose}
+                    />
+                    
+                    {/* Dropdown */}
+                    <div className="absolute right-0 mt-2 w-80 max-h-96 rounded-lg shadow-lg bg-white border border-gray-200 z-50 overflow-hidden">
+                        <div className="p-4">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-lg font-medium">
+                                    الرسائل
+                                </h3>
+                                {unreadCount > 0 && onMarkAllAsRead && (
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => {
+                                            onMarkAllAsRead();
+                                            handleClose();
+                                        }}
+                                        className="text-blue-600 hover:text-blue-700"
+                                    >
+                                        تحديث الكل
+                                    </Button>
+                                )}
+                            </div>
 
-                    {messages.length === 0 ? (
-                        <Typography
-                            variant="body2"
-                            className="text-gray-500  text-center py-4"
-                        >
-                            لا يوجد رسائل
-                        </Typography>
-                    ) : (
-                        <Box className="space-y-2">
-                            {messages.map((message) => (
-                                <MenuItem
-                                    key={message.id}
-                                    onClick={() => {
-                                        if (!message.read && onMarkAsRead) {
-                                            onMarkAsRead(message.id);
-                                        }
-                                        handleClose();
-                                    }}
-                                    className={`
-                    ${!message.read ? 'bg-gray-50 ' : ''}
-                    p-3
-                    rounded-lg
-                    mb-2
-                  `}
-                                >
-                                    <Box className="flex items-start space-x-3 rtl:space-x-reverse">
-                                        <Avatar
-                                            src={message.sender.avatar}
-                                            alt={message.sender.name}
-                                            className="w-10 h-10"
+                            {messages.length === 0 ? (
+                                <p className="text-gray-500 text-center py-4">
+                                    لا يوجد رسائل
+                                </p>
+                            ) : (
+                                <div className="space-y-2 max-h-64 overflow-y-auto">
+                                    {messages.map((message) => (
+                                        <div
+                                            key={message.id}
+                                            onClick={() => {
+                                                if (!message.read && onMarkAsRead) {
+                                                    onMarkAsRead(message.id);
+                                                }
+                                                handleClose();
+                                            }}
+                                            className={`
+                                                ${!message.read ? 'bg-gray-50' : ''}
+                                                p-3 rounded-lg mb-2 cursor-pointer hover:bg-gray-100 transition-colors
+                                            `}
                                         >
-                                            {message.sender.name.charAt(0)}
-                                        </Avatar>
-                                        <Box className="flex-1 min-w-0">
-                                            <Box className="flex items-center justify-between mb-1">
-                                                <Typography
-                                                    variant="subtitle2"
-                                                    className="font-medium"
-                                                >
-                                                    {message.sender.name}
-                                                </Typography>
-                                                <Box className="flex items-center space-x-1 rtl:space-x-reverse">
-                                                    <Typography
-                                                        variant="caption"
-                                                        className="text-gray-500 "
-                                                    >
-                                                        {formatTime(message.timestamp)}
-                                                    </Typography>
-                                                    {message.read ? (
-                                                        <CheckCircleIcon
-                                                            className="text-primary-main"
-                                                            fontSize="small"
-                                                        />
-                                                    ) : (
-                                                        <CheckIcon
-                                                            className="text-gray-400"
-                                                            fontSize="small"
-                                                        />
+                                            <div className="flex items-start space-x-3 rtl:space-x-reverse">
+                                                <Avatar
+                                                    src={message.sender.avatar}
+                                                    alt={message.sender.name}
+                                                    name={message.sender.name}
+                                                    size="sm"
+                                                />
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <h4 className="text-sm font-medium">
+                                                            {message.sender.name}
+                                                        </h4>
+                                                        <div className="flex items-center space-x-1 rtl:space-x-reverse">
+                                                            <span className="text-xs text-gray-500">
+                                                                {formatTime(message.timestamp)}
+                                                            </span>
+                                                            {message.read ? (
+                                                                <CheckCircle className="w-4 h-4 text-blue-600" />
+                                                            ) : (
+                                                                <Check className="w-4 h-4 text-gray-400" />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 mb-1 line-clamp-2">
+                                                        {message.content}
+                                                    </p>
+                                                    {message.attachment && (
+                                                        <div className="flex items-center space-x-1 rtl:space-x-reverse mt-1">
+                                                            <Send className="w-3 h-3 text-gray-400" />
+                                                            <span className="text-xs text-gray-500">
+                                                                {message.attachment.name || 'مرفق'}
+                                                            </span>
+                                                        </div>
                                                     )}
-                                                </Box>
-                                            </Box>
-                                            <Typography
-                                                variant="body2"
-                                                className="text-gray-600  mb-1 line-clamp-2"
-                                            >
-                                                {message.content}
-                                            </Typography>
-                                            {message.attachment && (
-                                                <Box className="flex items-center space-x-1 rtl:space-x-reverse mt-1">
-                                                    <SendIcon
-                                                        className="text-gray-400"
-                                                        fontSize="small"
-                                                    />
-                                                    <Typography
-                                                        variant="caption"
-                                                        className="text-gray-500 "
-                                                    >
-                                                        {message.attachment.name || 'مرفق'}
-                                                    </Typography>
-                                                </Box>
-                                            )}
-                                        </Box>
-                                    </Box>
-                                </MenuItem>
-                            ))}
-                        </Box>
-                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
-                    {(messages.length > 0 || onViewAll) && (
-                        <>
-                            <Divider className="my-2" />
-                            <Box className="flex items-center justify-between">
-                                {messages.length > 0 && onClearAll && (
-                                    <Button
-                                        size="small"
-                                        onClick={() => {
-                                            onClearAll();
-                                            handleClose();
-                                        }}
-                                        className="text-gray-600 "
-                                    >
-                                        مسح الكل
-                                    </Button>
-                                )}
-                                {onViewAll && (
-                                    <Button
-                                        size="small"
-                                        onClick={() => {
-                                            onViewAll();
-                                            handleClose();
-                                        }}
-                                        className="text-primary-main"
-                                    >
-                                        عرض الكل
-                                    </Button>
-                                )}
-                            </Box>
-                        </>
-                    )}
-                </Box>
-            </Menu>
-        </Box>
+                            {(messages.length > 0 || onViewAll) && (
+                                <>
+                                    <div className="border-t border-gray-200 my-2" />
+                                    <div className="flex items-center justify-between">
+                                        {messages.length > 0 && onClearAll && (
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => {
+                                                    onClearAll();
+                                                    handleClose();
+                                                }}
+                                                className="text-gray-600 hover:text-gray-700"
+                                            >
+                                                مسح الكل
+                                            </Button>
+                                        )}
+                                        {onViewAll && (
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => {
+                                                    onViewAll();
+                                                    handleClose();
+                                                }}
+                                                className="text-blue-600 hover:text-blue-700"
+                                            >
+                                                عرض الكل
+                                            </Button>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </>
+            )}
+        </div>
     );
 };
 

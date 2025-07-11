@@ -1,30 +1,16 @@
 "use client"
 
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    Box, 
-    Typography, 
-    Grid, 
-    Container, 
-    TextField, 
-    InputAdornment,
-    Chip,
-    IconButton,
-    Tooltip,
-    Skeleton,
-    Alert
-} from '@mui/material';
-import {
-    Search as SearchIcon,
-    Group as GroupIcon,
-    Forum as ForumIcon,
-    VideoCall as VideoCallIcon,
-    Favorite as FavoriteIcon,
-    FavoriteBorder as FavoriteBorderIcon,
-    Visibility as VisibilityIcon,
-    TrendingUp as TrendingUpIcon
-} from '@mui/icons-material';
+    Search,
+    Users,
+    MessageSquare,
+    Video,
+    Heart,
+    Eye,
+    TrendingUp
+} from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 
@@ -188,15 +174,15 @@ const CommunityOverviewPage = () => {
     const getCommunityTypeColor = (type: string) => {
         switch (type) {
             case 'academic':
-                return 'primary';
+                return 'bg-blue-100 text-blue-800';
             case 'social':
-                return 'success';
+                return 'bg-green-100 text-green-800';
             case 'professional':
-                return 'warning';
+                return 'bg-yellow-100 text-yellow-800';
             case 'hobby':
-                return 'info';
+                return 'bg-purple-100 text-purple-800';
             default:
-                return 'default';
+                return 'bg-gray-100 text-gray-800';
         }
     };
 
@@ -209,323 +195,252 @@ const CommunityOverviewPage = () => {
             case 'professional':
                 return 'مهني';
             case 'hobby':
-                return 'هوايات';
+                return 'هواية';
             default:
-                return type;
+                return 'عام';
         }
     };
 
-    const handleCommunityClick = (communityId: string,isJoin:boolean) => {
-        // Navigate to community details
-        if(isJoin){
-            router.push(`/student/community/${communityId}/overview`)
-        }else{
-            communityApi.addParticipant(communityId,user.id).then(res=>{
-                if(res.status>=200 && res.status<300){
-                    router.push(`/student/community/${communityId}/overview`)
-                }
-            })
+    const handleCommunityClick = (communityId: string, isJoin: boolean) => {
+        if (isJoin) {
+            // Handle join logic
+            console.log('Joining community:', communityId);
+        } else {
+            router.push(`/student/community/${communityId}`);
         }
     };
 
     const handleLike = (communityId: string) => {
-        // Handle like functionality
-        console.log('Liked community:', communityId);
+        // Handle like logic
+        console.log('Liking community:', communityId);
     };
 
     if (loading) {
         return (
-            <Container maxWidth="lg" className="py-8">
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={headerVariants}
-                >
-                    <Typography variant="h4" className="font-bold mb-8 text-center">
-                        المجتمعات
-                    </Typography>
-                </motion.div>
-                
-                <Grid container spacing={3}>
-                    {[...Array(6)].map((_, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Skeleton variant="rectangular" height={300} />
-                        </Grid>
+            <div className="space-y-6">
+                <SkeletonComponent height={40} width={300} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <SkeletonComponent key={i} height={300} />
                     ))}
-                </Grid>
-            </Container>
+                </div>
+            </div>
         );
     }
 
     if (error) {
         return (
-            <Container maxWidth="lg" className="py-8">
-                <Alert severity="error" className="mb-4">
-                    {error}
-                </Alert>
-            </Container>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="flex">
+                    <div className="flex-shrink-0">
+                        <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                    </div>
+                    <div className="mr-3">
+                        <h3 className="text-sm font-medium text-red-800">خطأ</h3>
+                        <div className="mt-2 text-sm text-red-700">
+                            <p>{error}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 
     return (
-        <Box className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-8"
+        >
             {/* Hero Section */}
-            <React.Suspense fallback={<div>جاري التحميل...</div>}>
-                <HeroSection
-                    title="اكتشف عالم المجتمعات"
-                    subtitle="انضم إلى مجتمعات متنوعة"
-                    description="انضم إلى مجتمعات متنوعة وشارك في النقاشات والأنشطة التعليمية والاجتماعية. اكتشف أشخاص جدد وتبادل المعرفة والخبرات."
-                    primaryAction={{
-                        label: "استكشف المجتمعات",
-                        onClick: () => heroRef.current?.scrollIntoView({ behavior: 'smooth' })
-                    }}
-                    secondaryAction={{
-                        label: "كيف تعمل المجتمعات",
-                        onClick: () => console.log('Learn more clicked')
-                    }}
-                    features={[
-                        {
-                            icon: <GroupIcon />,
-                            title: "مجتمعات متنوعة",
-                            description: "انضم إلى مجتمعات أكاديمية واجتماعية ومهنية"
-                        },
-                        {
-                            icon: <ForumIcon />,
-                            title: "نقاشات تفاعلية",
-                            description: "شارك في النقاشات والمناقشات المثمرة"
-                        },
-                        {
-                            icon: <VideoCallIcon />,
-                            title: "غرف مباشرة",
-                            description: "انضم إلى الغرف المباشرة للتفاعل المباشر"
-                        }
-                    ]}
-                    variant="split"
-                    className="mb-8"
-                />
-            </React.Suspense>
-                <div className="pb-24"  ref={heroRef}></div>
-            <Container maxWidth="lg" className="pb-8">
-                {/* Header Section */}
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                   
-                    variants={headerVariants}
-                    className="mb-8"
-                >
-                    <Typography variant="h4"  className="font-bold mb-4 text-center">
-                        استكشف المجتمعات
-                    </Typography>
-                    <Typography variant="body1" className="text-gray-600 text-center mb-6">
-                        اختر من بين مجموعة متنوعة من المجتمعات
-                    </Typography>
-
-                {/* Search and Filter Section */}
-                <Box className="flex flex-col sm:flex-row gap-4 mb-6">
-                    <TextField
-                        fullWidth
-                        variant="outlined"
-                        placeholder="ابحث في المجتمعات..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon className="text-gray-400" />
-                                </InputAdornment>
-                            ),
-                        }}
-                        className="sm:flex-1"
-                    />
-                    
-                    <Box className="flex gap-2 flex-wrap">
-                        {['all', 'academic', 'social', 'professional', 'hobby'].map((type) => (
-                            <Chip
-                                key={type}
-                                label={type === 'all' ? 'الكل' : getCommunityTypeLabel(type)}
-                                onClick={() => setSelectedType(type)}
-                                color={selectedType === type ? 'primary' : 'default'}
-                                variant={selectedType === type ? 'filled' : 'outlined'}
-                                className="cursor-pointer"
-                            />
-                        ))}
-                    </Box>
-                </Box>
+            <motion.div
+                ref={heroRef}
+                variants={headerVariants}
+                className="text-center space-y-4"
+            >
+                <h1 className="text-4xl font-bold text-gray-900">المجتمعات التعليمية</h1>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    انضم إلى مجتمعات تعليمية متنوعة وشارك في المناقشات والتعلم الجماعي
+                </p>
             </motion.div>
 
-            {/* Overall Stats Section */}
+            {/* Search and Filter */}
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mb-8"
+                variants={cardVariants}
+                className="flex flex-col md:flex-row gap-4 items-center justify-between"
             >
-                <React.Suspense fallback={<div>جاري التحميل...</div>}>
-                    <StatsCard
-                        title="إحصائيات المجتمعات"
-                        stats={[
-                            {
-                                label: "إجمالي المجتمعات",
-                                value: overallStats.totalCommunities,
-                                icon: <GroupIcon />,
-                                color: "primary"
-                            },
-                            {
-                                label: "إجمالي الأعضاء",
-                                value: overallStats.totalParticipants,
-                                icon: <GroupIcon />,
-                                color: "success"
-                            },
-                            {
-                                label: "إجمالي المنشورات",
-                                value: overallStats.totalPosts,
-                                icon: <ForumIcon />,
-                                color: "info"
-                            },
-                            {
-                                label: "إجمالي النقاشات",
-                                value: overallStats.totalDiscussions,
-                                icon: <ForumIcon />,
-                                color: "warning"
-                            }
-                        ]}
-                        variant="compact"
-                        className="mb-6"
+                <div className="relative flex-1 max-w-md">
+                    <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                    <input
+                        type="text"
+                        placeholder="البحث في المجتمعات..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
-                </React.Suspense>
+                </div>
+                
+                <div className="flex gap-2">
+                    {['all', 'academic', 'social', 'professional', 'hobby'].map((type) => (
+                        <button
+                            key={type}
+                            onClick={() => setSelectedType(type)}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                selectedType === type
+                                    ? 'bg-primary-500 text-white'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            }`}
+                        >
+                            {type === 'all' ? 'الكل' : getCommunityTypeLabel(type)}
+                        </button>
+                    ))}
+                </div>
+            </motion.div>
+
+            {/* Stats Cards */}
+            <motion.div
+                variants={cardVariants}
+                className="grid grid-cols-1 md:grid-cols-4 gap-6"
+            >
+                <StatsCard
+                    title="إحصائيات المجتمعات"
+                    stats={[
+                        {
+                            label: "إجمالي المجتمعات",
+                            value: overallStats.totalCommunities,
+                            icon: <Users className="h-5 w-5" />,
+                            color: "primary"
+                        },
+                        {
+                            label: "إجمالي المشاركين",
+                            value: overallStats.totalParticipants,
+                            icon: <Users className="h-5 w-5" />,
+                            color: "success"
+                        },
+                        {
+                            label: "إجمالي المنشورات",
+                            value: overallStats.totalPosts,
+                            icon: <MessageSquare className="h-5 w-5" />,
+                            color: "info"
+                        },
+                        {
+                            label: "إجمالي المناقشات",
+                            value: overallStats.totalDiscussions,
+                            icon: <TrendingUp className="h-5 w-5" />,
+                            color: "warning"
+                        }
+                    ]}
+                    variant="compact"
+                />
             </motion.div>
 
             {/* Communities Grid */}
-            <React.Suspense fallback={
-                <Grid container spacing={3}>
-                    {[...Array(6)].map((_, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Skeleton variant="rectangular" height={300} />
-                        </Grid>
-                    ))}
-                </Grid>
-            }>
-                <AnimatePresence>
-                    {filteredCommunities.length === 0 ? (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                        >
-                            <EmptyState
-                                icon={<GroupIcon />}
-                                title="لا توجد مجتمعات"
-                                description={searchTerm || selectedType !== 'all' 
-                                    ? "لا توجد مجتمعات تطابق معايير البحث" 
-                                    : "لم يتم إنشاء أي مجتمعات بعد"
-                                }
-                            />
-                        </motion.div>
-                    ) : (
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <Grid container spacing={3}>
-                            {filteredCommunities.map((community, index) => {
-                                const stats = getCommunityStats(community);
-                                
-                                return (
-                                    <Grid item xs={12} sm={6} md={4} key={community.id}>
-                                        <motion.div
-                                            variants={cardVariants}
-                                            whileHover="hover"
-                                            layout
-                                        >
-                                            <Card
-                                                // variant="course"
-                                                title={community.name}
-                                                description={community.description||''}
-                                                // image={community.image || '/api/placeholder/400/200'}
-                                                tags={[getCommunityTypeLabel(community.type)]}
-                                                onClick={() => handleCommunityClick(community.id,community.participants.find(p=>p.id===user?.id)?true:false)}
-                                                className="h-full cursor-pointer transition-all duration-300"
-                                                actionText={community.participants.find(p=>p.id===user?.id)?"عرض للمجتمع":"انضم المجتمع"}
-                                                onAction={() => handleCommunityClick(community.id,community.participants.find(p=>p.id===user?.id)?true:false)}
+            <motion.div
+                variants={cardVariants}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+                {filteredCommunities.length === 0 ? (
+                    <div className="col-span-full">
+                        <EmptyState
+                            icon={<Users className="h-12 w-12 text-gray-400" />}
+                            title="لا توجد مجتمعات"
+                            description="لم يتم العثور على مجتمعات تطابق معايير البحث"
+                        />
+                    </div>
+                ) : (
+                    filteredCommunities.map((community, index) => {
+                        const stats = getCommunityStats(community);
+                        return (
+                            <motion.div
+                                key={community.id}
+                                variants={cardVariants}
+                                whileHover="hover"
+                                className="cursor-pointer"
+                                onClick={() => handleCommunityClick(community.id, false)}
+                            >
+                                <Card title="" className="h-full hover:shadow-lg transition-shadow">
+                                    <div className="space-y-4">
+                                        {/* Community Image */}
+                                        <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                                            <img
+                                                src={community.image || 'https://via.placeholder.com/400x200'}
+                                                alt={community.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+
+                                        {/* Community Info */}
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between">
+                                                <h3 className="text-lg font-semibold text-gray-900">
+                                                    {community.name}
+                                                </h3>
+                                                <Badge variant="standard" className={getCommunityTypeColor(community.type)}>
+                                                    <span className="text-xs">
+                                                        {getCommunityTypeLabel(community.type)}
+                                                    </span>
+                                                </Badge>
+                                            </div>
+                                            
+                                            <p className="text-sm text-gray-600 line-clamp-2">
+                                                {community.description || 'لا يوجد وصف متاح'}
+                                            </p>
+                                        </div>
+
+                                        {/* Stats */}
+                                        <div className="grid grid-cols-2 gap-4 text-sm">
+                                            <div className="flex items-center space-x-2 space-x-reverse">
+                                                <Users className="h-4 w-4 text-gray-400" />
+                                                <span className="text-gray-600">{stats.participants} مشارك</span>
+                                            </div>
+                                            <div className="flex items-center space-x-2 space-x-reverse">
+                                                <MessageSquare className="h-4 w-4 text-gray-400" />
+                                                <span className="text-gray-600">{stats.posts} منشور</span>
+                                            </div>
+                                            <div className="flex items-center space-x-2 space-x-reverse">
+                                                <Video className="h-4 w-4 text-gray-400" />
+                                                <span className="text-gray-600">{stats.liveRooms} غرفة</span>
+                                            </div>
+                                            <div className="flex items-center space-x-2 space-x-reverse">
+                                                <TrendingUp className="h-4 w-4 text-gray-400" />
+                                                <span className="text-gray-600">{stats.discussions} مناقشة</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Actions */}
+                                        <div className="flex items-center justify-between pt-2 border-t">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleLike(community.id);
+                                                }}
+                                                className="flex items-center space-x-1 space-x-reverse text-gray-500 hover:text-red-500 transition-colors"
                                             >
-                                                <Box className="p-4 pt-0">
-                                                    {/* Stats Section */}
-                                                    <Box className="flex justify-between items-center mb-4">
-                                                        <Box className="flex items-center gap-1">
-                                                            <GroupIcon className="text-primary text-sm" />
-                                                            <Typography variant="body2" className="text-gray-600">
-                                                                {stats.participants} عضو
-                                                            </Typography>
-                                                        </Box>
-                                                        <Box className="flex items-center gap-1">
-                                                            <ForumIcon className="text-primary text-sm" />
-                                                            <Typography variant="body2" className="text-gray-600">
-                                                                {stats.posts} منشور
-                                                            </Typography>
-                                                        </Box>
-                                                    </Box>
-
-                                                    {/* Additional Stats */}
-                                                    <Box className="flex justify-between items-center mb-4">
-                                                        <Box className="flex items-center gap-1">
-                                                            <VideoCallIcon className="text-primary text-sm" />
-                                                            <Typography variant="body2" className="text-gray-600">
-                                                                {stats.liveRooms} غرفة
-                                                            </Typography>
-                                                        </Box>
-                                                        <Box className="flex items-center gap-1">
-                                                            <GroupIcon className="text-primary text-sm" />
-                                                            <Typography variant="body2" className="text-gray-600">
-                                                                {stats.groups} مجموعة
-                                                            </Typography>
-                                                        </Box>
-                                                    </Box>
-
-                                                    {/* Engagement Stats */}
-                                                    <Box className="flex justify-between items-center">
-                                                        <Box className="flex items-center gap-2">
-                                                            <Tooltip title="الإعجابات">
-                                                                <IconButton 
-                                                                    size="small"
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        handleLike(community.id);
-                                                                    }}
-                                                                >
-                                                                    {community.likes > 0 ? (
-                                                                        <FavoriteIcon className="text-red-500 text-sm" />
-                                                                    ) : (
-                                                                        <FavoriteBorderIcon className="text-gray-400 text-sm" />
-                                                                    )}
-                                                                </IconButton>
-                                                            </Tooltip>
-                                                            <Typography variant="body2" className="text-gray-600">
-                                                                {community.likes}
-                                                            </Typography>
-                                                        </Box>
-                                                        
-                                                        <Box className="flex items-center gap-1">
-                                                            <VisibilityIcon className="text-gray-400 text-sm" />
-                                                            <Typography variant="body2" className="text-gray-600">
-                                                                {community.views}
-                                                            </Typography>
-                                                        </Box>
-                                                    </Box>
-                                                </Box>
-                                            </Card>
-                                        </motion.div>
-                                    </Grid>
-                                );
-                            })}
-                        </Grid>
-                    </motion.div>
+                                                <Heart className="h-4 w-4" />
+                                                <span className="text-xs">إعجاب</span>
+                                            </button>
+                                            
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleCommunityClick(community.id, true);
+                                                }}
+                                                className="px-4 py-2 bg-primary-500 text-white text-sm rounded-lg hover:bg-primary-600 transition-colors"
+                                            >
+                                                انضم الآن
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Card>
+                            </motion.div>
+                        );
+                    })
                 )}
-                </AnimatePresence>
-            </React.Suspense>
-        </Container>
-        </Box>
+            </motion.div>
+        </motion.div>
     );
 };
 

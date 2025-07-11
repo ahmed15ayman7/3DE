@@ -153,8 +153,8 @@ export default function CalendarPage() {
                                                 <span>{task.type === 'quiz' ? 'كويز' : 'واجب'}</span>
                                             </Badge>
                                             <Button
-                                                variant="outlined"
-                                                size="small"
+                                                variant="outline"
+                                                size="sm"
                                                 className="mt-2"
                                             >
                                                 {task.status === 'pending' ? 'حل' : 'مراجعة'}

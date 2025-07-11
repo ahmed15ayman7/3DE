@@ -135,7 +135,7 @@ console.log(courses)
                     <h1 className="text-2xl font-bold">مرحباً بك، {profile?.firstName} {profile?.lastName} 👋</h1>
                     
                 </div>
-                <Button variant="contained" size="large">
+                <Button variant="default" size="lg">
                     تحديث الملف الشخصي
                 </Button>
             </div>
@@ -153,8 +153,8 @@ console.log(courses)
                         <p className="text-gray-600">تعرف على مدرسك المتميز</p>
                     </div>
                     <Button 
-                        variant="outlined" 
-                        size="small"
+                        variant="outline" 
+                        size="sm"
                         onClick={() => router.push('/student/teachers')}
                         className="flex items-center space-x-2 space-x-reverse"
                     >
@@ -276,8 +276,8 @@ console.log(courses)
                     <Card title="الإنجازات" className="bg-warning-50">
                         <p className="text-2xl font-bold">{achievements?.length || 0}</p>
                         <div className="flex items-center space-x-2">
-                            <Badge variant="dot" title={`${achievements?.filter(a => a.isNew).length || 0} جديد`}>
-                                <></>
+                            <Badge variant="dot" >
+                                <span>{`${achievements?.filter(a => a.isNew).length || 0} جديد`}</span>
                             </Badge>
                             <Tooltip title="الإنجازات التي حصلت عليها مؤخراً">
                                 <span className="text-warning-600">آخر 7 أيام</span>
@@ -294,8 +294,8 @@ console.log(courses)
                     <Card title="الإشعارات غير المقروءة" className="bg-info-50">
                         <p className="text-2xl font-bold">{notifications?.length || 0}</p>
                         <div className="flex items-center space-x-2">
-                            <Badge variant="dot" title={`${notifications?.filter(n => !n.read).length || 0} جديد`}>
-                                <></>
+                            <Badge variant="dot"  >
+                                <span>{`${notifications?.filter(n => !n.read).length || 0} جديد`}</span>
                             </Badge>
                             <Tooltip title="الإشعارات التي حصلت عليها مؤخراً">
                                 <span className="text-info-600">آخر 7 أيام</span>
@@ -342,7 +342,7 @@ console.log(courses)
                                     headerName: 'الإجراءات',
                                     renderCell: (row: any) => (
                                         <Button
-                                            variant="text"
+                                            variant="link"
                                             onClick={() => {/* الانتقال للدورة */ }}
                                         >
                                             متابعة

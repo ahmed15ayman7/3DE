@@ -4,15 +4,18 @@ import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { instructorApi, courseApi, userApi, achievementApi, notificationApi } from "@/lib/api";
 import { useUser } from "@/hooks/useUser";
-import { Box, Grid, Typography, Container, Avatar, Chip, Badge, IconButton, Tooltip, Paper } from "@mui/material";
-import { School, Group, EmojiEvents, TrendingUp, Notifications, Star, Info, PlayCircle } from "@mui/icons-material";
 import { Course, Achievement, Notification, Enrollment } from "@shared/prisma";
 import { useRouter } from "next/navigation";
+import { School, Users, Trophy, Bell, TrendingUp, Star, Info, Play } from "lucide-react";
+
 // Dynamic imports
 const StatsCard = dynamic(() => import("@/components/common/StatsCard"), { loading: () => <div>...</div> });
 const Card = dynamic(() => import("@/components/common/Card"), { loading: () => <div>...</div> });
 const DataGrid = dynamic(() => import("@/components/common/DataGrid"), { loading: () => <div>...</div> });
 const HeroSection = dynamic(() => import("@/components/common/HeroSection"), { loading: () => <div>...</div> });
+const Badge = dynamic(() => import("@/components/common/Badge"), { loading: () => <div>...</div> });
+const Avatar = dynamic(() => import("@/components/common/Avatar"), { loading: () => <div>...</div> });
+const Tooltip = dynamic(() => import("@/components/common/Tooltip"), { loading: () => <div>...</div> });
 
 type StudentRow = {
   id: string;
@@ -36,6 +39,7 @@ export default function InstructorDashboard() {
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  
   // جلب البيانات من الـ APIs
   useEffect(() => {
     if (!user?.id) return;
@@ -71,25 +75,25 @@ export default function InstructorDashboard() {
     {
       label: "عدد الكورسات",
       value: courses.length,
-      icon: <School fontSize="large" />,
+      icon: <School className="h-8 w-8" />,
       color: "primary" as const,
     },
     {
       label: "عدد الطلاب",
       value: students.length,
-      icon: <Group fontSize="large" />,
+      icon: <Users className="h-8 w-8" />,
       color: "success" as const,
     },
     {
       label: "الإنجازات",
       value: achievements.length,
-      icon: <EmojiEvents fontSize="large" />,
+      icon: <Trophy className="h-8 w-8" />,
       color: "warning" as const,
     },
     {
       label: "الإشعارات",
       value: notifications.length,
-      icon: <Notifications fontSize="large" />,
+      icon: <Bell className="h-8 w-8" />,
       color: "info" as const,
     },
   ];
@@ -104,9 +108,9 @@ export default function InstructorDashboard() {
   };
 
   return (
-    <Box className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* إشعارات سريعة */}
-      <Container maxWidth="lg" className="pt-4">
+      <div className="container mx-auto px-4 pt-4">
         <AnimatePresence>
           {notifications.length > 0 && (
             <motion.div
@@ -115,27 +119,31 @@ export default function InstructorDashboard() {
               exit={{ opacity: 0, y: -20 }}
               className="mb-4"
             >
-              <Paper elevation={2} className="flex items-center gap-4 p-3 bg-gradient-to-l from-blue-100 to-indigo-50 rounded-xl shadow">
-                <Notifications color="primary" />
-                <Typography variant="body1" className="font-semibold">
+              <div className="flex items-center gap-4 p-3 bg-gradient-to-l from-blue-100 to-indigo-50 rounded-xl shadow-md">
+                <Bell className="h-6 w-6 text-blue-600" />
+                <p className="font-semibold text-gray-800">
                   لديك {notifications.length} إشعار جديد
-                </Typography>
-                <Box className="flex gap-2 overflow-x-auto custom-scrollbar">
+                </p>
+                <div className="flex gap-2 overflow-x-auto custom-scrollbar">
                   {notifications.slice(0, 4).map((n) => (
-                    <Chip
+                    <Badge
                       key={n.id}
-                      label={n.title}
+                      variant="standard"
                       color={n.urgent ? "error" : n.isImportant ? "warning" : "info"}
-                      icon={<Info fontSize="small" />}
                       className="mx-1"
-                    />
+                    >
+                      <span className="flex items-center gap-1">
+                        <Info className="h-3 w-3" />
+                        {n.title}
+                      </span>
+                    </Badge>
                   ))}
-                </Box>
-              </Paper>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </Container>
+      </div>
 
       {/* Hero Section */}
       <HeroSection
@@ -146,63 +154,62 @@ export default function InstructorDashboard() {
         primaryAction={{
           label: "إضافة كورس جديد",
           onClick: () => {/* ... */},
-          icon: <PlayCircle />,
+          icon: <Play className="h-4 w-4" />,
         }}
         features={[
-          { icon: <School />, title: "كورساتك", description: "إدارة جميع الكورسات بسهولة" },
-          { icon: <Group />, title: "طلابك", description: "تتبع تقدم الطلاب" },
-          { icon: <EmojiEvents />, title: "إنجازاتك", description: "شاهد إنجازاتك وتكريماتك" },
+          { icon: <School className="h-6 w-6" />, title: "كورساتك", description: "إدارة جميع الكورسات بسهولة" },
+          { icon: <Users className="h-6 w-6" />, title: "طلابك", description: "تتبع تقدم الطلاب" },
+          { icon: <Trophy className="h-6 w-6" />, title: "إنجازاتك", description: "شاهد إنجازاتك وتكريماتك" },
         ]}
         variant="split"
         className="mb-8"
       />
 
-      <Container maxWidth="lg" className="py-8">
+      <div className="container mx-auto px-4 py-8">
         {/* إحصائيات سريعة */}
         <motion.div variants={fadeInUp} initial="hidden" animate="visible">
           <StatsCard title="إحصائيات سريعة" stats={stats} variant="compact" className="mb-8" />
         </motion.div>
 
         {/* الكورسات النشطة */}
-        <Typography variant="h5" className="font-bold mb-4">كورساتك النشطة</Typography>
-        <motion.div variants={stagger} initial="hidden" animate="visible">
-          <Grid container spacing={3}>
-            {courses.map((course, idx) => (
-              <Grid item xs={12} sm={6} md={4} key={course.id}>
-                <motion.div variants={fadeInUp} whileHover={{ scale: 1.04, boxShadow: "0 8px 24px #a5b4fc55" }}>
-                  <Card
-                    title={course.title}
-                    description={course.description}
-                    image={course.image || undefined}
-                    tags={[course.level || ""]}
-                    onClick={() => {/* ... */}}
-                    className="h-full cursor-pointer hover-lift card-shadow bg-white/90"
-                    actionText="إدارة الكورس"
-                    onAction={() => {
-                      router.push(`/instructor/courses/${course.id}`);
-                    }}
-                  >
-                    <Box className="flex items-center gap-2 mt-2">
-                      <Tooltip title="عدد الطلاب">
-                        <Badge badgeContent={students.filter(s => s.course === course.title).length} color="primary">
-                          <Group />
-                        </Badge>
-                      </Tooltip>
-                      <Tooltip title="مستوى الكورس">
-                        <Chip label={course.level || "-"} color="info" size="small" />
-                      </Tooltip>
-                    </Box>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
+        <h2 className="text-2xl font-bold mb-4">كورساتك النشطة</h2>
+        <motion.div variants={stagger} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.map((course, idx) => (
+            <motion.div key={course.id} variants={fadeInUp} whileHover={{ scale: 1.04, boxShadow: "0 8px 24px #a5b4fc55" }}>
+              <Card
+                title={course.title}
+                description={course.description}
+                image={course.image || undefined}
+                tags={[course.level || ""]}
+                onClick={() => {/* ... */}}
+                className="h-full cursor-pointer hover-lift card-shadow bg-white/90"
+                actionText="إدارة الكورس"
+                onAction={() => {
+                  router.push(`/instructor/courses/${course.id}`);
+                }}
+              >
+                <div className="flex items-center gap-2 mt-2">
+                  <Tooltip title="عدد الطلاب">
+                    <div className="relative">
+                      <Users className="h-5 w-5 text-blue-600" />
+                      <Badge variant="dot" color="primary" className="absolute -top-1 -right-1">
+                        <span className="text-xs">{students.filter(s => s.course === course.title).length}</span>
+                      </Badge>
+                    </div>
+                  </Tooltip>
+                  <Badge variant="standard" color="info" className="text-xs">
+                    <span>{course.level || "-"}</span>
+                  </Badge>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* جدول الطلاب */}
-        <Box className="mt-12">
-          <Typography variant="h5" className="font-bold mb-4">آخر الطلاب النشطين</Typography>
-          <Paper elevation={1} className="p-4 rounded-xl bg-white/80 card-shadow mb-4">
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold mb-4">آخر الطلاب النشطين</h2>
+          <div className="p-4 rounded-xl bg-white/80 card-shadow mb-4">
             <DataGrid
               columns={[
                 {
@@ -220,9 +227,9 @@ export default function InstructorDashboard() {
                   headerName: "التقدم",
                   width: 120,
                   renderCell: (params: any) => (
-                    <Box className="flex items-center gap-2">
+                    <div className="flex items-center gap-2">
                       <span>{params.value}%</span>
-                      <Box className="w-8 h-8 relative">
+                      <div className="w-8 h-8 relative">
                         <svg viewBox="0 0 36 36" className="w-8 h-8">
                           <path
                             d="M18 2.0845
@@ -244,8 +251,8 @@ export default function InstructorDashboard() {
                         <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-main">
                           {params.value}
                         </span>
-                      </Box>
-                    </Box>
+                      </div>
+                    </div>
                   ),
                 },
               ]}
@@ -253,31 +260,29 @@ export default function InstructorDashboard() {
               pageSize={5}
               checkboxSelection={false}
             />
-          </Paper>
-        </Box>
+          </div>
+        </div>
 
         {/* الإنجازات */}
-        <Box className="mt-12">
-          <Typography variant="h5" className="font-bold mb-4">إنجازاتك</Typography>
-          <Grid container spacing={2}>
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold mb-4">إنجازاتك</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {achievements.map((ach, idx) => (
-              <Grid item xs={12} sm={6} md={3} key={ach.id}>
-                <motion.div variants={fadeInUp} initial="hidden" animate="visible" whileHover={{ scale: 1.08 }}>
-                  <Paper elevation={2} className="flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-yellow-50 to-yellow-100 card-shadow mb-2 animate-fade-in-up">
-                    <Star className="text-yellow-500 text-3xl mb-2" />
-                    <Typography variant="h6" className="font-bold mb-1 text-yellow-800">
-                      {ach.type}
-                    </Typography>
-                    <Typography variant="body2" className="text-gray-600 mb-2">
-                      {ach.value ? ach.value.toString() : "-"}
-                    </Typography>
-                  </Paper>
-                </motion.div>
-              </Grid>
+              <motion.div key={ach.id} variants={fadeInUp} initial="hidden" animate="visible" whileHover={{ scale: 1.08 }}>
+                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br from-yellow-50 to-yellow-100 card-shadow mb-2 animate-fade-in-up">
+                  <Star className="h-8 w-8 text-yellow-500 mb-2" />
+                  <h3 className="font-bold mb-1 text-yellow-800">
+                    {ach.type}
+                  </h3>
+                  <p className="text-gray-600 mb-2">
+                    {ach.value ? ach.value.toString() : "-"}
+                  </p>
+                </div>
+              </motion.div>
             ))}
-          </Grid>
-        </Box>
-      </Container>
-    </Box>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

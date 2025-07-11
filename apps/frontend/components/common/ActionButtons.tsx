@@ -1,6 +1,6 @@
 "use client";
 
-import { PencilIcon, TrashIcon, EyeIcon, ArrowDownTrayIcon } from "@heroicons/react/24/outline";
+import { Pencil, Trash2, Eye, Download } from "lucide-react";
 
 interface ActionButtonsProps {
     onEdit?: () => void;
@@ -28,37 +28,37 @@ export default function ActionButtons({
             {showView && (
                 <button
                     onClick={onView}
-                    className="p-1 text-blue-600 hover:bg-blue-50 rounded-full"
+                    className="p-1 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
                     title="عرض"
                 >
-                    <EyeIcon className="w-5 h-5" />
+                    <Eye className="w-5 h-5" />
                 </button>
             )}
             {showEdit && (
                 <button
                     onClick={onEdit}
-                    className="p-1 text-yellow-600 hover:bg-yellow-50 rounded-full"
+                    className="p-1 text-yellow-600 hover:bg-yellow-50 rounded-full transition-colors"
                     title="تعديل"
                 >
-                    <PencilIcon className="w-5 h-5" />
+                    <Pencil className="w-5 h-5" />
                 </button>
             )}
             {showDelete && (
                 <button
                     onClick={onDelete}
-                    className="p-1 text-red-600 hover:bg-red-50 rounded-full"
+                    className="p-1 text-red-600 hover:bg-red-50 rounded-full transition-colors"
                     title="حذف"
                 >
-                    <TrashIcon className="w-5 h-5" />
+                    <Trash2 className="w-5 h-5" />
                 </button>
             )}
             {showExport && (
                 <button
                     onClick={onExport}
-                    className="p-1 text-green-600 hover:bg-green-50 rounded-full"
+                    className="p-1 text-green-600 hover:bg-green-50 rounded-full transition-colors"
                     title="تصدير"
                 >
-                    <ArrowDownTrayIcon className="w-5 h-5" />
+                    <Download className="w-5 h-5" />
                 </button>
             )}
         </div>

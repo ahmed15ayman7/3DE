@@ -237,8 +237,8 @@ const TeachersPage = () => {
 
                                 {/* زر التفاصيل */}
                                 <Button
-                                    variant="outlined"
-                                    size="small"
+                                    variant="outline"
+                                    size="sm"
                                     className="w-full"
                                     onClick={() => handleInstructorClick(instructor)}
                                 >
@@ -410,10 +410,10 @@ const TeachersPage = () => {
                             {/* Footer */}
                             <div className="p-6 border-t bg-gray-50 rounded-b-2xl">
                                 <div className="flex justify-end space-x-3 space-x-reverse">
-                                    <Button variant="outlined" onClick={closeModal}>
+                                    <Button variant="outline" onClick={closeModal}>
                                         إغلاق
                                     </Button>
-                                    <Button variant="contained">
+                                    <Button variant="default">
                                         التواصل مع المدرس
                                     </Button>
                                 </div>

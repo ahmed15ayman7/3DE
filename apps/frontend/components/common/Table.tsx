@@ -1,17 +1,7 @@
 "use client" 
 import React from 'react';
-import {
-    Table as MuiTable,
-    TableBody as MuiTableBody,
-    TableCell as MuiTableCell,
-    TableContainer as MuiTableContainer,
-    TableHead as MuiTableHead,
-    TableRow as MuiTableRow,
-    TablePagination as MuiTablePagination,
-    TableSortLabel as MuiTableSortLabel,
-    Paper,
-} from '@mui/material';
-
+import { cn } from '@/lib/utils';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface Column {
     id: string;
@@ -49,12 +39,11 @@ const Table: React.FC<TableProps> = ({
     onSort,
     className = '',
 }) => {
-
-    const handleChangePage = (_: unknown, newPage: number) => {
+    const handleChangePage = (newPage: number) => {
         onPageChange?.(newPage);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onRowsPerPageChange?.(parseInt(event.target.value, 10));
     };
 
@@ -64,87 +53,132 @@ const Table: React.FC<TableProps> = ({
         onSort(columnId, isAsc ? 'desc' : 'asc');
     };
 
+    const getAlignmentClass = (align?: 'left' | 'center' | 'right') => {
+        switch (align) {
+            case 'center':
+                return 'text-center';
+            case 'right':
+                return 'text-right';
+            default:
+                return 'text-left';
+        }
+    };
+
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+
     return (
-        <Paper className={className}>
-            <MuiTableContainer>
-                <MuiTable
-                    className={`
-            [&_.MuiTableCell-root]:px-4
-            [&_.MuiTableCell-root]:py-3
-            [&_.MuiTableCell-root]:text-sm
-            [&_.MuiTableCell-head]:font-medium
-            [&_.MuiTableCell-head]:text-gray-900
-            [&_.MuiTableCell-head]:bg-gray-50
-            [&_.MuiTableCell-body]:text-gray-600
-            [&_.MuiTableRow-root]:border-b
-            [&_.MuiTableRow-root]:border-gray-200
-            [&_.MuiTableRow-root:hover]:bg-gray-50
-          `}
-                >
-                    <MuiTableHead>
-                        <MuiTableRow>
+        <div className={cn("bg-white rounded-lg shadow-sm border border-gray-200", className)}>
+            <div className="overflow-x-auto">
+                <table className="w-full">
+                    <thead>
+                        <tr className="border-b border-gray-200 bg-gray-50">
                             {columns.map((column) => (
-                                <MuiTableCell
+                                <th
                                     key={column.id}
-                                    align={column.align}
-                                    style={{ width: column.width }}
-                                    sortDirection={orderBy === column.id ? order : false}
-                                >
-                                    {column.sortable ? (
-                                        <MuiTableSortLabel
-                                            active={orderBy === column.id}
-                                            direction={orderBy === column.id ? order : 'asc'}
-                                            onClick={() => handleSort(column.id)}
-                                            className="whitespace-nowrap"
-                                        >
-                                            {column.label}
-                                        </MuiTableSortLabel>
-                                    ) : (
-                                        column.label
+                                    className={cn(
+                                        "px-4 py-3 text-sm font-medium text-gray-900",
+                                        getAlignmentClass(column.align),
+                                        column.sortable && "cursor-pointer hover:bg-gray-100 transition-colors"
                                     )}
-                                </MuiTableCell>
+                                    style={{ width: column.width }}
+                                    onClick={() => column.sortable && handleSort(column.id)}
+                                >
+                                    <div className={cn(
+                                        "flex items-center space-x-1 rtl:space-x-reverse",
+                                        getAlignmentClass(column.align)
+                                    )}>
+                                        <span className="whitespace-nowrap">{column.label}</span>
+                                        {column.sortable && (
+                                            <div className="flex flex-col">
+                                                <ChevronUp 
+                                                    className={cn(
+                                                        "h-3 w-3",
+                                                        orderBy === column.id && order === 'asc' 
+                                                            ? "text-blue-600" 
+                                                            : "text-gray-400"
+                                                    )}
+                                                />
+                                                <ChevronDown 
+                                                    className={cn(
+                                                        "h-3 w-3 -mt-1",
+                                                        orderBy === column.id && order === 'desc' 
+                                                            ? "text-blue-600" 
+                                                            : "text-gray-400"
+                                                    )}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                </th>
                             ))}
-                        </MuiTableRow>
-                    </MuiTableHead>
-                    <MuiTableBody>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {data.map((row, rowIndex) => (
-                            <MuiTableRow key={rowIndex}>
+                            <tr 
+                                key={rowIndex}
+                                className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+                            >
                                 {columns.map((column) => (
-                                    <MuiTableCell
+                                    <td
                                         key={column.id}
-                                        align={column.align}
+                                        className={cn(
+                                            "px-4 py-3 text-sm text-gray-600",
+                                            getAlignmentClass(column.align)
+                                        )}
                                     >
                                         {column.render
                                             ? column.render(row[column.id], row)
                                             : row[column.id]}
-                                    </MuiTableCell>
+                                    </td>
                                 ))}
-                            </MuiTableRow>
+                            </tr>
                         ))}
-                    </MuiTableBody>
-                </MuiTable>
-            </MuiTableContainer>
-            <MuiTablePagination
-                rowsPerPageOptions={[5, 10, 25, 50]}
-                component="div"
-                count={totalRows}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                className={`
-          [&_.MuiTablePagination-selectLabel]:text-sm
-          [&_.MuiTablePagination-displayedRows]:text-sm
-          [&_.MuiTablePagination-select]:text-sm
-          [&_.MuiTablePagination-select]:py-1
-          [&_.MuiTablePagination-select]:px-2
-          [&_.MuiTablePagination-select]:rounded-md
-          [&_.MuiTablePagination-select]:border
-          [&_.MuiTablePagination-select]:border-gray-300
-          [&_.MuiTablePagination-select]:bg-white
-        `}
-            />
-        </Paper>
+                    </tbody>
+                </table>
+            </div>
+            
+            {/* Pagination */}
+            <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
+                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span className="text-sm text-gray-700">صفوف في الصفحة:</span>
+                    <select
+                        value={rowsPerPage}
+                        onChange={handleChangeRowsPerPage}
+                        className="text-sm py-1 px-2 rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                        {[5, 10, 25, 50].map((option) => (
+                            <option key={option} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                
+                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span className="text-sm text-gray-700">
+                        {page * rowsPerPage + 1}-{Math.min((page + 1) * rowsPerPage, totalRows)} من {totalRows}
+                    </span>
+                    
+                    <div className="flex items-center space-x-1 rtl:space-x-reverse">
+                        <button
+                            onClick={() => handleChangePage(page - 1)}
+                            disabled={page === 0}
+                            className="px-2 py-1 text-sm border border-gray-300 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                        >
+                            السابق
+                        </button>
+                        <button
+                            onClick={() => handleChangePage(page + 1)}
+                            disabled={page >= totalPages - 1}
+                            className="px-2 py-1 text-sm border border-gray-300 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                        >
+                            التالي
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

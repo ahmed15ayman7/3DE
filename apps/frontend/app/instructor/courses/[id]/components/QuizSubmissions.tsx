@@ -1,16 +1,3 @@
-import {
-    Paper,
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Box,
-    CircularProgress,
-    Alert,
-} from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { quizApi, submissionApi } from '@/lib/api';
 import { Option, Question, Quiz, Submission, User, UserRole } from '@shared/prisma';
@@ -18,8 +5,6 @@ import { Option, Question, Quiz, Submission, User, UserRole } from '@shared/pris
 interface QuizSubmissionsProps {
     quizId: string;
 }
-
-
 
 let initialSubmissions: (Submission & { user: User, quiz: Quiz & { questions: Question[] } })[] = [
     {
@@ -61,7 +46,6 @@ let initialSubmissions: (Submission & { user: User, quiz: Quiz & { questions: Qu
                 optionId: '1',
             }
         ],
-
         user: {
             id: '1',
             firstName: 'John',
@@ -90,61 +74,57 @@ export default function QuizSubmissions({ quizId }: QuizSubmissionsProps) {
 
     if (isLoading) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
-                <CircularProgress />
-            </Box>
+            <div className="flex justify-center p-6">
+                <div className="w-8 h-8 border-4 border-blue-400 border-t-transparent rounded-full animate-spin" />
+            </div>
         );
     }
 
     if (!submissionsResponse?.data || submissionsResponse.data.length === 0) {
         return (
-            <Alert severity="info">
+            <div className="bg-blue-50 border border-blue-200 text-blue-700 rounded p-4 text-center">
                 لم يتم تقديم أي إجابات بعد
-            </Alert>
+            </div>
         );
     }
 
     const submissions = submissionsResponse.data ?? initialSubmissions;
 
     return (
-        <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-                نتائج الطلاب
-            </Typography>
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>اسم الطالب</TableCell>
-                            <TableCell align="center">النتيجة</TableCell>
-                            <TableCell align="center">النسبة المئوية</TableCell>
-                            <TableCell align="center">تاريخ التقديم</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {submissions.map((submission) => {
-                            let fullScore = 0;
-                            for (let question of submission.quiz.questions) {
-                                fullScore += question.points;
-                            }
-                            return (
-                                <TableRow key={submission.id}>
-                                    <TableCell>{submission.user.firstName} {submission.user.lastName}</TableCell>
-                                    <TableCell align="center">
-                                        {submission.score} من {fullScore}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {Math.round((submission.score || 0 / fullScore) * 100)}%
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {new Date(submission.createdAt).toLocaleDateString('ar-SA')}
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
+        <div className="bg-white rounded shadow p-6 overflow-x-auto">
+            <h2 className="text-lg font-bold mb-4">نتائج الطلاب</h2>
+            <table className="min-w-full border text-sm">
+                <thead>
+                    <tr className="bg-gray-100">
+                        <th className="py-2 px-4 border-b">اسم الطالب</th>
+                        <th className="py-2 px-4 border-b text-center">النتيجة</th>
+                        <th className="py-2 px-4 border-b text-center">النسبة المئوية</th>
+                        <th className="py-2 px-4 border-b text-center">تاريخ التقديم</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {submissions.map((submission) => {
+                        let fullScore = 0;
+                        for (let question of submission.quiz.questions) {
+                            fullScore += question.points;
+                        }
+                        return (
+                            <tr key={submission.id} className="even:bg-gray-50">
+                                <td className="py-2 px-4 border-b">{submission.user.firstName} {submission.user.lastName}</td>
+                                <td className="py-2 px-4 border-b text-center">
+                                    {submission.score} من {fullScore}
+                                </td>
+                                <td className="py-2 px-4 border-b text-center">
+                                    {fullScore > 0 ? Math.round(((submission.score ?? 0) / fullScore) * 100) : 0}%
+                                </td>
+                                <td className="py-2 px-4 border-b text-center">
+                                    {new Date(submission.createdAt).toLocaleDateString('ar-SA')}
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+        </div>
     );
 } 

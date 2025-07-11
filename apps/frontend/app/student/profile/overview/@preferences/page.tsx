@@ -20,21 +20,21 @@ export default function PreferencesTab() {
                     </div>
                     <div className="flex items-center space-x-4">
                         <Button
-                            variant={theme === 'light' ? 'contained' : 'outlined'}
+                            variant={theme === 'light' ? 'default' : 'outline'}
                             onClick={() => setTheme('light')}
                         >
                             <FaSun className="ml-2" />
                             فاتح
                         </Button>
                         <Button
-                            variant={theme === 'dark' ? 'contained' : 'outlined'}
+                            variant={theme === 'dark' ? 'default' : 'outline'}
                             onClick={() => setTheme('dark')}
                         >
                             <FaMoon className="ml-2" />
                             داكن
                         </Button>
                         <Button
-                            variant="outlined"
+                            variant="outline"
                             onClick={() => setShowNightModeTrial(true)}
                         >
                             تجربة الوضع الليلي

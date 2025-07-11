@@ -6,9 +6,8 @@ import { instructorApi, lessonApi, attendanceApi, enrollmentApi } from "@/lib/ap
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { arSA } from "date-fns/locale";
-import { Box, Grid, Typography, Button, CircularProgress } from "@mui/material";
-import { School, Group, CheckCircle, Cancel, AccessTime } from "@mui/icons-material";
 import { motion } from "framer-motion";
+import { Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 
 const HeroSection = dynamic(() => import("@/components/common/HeroSection"), { ssr: false });
 const StatsCard = dynamic(() => import("@/components/common/StatsCard"), { ssr: false });
@@ -63,22 +62,22 @@ export default function InstructorDailyTracking() {
       {
         label: "الحصص اليوم",
         value: lessonsData.length,
-        icon: <AccessTime fontSize="large" />, color: "primary" as const,
+        icon: <Clock className="h-8 w-8" />, color: "primary" as const,
       },
       {
         label: "طلاب حاضرين",
         value: present,
-        icon: <CheckCircle fontSize="large" />, color: "success" as const,
+        icon: <CheckCircle className="h-8 w-8" />, color: "success" as const,
       },
       {
         label: "طلاب غائبين",
         value: absent,
-        icon: <Cancel fontSize="large" />, color: "error" as const,
+        icon: <XCircle className="h-8 w-8" />, color: "error" as const,
       },
       {
         label: "طلاب متأخرين",
         value: late,
-        icon: <AccessTime fontSize="large" />, color: "warning" as const,
+        icon: <AlertCircle className="h-8 w-8" />, color: "warning" as const,
       },
     ];
   }, [attendanceData, lessonsData]);
@@ -116,10 +115,10 @@ export default function InstructorDailyTracking() {
       headerName: "الطالب",
       width: 180,
       renderCell: (params: any) => (
-        <Box className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <Avatar name={params.value} size="sm" />
           <span>{params.value}</span>
-        </Box>
+        </div>
       ),
     },
     { field: "subject", headerName: "المادة", width: 150 },
@@ -131,8 +130,8 @@ export default function InstructorDailyTracking() {
   const loading = loadingCourses || loadingLessons || loadingAttendance;
 
   return (
-    <Box className="container mx-auto px-4 py-8">
-      <Suspense fallback={<Skeleton variant="rectangular" height={200} count={1} />}>
+    <div className="container mx-auto px-4 py-8">
+      <Suspense fallback={<Skeleton height={200} />}>
         <HeroSection
           title="المتابعة اليومية للمحاضر"
           subtitle={user?.firstName ? `مرحباً ${user.firstName}` : ""}
@@ -142,50 +141,46 @@ export default function InstructorDailyTracking() {
         />
       </Suspense>
 
-      <Box className="my-8">
+      <div className="my-8">
         {loading ? (
-          <Skeleton variant="rectangular" height={120} count={1} />
+          <Skeleton height={120} />
         ) : (
           <StatsCard stats={stats} animate />
         )}
-      </Box>
+      </div>
 
-      <Typography variant="h5" className="font-bold mb-4 text-right">بطاقات الطلاب</Typography>
-      <Grid container spacing={3} className="mb-8">
+      <h2 className="text-2xl font-bold mb-4 text-right">بطاقات الطلاب</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {loading
           ? Array.from({ length: 2 }).map((_, i) => (
-              <Grid item xs={12} md={6} key={i}>
-                <Skeleton variant="rectangular" height={140} />
-              </Grid>
+              <Skeleton key={i} height={140} />
             ))
           : (students as any[]).map((student: any) => (
-              <Grid item xs={12} md={6} key={student.id}>
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                  <Card title={student.firstName + " " + student.lastName}>
-                    <Box className="flex items-center gap-4 mb-2">
-                      <Avatar src={student.avatar} name={student.firstName + " " + student.lastName} size="lg" />
-                      <Box>
-                        <Typography className="text-gray-600">{student.email}</Typography>
-                        <Typography className="text-sm text-gray-500">{student.phone}</Typography>
-                      </Box>
-                    </Box>
-                    <Typography className="text-right text-primary-main font-bold">
-                      آخر حضور: {attendanceData?.find((a: any) => a.studentId === student.id)?.createdAt ? format(new Date(attendanceData.find((a: any) => a.studentId === student.id).createdAt), "hh:mm a", { locale: arSA }) : "-"}
-                    </Typography>
-                  </Card>
-                </motion.div>
-              </Grid>
+              <motion.div key={student.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                <Card title={student.firstName + " " + student.lastName}>
+                  <div className="flex items-center gap-4 mb-2">
+                    <Avatar src={student.avatar} name={student.firstName + " " + student.lastName} size="lg" />
+                    <div>
+                      <p className="text-gray-600">{student.email}</p>
+                      <p className="text-sm text-gray-500">{student.phone}</p>
+                    </div>
+                  </div>
+                  <p className="text-right text-primary-main font-bold">
+                    آخر حضور: {attendanceData?.find((a: any) => a.studentId === student.id)?.createdAt ? format(new Date(attendanceData.find((a: any) => a.studentId === student.id).createdAt), "hh:mm a", { locale: arSA }) : "-"}
+                  </p>
+                </Card>
+              </motion.div>
             ))}
-      </Grid>
+      </div>
 
-      <Typography variant="h5" className="font-bold mb-4 text-right">الجدول اليومي</Typography>
-      <Box className="bg-white rounded-xl shadow p-4">
+      <h2 className="text-2xl font-bold mb-4 text-right">الجدول اليومي</h2>
+      <div className="bg-white rounded-xl shadow p-4">
         {loading ? (
-          <Skeleton variant="rectangular" height={300} />
+          <Skeleton height={300} />
         ) : (
           <DataGrid columns={columns} rows={dailyRows} pageSize={8} checkboxSelection />
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 } 

@@ -33,13 +33,13 @@ export default function QuizzesOverflowError({ error, reset }: ErrorProps) {
                     )}
                     <div className="flex space-x-2 justify-center">
                         <Button
-                            variant="contained"
+                            variant="default"
                             onClick={reset}
                         >
                             إعادة المحاولة
                         </Button>
                         <Button
-                            variant="outlined"
+                            variant="outline"
                             onClick={() => window.location.href = '/student/dashboard'}
                         >
                             العودة للرئيسية

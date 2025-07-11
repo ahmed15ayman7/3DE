@@ -1,12 +1,7 @@
 "use client"
 import React from 'react';
-import {
-    TextField,
-    InputAdornment,
-    IconButton,
-    Box,
-} from '@mui/material';
-
+import { Input as ShadcnInput } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 interface InputProps {
     label?: string;
@@ -36,6 +31,7 @@ interface InputProps {
     size?: 'small' | 'medium';
     variant?: 'outlined' | 'filled' | 'standard';
     color?: 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
+    readOnly?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -63,119 +59,127 @@ const Input: React.FC<InputProps> = ({
     autoFocus = false,
     inputProps,
     InputProps,
+    readOnly = false,
     size = 'medium',
     variant = 'outlined',
     color = 'primary',
 }) => {
-
     const getColorClasses = () => {
         switch (color) {
             case 'primary':
-                return 'text-primary-main focus:ring-primary-main';
+                return 'focus:ring-blue-500 focus:border-blue-500';
             case 'secondary':
-                return 'text-secondary-main focus:ring-secondary-main';
+                return 'focus:ring-gray-500 focus:border-gray-500';
             case 'success':
-                return 'text-success-main focus:ring-success-main';
+                return 'focus:ring-green-500 focus:border-green-500';
             case 'error':
-                return 'text-error-main focus:ring-error-main';
+                return 'focus:ring-red-500 focus:border-red-500';
             case 'warning':
-                return 'text-warning-main focus:ring-warning-main';
+                return 'focus:ring-yellow-500 focus:border-yellow-500';
             case 'info':
-                return 'text-info-main focus:ring-info-main';
+                return 'focus:ring-cyan-500 focus:border-cyan-500';
             default:
                 return '';
         }
     };
 
-    const getBorderColor = () => {
-        if (error) return 'border-error-main';
-        switch (color) {
-            case 'primary':
-                return 'border-primary-main';
-            case 'secondary':
-                return 'border-secondary-main';
-            case 'success':
-                return 'border-success-main';
-            case 'error':
-                return 'border-error-main';
-            case 'warning':
-                return 'border-warning-main';
-            case 'info':
-                return 'border-info-main';
+    const getSizeClasses = () => {
+        switch (size) {
+            case 'small':
+                return 'h-8 text-sm';
             default:
-                return 'border-gray-300';
+                return 'h-10 text-base';
         }
     };
 
-    const getBackgroundColor = () => {
-        if (disabled) return 'bg-gray-100 ';
-        return 'bg-white ';
+    const handleClear = () => {
+        if (onChange) {
+            onChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+        }
     };
 
+    if (multiline) {
+        return (
+            <div className={cn("w-full", fullWidth && "w-full", className)}>
+                {label && (
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {label}
+                        {required && <span className="text-red-500 ml-1">*</span>}
+                    </label>
+                )}
+                <textarea
+                    value={value}
+                    onChange={onChange as any}
+                    placeholder={placeholder}
+                    name={name}
+                    id={id}
+                    autoComplete={autoComplete}
+                    autoFocus={autoFocus}
+                    disabled={disabled}
+                    rows={rows || 3}
+                    className={cn(
+                        "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                        getColorClasses(),
+                        getSizeClasses(),
+                        error && "border-red-500 focus-visible:ring-red-500",
+                        className
+                    )}
+                    {...inputProps}
+                />
+                {helperText && (
+                    <p className={cn(
+                        "mt-1 text-xs",
+                        error ? "text-red-500" : "text-gray-500"
+                    )}>
+                        {helperText}
+                    </p>
+                )}
+            </div>
+        );
+    }
+
     return (
-        <TextField
-            label={label}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            type={type}
-            error={error}
-            helperText={helperText}
-            required={required}
-            disabled={disabled}
-            fullWidth={fullWidth}
-            multiline={multiline}
-            rows={rows}
-            maxRows={maxRows}
-            minRows={minRows}
-            name={name}
-            id={id}
-            autoComplete={autoComplete}
-            autoFocus={autoFocus}
-            inputProps={inputProps}
-            size={size}
-            variant={variant}
-            color={color}
-            className={`
-        ${getColorClasses()}
-        ${getBorderColor()}
-        ${getBackgroundColor()}
-        ${className}
-        rounded-lg
-        transition-all
-        duration-200
-        ease-in-out
-        focus:outline-none
-        focus:ring-2
-        focus:ring-opacity-50
-        disabled:opacity-50
-        disabled:cursor-not-allowed
-        rtl:space-x-reverse
-      `}
-            InputProps={{
-                ...InputProps,
-                startAdornment: startIcon && (
-                    <InputAdornment position="start">
+        <div className={cn("w-full", fullWidth && "w-full", className)}>
+            {label && (
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {label}
+                    {required && <span className="text-red-500 ml-1">*</span>}
+                </label>
+            )}
+            <div className="relative">
+                {startIcon && (
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                         {startIcon}
-                    </InputAdornment>
-                ),
-                endAdornment: (endIcon || clearable) && (
-                    <InputAdornment position="end">
-                        {endIcon}
-                        {clearable && value && (
-                            <IconButton
-                                aria-label="clear input"
-                                onClick={() => onChange?.({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>)}
-                                edge="end"
-                                className="opacity-70 hover:opacity-100"
-                            >
-                                <Box className="w-4 h-4" />
-                            </IconButton>
-                        )}
-                    </InputAdornment>
-                ),
-            }}
-        />
+                    </div>
+                )}
+                <ShadcnInput
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    name={name}
+                    id={id}
+                    autoComplete={autoComplete}
+                    autoFocus={autoFocus}
+                    disabled={disabled}
+                    error={error}
+                    helperText={helperText}
+                    startIcon={startIcon}
+                    endIcon={endIcon}
+                    clearable={clearable}
+                    onClear={handleClear}
+                    readOnly={readOnly}
+                    className={cn(
+                        getColorClasses(),
+                        getSizeClasses(),
+                        startIcon && "pl-10",
+                        (endIcon || clearable) && "pr-10",
+                        className
+                    )}
+                    {...inputProps}
+                />
+            </div>
+        </div>
     );
 };
 

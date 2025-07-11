@@ -1,7 +1,4 @@
-import { Box } from '@mui/material';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-import { motion } from 'framer-motion';
+import { LazyMotion, domAnimation, m } from 'framer-motion';
 
 interface CustomPhoneInputProps {
     value: string;
@@ -17,45 +14,45 @@ export const CustomPhoneInput = ({
     helperText,
 }: CustomPhoneInputProps) => {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-        >
-            <Box sx={{ position: 'relative' }}>
-                <PhoneInput
-                    country={'eg'}
-                    value={value}
-                    onChange={onChange}
-                    inputStyle={{
-                        width: '100%',
-                        height: '56px',
-                        fontSize: '16px',
-                        borderRadius: '4px',
-                        border: error ? '1px solid #d32f2f' : '1px solid rgba(0, 0, 0, 0.23)',
-                    }}
-                    buttonStyle={{
-                        border: error ? '1px solid #d32f2f' : '1px solid rgba(0, 0, 0, 0.23)',
-                        borderRadius: '4px 0 0 4px',
-                    }}
-                    containerStyle={{
-                        width: '100%',
-                    }}
-                />
-                {error && helperText && (
-                    <Box
-                        sx={{
-                            color: '#d32f2f',
-                            fontSize: '0.75rem',
-                            marginTop: '3px',
-                            marginLeft: '14px',
-                        }}
-                    >
-                        {helperText}
-                    </Box>
-                )}
-            </Box>
-        </motion.div>
+        <LazyMotion features={domAnimation}>
+            <m.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="w-full"
+            >
+                <div className="relative">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        رقم الهاتف
+                    </label>
+                    <div className="relative">
+                        <input
+                            type="tel"
+                            value={value}
+                            onChange={(e) => onChange(e.target.value)}
+                            placeholder="أدخل رقم الهاتف"
+                            className={`
+                                w-full pl-12 pr-4 py-3 border rounded-lg transition-colors duration-200
+                                focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+                                ${error 
+                                    ? 'border-red-500 bg-red-50' 
+                                    : 'border-gray-300 hover:border-gray-400 focus:border-primary'
+                                }
+                            `}
+                        />
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                            🇪🇬 +20
+                        </div>
+                    </div>
+                    {error && helperText && (
+                        <p className="mt-1 text-sm text-red-600 flex items-center">
+                            <span className="mr-1">⚠</span>
+                            {helperText}
+                        </p>
+                    )}
+                </div>
+            </m.div>
+        </LazyMotion>
     );
 }; 

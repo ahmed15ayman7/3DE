@@ -130,8 +130,8 @@ export default function AnalyticsPage() {
                                         <p className="text-sm text-yellow-600 mt-1">{improvement.description}</p>
                                         <div className="mt-3">
                                             <Button
-                                                variant="outlined"
-                                                size="small"
+                                                variant="outline"
+                                                size="sm"
                                                 className="text-yellow-700 border-yellow-300 hover:bg-yellow-100"
                                             >
                                                 عرض تمارين مقترحة
