@@ -27,7 +27,7 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
 
   return (
     <motion.aside
-      animate={{ width: isSidebarOpen ? 256 : 64 }}
+      animate={{ width: isSidebarOpen ? 256 : 72 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
       className="bg-white shadow-xl fixed top-24 right-0 z-40 "
       style={{ height: 'calc(100vh - 96px)' }}
@@ -71,7 +71,7 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
 
           {/* Toggle Button */}
           <Button
-            variant="ghost"
+            variant="text"
             size="sm"
             onClick={onToggle}
             className="text-gray-700  hover:bg-gray-100 flex-shrink-0"
@@ -94,7 +94,7 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 ${
+                  className={`flex items-center gap-3 ${isSidebarOpen ? 'p-3 ' : 'p-2 py-3 justify-center'} rounded-lg cursor-pointer transition-colors duration-200 ${
                     isActive
                       ? 'bg-primary-main text-white'
                       : 'text-gray-700 hover:bg-gray-100'

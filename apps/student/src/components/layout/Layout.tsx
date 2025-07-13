@@ -25,7 +25,7 @@ export default function Layout({ children }: LayoutProps) {
           marginLeft: 0
         }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="pt-16 min-h-screen"
+        className="pt-24 min-h-screen"
       >
         <div className="p-6">
           {children}
