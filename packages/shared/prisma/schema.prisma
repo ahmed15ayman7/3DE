@@ -3,15 +3,15 @@ generator client1 {
     output   = "../../../apps/backend/generated/prisma_client"
 }
 
-generator client2 {
-    provider = "prisma-client-js"
-    output   = "../../../apps/frontend/generated/prisma_client"
-}
+// generator client2 {
+//     provider = "prisma-client-js"
+//     output   = "../../../apps/frontend/generated/prisma_client"
+// }
 
-generator client3 {
-    provider = "prisma-client-js"
-    output   = "../../../apps/admin/generated/prisma_client"
-}
+// generator client3 {
+//     provider = "prisma-client-js"
+//     output   = "../../../apps/admin/generated/prisma_client"
+// }
 
 datasource db {
     provider  = "postgresql"
