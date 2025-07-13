@@ -36,6 +36,8 @@ model User {
     isOnline      Boolean        @default(false)
     isVerified    Boolean        @default(false)
     age           Int?
+    progress      Float?
+    location      String?
     academy       Academy?       @relation(fields: [academyId], references: [id])
     profile       Profile?
     enrollments   Enrollment[]
@@ -84,6 +86,8 @@ model User {
     traineeManagement  TraineeManagement[]
     trainingSchedules  TrainingSchedule[]
     employeeAttendanceLogs EmployeeAttendanceLog[]
+
+    Comment Comment[]
 }
 
 model LoginHistory {
@@ -176,8 +180,13 @@ model Instructor {
     user      User     @relation(fields: [userId], references: [id])
     title     String?
     academyId String?   
+    rating    Float?
+    experienceYears Int?
+    bio       String?
     academy   Academy?  @relation(fields: [academyId], references: [id])
     courses   Course[]
+    skills    String[]
+    location  String?
 }
 
 // Course Management
@@ -189,6 +198,7 @@ model Course {
     image       String?
     startDate   DateTime?
     level       String
+    duration    Int?
     academy     Academy?       @relation(fields: [academyId], references: [id])
     lessons     Lesson[]
     enrollments Enrollment[]
@@ -198,9 +208,12 @@ model Course {
     createdAt   DateTime      @default(now())
     updatedAt   DateTime      @updatedAt
     status      CourseStatus  @default(PENDING)
+    progress    Float         @default(0)
     Path        Path[]
     Testimonial Testimonial[]
     trainingSchedules TrainingSchedule[]
+
+    Certificate Certificate[]
 }
 
 enum CourseStatus {
@@ -259,6 +272,7 @@ model Lesson {
     files       File[]
     quizzes     Quiz[]
     completedBy User[]
+    progress    Float        @default(0)
     status      LessonStatus @default(NOT_STARTED)
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
@@ -270,6 +284,7 @@ model File {
     name              String
     url               String
     type              FileType
+    isCompleted       Boolean                @default(false)
     lessonId          String?
     lesson            Lesson?                @relation(fields: [lessonId], references: [id])
     accountingEntryId String?
@@ -331,6 +346,7 @@ model Quiz {
 model Question {
     id         String   @id @default(cuid())
     text       String
+    image      String?
     type       String
     options    Option[]
     isMultiple Boolean  @default(false)
@@ -453,6 +469,8 @@ model Comment {
     postId    String
     post      Post     @relation(fields: [postId], references: [id])
     content   String
+    authorId  String
+    author    User     @relation(fields: [authorId], references: [id])
     createdAt DateTime @default(now())
 }
 
@@ -621,9 +639,12 @@ model Certificate {
     userId      String
     user        User     @relation(fields: [userId], references: [id])
     title       String
+    courseId    String
+    course      Course   @relation(fields: [courseId], references: [id])
     description String?
     url         String?
     image       String?
+    isApproved  Boolean  @default(false)
     points      Int
     type        String
     earnedAt    DateTime

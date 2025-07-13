@@ -19,4 +19,29 @@ export class CreateInstructorDto {
   // Field: academyId, Type: string
   @Column()
   academyId?: string;
+
+  @ApiProperty({ type: "number" })
+  // Field: rating, Type: number
+  @Column()
+  rating?: number;
+
+  @ApiProperty({ type: "number" })
+  // Field: experienceYears, Type: number
+  @Column()
+  experienceYears?: number;
+
+  @ApiProperty({ type: "string" })
+  // Field: bio, Type: string
+  @Column()
+  bio?: string;
+
+  @ApiProperty({ type: "string" })
+  // Field: skills, Type: string[]
+  @Column()
+  skills: string[];
+
+  @ApiProperty({ type: "string" })
+  // Field: location, Type: string
+  @Column()
+  location?: string;
 }

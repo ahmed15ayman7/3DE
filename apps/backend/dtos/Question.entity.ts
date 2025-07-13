@@ -17,6 +17,11 @@ export class QuestionEntity {
   @Column()
   text: string;
 
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: image, Type: string
+  @Column()
+  image?: string;
+
   @ApiProperty({ type: "string" })
   // Field: type, Type: string
   @Column()

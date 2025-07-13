@@ -35,6 +35,7 @@ import {
   TraineeManagement,
   TrainingSchedule,
   EmployeeAttendanceLog,
+  Comment,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -110,4 +111,14 @@ export class CreateUserDto {
   // Field: age, Type: number
   @Column()
   age?: number;
+
+  @ApiProperty({ type: "number" })
+  // Field: progress, Type: number
+  @Column()
+  progress?: number;
+
+  @ApiProperty({ type: "string" })
+  // Field: location, Type: string
+  @Column()
+  location?: string;
 }

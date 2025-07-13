@@ -33,6 +33,7 @@ import { LegalCaseEntity } from "./LegalCase.entity";
 import { TraineeManagementEntity } from "./TraineeManagement.entity";
 import { TrainingScheduleEntity } from "./TrainingSchedule.entity";
 import { EmployeeAttendanceLogEntity } from "./EmployeeAttendanceLog.entity";
+import { CommentEntity } from "./Comment.entity";
 import {
   UserRole,
   Academy,
@@ -69,6 +70,7 @@ import {
   TraineeManagement,
   TrainingSchedule,
   EmployeeAttendanceLog,
+  Comment,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -149,6 +151,16 @@ export class UserEntity {
   // Field: age, Type: number
   @Column()
   age?: number;
+
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: progress, Type: number
+  @Column()
+  progress?: number;
+
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: location, Type: string
+  @Column()
+  location?: string;
 
   @ApiProperty({ type: AcademyEntity, nullable: true })
   // Field: academy, Type: Academy
@@ -319,4 +331,9 @@ export class UserEntity {
   // Field: employeeAttendanceLogs, Type: EmployeeAttendanceLog[]
   @Column()
   employeeAttendanceLogs: EmployeeAttendanceLog[];
+
+  @ApiProperty({ type: CommentEntity })
+  // Field: Comment, Type: Comment[]
+  @Column()
+  Comment: Comment[];
 }

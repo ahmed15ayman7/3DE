@@ -43,6 +43,11 @@ export class FileEntity {
   @Column()
   type: FileType;
 
+  @ApiProperty({ type: "boolean" })
+  // Field: isCompleted, Type: boolean
+  @Column()
+  isCompleted: boolean;
+
   @ApiProperty({ type: "string", nullable: true })
   // Field: lessonId, Type: string
   @Column()

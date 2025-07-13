@@ -8,6 +8,7 @@ import { LiveRoomEntity } from "./LiveRoom.entity";
 import { PathEntity } from "./Path.entity";
 import { TestimonialEntity } from "./Testimonial.entity";
 import { TrainingScheduleEntity } from "./TrainingSchedule.entity";
+import { CertificateEntity } from "./Certificate.entity";
 import {
   Academy,
   Lesson,
@@ -19,6 +20,7 @@ import {
   Path,
   Testimonial,
   TrainingSchedule,
+  Certificate,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -59,6 +61,11 @@ export class CourseDto {
   // Field: level, Type: string
   @Column()
   level: string;
+
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: duration, Type: number
+  @Column()
+  duration?: number;
 
   @ApiProperty({ type: AcademyEntity, nullable: true })
   // Field: academy, Type: Academy
@@ -105,6 +112,11 @@ export class CourseDto {
   @Column()
   status: CourseStatus;
 
+  @ApiProperty({ type: "number" })
+  // Field: progress, Type: number
+  @Column()
+  progress: number;
+
   @ApiProperty({ type: PathEntity })
   // Field: Path, Type: Path[]
   @Column()
@@ -119,4 +131,9 @@ export class CourseDto {
   // Field: trainingSchedules, Type: TrainingSchedule[]
   @Column()
   trainingSchedules: TrainingSchedule[];
+
+  @ApiProperty({ type: CertificateEntity })
+  // Field: Certificate, Type: Certificate[]
+  @Column()
+  Certificate: Certificate[];
 }

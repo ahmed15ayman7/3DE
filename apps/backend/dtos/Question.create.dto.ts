@@ -11,6 +11,11 @@ export class CreateQuestionDto {
   text: string;
 
   @ApiProperty({ type: "string" })
+  // Field: image, Type: string
+  @Column()
+  image?: string;
+
+  @ApiProperty({ type: "string" })
   // Field: type, Type: string
   @Column()
   type: string;

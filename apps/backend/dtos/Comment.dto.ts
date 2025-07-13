@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { PostEntity } from "./Post.entity";
-import { Post } from "@shared/prisma";
+import { UserEntity } from "./User.entity";
+import { Post, User } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -25,6 +26,16 @@ export class CommentDto {
   // Field: content, Type: string
   @Column()
   content: string;
+
+  @ApiProperty({ type: "string" })
+  // Field: authorId, Type: string
+  @Column()
+  authorId: string;
+
+  @ApiProperty({ type: UserEntity })
+  // Field: author, Type: User
+  @Column()
+  author: User;
 
   @ApiProperty({ type: "string", format: "date-time" })
   // Field: createdAt, Type: Date

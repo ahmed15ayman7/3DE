@@ -135,7 +135,9 @@ exports.Prisma.UserScalarFieldEnum = {
   academyId: 'academyId',
   isOnline: 'isOnline',
   isVerified: 'isVerified',
-  age: 'age'
+  age: 'age',
+  progress: 'progress',
+  location: 'location'
 };
 
 exports.Prisma.LoginHistoryScalarFieldEnum = {
@@ -192,7 +194,12 @@ exports.Prisma.InstructorScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
-  academyId: 'academyId'
+  academyId: 'academyId',
+  rating: 'rating',
+  experienceYears: 'experienceYears',
+  bio: 'bio',
+  skills: 'skills',
+  location: 'location'
 };
 
 exports.Prisma.CourseScalarFieldEnum = {
@@ -203,9 +210,11 @@ exports.Prisma.CourseScalarFieldEnum = {
   image: 'image',
   startDate: 'startDate',
   level: 'level',
+  duration: 'duration',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  status: 'status'
+  status: 'status',
+  progress: 'progress'
 };
 
 exports.Prisma.PathScalarFieldEnum = {
@@ -237,6 +246,7 @@ exports.Prisma.LessonScalarFieldEnum = {
   title: 'title',
   content: 'content',
   courseId: 'courseId',
+  progress: 'progress',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -247,6 +257,7 @@ exports.Prisma.FileScalarFieldEnum = {
   name: 'name',
   url: 'url',
   type: 'type',
+  isCompleted: 'isCompleted',
   lessonId: 'lessonId',
   accountingEntryId: 'accountingEntryId',
   prRecordId: 'prRecordId',
@@ -282,6 +293,7 @@ exports.Prisma.QuizScalarFieldEnum = {
 exports.Prisma.QuestionScalarFieldEnum = {
   id: 'id',
   text: 'text',
+  image: 'image',
   type: 'type',
   isMultiple: 'isMultiple',
   points: 'points',
@@ -369,6 +381,7 @@ exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   postId: 'postId',
   content: 'content',
+  authorId: 'authorId',
   createdAt: 'createdAt'
 };
 
@@ -478,9 +491,11 @@ exports.Prisma.CertificateScalarFieldEnum = {
   notes: 'notes',
   userId: 'userId',
   title: 'title',
+  courseId: 'courseId',
   description: 'description',
   url: 'url',
   image: 'image',
+  isApproved: 'isApproved',
   points: 'points',
   type: 'type',
   earnedAt: 'earnedAt',

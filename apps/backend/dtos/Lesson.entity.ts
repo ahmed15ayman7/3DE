@@ -57,6 +57,11 @@ export class LessonEntity {
   @Column()
   completedBy: User[];
 
+  @ApiProperty({ type: "number" })
+  // Field: progress, Type: number
+  @Column()
+  progress: number;
+
   @ApiProperty({ enum: LessonStatus })
   // Field: status, Type: LessonStatus
   @Column()

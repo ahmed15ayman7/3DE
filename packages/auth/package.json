@@ -1,0 +1,26 @@
+{
+  "name": "@3de/auth",
+  "version": "1.0.0",
+  "description": "Authentication and authorization utilities for 3DE LMS",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@3de/interfaces": "workspace:*",
+    "@types/react": "^19.1.8",
+    "bcryptjs": "^2.4.3",
+    "cookies-next": "^4.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "jwt-decode": "^4.0.0",
+    "react": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

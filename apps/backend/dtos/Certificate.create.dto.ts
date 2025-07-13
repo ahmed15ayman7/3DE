@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { User } from "@shared/prisma";
+import { User, Course } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -36,6 +36,11 @@ export class CreateCertificateDto {
   title: string;
 
   @ApiProperty({ type: "string" })
+  // Field: courseId, Type: string
+  @Column()
+  courseId: string;
+
+  @ApiProperty({ type: "string" })
   // Field: description, Type: string
   @Column()
   description?: string;
@@ -49,6 +54,11 @@ export class CreateCertificateDto {
   // Field: image, Type: string
   @Column()
   image?: string;
+
+  @ApiProperty({ type: "boolean" })
+  // Field: isApproved, Type: boolean
+  @Column()
+  isApproved: boolean;
 
   @ApiProperty({ type: "number" })
   // Field: points, Type: number

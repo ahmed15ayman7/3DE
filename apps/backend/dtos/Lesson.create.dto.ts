@@ -27,6 +27,11 @@ export class CreateLessonDto {
   @Column()
   courseId: string;
 
+  @ApiProperty({ type: "number" })
+  // Field: progress, Type: number
+  @Column()
+  progress: number;
+
   @ApiProperty({ enum: LessonStatus })
   // Field: status, Type: LessonStatus
   @Column()

@@ -30,6 +30,11 @@ export class CreateFileDto {
   @Column()
   type: FileType;
 
+  @ApiProperty({ type: "boolean" })
+  // Field: isCompleted, Type: boolean
+  @Column()
+  isCompleted: boolean;
+
   @ApiProperty({ type: "string" })
   // Field: lessonId, Type: string
   @Column()

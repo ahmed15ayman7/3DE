@@ -10,6 +10,7 @@ import {
   Path,
   Testimonial,
   TrainingSchedule,
+  Certificate,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -46,6 +47,11 @@ export class UpdateCourseDto {
   @Column()
   level: string;
 
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: duration, Type: number
+  @Column()
+  duration?: number;
+
   @ApiProperty({ type: "string", format: "date-time" })
   // Field: createdAt, Type: Date
   @Column()
@@ -60,4 +66,9 @@ export class UpdateCourseDto {
   // Field: status, Type: CourseStatus
   @Column()
   status: CourseStatus;
+
+  @ApiProperty({ type: "number" })
+  // Field: progress, Type: number
+  @Column()
+  progress: number;
 }

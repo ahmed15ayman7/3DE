@@ -19,4 +19,29 @@ export class UpdateInstructorDto {
   // Field: academyId, Type: string
   @Column()
   academyId?: string;
+
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: rating, Type: number
+  @Column()
+  rating?: number;
+
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: experienceYears, Type: number
+  @Column()
+  experienceYears?: number;
+
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: bio, Type: string
+  @Column()
+  bio?: string;
+
+  @ApiProperty({ type: "string" })
+  // Field: skills, Type: string[]
+  @Column()
+  skills: string[];
+
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: location, Type: string
+  @Column()
+  location?: string;
 }

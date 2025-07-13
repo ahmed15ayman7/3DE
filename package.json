@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pr:ge": "cd packages/shared && npx prisma generate --generator client1 --generator client2 --generator client3 && cd ../.. && pnpm dtos",
+    "pr:ge": "cd packages/shared && npx prisma generate --generator client1 && cd ../.. && pnpm interfaces  && pnpm dtos",
     "pr:mi": "cd packages/shared && npx prisma migrate dev --name dev && cd ../..",
     "pr:st": "cd packages/shared && npx prisma studio && cd ../..",
     "pr:pu": "cd packages/shared && npx prisma db push && cd ../..",
@@ -18,10 +18,33 @@
     "admin:dev": "cd apps/admin && npm run dev",
     "admin:build": "cd apps/admin && npm run build",
     "dtos": "cd apps/backend && node ./generate-dtos.js && cd ../..",
+    "interfaces": "cd packages/interfaces && node generateInterfaces.js && cd ../..",
     "dev": "pnpm prisma:generate && pnpm prisma:migrate && pnpm prisma:push && pnpm backend:dev && pnpm frontend:dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.7.0"
+  "packageManager": "pnpm@10.7.0",
+  "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
+    "@tanstack/react-query": "^5.83.0",
+    "@types/js-cookie": "^3.0.6",
+    "axios": "^1.9.0",
+    "bcryptjs": "^2.4.3",
+    "cookies-next": "^4.1.0",
+    "framer-motion": "^10.16.0",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.0",
+    "jwt-decode": "^4.0.0",
+    "postcss": "^8.5.6",
+    "react-hook-form": "^7.60.0",
+    "tailwindcss": "^4.1.11",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/node": "^24.0.13",
+    "typescript": "^5.8.3"
+  }
 }

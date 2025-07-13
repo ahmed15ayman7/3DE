@@ -1,0 +1,17 @@
+{
+  "name": "@3de/interfaces",
+  "version": "1.0.0",
+  "description": "Shared TypeScript interfaces for 3DE LMS",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+} 
