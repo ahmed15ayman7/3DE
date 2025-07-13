@@ -36,6 +36,8 @@
     "aco:d": "cd apps/accountant && npm run dev",
     "aco:b": "cd apps/accountant && npm run build",
     "ui:b": "cd packages/ui && npm run build",
+    "pa:d": "cd apps/parent && npm run dev",
+    "pa:b": "cd apps/parent && npm run build",
     "dev": "pnpm prisma:generate && pnpm prisma:migrate && pnpm prisma:push && pnpm backend:dev && pnpm frontend:dev"
   },
   "keywords": [],

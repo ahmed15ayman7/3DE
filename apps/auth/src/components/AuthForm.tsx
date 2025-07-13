@@ -11,6 +11,7 @@ import { authApi } from '@3de/apis';
 import { useAuth } from '@3de/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { authDebugger } from '../utils/auth-debug';
 // مخططات التحقق
 const signinSchema = z.object({
     email: z.string().email('البريد الإلكتروني غير صحيح'),
@@ -111,13 +112,23 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
     try {
       switch (type) {
         case 'signin':
+          // Debug login attempt
+          authDebugger.debugLoginAttempt(data.email);
+          
           const loginResult = await authApi.login({
             email: data.email,
             password: data.password,
           });
           
           if (loginResult) {
+            // Debug before login
+            authDebugger.log('🔐 LOGIN', 'Login API successful, calling auth.login()', loginResult);
+            
             await login(loginResult);
+            
+            // Debug after login
+            authDebugger.debugLoginSuccess(loginResult);
+            
             setAlert({
               type: 'success',
               message: 'تم تسجيل الدخول بنجاح',
@@ -125,6 +136,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
             // RedirectToWebsite(loginResult.user.role);
             // سيتم التوجيه تلقائياً من خلال useAuth
           } else {
+            authDebugger.debugLoginError('Login API returned null/undefined');
             setAlert({
               type: 'error',
               message: 'فشل في تسجيل الدخول، تحقق من بياناتك',
@@ -186,6 +198,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
           break;
       }
     } catch (error: any) {
+      authDebugger.debugLoginError(error);
       setAlert({
         type: 'error',
         message: error.message || 'حدث خطأ ما، حاول مرة أخرى',

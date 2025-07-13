@@ -35,6 +35,15 @@ interface TokenPayload {
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-refresh-secret-key';
 
+// Cookie configuration constants
+const COOKIE_CONFIG = {
+  domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN || 'localhost',
+  path: '/',
+  secure: process.env.NEXT_PUBLIC_COOKIE_SECURE === 'true',
+  sameSite: 'lax' as const,
+  httpOnly: false, // Set to false for client-side access
+};
+
 interface AuthContextType {
   user: User | null;
   login: (data: { access_token: string, refreshToken: string, user: User }) => Promise<void>;
@@ -47,8 +56,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 class AuthService {
   private static instance: AuthService;
   private refreshTokenTimeout?: NodeJS.Timeout;
-  private accessToken: string = '';
-  private refresh_token: string = '';
 
   private constructor() { }
 
@@ -68,7 +75,7 @@ class AuthService {
         role: user.role,
       },
       JWT_SECRET,
-      { expiresIn: '15m' }
+      { expiresIn: '1h' } // Updated to 1 hour
     );
   }
 
@@ -80,7 +87,7 @@ class AuthService {
         role: user.role,
       },
       JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '30d' } // Updated to 30 days
     );
   }
 
@@ -100,6 +107,44 @@ class AuthService {
     }
   }
 
+  // دالة مستقلة لحفظ التوكنات في cookies
+  public saveTokens(accessToken: string, refreshToken: string): void {
+    if (!accessToken || !refreshToken) {
+      console.error('Invalid tokens provided for saving');
+      return;
+    }
+
+    console.log('🍪 COOKIE: Saving tokens to cookies', {
+      domain: COOKIE_CONFIG.domain,
+      secure: COOKIE_CONFIG.secure,
+      sameSite: COOKIE_CONFIG.sameSite,
+      accessTokenLength: accessToken.length,
+      refreshTokenLength: refreshToken.length
+    });
+
+    // حفظ access token لمدة ساعة واحدة
+    setCookie('accessToken', accessToken, {
+      ...COOKIE_CONFIG,
+      maxAge: 60 * 60, // 1 hour in seconds
+    });
+
+    // حفظ refresh token لمدة 30 يوم
+    setCookie('refreshToken', refreshToken, {
+      ...COOKIE_CONFIG,
+      maxAge: 30 * 24 * 60 * 60, // 30 days in seconds
+    });
+
+    console.log('✅ SUCCESS: Tokens saved successfully to cookies');
+    
+    // Debug: Check if cookies were actually set
+    setTimeout(() => {
+      const savedAccessToken = getCookie('accessToken');
+      const savedRefreshToken = getCookie('refreshToken');
+      console.log('🍪 COOKIE: Verification - Access Token saved:', !!savedAccessToken);
+      console.log('🍪 COOKIE: Verification - Refresh Token saved:', !!savedRefreshToken);
+    }, 100);
+  }
+
   // تعيين التوكن عند تسجيل الدخول
   public async setTokens(accessToken: string, refreshToken: string) {
     if (!accessToken || !refreshToken) {
@@ -107,23 +152,8 @@ class AuthService {
       return;
     }
 
-    this.accessToken = accessToken;
-    this.refresh_token = refreshToken;
-    
-    // حفظ التوكن في الكوكيز
-    setCookie('accessToken', accessToken, { 
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 15 * 60 // 15 minutes
-    });
-    
-    setCookie('refreshToken', refreshToken, { 
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 // 7 days
-    });
+    // حفظ التوكنات في cookies
+    this.saveTokens(accessToken, refreshToken);
 
     try {
       this.startRefreshTokenTimer();
@@ -132,15 +162,21 @@ class AuthService {
     }
   }
 
-  // الحصول على التوكن الحالي
-  public async getAccessTokenFromCookie(): Promise<string> {
+  // الحصول على التوكن من cookies
+  public getAccessTokenFromCookie(): string {
     const token = getCookie('accessToken') as string;
-    return token || this.accessToken || '';
+    return token || '';
+  }
+
+  // الحصول على refresh token من cookies
+  public getRefreshTokenFromCookie(): string {
+    const token = getCookie('refreshToken') as string;
+    return token || '';
   }
 
   // التحقق من حالة تسجيل الدخول
   public async isAuthenticated(): Promise<boolean> {
-    const token = await this.getAccessTokenFromCookie();
+    const token = this.getAccessTokenFromCookie();
     if (!token) return false;
 
     try {
@@ -154,11 +190,16 @@ class AuthService {
   // بدء مؤقت تجديد التوكن
   private startRefreshTokenTimer() {
     try {
-      const decodedToken = jwtDecode<TokenPayload>(this.accessToken);
-      const expires = new Date(decodedToken.exp * 1000);
-      const timeout = expires.getTime() - Date.now() - (60 * 1000); // تجديد قبل دقيقة من الانتهاء
+      const accessToken = this.getAccessTokenFromCookie();
+      if (!accessToken) return;
 
-      this.refreshTokenTimeout = setTimeout(() => this.refreshToken(), timeout);
+      const decodedToken = jwtDecode<TokenPayload>(accessToken);
+      const expires = new Date(decodedToken.exp * 1000);
+      const timeout = expires.getTime() - Date.now() - (5 * 60 * 1000); // تجديد قبل 5 دقائق من الانتهاء
+
+      if (timeout > 0) {
+        this.refreshTokenTimeout = setTimeout(() => this.refreshToken(), timeout);
+      }
     } catch (error) {
       console.error('Error starting refresh timer:', error);
     }
@@ -174,53 +215,68 @@ class AuthService {
   // تجديد التوكن
   public async refreshToken(): Promise<string> {
     try {
-      const refreshT = getCookie('refreshToken') as string;
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL|| "https://api.3de.school" || 'http://localhost:3000'}/auth/refresh-token`, {
+      const refreshToken = this.getRefreshTokenFromCookie();
+      if (!refreshToken) {
+        throw new Error('No refresh token available');
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.3de.school" || 'http://localhost:3000'}/auth/refresh-token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          refreshToken: refreshT || this.refresh_token || ''
+          refreshToken: refreshToken
         }),
       });
 
+      if (!response.ok) {
+        throw new Error('Failed to refresh token');
+      }
+
       const data = await response.json();
-      const { access_Token } = data;
-      await this.setTokens(access_Token, refreshT || this.refresh_token);
-      return access_Token;
+      const { access_token } = data;
+      
+      // حفظ التوكن الجديد
+      this.saveTokens(access_token, refreshToken);
+      
+      // إعادة تشغيل المؤقت
+      this.startRefreshTokenTimer();
+      
+      return access_token;
     } catch (error: any) {
+      console.error('Token refresh failed:', error);
       await this.logout();
-      throw new Error('Failed to refresh token' + error);
+      throw new Error('Failed to refresh token: ' + error.message);
     }
   }
 
   // تسجيل الخروج
   public async logout() {
-    this.accessToken = '';
-    this.refresh_token = '';
-    deleteCookie('accessToken');
-    deleteCookie('refreshToken');
+    // حذف التوكنات من cookies
+    deleteCookie('accessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+    deleteCookie('refreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+    
+    // إيقاف المؤقت
     this.stopRefreshTokenTimer();
     
+    // إعادة التوجيه إلى صفحة تسجيل الدخول
     if (typeof window !== 'undefined') {
       window.location.href = '/auth/signin';
     }
   }
 
   public async clearTokens() {
-    this.accessToken = '';
-    this.refresh_token = '';
-    deleteCookie('accessToken');
-    deleteCookie('refreshToken');
+    deleteCookie('accessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+    deleteCookie('refreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     this.stopRefreshTokenTimer();    
   }
 
   // Session Management
   public getSession(): Session | null {
     try {
-      const accessToken = getCookie('accessToken') as string;
-      const refreshToken = getCookie('refreshToken') as string;
+      const accessToken = this.getAccessTokenFromCookie();
+      const refreshToken = this.getRefreshTokenFromCookie();
       
       if (!accessToken || !refreshToken) {
         return null;
@@ -228,13 +284,13 @@ class AuthService {
 
       const payload = this.verifyToken(accessToken);
       if (!payload) {
-        // Try to refresh the token
+        // محاولة تجديد التوكن
         const refreshPayload = this.verifyRefreshToken(refreshToken);
         if (!refreshPayload) {
           return null;
         }
         
-        // Generate new tokens
+        // إنشاء مستخدم جديد من refresh token
         const user: User = {
           id: refreshPayload.userId,
           email: refreshPayload.email,
@@ -284,8 +340,8 @@ class AuthService {
         const newAccessToken = this.generateAccessToken(user);
         const newRefreshToken = this.generateRefreshToken(user);
         
-        setCookie('accessToken', newAccessToken, { httpOnly: true, secure: true });
-        setCookie('refreshToken', newRefreshToken, { httpOnly: true, secure: true });
+        // حفظ التوكنات الجديدة
+        this.saveTokens(newAccessToken, newRefreshToken);
         
         return {
           user,
@@ -346,6 +402,7 @@ class AuthService {
         refreshToken,
       };
     } catch (error) {
+      console.error('Error getting session:', error);
       return null;
     }
   }
@@ -354,24 +411,13 @@ class AuthService {
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
     
-    setCookie('accessToken', accessToken, { 
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 15 * 60 // 15 minutes
-    });
-    
-    setCookie('refreshToken', refreshToken, { 
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 // 7 days
-    });
+    // حفظ التوكنات في cookies
+    this.saveTokens(accessToken, refreshToken);
   }
 
   public clearSession(): void {
-    deleteCookie('accessToken');
-    deleteCookie('refreshToken');
+    deleteCookie('accessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+    deleteCookie('refreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
   }
 
   // Role-based Authorization
@@ -548,10 +594,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (data: { access_token: string, refreshToken: string, user: User }) => {
     setIsLoading(true);
     try {
+      console.log('🔐 LOGIN: AuthProvider.login() called with data:', {
+        userEmail: data.user.email,
+        userRole: data.user.role,
+        accessTokenLength: data.access_token.length,
+        refreshTokenLength: data.refreshToken.length
+      });
+      
+      // حفظ التوكنات في cookies
+      authService.saveTokens(data.access_token, data.refreshToken);
+      
+      // تعيين التوكنات وبدء المؤقت
       await authService.setTokens(data.access_token, data.refreshToken);
+      
+      // تحديث حالة المستخدم
       setUser(data.user);
+      
+      console.log('✅ SUCCESS: AuthProvider.login() completed successfully');
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ ERROR: Login error in AuthProvider:', error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -587,6 +648,7 @@ export const {
   generateRefreshToken,
   verifyToken,
   verifyRefreshToken,
+  saveTokens,
   getSession,
   setSession,
   clearSession,
