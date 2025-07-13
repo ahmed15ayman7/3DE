@@ -146,27 +146,27 @@ importers:
 
   apps/auth:
     dependencies:
+      '@3de/apis':
+        specifier: workspace:*
+        version: link:../../packages/apis
+      '@3de/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@3de/interfaces':
+        specifier: workspace:*
+        version: link:../../packages/interfaces
+      '@3de/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@hookform/resolvers':
         specifier: ^3.3.2
         version: 3.10.0(react-hook-form@7.60.0(react@19.1.0))
-      '@tanstack/react-query':
-        specifier: ^5.8.4
-        version: 5.83.0(react@19.1.0)
-      axios:
-        specifier: ^1.6.2
-        version: 1.9.0
-      clsx:
-        specifier: ^2.0.0
-        version: 2.1.1
       framer-motion:
-        specifier: ^10.16.5
-        version: 10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      jwt-decode:
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^11.0.0
+        version: 11.18.2(@emotion/is-prop-valid@0.8.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       lucide-react:
-        specifier: ^0.294.0
-        version: 0.294.0(react@19.1.0)
+        specifier: ^0.400.0
+        version: 0.400.0(react@19.1.0)
       next:
         specifier: 15.3.5
         version: 15.3.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -179,9 +179,6 @@ importers:
       react-hook-form:
         specifier: ^7.48.2
         version: 7.60.0(react@19.1.0)
-      tailwind-merge:
-        specifier: ^2.0.0
-        version: 2.6.0
       zod:
         specifier: ^3.22.4
         version: 3.24.3
@@ -4561,11 +4558,6 @@ packages:
   lru-cache@7.18.3:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
-
-  lucide-react@0.294.0:
-    resolution: {integrity: sha512-V7o0/VECSGbLHn3/1O67FUgBwWB+hmzshrgDVRJQhMh8uj5D3HBuIvhuAmQTtlupILSplwIZg5FTc4tTKMA2SA==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
 
   lucide-react@0.400.0:
     resolution: {integrity: sha512-rpp7pFHh3Xd93KHixNgB0SqThMHpYNzsGUu69UaQbSZ75Q/J3m5t6EhKyMT3m4w2WOxmJ2mY0tD3vebnXqQryQ==}
@@ -9637,14 +9629,6 @@ snapshots:
       react: 19.1.0
       react-dom: 18.3.1(react@19.1.0)
 
-  framer-motion@10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      tslib: 2.8.1
-    optionalDependencies:
-      '@emotion/is-prop-valid': 0.8.8
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-
   framer-motion@11.18.2(@emotion/is-prop-valid@0.8.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       motion-dom: 11.18.1
@@ -10656,10 +10640,6 @@ snapshots:
   lru-cache@7.13.1: {}
 
   lru-cache@7.18.3: {}
-
-  lucide-react@0.294.0(react@19.1.0):
-    dependencies:
-      react: 19.1.0
 
   lucide-react@0.400.0(react@19.1.0):
     dependencies:

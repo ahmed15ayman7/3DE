@@ -70,7 +70,7 @@ import {
 } from '@3de/interfaces';
 
 // API Configuration
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL|| "https://api.3de.school" || 'http://localhost:3000' ;
 
 interface TokenPayload {
   exp: number;
@@ -264,7 +264,7 @@ api.interceptors.response.use(
 
 // Auth APIs
 export const authApi = {
-    login: async (credentials: { email: string; password: string }) => {
+    login: async (credentials: { email: string; password: string }):Promise<{ access_token: string; refreshToken: string, user: User }|null> => {
         try {
             const response = await api.post('/auth/login', credentials);
             const { access_token, refreshToken } = response.data;
@@ -301,7 +301,7 @@ export const authApi = {
         return access_Token;
     },
 
-    register: (data: {
+    register: async (data: {
         email: string;
         password: string;
         firstName: string;
@@ -309,7 +309,12 @@ export const authApi = {
         phone: string;
         role: string;
         subRole: string;
-    }) => api.post('/auth/register', data),
+    }):Promise<{ access_token: string; refreshToken: string, user: User }|null> => {
+        const response = await api.post('/auth/register', data);
+        const { access_token, refreshToken } = response.data;
+        await authService.setTokens(access_token, refreshToken);
+        return response.data;
+    },
     
     forgotPassword: (email: string) =>
         api.post('/auth/forgot-password', { email }),

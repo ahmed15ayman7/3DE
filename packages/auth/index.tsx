@@ -37,7 +37,7 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-refresh-secre
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (data: { access_token: string, refreshToken: string, user: User }) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -175,7 +175,7 @@ class AuthService {
   public async refreshToken(): Promise<string> {
     try {
       const refreshT = getCookie('refreshToken') as string;
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/auth/refresh-token`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL|| "https://api.3de.school" || 'http://localhost:3000'}/auth/refresh-token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -545,23 +545,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     initAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (data: { access_token: string, refreshToken: string, user: User }) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      const data = await response.json();
-      await authService.setTokens(data.accessToken, data.refreshToken);
+      await authService.setTokens(data.access_token, data.refreshToken);
       setUser(data.user);
     } catch (error) {
       console.error('Login error:', error);
