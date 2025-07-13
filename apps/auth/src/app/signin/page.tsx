@@ -16,19 +16,19 @@ export default function SignInPage() {
     if (user && !isLoading) {
       switch (user.role) {
         case 'STUDENT':
-          router.push('https://st.3de.school');
+          router.push('/student');
           break;
         case 'INSTRUCTOR':
-          router.push('https://in.3de.school');
+          router.push('/instructor');
           break;
         case 'ADMIN':
-          router.push('https://ad.3de.school');
+          router.push('/admin');
           break;
         case 'ACADEMY':
-          router.push('https://ac.3de.school');
+          router.push('/academy');
           break;
         case 'PARENT':
-          router.push('https://pa.3de.school');
+          router.push('/parent');
           break;
         default:
           ;
