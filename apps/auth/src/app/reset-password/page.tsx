@@ -1,16 +1,14 @@
 'use client';
 
 import React, { useEffect, Suspense } from 'react';
-import { motion } from 'framer-motion';
 import { AuthForm } from '../../components/AuthForm';
 import { AuthLayout } from '../../components/AuthLayout';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { useAuth } from '@3de/auth';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 function ResetPasswordContent() {
   const { user, isLoading } = useAuth();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
@@ -19,25 +17,25 @@ function ResetPasswordContent() {
     if (user && !isLoading) {
       switch (user.role) {
         case 'STUDENT':
-          router.push('https://st.3de.school');
+          window.location.href = '/student';
           break;
         case 'INSTRUCTOR':
-          router.push('https://in.3de.school');
+          window.location.href = '/instructor';
           break;
         case 'ADMIN':
-          router.push('https://ad.3de.school');
+          window.location.href = '/admin';
           break;
         case 'ACADEMY':
-          router.push('https://ac.3de.school');
+          window.location.href = '/academy';
           break;
         case 'PARENT':
-          router.push('https://pa.3de.school');
+          window.location.href = '/parent';
           break;
         default:
           ;
       }
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading]);
 
   // إذا كان يتم تحميل حالة المصادقة، اعرض شاشة تحميل
   if (isLoading) {

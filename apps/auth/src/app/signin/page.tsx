@@ -16,19 +16,19 @@ export default function SignInPage() {
     if (user && !isLoading) {
       switch (user.role) {
         case 'STUDENT':
-          router.push('/student');
+          window.location.href = '/student';
           break;
         case 'INSTRUCTOR':
-          router.push('/instructor');
+          window.location.href = '/instructor';
           break;
         case 'ADMIN':
-          router.push('/admin');
+          window.location.href = '/admin';
           break;
         case 'ACADEMY':
-          router.push('/academy');
+          window.location.href = '/academy';
           break;
         case 'PARENT':
-          router.push('/parent');
+          window.location.href = '/parent';
           break;
         default:
           ;

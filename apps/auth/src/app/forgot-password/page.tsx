@@ -5,36 +5,34 @@ import { AuthForm } from '../../components/AuthForm';
 import { AuthLayout } from '../../components/AuthLayout';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { useAuth } from '@3de/auth';
-import { useRouter } from 'next/navigation';
 
 export default function ForgotPasswordPage() {
   const { user, isLoading } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     // إذا كان المستخدم مسجل الدخول بالفعل، قم بتحويله
     if (user && !isLoading) {
-        switch (user.role) {
-            case 'STUDENT':
-              router.push('https://st.3de.school');
-              break;
-            case 'INSTRUCTOR':
-              router.push('https://in.3de.school');
-              break;
-            case 'ADMIN':
-              router.push('https://ad.3de.school');
-              break;
-            case 'ACADEMY':
-              router.push('https://ac.3de.school');
-              break;
-            case 'PARENT':
-              router.push('https://pa.3de.school');
-              break;
-            default:
-              ;
-          }
+      switch (user.role) {
+        case 'STUDENT':
+          window.location.href = '/student';
+          break;
+        case 'INSTRUCTOR':
+          window.location.href = '/instructor';
+          break;
+        case 'ADMIN':
+          window.location.href = '/admin';
+          break;
+        case 'ACADEMY':
+          window.location.href = '/academy';
+          break;
+        case 'PARENT':
+          window.location.href = '/parent';
+          break;
+        default:
+          ;
+      }
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading]);
 
   // إذا كان يتم تحميل حالة المصادقة، اعرض شاشة تحميل
   if (isLoading) {
