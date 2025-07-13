@@ -220,7 +220,7 @@ class AuthService {
         throw new Error('No refresh token available');
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.3de.school" || 'http://localhost:3000'}/auth/refresh-token`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.3de.school" || 'https://api.3de.school'}/auth/refresh-token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

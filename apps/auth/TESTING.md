@@ -115,7 +115,7 @@ refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```javascript
 // في config.ts
 export const config = {
-  API_URL: 'http://localhost:3000',
+  API_URL: 'https://api.3de.school',
   COOKIE_DOMAIN: 'localhost',
   COOKIE_SECURE: false,
   NODE_ENV: 'development'

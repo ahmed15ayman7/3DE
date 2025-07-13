@@ -1,7 +1,7 @@
 // Configuration file for testing
 export const config = {
   // API Configuration
-  API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://api.3de.school',
   
   // JWT Configuration
   JWT_SECRET: process.env.JWT_SECRET || 'your-super-secret-jwt-key-for-3de-school-2024',
