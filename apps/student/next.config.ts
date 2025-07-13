@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   basePath: '/student',
+  assetPrefix: '/student/',
   trailingSlash: true,
   output: 'standalone',
   transpilePackages: ['@3de/ui', '@3de/apis', '@3de/interfaces', '@3de/auth'],
