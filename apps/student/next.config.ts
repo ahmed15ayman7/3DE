@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['@3de/ui', 'lucide-react'],
   },
   images: {
-    domains: ['localhost', 'your-api-domain.com'],
+    domains: ['localhost', '3de.school'],
   },
   webpack: (config) => {
     config.resolve.alias = {
