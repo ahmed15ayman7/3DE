@@ -67,6 +67,8 @@ import {
   File as FileModel,
   NotificationSettings,
   Option,
+  ContactUs,
+  Support,
 } from '@3de/interfaces';
 
 // API Configuration
@@ -836,7 +838,23 @@ export const instructorApi = {
     getAllForStudents: (): Promise<{ success: boolean, data: (Instructor & { user: User, courses: Course[] })[] }> => api.get('/instructors/for-students'),
 };
 
+// Contact APIs
+export const contactApi = {
+    getAll: (): Promise<{ success: boolean, data: ContactUs[] }> => api.get('/contacts'),
+    getById: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.get(`/contacts/${id}`),
+    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://3de.school/contacts', data),
+    update: (id: string, data: Partial<ContactUs>): Promise<{ success: boolean, data: ContactUs }> => api.patch(`/contacts/${id}`, data),
+    delete: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.delete(`/contacts/${id}`),
+};
 
+// Support APIs
+export const supportApi = {
+    getAll: (): Promise<{ success: boolean, data: Support[] }> => api.get('/supports'),
+    getById: (id: string): Promise<{ success: boolean, data: Support }> => api.get(`/supports/${id}`),
+    create: (data: Support): Promise<{ success: boolean, data: Support }> => api.post('/supports', data),
+    update: (id: string, data: Partial<Support>): Promise<{ success: boolean, data: Support }> => api.patch(`/supports/${id}`, data),
+    delete: (id: string): Promise<{ success: boolean, data: Support }> => api.delete(`/supports/${id}`),
+};
 
 // Export auth service for direct access
 export { authService };

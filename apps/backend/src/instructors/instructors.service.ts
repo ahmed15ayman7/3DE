@@ -128,7 +128,47 @@ export class InstructorsService {
         });
     }
 
-
+    async getPublicInstructors(search: string) {
+        return this.prisma.instructor.findMany({
+            where: {
+                user: {
+                    OR: [
+                        { firstName: { contains: search, mode: 'insensitive' } },
+                        { lastName: { contains: search, mode: 'insensitive' } },
+                        { email: { contains: search, mode: 'insensitive' } },
+                    ],
+                },
+            },
+            select: {
+                id: true,
+                title: true,
+                bio: true,
+                rating: true,
+                experienceYears: true,
+                skills: true,
+                location: true,
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        avatar: true,
+                    },
+                },
+                courses: {
+                    select: {
+                        id: true,
+                        title: true,
+                        description: true,
+                        image: true,
+                        price: true,
+                        duration: true,
+                        level: true,
+                    },
+                },
+            },
+            take: 3,
+        });
+    }
 
 
 } 

@@ -211,6 +211,7 @@ model Course {
     updatedAt   DateTime      @updatedAt
     status      CourseStatus  @default(PENDING)
     progress    Float         @default(0)
+    price       Float?
     Path        Path[]
     Testimonial Testimonial[]
     trainingSchedules TrainingSchedule[]
@@ -1295,7 +1296,7 @@ model ContactUs {
     updatedAt         DateTime @updatedAt
 }
 
-model Support{
+model Support {
     id                String   @id @default(cuid())
     title             String
     description       String

@@ -307,5 +307,62 @@ export class CoursesService {
             },
         });
     }
-
+    async getCoursesPublic(search: string): Promise<Course[]> {
+        return this.prisma.course.findMany({
+            where: {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { description: { contains: search, mode: 'insensitive' } },
+                    { level: { contains: search, mode: 'insensitive' } },
+                    { price: { equals: parseFloat(search) } },
+                    { duration: { equals: parseInt(search) } },
+                    { startDate: { equals: new Date(search) } },
+                ],
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                image: true,
+                level: true,
+                price: true,
+                duration: true,
+                startDate: true,
+                createdAt: true,
+                updatedAt: true,
+                academyId: true,
+                status: true,
+                progress: true,
+                enrollments: {
+                    select: {
+                        user: {
+                            select: {
+                                firstName: true,
+                                lastName: true,
+                                avatar: true,
+                            },
+                        },
+                    },
+                },
+                instructors: {
+                    select: {
+                        user: {
+                            select: {
+                                firstName: true,
+                                lastName: true,
+                                avatar: true,
+                            },
+                        },
+                    },
+                },
+                lessons: {
+                    select: {
+                        id: true,
+                        title: true,
+                    },
+                },
+            },
+            take: 6,
+        });
+    }
 } 

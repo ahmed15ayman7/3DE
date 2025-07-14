@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEventDto } from 'dtos/Event.create.dto';
 import { UpdateEventDto } from 'dtos/Event.update.dto';
+import { Event } from '@shared/prisma';
 
 @Injectable()
 export class EventsService {
@@ -33,6 +34,32 @@ export class EventsService {
     async remove(id: string) {
         return this.prisma.event.delete({
             where: { id }
+        });
+    }
+    async getEventsPublic(search: string): Promise<Partial<Event>[]> {
+        return this.prisma.event.findMany({
+            where: {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { description: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+            select: {
+                id: true,
+    title: true,
+    description: true,
+    startTime: true,
+    endTime: true,
+    academyId: true,
+    createdAt: true,
+    updatedAt: true,
+    academy: {
+        select: {
+            id: true,
+            name: true,
+        },
+    }
+    },take:10
         });
     }
 } 

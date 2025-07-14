@@ -16,7 +16,7 @@ export default function HomePage() {
       <div className="text-white text-center">
         <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
         <p>جاري التوجيه...</p>
-      </div>
+        </div>
     </div>
   );
 }

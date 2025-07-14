@@ -71,4 +71,9 @@ export class CreateCourseDto {
   // Field: progress, Type: number
   @Column()
   progress: number;
+
+  @ApiProperty({ type: "number" })
+  // Field: price, Type: number
+  @Column()
+  price?: number;
 }

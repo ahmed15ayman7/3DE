@@ -6,13 +6,13 @@ import { CreateInstructorDto } from 'dtos/Instructor.create.dto';
 import { UpdateInstructorDto } from 'dtos/Instructor.update.dto';
 
 @ApiTags('المدرسين')
-@ApiBearerAuth()
-@UseGuards(AuthGuard)
 @Controller('instructors')
 export class InstructorsController {
     constructor(private readonly instructorsService: InstructorsService) { }
 
     @Post()
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'إنشاء مستخدم جديد' })
     @ApiResponse({ status: 201, description: 'تم إنشاء المستخدم بنجاح' })
     create(@Body() createUserDto: CreateInstructorDto) {
@@ -20,6 +20,8 @@ export class InstructorsController {
     }
 
     @Get()
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'الحصول على جميع المستخدمين' })
     @ApiResponse({ status: 200, description: 'تم جلب المستخدمين بنجاح' })
     findAll(@Query('skip') skip: number, @Query('limit') limit: number, @Query('search') search?: string) {
@@ -27,6 +29,8 @@ export class InstructorsController {
     }
 
     @Get(':id')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'الحصول على مستخدم محدد' })
     @ApiResponse({ status: 200, description: 'تم جلب المستخدم بنجاح' })
     findOne(@Param('id') id: string) {
@@ -34,6 +38,8 @@ export class InstructorsController {
     }
 
     @Patch(':id')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'تحديث بيانات مستخدم' })
     @ApiResponse({ status: 200, description: 'تم تحديث المستخدم بنجاح' })
     update(@Param('id') id: string, @Body() updateInstructorDto: UpdateInstructorDto) {
@@ -41,6 +47,8 @@ export class InstructorsController {
     }
 
     @Delete(':id')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'حذف مستخدم' })
     @ApiResponse({ status: 200, description: 'تم حذف المستخدم بنجاح' })
     remove(@Param('id') id: string) {
@@ -48,6 +56,8 @@ export class InstructorsController {
     }
 
     @Get(':id/courses')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'الحصول على المواد المدرسة' })
     @ApiResponse({ status: 200, description: 'تم جلب المواد المدرسة بنجاح' })
     getCourses(@Param('id') id: string) {
@@ -55,9 +65,18 @@ export class InstructorsController {
     }
 
     @Get('for-students')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'الحصول على المدرسين للطلاب' })
     @ApiResponse({ status: 200, description: 'تم جلب المدرسين بنجاح' })
     getAllForStudents() {
         return this.instructorsService.findAllForStudents();
+    }
+
+    @Get('public')
+    @ApiOperation({ summary: 'الحصول على المدرسين العامة' })
+    @ApiResponse({ status: 200, description: 'تم جلب المدرسين العامة بنجاح' })
+    getPublicInstructors(@Query('search') search?: string) {
+        return this.instructorsService.getPublicInstructors(search ?? "");
     }
 } 

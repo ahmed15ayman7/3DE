@@ -117,6 +117,11 @@ export class CourseDto {
   @Column()
   progress: number;
 
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: price, Type: number
+  @Column()
+  price?: number;
+
   @ApiProperty({ type: PathEntity })
   // Field: Path, Type: Path[]
   @Column()

@@ -4,6 +4,7 @@ import { CreatePostDto } from 'dtos/Post.create.dto';
 import { UpdatePostDto } from 'dtos/Post.update.dto';
 import { CreateCommentDto } from 'dtos/Comment.create.dto';
 import { UpdateCommentDto } from 'dtos/Comment.update.dto';
+import { Post } from '@shared/prisma';
 
 @Injectable()
 export class PostsService {
@@ -158,5 +159,31 @@ export class PostsService {
             throw new NotFoundException(`Post with ID ${postId} not found`);
         }
         return this.prisma.comment.findMany({ where: { postId } });
+    }
+    async getPostsPublic(search: string): Promise<Partial<Post>[]> {
+        return this.prisma.post.findMany({
+            where: {
+                publicRelationsRecordId: { not: null },
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { content: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                likesCount: true,
+                createdAt: true,
+                comments: {
+                    select: {
+                        id: true,
+                        content: true,
+                        createdAt: true,
+                    },
+                },
+            },
+            take: 10,
+        });
     }
 } 

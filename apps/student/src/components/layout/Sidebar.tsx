@@ -12,6 +12,8 @@ const menuItems = [
   { label: 'المحاضرين', icon: Users, href: '/instructors' },
   { label: 'الاختبارات', icon: FileText, href: '/exams' },
   { label: 'المجتمعات', icon: Users, href: '/communities' },
+  { label: 'المسارات', icon: BookOpen, href: '/paths' },
+  { label: 'الشهادات', icon: FileText, href: '/certificates' },
   { label: 'التنبيهات', icon: Bell, href: '/notifications' },
   { label: 'الملف الشخصي', icon: User, href: '/profile' },
   { label: 'الإعدادات', icon: Settings, href: '/settings' },
@@ -20,23 +22,24 @@ const menuItems = [
 interface SidebarProps {
   isSidebarOpen: boolean;
   onToggle: () => void;
+  isMobile: boolean;
 }
 
-export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
+export default function Sidebar({ isSidebarOpen, onToggle, isMobile }: SidebarProps) {
   const pathname = usePathname();
 
   return (
     <motion.aside
-      animate={{ width: isSidebarOpen ? 256 : 72 }}
+      animate={{ width: isSidebarOpen && !isMobile ? 256 : 72}}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="bg-white shadow-xl fixed top-24 right-0 z-40 "
+      className={`bg-white shadow-xl fixed top-24 right-0 z-40 ${isMobile ? 'translate-x-full':isSidebarOpen && isMobile ? 'translate-x-0' : 'translate-x-0'}`}
       style={{ height: 'calc(100vh - 96px)' }}
     >
       <div className="flex flex-col h-full">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 min-h-[64px] relative">
+        <div className={`flex items-center justify-between p-4 border-b border-gray-200 min-h-[64px] relative ${isMobile ? '' : ''}`}>
           <AnimatePresence mode="wait">
-            {isSidebarOpen ? (
+            {isSidebarOpen && !isMobile ? (
               <motion.div
                 key="logo-text"
                 initial={{ opacity: 0, width: 0 }}
@@ -102,7 +105,7 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
                 >
                   <item.icon className="w-5 h-5 flex-shrink-0" />
                   <AnimatePresence mode="wait">
-                    {isSidebarOpen && (
+                    {isSidebarOpen && !isMobile && (
                       <motion.span
                         initial={{ opacity: 0, width: 0 }}
                         animate={{ opacity: 1, width: 'auto' }}
@@ -122,7 +125,7 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
         {/* Footer */}
         <div className="p-4 border-t border-gray-200 min-h-[64px]">
           <AnimatePresence mode="wait">
-            {isSidebarOpen ? (
+            {isSidebarOpen && !isMobile ? (
               <motion.div
                 key="footer-text"
                 initial={{ opacity: 0 }}

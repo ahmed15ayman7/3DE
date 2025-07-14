@@ -188,6 +188,7 @@ export interface Course {
   updatedAt: Date;
   status: CourseStatus;
   progress: number;
+  price?: number;
   Path: Path[] | undefined;
   Testimonial: Testimonial[] | undefined;
   trainingSchedules: TrainingSchedule[] | undefined;
@@ -1116,6 +1117,25 @@ export interface EmployeeAttendanceLog {
   notes?: string;
   secretaryId: string;
   secretary: Admin | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ContactUs {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Support {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
   createdAt: Date;
   updatedAt: Date;
 }

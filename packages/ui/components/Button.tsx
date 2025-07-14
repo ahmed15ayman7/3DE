@@ -3,7 +3,7 @@
 import React from 'react';
 export interface ButtonProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'text';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'text' | 'white';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
@@ -13,6 +13,7 @@ export interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
+  style?: React.CSSProperties;
 }
 
 const getVariantClasses = (variant: ButtonProps['variant']) => {
@@ -29,8 +30,10 @@ const getVariantClasses = (variant: ButtonProps['variant']) => {
       return 'bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     case 'text':
       return 'text-gray-700 hover:bg-gray-100 transform hover:scale-105 active:scale-95';
+    case 'white':
+      return 'bg-white text-secondary-main hover:bg-gray-100 hover:text-secondary-main';
     default:
-      return 'bg-primary-main hover:bg-primary-main text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
+      return '  shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
   }
 };
 
@@ -53,6 +56,7 @@ export const Button: React.FC<ButtonProps> = ({
   loading = false,
   fullWidth = false,
   onClick,
+  style,
   className = '',
   type = 'button',
   icon,
@@ -84,6 +88,7 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
+      style={style}
       className={`${baseClasses} ${variantClasses} ${sizeClasses} ${widthClass} ${disabledClass} ${className}`}
     >
       {content}

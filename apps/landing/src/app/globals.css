@@ -55,43 +55,369 @@
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-gray-50 text-text-primary leading-relaxed;
+    font-feature-settings: "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Arabic Text Optimization */
+  [lang="ar"], [dir="rtl"] {
+    font-family: 'Cairo', 'Tajawal', system-ui, sans-serif;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply  font-semibold text-text-primary;
+    line-height: 1.4;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+  
+  h5 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+  
+  h6 {
+    @apply text-base md:text-lg lg:text-xl;
+  }
+  
+  /* Paragraphs */
+  p {
+    @apply text-text-secondary leading-relaxed;
+    margin-bottom: 1rem;
+  }
+  
+  /* Links */
+  a {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-main;
+  }
+  
+  /* Selection */
+  ::selection {
+    @apply bg-primary-light text-white;
+  }
+}
+
+@layer components {
+  /* Button Components */
+  .btn {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary-main hover:bg-primary-dark text-white focus:ring-primary-main px-6 py-3 shadow-md hover:shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-secondary-main hover:bg-secondary-dark text-white focus:ring-secondary-main px-6 py-3 shadow-md hover:shadow-lg;
+  }
+  
+  .btn-outline {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none border-2 border-primary-main text-primary-main hover:bg-primary-main hover:text-white focus:ring-primary-main px-6 py-3;
+  }
+  
+  .btn-ghost {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none text-primary-main hover:bg-primary-light focus:ring-primary-main px-4 py-2;
+  }
+  
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+  
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+  
+  /* Card Components */
+  .card {
+    @apply bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-lg;
+  }
+  
+  .card-body {
+    @apply p-6;
+  }
+  
+  /* Form Components */
+  .form-group {
+    @apply space-y-2;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-text-primary;
+  }
+  
+  .form-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-main focus:border-transparent transition-all duration-200 bg-white text-text-primary placeholder:text-gray-400;
+  }
+  
+  .form-textarea {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-main focus:border-transparent transition-all duration-200 bg-white text-text-primary placeholder:text-gray-400 resize-none min-h-[120px];
+  }
+  
+  .form-error {
+    @apply text-sm text-error-main;
+  }
+  
+  /* Layout Components */
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section {
+    @apply py-16 lg:py-24;
+  }
+  
+  .section-sm {
+    @apply py-12 lg:py-16;
+  }
+  
+  .section-lg {
+    @apply py-20 lg:py-32;
+  }
+  
+  /* Hero Components */
+  .hero {
+    @apply relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-main to-secondary-main overflow-hidden;
+  }
+  
+  .hero-content {
+    @apply text-center max-w-4xl mx-auto px-4 relative z-10;
+  }
+  
+  .hero-title {
+    @apply text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 leading-tight;
+  }
+  
+  .hero-subtitle {
+    @apply text-xl md:text-2xl text-text-secondary mb-8 leading-relaxed;
+  }
+  
+  /* Navigation */
+  .nav-link {
+    @apply text-text-secondary hover:text-primary-main transition-colors duration-200 font-medium;
+  }
+  
+  .nav-link.active {
+    @apply text-primary-main;
+  }
+  
+  /* Breadcrumb */
+  .breadcrumb {
+    @apply flex items-center gap-2 text-sm text-text-secondary;
+  }
+  
+  .breadcrumb-item {
+    @apply hover:text-primary-main transition-colors duration-200;
+  }
+  
+  .breadcrumb-separator {
+    @apply text-gray-400 mx-2;
   }
 }
 
 @layer utilities {
-  .btn-primary {
-    @apply bg-primary-main hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  /* Animation Utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
   }
   
-  .btn-secondary {
-    @apply bg-secondary-main hover:bg-secondary-dark text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
   }
   
-  .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  .animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out forwards;
   }
   
-  .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-main focus:border-transparent transition-all duration-200;
+  .animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+  }
+  
+  /* Text Utilities */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-main to-primary-dark bg-clip-text text-transparent;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Background Utilities */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #249491 0%, #1a6b69 100%);
+  }
+  
+  .bg-gradient-secondary {
+    background: linear-gradient(135deg, #003f59 0%, #002a3a 100%);
+  }
+  
+  .bg-pattern {
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(36, 148, 145, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 63, 89, 0.1) 0%, transparent 50%);
+  }
+  
+  /* Glass Effect */
+  .glass {
+    @apply backdrop-blur-xl bg-white/10 border border-white/20;
+  }
+  
+  /* Scroll Utilities */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+  
+  /* RTL Support */
+  .rtl-flip {
+    transform: scaleX(-1);
+  }
+  
+  [dir="rtl"] .rtl-auto {
+    transform: scaleX(-1);
+  }
+}
+
+/* Custom Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  @apply bg-gray-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #249491;
-  border-radius: 3px;
+  @apply bg-primary-main rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1a6b69;
+  @apply bg-primary-dark;
+}
+
+/* Loading States */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+  }
 }

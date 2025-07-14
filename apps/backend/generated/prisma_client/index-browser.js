@@ -214,7 +214,8 @@ exports.Prisma.CourseScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   status: 'status',
-  progress: 'progress'
+  progress: 'progress',
+  price: 'price'
 };
 
 exports.Prisma.PathScalarFieldEnum = {
@@ -951,6 +952,25 @@ exports.Prisma.EmployeeAttendanceLogScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ContactUsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SupportScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1177,7 +1197,9 @@ exports.Prisma.ModelName = {
   PaymentLogBySecretary: 'PaymentLogBySecretary',
   InternalMessage: 'InternalMessage',
   SecretaryFiles: 'SecretaryFiles',
-  EmployeeAttendanceLog: 'EmployeeAttendanceLog'
+  EmployeeAttendanceLog: 'EmployeeAttendanceLog',
+  ContactUs: 'ContactUs',
+  Support: 'Support'
 };
 
 /**
