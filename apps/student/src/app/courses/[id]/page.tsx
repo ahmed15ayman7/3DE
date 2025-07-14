@@ -24,24 +24,19 @@ export default function CoursePage() {
     queryFn: () => courseApi.getById(courseId),
   });
 
-  const { data: lessons, isLoading: lessonsLoading } = useQuery({
-    queryKey: ['course-lessons', courseId],
-    queryFn: () => lessonApi.getByCourse(courseId),
-  });
-
   // Set first lesson as current when lessons load
   useEffect(() => {
-    if (lessons && lessons.data && lessons.data.length > 0 && !currentLessonId) {
-      setCurrentLessonId(lessons.data[0].id);
-      if (lessons.data[0].files && lessons.data[0].files.length > 0) {
-        setCurrentFile(lessons.data[0].files[0] as File);
+    if (course && course.data.lessons && course.data.lessons.length > 0 && !currentLessonId) {
+      setCurrentLessonId(course.data.lessons[0].id);
+      if (course.data.lessons[0].files && course.data.lessons[0].files.length > 0) {
+        setCurrentFile(course.data.lessons[0].files[0] as File);
       }
     }
-  }, [lessons, currentLessonId]);
+  }, [course, currentLessonId]);
 
   const handleLessonSelect = (lessonId: string) => {
     setCurrentLessonId(lessonId);
-    const selectedLesson = lessons?.data?.find((lesson: Lesson) => lesson.id === lessonId);
+    const selectedLesson = course?.data.lessons?.find((lesson: Lesson) => lesson.id === lessonId);
     if (selectedLesson?.files && selectedLesson.files.length > 0) {
       setCurrentFile(selectedLesson.files[0] as File);
     } else {
@@ -78,7 +73,7 @@ export default function CoursePage() {
     }
   };
 
-  if (courseLoading || lessonsLoading) {
+  if (courseLoading) {
     return (
       <Layout>
         <div className="space-y-6">
@@ -96,7 +91,7 @@ export default function CoursePage() {
     );
   }
 
-  if (!course || !lessons) {
+  if (!course) {
     return (
       <Layout>
         <div className="text-center py-12">
@@ -128,7 +123,7 @@ export default function CoursePage() {
               <h1 className="text-2xl font-bold text-gray-900 mb-2">{course.data.title}</h1>
               <p className="text-gray-600 mb-4">{course.data.description}</p>
               <div className="flex items-center space-x-6 text-sm text-gray-500">
-                <span>{lessons.data.length} درس</span>
+                <span>{course.data.lessons.length} درس</span>
                 <span>{course.data.startDate?.toLocaleDateString() || 'غير محدد'}</span>
                 <span>{course.data.instructors?.map((instructor: Instructor) => instructor.user?.firstName + ' ' + instructor.user?.lastName).join(', ') || 'غير محدد'}</span>
               </div>
@@ -145,7 +140,7 @@ export default function CoursePage() {
               animate={{ opacity: 1, x: 0 }}
             >
               <LessonList
-                lessons={lessons.data as Lesson[]}
+                lessons={course.data.lessons as Lesson[]}
                 currentLessonId={currentLessonId || undefined}
                 onLessonSelect={handleLessonSelect}
                 onFileSelect={handleFileSelect}
