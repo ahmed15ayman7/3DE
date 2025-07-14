@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@3de/auth';
-import { RouteLoader } from '@3de/ui';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import "@3de/ui/styles.css";
+import { Suspense } from "react";
+import { RouteLoader } from '@3de/ui';
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,12 +34,9 @@ export default function RootLayout({
       >
         <ErrorBoundary>
           <AuthProvider>
-            {children}
-            <RouteLoader 
-              showText={true}
-              loadingText="جاري التحقق..."
-              size="md"
-            />
+            <Suspense fallback={<RouteLoader showText loadingText="طريق النجاح يبدأ بخطوة... ويستمر بالصبر" size="md" />}>
+              {children}
+            </Suspense>
           </AuthProvider>
         </ErrorBoundary>
       </body>
