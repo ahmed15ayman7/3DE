@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 export interface ButtonProps {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'text';
@@ -19,11 +18,11 @@ export interface ButtonProps {
 const getVariantClasses = (variant: ButtonProps['variant']) => {
   switch (variant) {
     case 'primary':
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
+      return 'bg-primary-main hover:bg-primary-main text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     case 'secondary':
       return 'bg-gray-600 hover:bg-gray-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     case 'outline':
-      return 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transform hover:scale-105 active:scale-95';
+      return 'border-2 border-primary-main text-primary-main hover:bg-primary-main hover:text-white transform hover:scale-105 active:scale-95';
     case 'ghost':
       return 'text-gray-700 hover:bg-gray-100 transform hover:scale-105 active:scale-95';
     case 'danger':
@@ -31,7 +30,7 @@ const getVariantClasses = (variant: ButtonProps['variant']) => {
     case 'text':
       return 'text-gray-700 hover:bg-gray-100 transform hover:scale-105 active:scale-95';
     default:
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
+      return 'bg-primary-main hover:bg-primary-main text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
   }
 };
 
