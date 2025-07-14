@@ -1,5 +1,4 @@
 'use client';
-
 import { FileType, File } from '@3de/interfaces';
 import VideoPlayer from './VideoPlayer';
 import PDFViewer from './PDFViewer';
@@ -8,7 +7,7 @@ import ImageViewer from './ImageViewer';
 
 interface FileViewerProps {
   file:File;
-  onProgress?: (progress: number) => void;
+  onProgress?: (progress: number,duration:number) => void;
   onComplete?: () => void;
 }
 
@@ -19,10 +18,11 @@ export default function FileViewer({ file, onProgress, onComplete }: FileViewerP
         return (
           <VideoPlayer
             src={file.url}
-            title={file.name}
+            lastWatched={file.lastWatched ? file.lastWatched.getTime() : 0}
             onProgress={onProgress}
             onComplete={onComplete}
           />
+          
         );
       
       case "PDF" as FileType:

@@ -8,7 +8,7 @@ import { Button, Progress } from '@3de/ui';
 interface AudioPlayerProps {
   src: string;
   title: string;
-  onProgress?: (progress: number) => void;
+  onProgress?: (progress: number,duration:number) => void;
   onComplete?: () => void;
 }
 
@@ -32,7 +32,7 @@ export default function AudioPlayer({ src, title, onProgress, onComplete }: Audi
     const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
       const progress = (audio.currentTime / audio.duration) * 100;
-      onProgress?.(progress);
+      onProgress?.(progress,audio.duration);
     };
 
     const handleEnded = () => {

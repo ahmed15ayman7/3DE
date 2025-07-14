@@ -4,17 +4,18 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { courseApi, lessonApi } from '@3de/apis';
+import { courseApi, fileApi, lessonApi } from '@3de/apis';
 import Layout from '../../../components/layout/Layout';
 import LessonList from '../../../components/lessons/LessonList';
 import FileViewer from '../../../components/files/FileViewer';
 import { Skeleton } from '@3de/ui';
 import { Lesson, File, Instructor } from '@3de/interfaces';
+import { useAuth } from '@3de/auth';
 
 export default function CoursePage() {
   const params = useParams();
   const courseId = params.id as string;
-  
+  const { user } = useAuth();
   const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 
@@ -48,7 +49,13 @@ export default function CoursePage() {
     setCurrentFile(file);
   };
 
-  const handleFileProgress = async (progress: number) => {
+  const handleFileProgress = async (progress: number,duration:number) => {
+    if(currentFile?.id){
+      setInterval(()=>{
+        const timeInMinutes = duration / 60;
+        fileApi.update(currentFile?.id || '',{lastWatched:new Date(timeInMinutes)});
+      },3000);
+    }
     if (currentLessonId && progress >= 90) {
       // Update lesson progress when file is almost complete
       try {
@@ -124,7 +131,7 @@ export default function CoursePage() {
               <p className="text-gray-600 mb-4">{course.data.description}</p>
               <div className="flex items-center space-x-6 text-sm text-gray-500">
                 <span>{course.data.lessons.length} درس</span>
-                <span>{course.data.startDate?.toLocaleDateString() || 'غير محدد'}</span>
+                <span>{new Date(course.data.startDate||"").toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }) || 'غير محدد'}</span>
                 <span>{course.data.instructors?.map((instructor: Instructor) => instructor.user?.firstName + ' ' + instructor.user?.lastName).join(', ') || 'غير محدد'}</span>
               </div>
             </div>
@@ -144,6 +151,7 @@ export default function CoursePage() {
                 currentLessonId={currentLessonId || undefined}
                 onLessonSelect={handleLessonSelect}
                 onFileSelect={handleFileSelect}
+                user={user || undefined}
               />
             </motion.div>
           </div>

@@ -241,6 +241,15 @@ exports.Prisma.MilestoneScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.LessonBlockListScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  userId: 'userId',
+  isBlocked: 'isBlocked',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -258,6 +267,7 @@ exports.Prisma.FileScalarFieldEnum = {
   url: 'url',
   type: 'type',
   isCompleted: 'isCompleted',
+  lastWatched: 'lastWatched',
   lessonId: 'lessonId',
   accountingEntryId: 'accountingEntryId',
   prRecordId: 'prRecordId',
@@ -1105,6 +1115,7 @@ exports.Prisma.ModelName = {
   Course: 'Course',
   Path: 'Path',
   Milestone: 'Milestone',
+  LessonBlockList: 'LessonBlockList',
   Lesson: 'Lesson',
   File: 'File',
   Enrollment: 'Enrollment',

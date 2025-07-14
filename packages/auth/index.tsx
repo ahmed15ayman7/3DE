@@ -294,6 +294,7 @@ class AuthService {
         const user: User = {
           id: refreshPayload.userId,
           email: refreshPayload.email,
+          LessonBlockList: [],
           firstName: '',
           Comment: [],
           lastName: '',
@@ -353,6 +354,7 @@ class AuthService {
       const user: User = {
         id: payload.userId,
         email: payload.email,
+        LessonBlockList: [],
         firstName: '',
         Comment: [],
         lastName: '',
@@ -641,6 +643,11 @@ export function useAuth(): AuthContextType {
 
 // Export singleton instance
 export const authService = AuthService.getInstance();
+export const formatTime = (sec: number) => {
+  const minutes = Math.floor(sec / 60);
+  const seconds = Math.floor(sec % 60);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
 
 // Export individual functions for convenience
 export const {

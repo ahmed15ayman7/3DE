@@ -397,6 +397,8 @@ export const lessonApi = {
     getQuizzes: (lessonId: string) => api.get(`/lessons/${lessonId}/quizzes`),
     markAsCompleted: (lessonId: string) =>
         api.post(`/lessons/${lessonId}/complete`),
+    updateBlockList: (lessonId: string, userId: string, isBlocked: boolean) =>
+        api.post(`/lessons/block-list`, { lessonId, userId, isBlocked }),
 };
 
 // Quiz APIs

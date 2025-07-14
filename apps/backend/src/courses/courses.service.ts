@@ -26,6 +26,7 @@ export class CoursesService {
                 },
                 lessons: {
                     include: {
+                        LessonBlockList: true,
                         files: true,
                     },
                 },

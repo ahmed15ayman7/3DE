@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface RouteLoaderProps {
@@ -21,6 +21,7 @@ export const RouteLoader: React.FC<RouteLoaderProps> = ({
   showText = false,
   loadingText = 'جاري التحميل...'
 }) => {
+    let [isLoading, setIsLoading] = useState(true);
   const getSizeClasses = () => {
     switch (size) {
       case 'sm':
@@ -45,9 +46,15 @@ export const RouteLoader: React.FC<RouteLoaderProps> = ({
       background: 'linear-gradient(135deg, var(--primary-main) 0%, var(--primary-dark) 100%)'
     };
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+  }, []);
 
   return (
     <AnimatePresence>
+      {isLoading && (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -95,9 +102,10 @@ export const RouteLoader: React.FC<RouteLoaderProps> = ({
             >
               {loadingText}
             </motion.div>
-          )}
-        </div>
-      </motion.div>
+            )}
+          </div>
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 };

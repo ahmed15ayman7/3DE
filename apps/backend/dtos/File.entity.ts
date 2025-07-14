@@ -48,6 +48,11 @@ export class FileEntity {
   @Column()
   isCompleted: boolean;
 
+  @ApiProperty({ type: "string", format: "date-time", nullable: true })
+  // Field: lastWatched, Type: Date
+  @Column()
+  lastWatched?: Date;
+
   @ApiProperty({ type: "string", nullable: true })
   // Field: lessonId, Type: string
   @Column()

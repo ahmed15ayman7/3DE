@@ -58,6 +58,13 @@ export class LessonsService {
             },
         });
     }
+    async updateLessonBlockList(lessonId: string, userId: string, isBlocked: boolean) {
+        return this.prisma.lessonBlockList.upsert({
+            where: { id: lessonId },
+            update: { isBlocked },
+            create: { lessonId, userId, isBlocked },
+        });
+    }
 
     async remove(id: string) {
         const lesson = await this.findOne(id);

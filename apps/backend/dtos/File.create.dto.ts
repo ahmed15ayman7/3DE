@@ -35,6 +35,11 @@ export class CreateFileDto {
   @Column()
   isCompleted: boolean;
 
+  @ApiProperty({ type: "string", format: "date-time" })
+  // Field: lastWatched, Type: Date
+  @Column()
+  lastWatched?: Date;
+
   @ApiProperty({ type: "string" })
   // Field: lessonId, Type: string
   @Column()

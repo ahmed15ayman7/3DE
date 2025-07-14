@@ -4,23 +4,25 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronRight, Play, CheckCircle, Lock } from 'lucide-react';
 import { Progress, Badge } from '@3de/ui';
-import { Lesson, File } from '@3de/interfaces';
+import { Lesson, File, User } from '@3de/interfaces';
 
 interface LessonListProps {
   lessons: Lesson[];
   currentLessonId?: string;
   onLessonSelect: (lessonId: string) => void;
   onFileSelect: (file: File) => void;
+  user?: User;
 }
 
 export default function LessonList({ 
   lessons, 
   currentLessonId, 
   onLessonSelect, 
+  user,
   onFileSelect 
 }: LessonListProps) {
   const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
-
+  
   const toggleLesson = (lessonId: string) => {
     setExpandedLessons(prev => 
       prev.includes(lessonId) 
@@ -34,7 +36,8 @@ export default function LessonList({
   };
 
   const isLessonLocked = (lesson: Lesson, index: number) => {
-    if (index === 0) return false;
+    if (index === 0 && lesson.status=="IN_PROGRESS") return false;
+    if (lesson.status=="NOT_STARTED"||(index !== 0 &&lesson.LessonBlockList?.map(block=>block.userId==user?.id&&block.isBlocked).some(block=>block))) return true;
     const previousLesson = lessons[index - 1];
     return !isLessonCompleted(previousLesson);
   };
