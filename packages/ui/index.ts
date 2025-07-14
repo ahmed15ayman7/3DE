@@ -15,6 +15,10 @@ export { Textarea } from './components/Textarea';
 export { Checkbox } from './components/Checkbox';
 export { Switch } from './components/Switch';
 
+// Route Loading Components
+export { RouteLoader } from './components/RouteLoader';
+export { useRouteLoading } from './hooks/useRouteLoading';
+
 // Radio Components
 export { Radio, RadioGroup } from './components/Radio';
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@3de/auth';
+import { RouteLoader } from '@3de/ui';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import "@3de/ui/styles.css";
 const geistSans = Geist({
@@ -32,6 +33,11 @@ export default function RootLayout({
         <ErrorBoundary>
           <AuthProvider>
             {children}
+            <RouteLoader 
+              showText={true}
+              loadingText="جاري التحقق..."
+              size="md"
+            />
           </AuthProvider>
         </ErrorBoundary>
       </body>

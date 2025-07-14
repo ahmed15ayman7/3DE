@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from '@3de/auth';
+import { RouteLoader } from '@3de/ui';
 import { useState } from 'react';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -19,6 +20,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         {children}
+        <RouteLoader 
+          showText={true}
+          loadingText="جاري التحميل..."
+          size="lg"
+        />
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </AuthProvider>
     </QueryClientProvider>
