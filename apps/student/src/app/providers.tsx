@@ -19,9 +19,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Suspense fallback={<RouteLoader showText loadingText="طريق النجاح يبدأ بخطوة... ويستمر بالصبر" size="md" />}>
+        {/* <Suspense fallback={<RouteLoader showText loadingText="طريق النجاح يبدأ بخطوة... ويستمر بالصبر" size="md" />}> */}
         {children}
-        </Suspense>
+        {/* </Suspense> */}
           
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </AuthProvider>
