@@ -33,15 +33,15 @@ import {
 import { Button } from '@3de/ui';
 import axios from 'axios';
 let getCourses = async () => {
-  const response = await axios.get('https://api.3de.school/courses/public');
+  const response = await axios.get('https://api.3de.school/public/courses');
   return response as {data: Course[]};
 }
 let getInstructors = async () => {
-  const response = await axios.get('https://api.3de.school/instructors/public');
+  const response = await axios.get('https://api.3de.school/public/instructors');
   return response as {data: Instructor[]};
 }
 let getEvents = async () => {
-  const response = await axios.get('https://api.3de.school/events/public');
+  const response = await axios.get('https://api.3de.school/public/events');
   return response as {data: Event[]};
 }
 export default function HomePage() {
