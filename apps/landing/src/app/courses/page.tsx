@@ -56,11 +56,11 @@ const sortOptions = [
   { value: "price-high", label: "السعر: من الأعلى للأقل" }
 ];
 let getCourses = async () => {
-  const response = await axios.get('https://3de.school/api/courses/public');
+  const response = await axios.get('https://api.3de.school/courses/public');
   return response as {data: Course[]};
 }
 let getInstructors = async () => {
-  const response = await axios.get('https://3de.school/api/instructors/public');
+  const response = await axios.get('https://api.3de.school/instructors/public');
   return response as {data: Instructor[]};
 }
 export default function CoursesPage() {

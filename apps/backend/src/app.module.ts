@@ -49,6 +49,7 @@ import { ExpensesModule } from './expenses/expenses.module';
 import { InstructorsModule } from './instructors/instructors.module';
 import { SupportModule } from './support/support.module';
 import { ContactModule } from './contact/contact.module';
+import { PublicModule } from './public/public.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -113,7 +114,8 @@ import { ContactModule } from './contact/contact.module';
         ExpensesModule,
         InstructorsModule,
         SupportModule,
-        ContactModule
+        ContactModule,
+        PublicModule
     ],
     // providers: [
     //     {

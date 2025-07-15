@@ -73,7 +73,7 @@ export default function InstructorCard({
         isFeatured ? 'ring-2 ring-primary-main ring-offset-2' : ''
       } ${className}`}
     >
-      <Link href={`/instructors/${id}`}>
+      <div className='hover:bg-primary-main/10 rounded-lg p-4'>
         <div className="card-body text-center">
           {/* Avatar */}
           <div className="relative mx-auto mb-4">
@@ -204,46 +204,46 @@ export default function InstructorCard({
           {socialLinks && (
             <div className="flex items-center justify-center gap-3 gap-reverse mb-4">
               {socialLinks.linkedin && (
-                <a
-                  href={socialLinks.linkedin}
+                <Link
+                  href={socialLinks.linkedin ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-text-secondary hover:text-primary-main transition-colors duration-200"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Linkedin size={16} />
-                </a>
+                </Link>
               )}
               {socialLinks.twitter && (
-                <a
-                  href={socialLinks.twitter}
+                  <Link
+                  href={socialLinks.twitter ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-text-secondary hover:text-primary-main transition-colors duration-200"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Twitter size={16} />
-                </a>
+                </Link>
               )}
               {socialLinks.instagram && (
-                <a
-                  href={socialLinks.instagram}
+                <Link
+                  href={socialLinks.instagram ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-text-secondary hover:text-primary-main transition-colors duration-200"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Instagram size={16} />
-                </a>
+                </Link>
               )}
               {email && (
-                <a
-                  href={`mailto:${email}`}
+                <Link
+                  href={`mailto:${email ?? ""}`}
                   className="text-text-secondary hover:text-primary-main transition-colors duration-200"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Mail size={16} />
-                </a>
+                </Link>
               )}
             </div>
           )}
@@ -258,7 +258,7 @@ export default function InstructorCard({
             <ExternalLink size={14} className="mr-1" />
           </Button>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 } 

@@ -390,18 +390,18 @@ export default function ContactUsPage() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               جاهز للبدء؟
             </h2>
-            <p className="text-xl mb-8 opacity-90">
+            <p className="text-xl mb-8 opacity-90 text-gray-200">
               لا تتردد في التواصل معنا. نحن هنا لمساعدتك في تحقيق أهدافك التعليمية
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:gap-6 sm:gap-reverse">
-              <Button size="lg" className="bg-white text-primary-main hover:bg-gray-100">
+              <Button size="lg" variant='primary' >
                 <MessageCircle size={20} className="ml-2" />
                 ابدأ المحادثة الآن
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-main">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-primary-main">
                 حجز استشارة مجانية
               </Button>
             </div>

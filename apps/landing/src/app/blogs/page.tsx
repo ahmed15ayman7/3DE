@@ -42,7 +42,7 @@ const sortOptions = [
   { value: "mostLiked", label: "الأكثر إعجاباً" }
 ];
 let getPosts = async () => {
-  const response = await axios.get('https://3de.school/api/posts/public');
+  const response = await axios.get('https://api.3de.school/posts/public');
   return response as {data: Post[]};
 } 
 export default function BlogsPage() {

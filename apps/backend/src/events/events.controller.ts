@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Query } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from '../../dtos/Event.create.dto';
 import { UpdateEventDto } from '../../dtos/Event.update.dto';
@@ -39,5 +39,9 @@ export class EventsController {
     @Delete(':id')
     async remove(@Param('id') id: string): Promise<Event> {
         return this.eventsService.remove(id);
+    }
+    @Get('public')
+    async getEventsPublic(@Query('search') search?: string): Promise<Partial<Event>[]> {
+        return this.eventsService.getEventsPublic(search ?? "");
     }
 } 

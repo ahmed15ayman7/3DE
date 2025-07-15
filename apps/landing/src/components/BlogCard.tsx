@@ -14,6 +14,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { Button } from '@3de/ui';
+import { useEffect, useState } from 'react';
 
 interface BlogCardProps {
   id: string;
@@ -58,15 +59,16 @@ export default function BlogCard({
   const isCompact = variant === 'compact';
   const isHorizontal = variant === 'horizontal';
   const isFeatured = variant === 'featured' || isFeautred;
-
+  
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ar-SA', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-    });
+    }).toString();
   };
+
 
   return (
     <motion.article
@@ -132,7 +134,7 @@ export default function BlogCard({
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 gap-reverse text-sm text-text-secondary">
               <Calendar size={14} />
-              <span>{formatDate(publishedAt)}</span>
+              <span><HijriDate /></span>
             </div>
             <div className="flex items-center gap-1 gap-reverse text-sm text-text-secondary">
               <Clock size={14} />
@@ -265,3 +267,19 @@ export default function BlogCard({
     </motion.article>
   );
 } 
+
+export  function HijriDate() {
+  const [date, setDate] = useState<string>('')
+
+  useEffect(() => {
+    const d = new Date()
+    const formatted = d.toLocaleDateString('ar-EG-u-ca-islamic', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+    setDate(formatted)
+  }, [])
+
+  return <span>{date}</span>
+}

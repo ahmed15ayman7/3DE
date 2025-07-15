@@ -39,7 +39,7 @@ const sortOptions = [
   { value: "name", label: "الاسم (أبجدياً)" }
 ];
 let getInstructors = async (search: string) => {
-  const response = await axios.get(`https://3de.school/api/instructors/public?search=${search}`);
+  const response = await axios.get(`https://api.3de.school/public/instructors?search=${search}`);
   return response as {data: Instructor[]};
 }
 

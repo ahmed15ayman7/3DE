@@ -45,7 +45,7 @@ const sortOptions = [
   { value: "newest", label: "الأحدث إضافة" }
 ];
 let getEvents = async () => {
-  const response = await axios.get('https://3de.school/api/events/public');
+  const response = await axios.get('https://api.3de.school/events/public');
   return response as {data: Event[]};
 }
 

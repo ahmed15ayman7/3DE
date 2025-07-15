@@ -256,10 +256,10 @@ export default function AboutUsPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-4">
+            <h2 className="text-4xl font-bold mb-4 text-white">
               إنجازاتنا بالأرقام
             </h2>
-            <p className="text-xl opacity-90">
+            <p className="text-xl opacity-90 text-gray-200">
               مسيرة حافلة بالنجاحات والإنجازات المتواصلة
             </p>
           </motion.div>
@@ -415,18 +415,18 @@ export default function AboutUsPage() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               كن جزءاً من رحلتنا
             </h2>
-            <p className="text-xl mb-8 opacity-90">
+            <p className="text-xl mb-8 opacity-90 text-gray-200">
               انضم إلى مجتمعنا التعليمي وساهم في بناء مستقبل أفضل من خلال التعلم والتطوير المستمر
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:gap-6 sm:gap-reverse">
-              <Button size="lg" className="bg-white text-secondary-main hover:bg-gray-100">
+              <Button size="lg" variant='primary'>
                 ابدأ التعلم الآن
                 <ArrowRight size={20} className="mr-2" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-secondary-main">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-secondary-main">
                 تواصل معنا
               </Button>
             </div>
