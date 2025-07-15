@@ -35,8 +35,8 @@ const footerLinks = {
     { href: '/courses', label: 'الكورسات', icon: BookOpen },
     { href: '/events', label: 'الفعاليات', icon: Calendar },
     { href: '/support', label: 'الدعم الفني', icon: HelpCircle },
-    { href: '/register', label: 'التسجيل', icon: null },
-    { href: '/login', label: 'تسجيل الدخول', icon: null },
+    { href: '/auth/signup', label: 'التسجيل', icon: null,isWindows: true },
+    { href: '/auth/signin', label: 'تسجيل الدخول', icon: null,isWindows: true },
   ],
   legal: [
     { href: '/terms', label: 'الشروط والأحكام', icon: FileText },
@@ -177,7 +177,7 @@ export default function Footer() {
                       transition={{ delay: index * 0.05, duration: 0.3 }}
                     >
                       <Link
-                        href={link.href}
+                        href={link.isWindows ? `https://3de.school${link.href}` : link.href}
                         className="flex items-center gap-2 gap-reverse text-gray-300 hover:text-white transition-colors duration-200 group"
                       >
                         {Icon && <Icon size={16} className="group-hover:text-primary-light" />}

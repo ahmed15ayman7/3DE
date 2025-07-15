@@ -185,13 +185,13 @@ export default function Navigation() {
             transition={{ delay: 0.2 }}
             className="hidden md:flex items-center gap-4"
           >
-            <div className='cursor-pointer' onClick={() => router.push('/auth/signin')}>
+            <div className='cursor-pointer' onClick={() => router.push('https://3de.school/auth/signin')}>
               <Button variant="ghost" size="sm" className="text-text-secondary hover:text-primary-main">
                 <LogIn size={16} className="ml-1" />
                 دخول
               </Button>
             </div>
-            <div className='cursor-pointer' onClick={() => router.push('/auth/signup')}>
+            <div className='cursor-pointer' onClick={() => router.push('https://3de.school/auth/signup')}>
               <Button size="sm" className="bg-gradient-primary hover:opacity-90">
                 تسجيل مجاني
               </Button>

@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "es6"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,7 +18,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@3de/ui": ["../../packages/ui"],
+      "@3de/apis": ["../../packages/apis"],
+      "@3de/interfaces": ["../../packages/interfaces"],
+      "@3de/auth": ["../../packages/auth"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

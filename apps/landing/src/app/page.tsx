@@ -582,7 +582,7 @@ export default function HomePage() {
               </Button>
             </div>
           </motion.div>
-        </div>
+    </div>
       </section>
     </Layout>
   );
