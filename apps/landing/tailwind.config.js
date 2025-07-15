@@ -4,7 +4,7 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../packages/ui/**/*.{js,ts,jsx,tsx,mdx}',
+    '../../packages/ui/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   safelist: [
     // Button variants
@@ -96,142 +96,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        primary: {
-          main: '#249491',
-          light: '#4db3b0',
-          dark: '#1a6b69',
-          50: '#f0fdfc',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
-        },
-        secondary: {
-          main: '#003f59',
-          light: '#005a7a',
-          dark: '#002a3a',
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-        },
-        success: {
-          main: '#4CAF50',
-          light: '#81C784',
-          dark: '#388E3C',
-        },
-        error: {
-          main: '#F44336',
-          light: '#E57373',
-          dark: '#D32F2F',
-        },
-        warning: {
-          main: '#FF9800',
-          light: '#FFB74D',
-          dark: '#F57C00',
-        },
-        info: {
-          main: '#2196F3',
-          light: '#64B5F6',
-          dark: '#1976D2',
-        },
-        text: {
-          primary: '#002D32',
-          secondary: '#666666',
-        },
-      },
       fontFamily: {
-        sans: ['Cairo', 'Tajawal', 'Inter', 'system-ui', 'sans-serif'],
-        arabic: ['Cairo', 'Tajawal', 'Amiri', 'sans-serif'],
-      },
-      fontSize: {
-        '2xs': ['0.625rem', { lineHeight: '0.75rem' }],
-      },
-      spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-        '128': '32rem',
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'fade-in-up': 'fadeInUp 0.6s ease-out',
-        'fade-in-down': 'fadeInDown 0.6s ease-out',
-        'slide-in-left': 'slideInLeft 0.5s ease-out',
-        'slide-in-right': 'slideInRight 0.5s ease-out',
-        'bounce-slow': 'bounce 2s infinite',
-        'pulse-slow': 'pulse 3s infinite',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeInDown: {
-          '0%': { opacity: '0', transform: 'translateY(-20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        slideInLeft: {
-          '0%': { opacity: '0', transform: 'translateX(-20px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-        slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(20px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-      },
-      boxShadow: {
-        'soft': '0 2px 15px 0 rgba(0, 0, 0, 0.1)',
-        'soft-lg': '0 8px 30px 0 rgba(0, 0, 0, 0.12)',
-        'glow': '0 0 20px rgba(36, 148, 145, 0.3)',
-      },
-      backdropBlur: {
-        xs: '2px',
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
     },
   },
-  plugins: [
-    function({ addUtilities }) {
-      addUtilities({
-        '.rtl': {
-          direction: 'rtl',
-        },
-        '.ltr': {
-          direction: 'ltr',
-        },
-        '.text-gradient': {
-          background: 'linear-gradient(135deg, #249491 0%, #1a6b69 100%)',
-          '-webkit-background-clip': 'text',
-          '-webkit-text-fill-color': 'transparent',
-          'background-clip': 'text',
-        },
-        '.bg-gradient-primary': {
-          background: 'linear-gradient(135deg, #249491 0%, #1a6b69 100%)',
-        },
-        '.bg-gradient-secondary': {
-          background: 'linear-gradient(135deg, #003f59 0%, #002a3a 100%)',
-        },
-        '.glass': {
-          background: 'rgba(255, 255, 255, 0.1)',
-          'backdrop-filter': 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-        },
-      });
-    },
-  ],
+  plugins: [],
 } 

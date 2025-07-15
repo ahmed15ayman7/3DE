@@ -1,13 +1,21 @@
 'use client';
 
-import { Inter } from 'next/font/google'
 import './globals.css'
 import QueryProvider from '../components/QueryProvider'
+import { Cairo, Tajawal } from "next/font/google";
+const cairo = Cairo({
+  variable: "--font-cairo",
+  subsets: ["arabic", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: 'swap',
+});
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter'
-})
+const tajawal = Tajawal({
+  variable: "--font-tajawal", 
+  subsets: ["arabic", "latin"],
+  weight: ["300", "400", "500", "700"],
+  display: 'swap',
+});
 
 export default function RootLayout({
   children,
@@ -15,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ar" dir="rtl" className={`${inter.variable}`}>
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${tajawal.variable}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

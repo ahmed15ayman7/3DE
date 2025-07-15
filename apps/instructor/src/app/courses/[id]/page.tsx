@@ -1,160 +1,71 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Button, Card, Badge, Avatar, Tabs, Progress, Modal, Input, Textarea } from '@3de/ui';
-import { useInstructorCourses, useCourseStudents, useCreatePost } from '../../../hooks/useInstructorQueries';
+import { Button, Card, Badge, Avatar, Tabs, Progress, Modal, Input, Textarea, LoadingAnimation, Alert } from '@3de/ui';
+import { 
+  useInstructorCourses, 
+  useCourseStudents, 
+  useCreatePost, 
+  useCourse, 
+  useCourseLessons, 
+  useCourseQuizzes,
+  useCreateQuiz 
+} from '../../../hooks/useInstructorQueries';
 import ChartBox from '../../../components/ChartBox';
-
-// Mock data للكورس
-const mockCourse = {
-  id: '1',
-  title: 'البرمجة المتقدمة',
-  description: 'كورس شامل في البرمجة الكائنية وأنماط التصميم باستخدام JavaScript و TypeScript',
-  image: '💻',
-  instructor: 'د. محمد أحمد',
-  startDate: '2024-01-15',
-  endDate: '2024-04-15',
-  duration: '12 أسبوع',
-  level: 'متقدم',
-  status: 'نشط',
-  price: 1200,
-  studentsCount: 45,
-  lessonsCount: 24,
-  quizzesCount: 8,
-  progress: 78,
-  completionRate: 85,
-  averageGrade: 'A-',
-  category: 'برمجة',
-  prerequisites: ['أساسيات JavaScript', 'HTML & CSS'],
-  learningOutcomes: [
-    'فهم مبادئ البرمجة الكائنية',
-    'تطبيق أنماط التصميم المختلفة',
-    'كتابة كود TypeScript متقدم',
-    'بناء تطبيقات معقدة بنمط MVC'
-  ],
-  students: [
-    {
-      id: '1',
-      name: 'أحمد محمد',
-      email: 'ahmed@example.com',
-      avatar: '🧑‍💻',
-      progress: 85,
-      grade: 'A',
-      lastActivity: '2024-01-21',
-      status: 'نشط',
-      joinDate: '2024-01-15'
-    },
-    {
-      id: '2',
-      name: 'فاطمة علي',
-      email: 'fatima@example.com',
-      avatar: '👩‍💻',
-      progress: 92,
-      grade: 'A+',
-      lastActivity: '2024-01-21',
-      status: 'نشط',
-      joinDate: '2024-01-15'
-    },
-    {
-      id: '3',
-      name: 'محمد سعد',
-      email: 'mohammed@example.com',
-      avatar: '👨‍💻',
-      progress: 76,
-      grade: 'B+',
-      lastActivity: '2024-01-20',
-      status: 'نشط',
-      joinDate: '2024-01-16'
-    }
-  ],
-  lessons: [
-    {
-      id: '1',
-      title: 'مقدمة في البرمجة الكائنية',
-      description: 'تعرف على المفاهيم الأساسية للبرمجة الكائنية',
-      duration: '45 دقيقة',
-      type: 'video',
-      completedStudents: 40,
-      status: 'منشور',
-      publishDate: '2024-01-15'
-    },
-    {
-      id: '2',
-      title: 'الكلاسات والكائنات',
-      description: 'كيفية إنشاء واستخدام الكلاسات والكائنات',
-      duration: '60 دقيقة',
-      type: 'video',
-      completedStudents: 38,
-      status: 'منشور',
-      publishDate: '2024-01-17'
-    },
-    {
-      id: '3',
-      title: 'الوراثة والتغليف',
-      description: 'المبادئ المتقدمة في البرمجة الكائنية',
-      duration: '50 دقيقة',
-      type: 'video',
-      completedStudents: 35,
-      status: 'منشور',
-      publishDate: '2024-01-20'
-    }
-  ],
-  quizzes: [
-    {
-      id: '1',
-      title: 'اختبار البرمجة الكائنية',
-      questions: 15,
-      duration: 60,
-      attempts: 42,
-      averageScore: 78,
-      status: 'منشور',
-      dueDate: '2024-01-25'
-    },
-    {
-      id: '2',
-      title: 'اختبار الكلاسات والكائنات',
-      questions: 12,
-      duration: 45,
-      attempts: 38,
-      averageScore: 85,
-      status: 'منشور',
-      dueDate: '2024-01-30'
-    }
-  ],
-  announcements: [
-    {
-      id: '1',
-      title: 'تحديث جدول المحاضرات',
-      content: 'تم تحديث جدول المحاضرات للأسبوع القادم',
-      date: '2024-01-21',
-      urgent: false
-    },
-    {
-      id: '2',
-      title: 'اختبار نصف الفصل',
-      content: 'موعد اختبار نصف الفصل يوم الأحد القادم',
-      date: '2024-01-20',
-      urgent: true
-    }
-  ]
-};
+import { useAuth } from '@3de/auth';
+import { Quiz } from '@3de/interfaces';
 
 const CourseDetailPage = () => {
   const params = useParams();
   const router = useRouter();
+  const { user } = useAuth();
   const courseId = params.id as string;
   
   const [activeTab, setActiveTab] = useState('overview');
   const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
+  const [currentFile, setCurrentFile] = useState<any>(null);
   const [newAnnouncement, setNewAnnouncement] = useState({
     title: '',
     content: '',
     urgent: false
   });
+  const [newQuiz, setNewQuiz] = useState({
+    title: '',
+    description: '',
+    questions: 5,
+    duration: 15,
+    lessonId: ''
+  });
 
+  // API Queries
+  const { data: courseResponse, isLoading: courseLoading, error: courseError } = useCourse(courseId);
+  const { data: studentsResponse, isLoading: studentsLoading } = useCourseStudents(courseId);
+  const { data: lessonsResponse, isLoading: lessonsLoading } = useCourseLessons(courseId);
+  const { data: quizzesResponse, isLoading: quizzesLoading } = useCourseQuizzes(courseId);
+
+  // Mutations
   const createPostMutation = useCreatePost();
+  const createQuizMutation = useCreateQuiz();
+
+  // Extract data from responses
+  const course = courseResponse?.data;
+  const students = studentsResponse?.data || [];
+  const lessons = lessonsResponse?.data || [];
+  const quizzes = quizzesResponse?.data || [];
+
+  // تحديد الدرس الأول كافتراضي
+  useEffect(() => {
+    if (lessons.length > 0 && !selectedLessonId) {
+      setSelectedLessonId(lessons[0].id);
+      if (lessons[0].files && lessons[0].files.length > 0) {
+        setCurrentFile(lessons[0].files[0]);
+      }
+    }
+  }, [lessons, selectedLessonId]);
 
   const handleCreateAnnouncement = async () => {
     try {
@@ -170,19 +81,132 @@ const CourseDetailPage = () => {
     }
   };
 
+  const handleCreateQuiz = async () => {
+    try {
+      const quizData = {
+        title: newQuiz.title,
+        description: newQuiz.description,
+        lessonId: newQuiz.lessonId,
+        questions: Array.from({ length: newQuiz.questions }, (_, index) => ({
+          text: `سؤال ${index + 1}`,
+          type: 'multiple_choice',
+          options: [
+            { text: 'الخيار الأول', isCorrect: true },
+            { text: 'الخيار الثاني', isCorrect: false },
+            { text: 'الخيار الثالث', isCorrect: false },
+            { text: 'الخيار الرابع', isCorrect: false }
+          ],
+          isMultiple: false,
+          points: 1,
+          isAnswered: false
+        })),
+        timeLimit: newQuiz.duration,
+        passingScore: 60,
+        upComing: false,
+        isCompleted: false
+      };
+
+      await createQuizMutation.mutateAsync(quizData);
+      setNewQuiz({ title: '', description: '', questions: 5, duration: 15, lessonId: '' });
+      setIsQuizModalOpen(false);
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+    }
+  };
+
+  const handleLessonSelect = (lessonId: string) => {
+    setSelectedLessonId(lessonId);
+    const selectedLesson = lessons.find(lesson => lesson.id === lessonId);
+    if (selectedLesson?.files && selectedLesson.files.length > 0) {
+      setCurrentFile(selectedLesson.files[0]);
+    } else {
+      setCurrentFile(null);
+    }
+  };
+
+  const handleFileSelect = (file: any) => {
+    setCurrentFile(file);
+  };
+
+  // مكون عارض الملفات
+  const FileViewer = ({ file }: { file: any }) => {
+    if (!file) return null;
+
+    if (file.type === 'VIDEO') {
+      return (
+        <div className="w-full">
+          <video 
+            controls 
+            className="w-full h-64 bg-black rounded-lg"
+            poster="/placeholder-video.jpg"
+          >
+            <source src={file.url} type="video/mp4" />
+            متصفحك لا يدعم تشغيل الفيديو
+          </video>
+        </div>
+      );
+    }
+
+    if (file.type === 'PDF' || file.type === 'DOCUMENT') {
+      return (
+        <div className="p-8 text-center bg-gray-50 rounded-lg">
+          <div className="text-gray-400 mb-4">
+            <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{file.name}</h3>
+          <Button variant="outline" onClick={() => window.open(file.url, '_blank')}>
+            تحميل الملف
+          </Button>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  // Loading state
+  if (courseLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingAnimation size="lg" text="جاري تحميل بيانات الكورس..." />
+      </div>
+    );
+  }
+
+  // Error state
+  if (courseError || !course) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <Alert variant="error" title="خطأ في تحميل البيانات">
+          <p>عذراً، حدث خطأ أثناء تحميل بيانات الكورس. يرجى المحاولة مرة أخرى.</p>
+          <div className="mt-4 flex space-x-2">
+            <Button variant="outline" onClick={() => router.back()}>
+              العودة
+            </Button>
+            <Button variant="primary" onClick={() => window.location.reload()}>
+              إعادة المحاولة
+            </Button>
+          </div>
+        </Alert>
+      </div>
+    );
+  }
+
   // بيانات الرسوم البيانية
-  const progressData = mockCourse.students.map(student => ({
-    name: student.name,
-    value: student.progress,
-    label: student.name
+  const progressData = students.map(student => ({
+    name: student.user?.firstName + ' ' + student.user?.lastName,
+    value: student.progress || 0,
+    label: student.user?.firstName + ' ' + student.user?.lastName
   }));
 
   const gradeDistribution = [
-    { name: 'A+', value: mockCourse.students.filter(s => s.grade === 'A+').length },
-    { name: 'A', value: mockCourse.students.filter(s => s.grade === 'A').length },
-    { name: 'A-', value: mockCourse.students.filter(s => s.grade === 'A-').length },
-    { name: 'B+', value: mockCourse.students.filter(s => s.grade === 'B+').length },
-    { name: 'B', value: mockCourse.students.filter(s => s.grade === 'B').length }
+    { name: 'A+', value: 0 },
+    { name: 'A', value: 0 },
+    { name: 'A-', value: 0 },
+    { name: 'B+', value: 0 },
+    { name: 'B', value: 0 }
   ];
 
   const overviewTab = (
@@ -191,89 +215,71 @@ const CourseDetailPage = () => {
       <Card padding="lg">
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <div className="text-6xl">{mockCourse.image}</div>
+            <div className="text-6xl">
+              {course.image ? (
+                <img src={course.image} alt={course.title} className="w-16 h-16 rounded-lg object-cover" />
+              ) : (
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-2xl font-bold">
+                  {course.title.charAt(0)}
+                </div>
+              )}
+            </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">{mockCourse.title}</h2>
-              <p className="text-gray-600 mb-4 max-w-2xl">{mockCourse.description}</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">{course.title}</h2>
+              <p className="text-gray-600 mb-4 max-w-2xl">{course.description}</p>
               <div className="flex items-center space-x-4 text-sm text-gray-500">
-                <span>📅 {mockCourse.startDate} - {mockCourse.endDate}</span>
-                <span>⏱️ {mockCourse.duration}</span>
-                <span>📊 {mockCourse.level}</span>
-                <span>💰 {mockCourse.price} ريال</span>
+                <span>📅 {course.startDate ? new Date(course.startDate).toLocaleDateString('ar-EG') : 'غير محدد'}</span>
+                <span>📊 {course.level}</span>
+                <span>💰 {course.price || 0} ريال</span>
               </div>
             </div>
           </div>
           <Badge 
-            variant={mockCourse.status === 'نشط' ? 'success' : 'warning'}
+            variant={course.status === 'ACTIVE' ? 'success' : 'warning'}
             size="lg"
           >
-            {mockCourse.status}
+            {course.status === 'ACTIVE' ? 'نشط' : course.status}
           </Badge>
         </div>
 
         {/* إحصائيات سريعة */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-3xl font-bold text-blue-600">{mockCourse.studentsCount}</div>
+            <div className="text-3xl font-bold text-blue-600">{students.length}</div>
             <div className="text-sm text-gray-600">طالب مسجل</div>
           </div>
           <div className="text-center p-4 bg-green-50 rounded-lg">
-            <div className="text-3xl font-bold text-green-600">{mockCourse.progress}%</div>
+            <div className="text-3xl font-bold text-green-600">{course.progress || 0}%</div>
             <div className="text-sm text-gray-600">نسبة التقدم</div>
           </div>
           <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-3xl font-bold text-purple-600">{mockCourse.lessonsCount}</div>
+            <div className="text-3xl font-bold text-purple-600">{lessons.length}</div>
             <div className="text-sm text-gray-600">عدد الدروس</div>
           </div>
           <div className="text-center p-4 bg-yellow-50 rounded-lg">
-            <div className="text-3xl font-bold text-yellow-600">{mockCourse.averageGrade}</div>
-            <div className="text-sm text-gray-600">متوسط الدرجات</div>
+            <div className="text-3xl font-bold text-yellow-600">{quizzes.length}</div>
+            <div className="text-sm text-gray-600">عدد الاختبارات</div>
           </div>
         </div>
       </Card>
 
       {/* الرسوم البيانية */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ChartBox
-          title="تقدم الطلاب"
-          type="bar"
-          data={progressData}
-          className="h-80"
-        />
-        <ChartBox
-          title="توزيع الدرجات"
-          type="pie"
-          data={gradeDistribution as any}
-          className="h-80"
-        />
-      </div>
-
-      {/* أهداف التعلم */}
-      <Card padding="lg">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">أهداف التعلم</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {mockCourse.learningOutcomes.map((outcome, index) => (
-            <div key={index} className="flex items-center space-x-3">
-              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-green-600 text-sm">✓</span>
-              </div>
-              <span className="text-gray-700">{outcome}</span>
-            </div>
-          ))}
+      {!studentsLoading && progressData.length > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ChartBox
+            title="تقدم الطلاب"
+            type="bar"
+            data={progressData}
+            className="h-80"
+          />
+          <ChartBox
+            title="توزيع الدرجات"
+            type="pie"
+            data={gradeDistribution as any}
+            className="h-80"
+          />
         </div>
-      </Card>
-
-      {/* المتطلبات المسبقة */}
-      <Card padding="lg">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">المتطلبات المسبقة</h3>
-        <div className="flex flex-wrap gap-2">
-          {mockCourse.prerequisites.map((prerequisite, index) => (
-            <Badge key={index} variant="secondary">
-              {prerequisite}
-            </Badge>
-          ))}
-        </div>
-      </Card>
+      )}
     </div>
   );
 
@@ -281,66 +287,79 @@ const CourseDetailPage = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-900">
-          الطلاب المسجلين ({mockCourse.studentsCount})
+          الطلاب المسجلين ({students.length})
         </h3>
         <Button variant="outline">تصدير قائمة الطلاب</Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4">
-        {mockCourse.students.map((student, index) => (
-          <motion.div
-            key={student.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-all"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  {student.avatar}
+      {studentsLoading ? (
+        <LoadingAnimation text="جاري تحميل بيانات الطلاب..." />
+      ) : students.length === 0 ? (
+        <Alert variant="info" title="لا يوجد طلاب">
+          لم يتم تسجيل أي طالب في هذا الكورس بعد.
+        </Alert>
+      ) : (
+        <div className="grid grid-cols-1 gap-4">
+          {students.map((enrollment, index) => (
+            <motion.div
+              key={enrollment.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-all"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Avatar
+                    src={enrollment.user?.avatar}
+                    fallback={`${enrollment.user?.firstName} ${enrollment.user?.lastName}`}
+                    size="lg"
+                  />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">
+                      {enrollment.user?.firstName} {enrollment.user?.lastName}
+                    </h4>
+                    <p className="text-sm text-gray-600">{enrollment.user?.email}</p>
+                    <p className="text-xs text-gray-500">
+                      انضم في {new Date(enrollment.createdAt).toLocaleDateString('ar-EG')}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">{student.name}</h4>
-                  <p className="text-sm text-gray-600">{student.email}</p>
-                  <p className="text-xs text-gray-500">انضم في {student.joinDate}</p>
+                
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-900">{enrollment.progress || 0}%</div>
+                  <div className="text-sm text-gray-500">التقدم</div>
+                  <Progress value={enrollment.progress || 0} size="sm" className="w-20 mt-2" />
                 </div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">{student.progress}%</div>
-                <div className="text-sm text-gray-500">التقدم</div>
-                <Progress value={student.progress} size="sm" className="w-20 mt-2" />
-              </div>
-              
-              <div className="text-center">
-                <Badge 
-                  variant={
-                    student.grade === 'A+' || student.grade === 'A' ? 'success' :
-                    student.grade.startsWith('B') ? 'warning' : 'info'
-                  }
-                >
-                  {student.grade}
-                </Badge>
-                <p className="text-xs text-gray-500 mt-1">آخر نشاط: {student.lastActivity}</p>
-              </div>
+                
+                <div className="text-center">
+                  <Badge 
+                    variant={enrollment.status === 'COMPLETED' ? 'success' : 'info'}
+                  >
+                    {enrollment.status === 'COMPLETED' ? 'مكتمل' : 'قيد التقدم'}
+                  </Badge>
+                  <p className="text-xs text-gray-500 mt-1">
+                    آخر تحديث: {new Date(enrollment.updatedAt).toLocaleDateString('ar-EG')}
+                  </p>
+                </div>
 
-              <div className="flex space-x-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => router.push(`/students/${student.id}`)}
-                >
-                  عرض الملف
-                </Button>
-                <Button size="sm" variant="ghost">
-                  إرسال رسالة
-                </Button>
+                <div className="flex space-x-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => router.push(`/students/${enrollment.user?.id}`)}
+                  >
+                    عرض الملف
+                  </Button>
+                  <Button size="sm" variant="ghost">
+                    إرسال رسالة
+                  </Button>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -348,45 +367,240 @@ const CourseDetailPage = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-900">
-          الدروس ({mockCourse.lessonsCount})
+          الدروس ({lessons.length})
         </h3>
         <Button>إضافة درس جديد</Button>
       </div>
 
-      <div className="space-y-4">
-        {mockCourse.lessons.map((lesson, index) => (
-          <Card key={lesson.id} padding="lg" hover>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <span className="text-blue-600 font-bold">{index + 1}</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">{lesson.title}</h4>
-                  <p className="text-sm text-gray-600">{lesson.description}</p>
-                  <div className="flex items-center space-x-4 text-xs text-gray-500 mt-2">
-                    <span>⏱️ {lesson.duration}</span>
-                    <span>📹 {lesson.type}</span>
-                    <span>👥 {lesson.completedStudents} طالب أكمل</span>
-                    <span>📅 {lesson.publishDate}</span>
+      {lessonsLoading ? (
+        <LoadingAnimation text="جاري تحميل الدروس..." />
+      ) : lessons.length === 0 ? (
+        <Alert variant="info" title="لا توجد دروس">
+          لم يتم إضافة أي دروس لهذا الكورس بعد.
+        </Alert>
+      ) : (
+        <div className="space-y-4">
+          {lessons.map((lesson, index) => (
+            <Card key={lesson.id} padding="lg" hover>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <span className="text-blue-600 font-bold">{index + 1}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">{lesson.title}</h4>
+                    <p className="text-sm text-gray-600">{lesson.content}</p>
+                    <div className="flex items-center space-x-4 text-xs text-gray-500 mt-2">
+                      <span>📹 فيديو</span>
+                      <span>📅 {new Date(lesson.createdAt).toLocaleDateString('ar-EG')}</span>
+                      <span>📁 {lesson.files?.length || 0} ملف</span>
+                      <span>📝 {lesson.quizzes?.length || 0} اختبار</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex items-center space-x-3">
-                <Badge 
-                  variant={lesson.status === 'منشور' ? 'success' : 'warning'}
-                  size="sm"
-                >
-                  {lesson.status}
-                </Badge>
-                <Button size="sm" variant="outline">تعديل</Button>
-                <Button size="sm" variant="ghost">عرض</Button>
+                <div className="flex items-center space-x-3">
+                  <Badge 
+                    variant={lesson.status === 'COMPLETED' ? 'success' : 'info'}
+                    size="sm"
+                  >
+                    {lesson.status === 'COMPLETED' ? 'مكتمل' : 'قيد التقدم'}
+                  </Badge>
+                  <Button size="sm" variant="outline">تعديل</Button>
+                  <Button size="sm" variant="ghost">عرض</Button>
+                </div>
               </div>
-            </div>
-          </Card>
-        ))}
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  // Tab جديد لمعاينة المحتوى
+  const contentPreviewTab = (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-gray-900">معاينة محتوى الكورس</h3>
+        <div className="flex space-x-2">
+          <Button 
+            variant="outline"
+            onClick={() => {
+              setNewQuiz(prev => ({ ...prev, lessonId: selectedLessonId || '' }));
+              setIsQuizModalOpen(true);
+            }}
+            disabled={!selectedLessonId}
+          >
+            إضافة اختبار للدرس
+          </Button>
+          <Button variant="outline">إضافة ملف</Button>
+        </div>
       </div>
+
+      {lessonsLoading ? (
+        <LoadingAnimation text="جاري تحميل الدروس..." />
+      ) : lessons.length === 0 ? (
+        <Alert variant="info" title="لا توجد دروس">
+          لم يتم إضافة أي دروس لهذا الكورس بعد.
+        </Alert>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* قائمة الدروس */}
+          <div className="lg:col-span-2">
+            <Card padding="none">
+              <div className="p-4 border-b border-gray-200">
+                <h4 className="font-semibold text-gray-900">قائمة الدروس</h4>
+              </div>
+              <div className="max-h-96 overflow-y-auto">
+                {lessons.map((lesson, index) => (
+                  <div
+                    key={lesson.id}
+                    className={`p-4 border-b border-gray-100 cursor-pointer transition-colors ${
+                      selectedLessonId === lesson.id ? 'bg-blue-50 border-blue-200' : 'hover:bg-gray-50'
+                    }`}
+                    onClick={() => handleLessonSelect(lesson.id)}
+                  >
+                    <div className="flex items-start space-x-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                        selectedLessonId === lesson.id ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
+                      }`}>
+                        {index + 1}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h5 className="font-medium text-gray-900 text-sm">{lesson.title}</h5>
+                        <p className="text-xs text-gray-500 mt-1">{lesson.content}</p>
+                        
+                        {/* ملفات الدرس */}
+                        {lesson.files && lesson.files.length > 0 && (
+                          <div className="mt-2 space-y-1">
+                            {lesson.files.map((file) => (
+                              <div
+                                key={file.id}
+                                className={`text-xs p-2 rounded cursor-pointer ${
+                                  currentFile?.id === file.id ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'
+                                }`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(file);
+                                }}
+                              >
+                                📄 {file.name}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        
+                        {/* اختبارات الدرس */}
+                        {lesson.quizzes && lesson.quizzes.length > 0 && (
+                          <div className="mt-2 space-y-1">
+                            {lesson.quizzes.map((quiz: any) => (
+                              <div key={quiz.id} className="text-xs p-2 bg-green-100 text-green-800 rounded">
+                                📝 {quiz.title} ({quiz.questions?.length || 0} أسئلة)
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+
+          {/* عارض المحتوى */}
+          <div className="lg:col-span-3">
+            <Card padding="none">
+              <div className="p-4 border-b border-gray-200">
+                <h4 className="font-semibold text-gray-900">
+                  {currentFile ? currentFile.name : 'اختر ملفاً لعرضه'}
+                </h4>
+                {selectedLessonId && (
+                  <p className="text-sm text-gray-600 mt-1">
+                    الدرس: {lessons.find(l => l.id === selectedLessonId)?.title}
+                  </p>
+                )}
+              </div>
+              <div className="p-6">
+                {currentFile ? (
+                  <FileViewer file={currentFile} />
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="text-gray-400 mb-4">
+                      <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      اختر ملفاً لعرض المحتوى
+                    </h3>
+                    <p className="text-gray-600">
+                      اختر درساً وملفاً من القائمة على اليسار لمعاينة المحتوى
+                    </p>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            {/* معلومات الدرس المحدد */}
+            {selectedLessonId && (
+              <Card padding="lg" className="mt-6">
+                <h4 className="font-semibold text-gray-900 mb-4">تفاصيل الدرس</h4>
+                {(() => {
+                  const selectedLesson = lessons.find(l => l.id === selectedLessonId);
+                  return selectedLesson ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-gray-500">تاريخ الإنشاء:</span>
+                          <span className="mr-2 font-medium">
+                            {new Date(selectedLesson.createdAt).toLocaleDateString('ar-EG')}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">عدد الملفات:</span>
+                          <span className="mr-2 font-medium">{selectedLesson.files?.length || 0}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">عدد الاختبارات:</span>
+                          <span className="mr-2 font-medium">{selectedLesson.quizzes?.length || 0}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">الحالة:</span>
+                          <Badge variant="success" size="sm" className="mr-2">
+                            منشور
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                        <div className="flex space-x-2">
+                          <Button size="sm" variant="outline">
+                            تعديل الدرس
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            إضافة ملف
+                          </Button>
+                        </div>
+                        <Button 
+                          size="sm" 
+                          variant="primary"
+                          onClick={() => {
+                            setNewQuiz(prev => ({ ...prev, lessonId: selectedLessonId }));
+                            setIsQuizModalOpen(true);
+                          }}
+                        >
+                          إضافة اختبار
+                        </Button>
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+              </Card>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -394,62 +608,71 @@ const CourseDetailPage = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-900">
-          الاختبارات ({mockCourse.quizzesCount})
+          الاختبارات ({quizzes.length})
         </h3>
         <Button onClick={() => router.push('/quizzes/new')}>
           إنشاء اختبار جديد
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {mockCourse.quizzes.map((quiz) => (
-          <Card key={quiz.id} padding="lg" hover>
-            <div className="space-y-4">
-              <div className="flex justify-between items-start">
-                <h4 className="font-semibold text-gray-900">{quiz.title}</h4>
-                <Badge 
-                  variant={quiz.status === 'منشور' ? 'success' : 'warning'}
-                  size="sm"
-                >
-                  {quiz.status}
-                </Badge>
-              </div>
+      {quizzesLoading ? (
+        <LoadingAnimation text="جاري تحميل الاختبارات..." />
+      ) : quizzes.length === 0 ? (
+        <Alert variant="info" title="لا توجد اختبارات">
+          لم يتم إنشاء أي اختبارات لهذا الكورس بعد.
+        </Alert>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {quizzes.map((quiz:Quiz) => (
+            <Card key={quiz.id} padding="lg" hover>
+              <div className="space-y-4">
+                <div className="flex justify-between items-start">
+                  <h4 className="font-semibold text-gray-900">{quiz.title}</h4>
+                  <Badge 
+                    variant={quiz.isCompleted ? 'success' : 'warning'}
+                    size="sm"
+                  >
+                    {quiz.isCompleted ? 'مكتمل' : 'قيد التقدم'}
+                  </Badge>
+                </div>
 
-              <div className="space-y-2 text-sm text-gray-600">
-                <div className="flex justify-between">
-                  <span>عدد الأسئلة:</span>
-                  <span>{quiz.questions}</span>
+                <div className="space-y-2 text-sm text-gray-600">
+                  <div className="flex justify-between">
+                    <span>عدد الأسئلة:</span>
+                    <span>{quiz.questions?.length || 0}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>مدة الاختبار:</span>
+                    <span>{quiz.timeLimit || 0} دقيقة</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>الدرجة المطلوبة:</span>
+                    <span>{quiz.passingScore || 0}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>تاريخ الإنشاء:</span>
+                    <span>{new Date(quiz.createdAt).toLocaleDateString('ar-EG')}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>مدة الاختبار:</span>
-                  <span>{quiz.duration} دقيقة</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>المحاولات:</span>
-                  <span>{quiz.attempts}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>متوسط الدرجات:</span>
-                  <span className="font-medium">{quiz.averageScore}%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>الموعد النهائي:</span>
-                  <span className="text-red-600">{quiz.dueDate}</span>
-                </div>
-              </div>
 
-              <div className="flex space-x-2 pt-4 border-t border-gray-200">
-                <Button size="sm" variant="outline" className="flex-1">
-                  عرض النتائج
-                </Button>
-                <Button size="sm" variant="ghost">
-                  تعديل
-                </Button>
+                <div className="flex space-x-2 pt-4 border-t border-gray-200">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => router.push(`/quizzes/${quiz.id}/results`)}
+                  >
+                    عرض النتائج
+                  </Button>
+                  <Button size="sm" variant="ghost">
+                    تعديل
+                  </Button>
+                </div>
               </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -462,33 +685,15 @@ const CourseDetailPage = () => {
         </Button>
       </div>
 
-      <div className="space-y-4">
-        {mockCourse.announcements.map((announcement) => (
-          <Card key={announcement.id} padding="lg">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h4 className="font-semibold text-gray-900">{announcement.title}</h4>
-                  {announcement.urgent && (
-                    <Badge variant="danger" size="sm">عاجل</Badge>
-                  )}
-                </div>
-                <p className="text-gray-600 mb-3">{announcement.content}</p>
-                <p className="text-sm text-gray-500">{announcement.date}</p>
-              </div>
-              <div className="flex space-x-2">
-                <Button size="sm" variant="ghost">تعديل</Button>
-                <Button size="sm" variant="ghost">حذف</Button>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+      <Alert variant="info" title="لا توجد إعلانات">
+        لم يتم إنشاء أي إعلانات لهذا الكورس بعد.
+      </Alert>
     </div>
   );
 
   const tabItems = [
     { id: 'overview', label: 'نظرة عامة', content: overviewTab, icon: '📊' },
+    { id: 'content', label: 'معاينة المحتوى', content: contentPreviewTab, icon: '👁️' },
     { id: 'students', label: 'الطلاب', content: studentsTab, icon: '👥' },
     { id: 'lessons', label: 'الدروس', content: lessonsTab, icon: '📚' },
     { id: 'quizzes', label: 'الاختبارات', content: quizzesTab, icon: '📝' },
@@ -582,6 +787,73 @@ const CourseDetailPage = () => {
               loading={createPostMutation.isPending}
             >
               نشر الإعلان
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal لإضافة اختبار */}
+      <Modal
+        isOpen={isQuizModalOpen}
+        onClose={() => setIsQuizModalOpen(false)}
+        title="إضافة اختبار جديد"
+        size="lg"
+      >
+        <div className="space-y-4">
+          <Input
+            label="عنوان الاختبار *"
+            value={newQuiz.title}
+            onChange={(e) => setNewQuiz(prev => ({ ...prev, title: e.target.value }))}
+            placeholder="أدخل عنوان الاختبار"
+          />
+
+          <Textarea
+            label="وصف الاختبار"
+            value={newQuiz.description}
+            onChange={(e) => setNewQuiz(prev => ({ ...prev, description: e.target.value }))}
+            placeholder="أدخل وصف الاختبار (اختياري)"
+            rows={3}
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="عدد الأسئلة *"
+              type="number"
+              value={newQuiz.questions}
+              onChange={(e) => setNewQuiz(prev => ({ ...prev, questions: parseInt(e.target.value) || 0 }))}
+              min="1"
+              max="50"
+            />
+
+            <Input
+              label="مدة الاختبار (بالدقائق) *"
+              type="number"
+              value={newQuiz.duration}
+              onChange={(e) => setNewQuiz(prev => ({ ...prev, duration: parseInt(e.target.value) || 0 }))}
+              min="5"
+              max="180"
+            />
+          </div>
+
+          <div className="p-4 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-800">
+              📝 سيتم ربط هذا الاختبار بالدرس: {lessons.find(l => l.id === newQuiz.lessonId)?.title || 'غير محدد'}
+            </p>
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-4">
+            <Button
+              variant="outline"
+              onClick={() => setIsQuizModalOpen(false)}
+            >
+              إلغاء
+            </Button>
+            <Button
+              onClick={handleCreateQuiz}
+              disabled={!newQuiz.title.trim() || newQuiz.questions <= 0 || newQuiz.duration <= 0}
+              loading={createQuizMutation.isPending}
+            >
+              إنشاء الاختبار
             </Button>
           </div>
         </div>

@@ -1,19 +1,25 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  basePath: '/instructor',
+  assetPrefix: '/instructor/',
+  trailingSlash: true,
+  output: 'standalone',
   transpilePackages: ['@3de/ui', '@3de/apis', '@3de/interfaces', '@3de/auth'],
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
-    domains: ['cloudinary.com', 'res.cloudinary.com'],
-  },
   experimental: {
-    serverComponentsExternalPackages: ['@3de/apis'],
+    optimizePackageImports: ['@3de/ui', 'lucide-react'],
   },
-}
+  allowedDevOrigins: ['https://3de.school'],
+  images: {
+    domains: ['localhost', '3de.school'],
+  },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, 'src'),
+    };
+    return config;
+  },
+};
 
-export default nextConfig
+export default nextConfig;

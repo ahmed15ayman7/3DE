@@ -11,15 +11,20 @@ import {
   certificateApi,
   notificationApi,
   communityApi,
-  postApi
+  postApi,
+  lessonApi,
+  submissionApi
 } from '@3de/apis';
 
 // Query Keys
 export const instructorKeys = {
   all: ['instructor'] as const,
   courses: (instructorId?: string) => [...instructorKeys.all, 'courses', instructorId] as const,
+  course: (courseId: string) => [...instructorKeys.all, 'course', courseId] as const,
   students: (courseId: string) => [...instructorKeys.all, 'students', courseId] as const,
+  lessons: (courseId: string) => [...instructorKeys.all, 'lessons', courseId] as const,
   quizzes: (instructorId: string) => [...instructorKeys.all, 'quizzes', instructorId] as const,
+  courseQuizzes: (courseId: string) => [...instructorKeys.all, 'courseQuizzes', courseId] as const,
   attendance: () => [...instructorKeys.all, 'attendance'] as const,
   badges: () => [...instructorKeys.all, 'badges'] as const,
   certificates: () => [...instructorKeys.all, 'certificates'] as const,
@@ -27,6 +32,36 @@ export const instructorKeys = {
   communities: () => [...instructorKeys.all, 'communities'] as const,
   posts: () => [...instructorKeys.all, 'posts'] as const,
   quizResults: (quizId: string) => [...instructorKeys.all, 'quizResults', quizId] as const,
+};
+
+// Single Course
+export const useCourse = (courseId: string) => {
+  return useQuery({
+    queryKey: instructorKeys.course(courseId),
+    queryFn: () => courseApi.getById(courseId),
+    enabled: !!courseId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Course Lessons
+export const useCourseLessons = (courseId: string) => {
+  return useQuery({
+    queryKey: instructorKeys.lessons(courseId),
+    queryFn: () => lessonApi.getByCourse(courseId),
+    enabled: !!courseId,
+    staleTime: 3 * 60 * 1000, // 3 minutes
+  });
+};
+
+// Course Quizzes
+export const useCourseQuizzes = (courseId: string) => {
+  return useQuery({
+    queryKey: instructorKeys.courseQuizzes(courseId),
+    queryFn: () => quizApi.getByCourse(courseId),
+    enabled: !!courseId,
+    staleTime: 3 * 60 * 1000, // 3 minutes
+  });
 };
 
 // Instructor Courses

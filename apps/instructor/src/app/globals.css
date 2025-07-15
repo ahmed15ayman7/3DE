@@ -1,7 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
 @import "tailwindcss";
+
+@theme {
+  --color-primary-main: #249491;
+  --color-primary-light: #4db3b0;
+  --color-primary-dark: #1a6b69;
+  --color-secondary-main: #003f59;
+  --color-secondary-light: #005a7a;
+  --color-secondary-dark: #002a3a;
+  
+  --color-success-main: #4CAF50;
+  --color-success-light: #81C784;
+  --color-success-dark: #388E3C;
+  
+  --color-error-main: #F44336;
+  --color-error-light: #E57373;
+  --color-error-dark: #D32F2F;
+  
+  --color-warning-main: #FF9800;
+  --color-warning-light: #FFB74D;
+  --color-warning-dark: #F57C00;
+  
+  --color-info-main: #2196F3;
+  --color-info-light: #64B5F6;
+  --color-info-dark: #1976D2;
+  
+  --color-text-primary: #002D32;
+  --color-text-secondary: #666666;
+  
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-card: #ffffff;
+  --color-card-foreground: #171717;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #171717;
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #737373;
+  --color-accent: #f5f5f5;
+  --color-accent-foreground: #171717;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #e5e5e5;
+  --color-input: #e5e5e5;
+  --color-ring: #249491;
+  --color-radius: 0.5rem;
+}
+
+:root {
+  --primary-main: #249491;
+  --secondary-main: #003f59;
+  --primary-light: #4db3b0;
+  --primary-dark: #1a6b69;
+  --secondary-light: #005a7a;
+  --secondary-dark: #002a3a;
+}
+
 
 * {
   box-sizing: border-box;
