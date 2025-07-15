@@ -227,13 +227,13 @@ export default function StudentDetailPage() {
             <ChartBox
               title="درجات الاختبارات الأخيرة"
               type="bar"
-              data={recentQuizzes.map(quiz => ({ name: quiz.name, value: quiz.score }))}
+              data={recentQuizzes.map(quiz => ({ name: quiz.name, value: quiz.score, label: quiz.name }))}
               className="h-80"
             />
             <ChartBox
               title="توزيع الدرجات"
               type="pie"
-              data={gradeDistribution.map(grade => ({ name: grade.name, value: grade.value }))}
+              data={gradeDistribution.map(grade => ({ name: grade.name, value: grade.value, label: grade.name }))}
               className="h-80"
             />
           </div>

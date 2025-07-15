@@ -176,13 +176,22 @@ export default function Footer() {
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.05, duration: 0.3 }}
                     >
+                      {link.isWindows ? (
+                        <a href={`https://3de.school${link.href}`} target="_blank" rel="noopener noreferrer">
+                          <div className="flex items-center gap-2 gap-reverse text-gray-300 hover:text-white transition-colors duration-200 group">
+                            {Icon && <Icon size={16} className="group-hover:text-primary-light" />}
+                            <span>{link.label}</span>
+                          </div>
+                        </a>
+                      ) : (
                       <Link
-                        href={link.isWindows ? `https://3de.school${link.href}` : link.href}
+                        href={link.href}
                         className="flex items-center gap-2 gap-reverse text-gray-300 hover:text-white transition-colors duration-200 group"
                       >
                         {Icon && <Icon size={16} className="group-hover:text-primary-light" />}
                         <span>{link.label}</span>
                       </Link>
+                      )}
                     </motion.li>
                   );
                 })}

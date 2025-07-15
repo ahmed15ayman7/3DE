@@ -17,7 +17,7 @@ import {
 // Query Keys
 export const instructorKeys = {
   all: ['instructor'] as const,
-  courses: (instructorId: string) => [...instructorKeys.all, 'courses', instructorId] as const,
+  courses: (instructorId?: string) => [...instructorKeys.all, 'courses', instructorId] as const,
   students: (courseId: string) => [...instructorKeys.all, 'students', courseId] as const,
   quizzes: (instructorId: string) => [...instructorKeys.all, 'quizzes', instructorId] as const,
   attendance: () => [...instructorKeys.all, 'attendance'] as const,
@@ -26,6 +26,7 @@ export const instructorKeys = {
   notifications: (userId: string) => [...instructorKeys.all, 'notifications', userId] as const,
   communities: () => [...instructorKeys.all, 'communities'] as const,
   posts: () => [...instructorKeys.all, 'posts'] as const,
+  quizResults: (quizId: string) => [...instructorKeys.all, 'quizResults', quizId] as const,
 };
 
 // Instructor Courses
@@ -119,12 +120,12 @@ export const useCreateCourse = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: ({ courseData, instructorId }: { courseData: any; instructorId: string }) => 
+    mutationFn: ({ courseData, instructorId }: { courseData: any; instructorId?: string }) => 
       courseApi.create(courseData, instructorId),
     onSuccess: (data, variables) => {
       // Invalidate instructor courses
       queryClient.invalidateQueries({ 
-        queryKey: instructorKeys.courses(variables.instructorId) 
+        queryKey: instructorKeys.courses(variables.instructorId || '') 
       });
     },
   });
@@ -228,3 +229,10 @@ export const useLikePost = () => {
     },
   });
 }; 
+
+export const useQuizResults = (quizId: string) => {
+  return useQuery({
+    queryKey: instructorKeys.quizResults(quizId),
+    queryFn: () => quizApi.getResults(quizId),
+  });
+};

@@ -2,97 +2,33 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Input, Button, Select, Switch } from '@3de/ui';
+import { Input, Button, Select, Switch, LoadingAnimation, Alert, Tabs } from '@3de/ui';
+import { Search, Filter, Bell, Check, Star, Settings, CheckCheck } from 'lucide-react';
+import { useNotifications, useMarkNotificationAsRead } from '../../hooks/useInstructorQueries';
+import { Notification, NotificationSettings } from '@3de/interfaces';
 
-// Types
-interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  type: 'quiz' | 'attendance' | 'assignment' | 'system' | 'achievement' | 'message';
-  isRead: boolean;
-  isImportant: boolean;
-  createdAt: string;
-  actionUrl?: string;
-  relatedUser?: string;
-  relatedCourse?: string;
-}
-
-interface NotificationSettings {
-  assignments: boolean;
-  grades: boolean;
-  messages: boolean;
-  achievements: boolean;
-  urgent: boolean;
-  email: boolean;
-  push: boolean;
-  courseUpdates: boolean;
-  studentActivity: boolean;
-  systemAlerts: boolean;
-}
-
-// Mock data
-const mockNotifications: Notification[] = [
-  {
-    id: '1',
-    title: 'اختبار جديد مطلوب مراجعته',
-    message: 'تم تقديم اختبار جديد من طالب أحمد محمد في كورس الرياضيات',
-    type: 'quiz',
-    isRead: false,
-    isImportant: true,
-    createdAt: '2024-01-20T10:30:00',
-    relatedUser: 'أحمد محمد',
-    relatedCourse: 'الرياضيات المتقدمة',
-  },
-  {
-    id: '2',
-    title: 'تحديث حضور الطلاب',
-    message: 'تم تسجيل حضور 15 طالب في درس الفيزياء اليوم',
-    type: 'attendance',
-    isRead: true,
-    isImportant: false,
-    createdAt: '2024-01-20T09:15:00',
-    relatedCourse: 'الفيزياء العامة',
-  },
-  {
-    id: '3',
-    title: 'رسالة جديدة من طالب',
-    message: 'سارة خالد أرسلت رسالة حول استفسار في المنهج',
-    type: 'message',
-    isRead: false,
-    isImportant: false,
-    createdAt: '2024-01-19T16:45:00',
-    relatedUser: 'سارة خالد',
-  },
-  {
-    id: '4',
-    title: 'إنجاز جديد للطالب',
-    message: 'فاطمة علي حصلت على شارة "متفوق أكاديمياً"',
-    type: 'achievement',
-    isRead: true,
-    isImportant: false,
-    createdAt: '2024-01-19T14:20:00',
-    relatedUser: 'فاطمة علي',
-  },
-  {
-    id: '5',
-    title: 'تحديث النظام',
-    message: 'تم إضافة ميزات جديدة لإدارة الاختبارات',
-    type: 'system',
-    isRead: false,
-    isImportant: true,
-    createdAt: '2024-01-18T12:00:00',
-  },
-];
-
-const NotificationsPage = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
-  const [filter, setFilter] = useState<'all' | 'unread' | 'important'>('all');
-  const [typeFilter, setTypeFilter] = useState<string>('all');
+const NotificationsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [showSettings, setShowSettings] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [activeTab, setActiveTab] = useState('notifications');
 
+  // Mock current user ID - في التطبيق الحقيقي سيتم الحصول عليه من السياق
+  const currentUserId = 'instructor-1';
+
+  // React Query hooks
+  const { 
+    data: notifications, 
+    isLoading: notificationsLoading, 
+    error: notificationsError,
+    refetch: refetchNotifications
+  } = useNotifications(currentUserId);
+  
+  const markAsReadMutation = useMarkNotificationAsRead();
+
+  // Mock notification settings - في التطبيق الحقيقي سيتم جلبها من API
   const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
+    id: 'settings-1',
+    userId: currentUserId,
     assignments: true,
     grades: true,
     messages: true,
@@ -100,93 +36,46 @@ const NotificationsPage = () => {
     urgent: true,
     email: false,
     push: true,
-    courseUpdates: true,
-    studentActivity: true,
-    systemAlerts: true,
+    createdAt: new Date(),
+    user: undefined
   });
 
-  // Filter notifications
-  const filteredNotifications = notifications.filter(notification => {
-    const matchesFilter = 
-      filter === 'all' || 
-      (filter === 'unread' && !notification.isRead) ||
-      (filter === 'important' && notification.isImportant);
-    
-    const matchesType = typeFilter === 'all' || notification.type === typeFilter;
-    
-    const matchesSearch = 
-      notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      notification.message.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    return matchesFilter && matchesType && matchesSearch;
-  });
-
-  // Statistics
-  const totalNotifications = notifications.length;
-  const unreadCount = notifications.filter(n => !n.isRead).length;
-  const importantCount = notifications.filter(n => n.isImportant).length;
-  const todayCount = notifications.filter(n => {
-    const today = new Date().toDateString();
-    const notificationDate = new Date(n.createdAt).toDateString();
-    return today === notificationDate;
-  }).length;
-
-  const typeOptions = [
-    { value: 'all', label: 'جميع الأنواع' },
-    { value: 'quiz', label: 'اختبارات' },
-    { value: 'attendance', label: 'حضور' },
-    { value: 'assignment', label: 'واجبات' },
-    { value: 'message', label: 'رسائل' },
-    { value: 'achievement', label: 'إنجازات' },
+  // Filter options
+  const filterOptions = [
+    { value: 'all', label: 'جميع الإشعارات' },
+    { value: 'unread', label: 'غير المقروءة' },
+    { value: 'important', label: 'المهمة' },
+    { value: 'quiz', label: 'الاختبارات' },
+    { value: 'attendance', label: 'الحضور' },
+    { value: 'assignment', label: 'المهام' },
     { value: 'system', label: 'النظام' },
+    { value: 'achievement', label: 'الإنجازات' },
+    { value: 'message', label: 'الرسائل' },
   ];
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'quiz': return '📝';
-      case 'attendance': return '✅';
-      case 'assignment': return '📋';
-      case 'message': return '💬';
-      case 'achievement': return '🏆';
-      case 'system': return '⚙️';
-      default: return '🔔';
+  // Event handlers
+  const handleMarkAsRead = async (notificationId: string) => {
+    try {
+      await markAsReadMutation.mutateAsync(notificationId);
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
     }
   };
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'quiz': return 'bg-blue-100 text-blue-800';
-      case 'attendance': return 'bg-green-100 text-green-800';
-      case 'assignment': return 'bg-purple-100 text-purple-800';
-      case 'message': return 'bg-yellow-100 text-yellow-800';
-      case 'achievement': return 'bg-orange-100 text-orange-800';
-      case 'system': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+  const handleMarkAllAsRead = async () => {
+    if (!notifications?.data) return;
+
+    const unreadNotifications = notifications.data.filter((notif: Notification) => !notif.read);
+    
+    try {
+      await Promise.all(
+        unreadNotifications.map((notif: Notification) => 
+          markAsReadMutation.mutateAsync(notif.id)
+        )
+      );
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
     }
-  };
-
-  const markAsRead = (notificationId: string) => {
-    setNotifications(notifications.map(notification =>
-      notification.id === notificationId
-        ? { ...notification, isRead: true }
-        : notification
-    ));
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(notifications.map(notification => ({ ...notification, isRead: true })));
-  };
-
-  const deleteNotification = (notificationId: string) => {
-    setNotifications(notifications.filter(n => n.id !== notificationId));
-  };
-
-  const toggleImportant = (notificationId: string) => {
-    setNotifications(notifications.map(notification =>
-      notification.id === notificationId
-        ? { ...notification, isImportant: !notification.isImportant }
-        : notification
-    ));
   };
 
   const handleSettingChange = (setting: keyof NotificationSettings, value: boolean) => {
@@ -194,304 +83,335 @@ const NotificationsPage = () => {
       ...prev,
       [setting]: value
     }));
+    // Here you would typically call an API to update the settings
   };
 
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
+  // Filter notifications
+  const filteredNotifications = notifications?.data?.filter((notification: Notification) => {
+    const matchesSearch = notification.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         notification.message?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesFilter = (() => {
+      switch (selectedFilter) {
+        case 'unread':
+          return !notification.read;
+        case 'important':
+          return notification.isImportant;
+        case 'all':
+          return true;
+        default:
+          return notification.type === selectedFilter;
+      }
+    })();
 
-    if (minutes < 60) return `منذ ${minutes} دقيقة`;
-    if (hours < 24) return `منذ ${hours} ساعة`;
-    if (days < 7) return `منذ ${days} يوم`;
-    return date.toLocaleDateString('ar-SA');
+    return matchesSearch && matchesFilter;
+  }) || [];
+
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'quiz':
+        return '📝';
+      case 'attendance':
+        return '📊';
+      case 'assignment':
+        return '📋';
+      case 'system':
+        return '⚙️';
+      case 'achievement':
+        return '🏆';
+      case 'message':
+        return '💬';
+      default:
+        return '🔔';
+    }
   };
 
-  return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">الإشعارات</h1>
-          <p className="text-gray-600">تابع آخر التحديثات والأنشطة المهمة</p>
-        </div>
-        <div className="flex space-x-3">
-          <Button variant="outline" onClick={() => setShowSettings(!showSettings)}>
-            ⚙️ الإعدادات
-          </Button>
-          <Button onClick={markAllAsRead} disabled={unreadCount === 0}>
-            تحديد الكل كمقروء
-          </Button>
-        </div>
-      </div>
+  const getNotificationColor = (type: string) => {
+    switch (type) {
+      case 'quiz':
+        return 'blue';
+      case 'attendance':
+        return 'green';
+      case 'assignment':
+        return 'purple';
+      case 'system':
+        return 'gray';
+      case 'achievement':
+        return 'yellow';
+      case 'message':
+        return 'indigo';
+      default:
+        return 'blue';
+    }
+  };
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">إجمالي الإشعارات</p>
-              <p className="text-2xl font-bold text-gray-900">{totalNotifications}</p>
-            </div>
-            <div className="text-3xl">🔔</div>
+  const formatDate = (dateString: string) => {
+    return new Intl.DateTimeFormat('ar', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(new Date(dateString));
+  };
+
+  const renderNotificationsTab = () => (
+    <div className="space-y-6">
+      {/* Actions Bar */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <div className="flex-1">
+            <Input
+              placeholder="ابحث في الإشعارات..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              icon={<Search className="w-4 h-4" />}
+            />
           </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">غير مقروءة</p>
-              <p className="text-2xl font-bold text-red-600">{unreadCount}</p>
-            </div>
-            <div className="text-3xl">📬</div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">مهمة</p>
-              <p className="text-2xl font-bold text-orange-600">{importantCount}</p>
-            </div>
-            <div className="text-3xl">⭐</div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">اليوم</p>
-              <p className="text-2xl font-bold text-blue-600">{todayCount}</p>
-            </div>
-            <div className="text-3xl">📅</div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Settings Panel */}
-      {showSettings && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          className="bg-white rounded-lg shadow-custom border border-gray-200 p-6"
-        >
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">إعدادات الإشعارات</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-900">أنواع الإشعارات</h3>
-              {Object.entries({
-                assignments: 'الواجبات',
-                grades: 'الدرجات',
-                messages: 'الرسائل',
-                achievements: 'الإنجازات',
-                urgent: 'الإشعارات العاجلة'
-              }).map(([key, label]) => (
-                <div key={key} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700">{label}</span>
-                  <Switch
-                    checked={notificationSettings[key as keyof NotificationSettings]}
-                    onChange={(checked) => handleSettingChange(key as keyof NotificationSettings, checked)}
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-900">طرق التوصيل</h3>
-              {Object.entries({
-                email: 'البريد الإلكتروني',
-                push: 'إشعارات المتصفح'
-              }).map(([key, label]) => (
-                <div key={key} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700">{label}</span>
-                  <Switch
-                    checked={notificationSettings[key as keyof NotificationSettings]}
-                    onChange={(checked) => handleSettingChange(key as keyof NotificationSettings, checked)}
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-900">التحديثات</h3>
-              {Object.entries({
-                courseUpdates: 'تحديثات الكورسات',
-                studentActivity: 'نشاط الطلاب',
-                systemAlerts: 'تنبيهات النظام'
-              }).map(([key, label]) => (
-                <div key={key} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700">{label}</span>
-                  <Switch
-                    checked={notificationSettings[key as keyof NotificationSettings]}
-                    onChange={(checked) => handleSettingChange(key as keyof NotificationSettings, checked)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Filters */}
-      <div className="bg-white p-6 rounded-lg shadow-custom border border-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Input
-            placeholder="البحث في الإشعارات..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            icon={<span>🔍</span>}
-          />
-
           <Select
-            label="التصفية"
-            options={[
-              { value: 'all', label: 'جميع الإشعارات' },
-              { value: 'unread', label: 'غير مقروءة' },
-              { value: 'important', label: 'المهمة' },
-            ]}
-            value={filter}
-            onChange={(e) => setFilter(e.target.value as any)}
+            value={selectedFilter}
+            onChange={(e) => setSelectedFilter(e.target.value)}
+            options={filterOptions}
           />
-
-          <Select
-            label="النوع"
-            options={typeOptions}
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-          />
-
-          <div className="flex items-end">
-            <Button variant="outline" fullWidth>
-              تصفية متقدمة
-            </Button>
-          </div>
         </div>
+        <Button
+          variant="outline"
+          onClick={handleMarkAllAsRead}
+          disabled={markAsReadMutation.isPending}
+          icon={<CheckCheck className="w-4 h-4" />}
+        >
+          تحديد الكل كمقروء
+        </Button>
       </div>
 
       {/* Notifications List */}
-      <div className="bg-white rounded-lg shadow-custom border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
-            الإشعارات ({filteredNotifications.length})
-          </h2>
+      {notificationsLoading ? (
+        <div className="flex justify-center py-12">
+          <LoadingAnimation size="lg" text="جاري تحميل الإشعارات..." />
         </div>
-
-        <div className="divide-y divide-gray-200">
-          {filteredNotifications.length > 0 ? (
-            filteredNotifications.map((notification, index) => (
-              <motion.div
-                key={notification.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className={`p-6 hover:bg-gray-50 transition-colors ${
-                  !notification.isRead ? 'bg-blue-50/30' : ''
-                }`}
-              >
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${getTypeColor(notification.type)}`}>
-                      <span className="text-lg">{getTypeIcon(notification.type)}</span>
-                    </div>
+      ) : notificationsError ? (
+        <Alert variant="error" title="خطأ في تحميل الإشعارات">
+          حدث خطأ أثناء تحميل الإشعارات. يرجى المحاولة مرة أخرى.
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => refetchNotifications()}
+            className="mt-2"
+          >
+            إعادة المحاولة
+          </Button>
+        </Alert>
+      ) : filteredNotifications.length > 0 ? (
+        <div className="space-y-4">
+          {filteredNotifications.map((notification: Notification, index: number) => (
+            <motion.div
+              key={notification.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className={`bg-white rounded-lg shadow-custom border border-gray-200 p-6 ${
+                !notification.read ? 'border-l-4 border-l-blue-500' : ''
+              }`}
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-start space-x-4 flex-1">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-${getNotificationColor(notification.type)}-100`}>
+                    <span className="text-lg">{getNotificationIcon(notification.type)}</span>
                   </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <h3 className={`text-sm font-semibold ${!notification.isRead ? 'text-gray-900' : 'text-gray-700'}`}>
+                  
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <h3 className={`font-semibold ${!notification.read ? 'text-gray-900' : 'text-gray-700'}`}>
                         {notification.title}
                       </h3>
                       {notification.isImportant && (
-                        <span className="text-yellow-500">⭐</span>
+                        <Star className="w-4 h-4 text-yellow-500 fill-current" />
                       )}
-                      {!notification.isRead && (
-                        <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                      )}
-                    </div>
-                    
-                    <p className="text-sm text-gray-600 mb-2">{notification.message}</p>
-                    
-                    <div className="flex items-center space-x-4 text-xs text-gray-500">
-                      <span>{formatTime(notification.createdAt)}</span>
-                      {notification.relatedUser && (
-                        <>
-                          <span>•</span>
-                          <span>{notification.relatedUser}</span>
-                        </>
-                      )}
-                      {notification.relatedCourse && (
-                        <>
-                          <span>•</span>
-                          <span>{notification.relatedCourse}</span>
-                        </>
+                      {!notification.read && (
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                       )}
                     </div>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    {!notification.isRead && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => markAsRead(notification.id)}
-                      >
-                        تحديد كمقروء
-                      </Button>
-                    )}
                     
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => toggleImportant(notification.id)}
-                    >
-                      {notification.isImportant ? '⭐' : '☆'}
-                    </Button>
+                    <p className="text-gray-600 mb-3">{notification.message}</p>
                     
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => deleteNotification(notification.id)}
-                    >
-                      🗑️
-                    </Button>
+                    <div className="flex items-center space-x-4 text-sm text-gray-500">
+                      <span>{formatDate(notification.createdAt.toString())}</span>
+                      <span className={`px-2 py-1 rounded-full bg-${getNotificationColor(notification.type)}-100 text-${getNotificationColor(notification.type)}-800`}>
+                        {filterOptions.find(opt => opt.value === notification.type)?.label || notification.type}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))
-          ) : (
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">🔔</div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">لا توجد إشعارات</h3>
-              <p className="text-gray-600">
-                {searchTerm || filter !== 'all' || typeFilter !== 'all'
-                  ? 'لا توجد إشعارات تطابق معايير البحث'
-                  : 'لا توجد إشعارات جديدة'
-                }
-              </p>
-            </div>
-          )}
+                
+                <div className="flex items-center space-x-2">
+                  {!notification.read && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleMarkAsRead(notification.id)}
+                      disabled={markAsReadMutation.isPending}
+                      icon={<Check className="w-4 h-4" />}
+                    >
+                      تحديد كمقروء
+                    </Button>
+                  )}
+                  {notification.actionUrl && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                    >
+                      عرض التفاصيل
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
+      ) : (
+        <div className="text-center py-12">
+          <Bell className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            {searchTerm || selectedFilter !== 'all' ? 'لا توجد إشعارات مطابقة' : 'لا توجد إشعارات'}
+          </h3>
+          <p className="text-gray-500">
+            {searchTerm || selectedFilter !== 'all' 
+              ? 'جرب تغيير معايير البحث أو التصفية' 
+              : 'ستظهر إشعاراتك هنا عند وصولها'
+            }
+          </p>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderSettingsTab = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow-custom border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">إعدادات الإشعارات</h3>
+        
+        <div className="space-y-6">
+          {/* Notification Types */}
+          <div>
+            <h4 className="text-md font-medium text-gray-900 mb-4">أنواع الإشعارات</h4>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-700">المهام والواجبات</label>
+                <Switch
+                  checked={notificationSettings.assignments}
+                  onChange={(checked) => handleSettingChange('assignments', checked)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-700">الدرجات والتقييمات</label>
+                <Switch
+                  checked={notificationSettings.grades}
+                  onChange={(checked) => handleSettingChange('grades', checked)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-700">الرسائل</label>
+                <Switch
+                  checked={notificationSettings.messages}
+                  onChange={(checked) => handleSettingChange('messages', checked)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-700">الإنجازات والجوائز</label>
+                <Switch
+                  checked={notificationSettings.achievements}
+                  onChange={(checked) => handleSettingChange('achievements', checked)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-700">الإشعارات العاجلة</label>
+                <Switch
+                  checked={notificationSettings.urgent}
+                  onChange={(checked) => handleSettingChange('urgent', checked)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Delivery Methods */}
+          <div className="border-t border-gray-200 pt-6">
+            <h4 className="text-md font-medium text-gray-900 mb-4">طرق التسليم</h4>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-700">البريد الإلكتروني</label>
+                <Switch
+                  checked={notificationSettings.email}
+                  onChange={(checked) => handleSettingChange('email', checked)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-700">إشعارات المتصفح</label>
+                <Switch
+                  checked={notificationSettings.push}
+                  onChange={(checked) => handleSettingChange('push', checked)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex justify-end mt-6">
+          <Button variant="primary">
+            حفظ الإعدادات
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const tabs = [
+    { 
+      id: 'notifications', 
+      label: 'الإشعارات', 
+      icon: <Bell className="w-4 h-4" />,
+      content: renderNotificationsTab()
+    },
+    { 
+      id: 'settings', 
+      label: 'الإعدادات', 
+      icon: <Settings className="w-4 h-4" />,
+      content: renderSettingsTab()
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="p-6">
+        {/* Page Header */}
+        <div className="mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-between"
+          >
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">الإشعارات</h1>
+              <p className="text-gray-600">تتبع جميع إشعاراتك ورسائلك المهمة</p>
+            </div>
+            {notifications?.data && (
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary-main">
+                  {notifications.data.filter((n: Notification) => !n.read).length}
+                </div>
+                <div className="text-sm text-gray-500">غير مقروءة</div>
+              </div>
+            )}
+          </motion.div>
+        </div>
+
+        {/* Tabs */}
+        <Tabs
+          items={tabs}
+          defaultActiveTab="notifications"
+          variant="underline"
+          fullWidth={false}
+          onTabChange={setActiveTab}
+        />
       </div>
     </div>
   );

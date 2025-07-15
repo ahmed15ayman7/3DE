@@ -2,511 +2,367 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Input, Button, Tabs } from '@3de/ui';
+import { Input, Button, Tabs, LoadingAnimation, Alert } from '@3de/ui';
+import { Plus, Search, Filter, Users, MessageSquare, Video, Settings } from 'lucide-react';
+import { useCommunities, usePosts, useCreatePost, useLikePost } from '../../hooks/useInstructorQueries';
+import PostCard from '../../components/PostCard';
+import PostDetails from '../../components/PostDetails';
 
-// Types
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  author: string;
-  authorAvatar?: string;
-  createdAt: string;
-  likes: number;
-  comments: number;
-  isLiked: boolean;
-  category: string;
-}
+// Types from interfaces
+import { Community, Post, Discussion, LiveRoom, Group, User, Comment } from '@3de/interfaces';
 
-interface Discussion {
-  id: string;
-  title: string;
-  description: string;
-  author: string;
-  participants: number;
-  lastActivity: string;
-  isActive: boolean;
-  tags: string[];
-}
-
-interface LiveRoom {
-  id: string;
-  title: string;
-  description: string;
-  host: string;
-  participants: number;
-  maxParticipants: number;
-  startTime: string;
-  isActive: boolean;
-  category: string;
-}
-
-interface Group {
-  id: string;
-  name: string;
-  description: string;
-  members: number;
-  isPrivate: boolean;
-  category: string;
-  image?: string;
-}
-
-// Mock Data
-const mockPosts: Post[] = [
-  {
-    id: '1',
-    title: 'نصائح لتحسين الفهم في الرياضيات',
-    content: 'أردت مشاركة بعض النصائح التي ساعدت طلابي في تحسين فهمهم للرياضيات...',
-    author: 'د. أحمد محمد',
-    createdAt: '2024-01-20',
-    likes: 15,
-    comments: 8,
-    isLiked: false,
-    category: 'تعليمي',
-  },
-  {
-    id: '2',
-    title: 'تجربتي مع التعلم الرقمي',
-    content: 'بعد عام من استخدام المنصات الرقمية، هذه خلاصة تجربتي...',
-    author: 'د. فاطمة علي',
-    createdAt: '2024-01-19',
-    likes: 23,
-    comments: 12,
-    isLiked: true,
-    category: 'تجارب',
-  },
-];
-
-const mockDiscussions: Discussion[] = [
-  {
-    id: '1',
-    title: 'كيفية تحفيز الطلاب في الفصول الافتراضية',
-    description: 'نقاش حول استراتيجيات تحفيز الطلاب في بيئة التعلم الرقمي',
-    author: 'د. محمد أحمد',
-    participants: 15,
-    lastActivity: '2024-01-20T10:30:00',
-    isActive: true,
-    tags: ['تحفيز', 'تعلم رقمي', 'إدارة فصل'],
-  },
-  {
-    id: '2',
-    title: 'أفضل أدوات التقييم الإلكتروني',
-    description: 'مشاركة وتبادل الخبرات حول أدوات التقييم المختلفة',
-    author: 'د. سارة خالد',
-    participants: 22,
-    lastActivity: '2024-01-19T15:45:00',
-    isActive: false,
-    tags: ['تقييم', 'أدوات', 'تكنولوجيا'],
-  },
-];
-
-const mockLiveRooms: LiveRoom[] = [
-  {
-    id: '1',
-    title: 'ورشة عمل: استراتيجيات التدريس الحديثة',
-    description: 'ورشة تفاعلية حول أحدث استراتيجيات التدريس',
-    host: 'د. أحمد محمد',
-    participants: 25,
-    maxParticipants: 50,
-    startTime: '2024-01-21T14:00:00',
-    isActive: false,
-    category: 'ورش عمل',
-  },
-  {
-    id: '2',
-    title: 'جلسة نقاش مفتوحة: تحديات التعليم',
-    description: 'نقاش مفتوح حول التحديات التي تواجه المعلمين',
-    host: 'د. فاطمة علي',
-    participants: 12,
-    maxParticipants: 30,
-    startTime: '2024-01-20T16:00:00',
-    isActive: true,
-    category: 'نقاشات',
-  },
-];
-
-const mockGroups: Group[] = [
-  {
-    id: '1',
-    name: 'مدرسو الرياضيات',
-    description: 'مجموعة لمدرسي ومحاضري الرياضيات لتبادل الخبرات',
-    members: 45,
-    isPrivate: false,
-    category: 'تخصص',
-  },
-  {
-    id: '2',
-    name: 'التعلم الرقمي والتكنولوجيا',
-    description: 'مجموعة مهتمة بتطبيق التكنولوجيا في التعليم',
-    members: 67,
-    isPrivate: false,
-    category: 'تكنولوجيا',
-  },
-];
-
-const CommunitiesPage = () => {
+const CommunitiesPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('posts');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [showCreatePost, setShowCreatePost] = useState(false);
+  const [newPostContent, setNewPostContent] = useState('');
+  const [newPostTitle, setNewPostTitle] = useState('');
 
-  // Posts Tab Component
-  const PostsTab = () => (
+  // Mock current user - في التطبيق الحقيقي سيتم الحصول عليه من السياق
+  const currentUser: User = {
+    id: 'instructor-1',
+    email: 'instructor@3de.school',
+    password: '',
+    firstName: 'أحمد',
+    lastName: 'محمد',
+    role: 'INSTRUCTOR',
+    avatar: '/instructor-avatar.jpg',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    isOnline: true,
+    isVerified: true,
+    enrollments: [],
+    achievements: [],
+    notifications: [],
+    messages: [],
+    posts: [],
+    groups: [],
+    channels: [],
+    bookmarks: [],
+    Submission: [],
+    Attendance: [],
+    payments: [],
+    installments: [],
+    Instructor: [],
+    Owner: [],
+    Admin: [],
+    Lesson: [],
+    Report: [],
+    Badge: [],
+    Certificate: [],
+    Community: [],
+    LiveRoom: [],
+    NotificationSettings: [],
+    Path: [],
+    LoginHistory: [],
+    TwoFactor: [],
+    UserAcademyCEO: [],
+    SalaryPayment: [],
+    MeetingParticipant: [],
+    LegalCase: [],
+    traineeManagement: [],
+    trainingSchedules: [],
+    employeeAttendanceLogs: [],
+    Comment: [],
+    LessonBlockList: [],
+  };
+
+  // React Query hooks
+  const { data: communities, isLoading: communitiesLoading, error: communitiesError } = useCommunities();
+  const { data: posts, isLoading: postsLoading, error: postsError } = usePosts();
+  const createPostMutation = useCreatePost();
+  const likePostMutation = useLikePost();
+
+  // Tab configuration
+  const tabs = [
+    { id: 'posts', label: 'المنشورات', icon: <MessageSquare className="w-4 h-4" /> },
+    { id: 'discussions', label: 'النقاشات', icon: <Users className="w-4 h-4" /> },
+    { id: 'live-rooms', label: 'الغرف المباشرة', icon: <Video className="w-4 h-4" /> },
+    { id: 'groups', label: 'المجموعات', icon: <Settings className="w-4 h-4" /> },
+  ];
+
+  // Event handlers
+  const handleCreatePost = async () => {
+    if (!newPostTitle.trim() || !newPostContent.trim()) return;
+
+    try {
+      await createPostMutation.mutateAsync({
+        title: newPostTitle,
+        content: newPostContent,
+        authorId: currentUser.id,
+      });
+      setNewPostTitle('');
+      setNewPostContent('');
+      setShowCreatePost(false);
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
+  };
+
+  const handleLikePost = async (postId: string) => {
+    try {
+      await likePostMutation.mutateAsync(postId);
+    } catch (error) {
+      console.error('Error liking post:', error);
+    }
+  };
+
+  const handleCommentPost = async (postId: string, content: string) => {
+    // Implement comment creation logic
+    console.log('Comment on post:', postId, content);
+  };
+
+  const handleSharePost = (postId: string) => {
+    // Implement share logic
+    console.log('Share post:', postId);
+  };
+
+  const handleEditPost = (postId: string) => {
+    // Implement edit logic
+    console.log('Edit post:', postId);
+  };
+
+  const handleDeletePost = (postId: string) => {
+    // Implement delete logic
+    console.log('Delete post:', postId);
+  };
+
+  // Filter posts based on search term
+  const filteredPosts = posts?.data?.filter((post: Post) =>
+    post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    post.content?.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
+
+  const renderPostsTab = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">المنشورات</h2>
-        <Button>+ منشور جديد</Button>
-      </div>
-
-      <div className="space-y-4">
-        {mockPosts.map((post, index) => (
-          <motion.div
-            key={post.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white rounded-lg shadow-custom border border-gray-200 p-6"
+      {/* Create Post Section */}
+      <div className="bg-white rounded-lg shadow-custom border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">إنشاء منشور جديد</h3>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setShowCreatePost(!showCreatePost)}
+            icon={<Plus className="w-4 h-4" />}
           >
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-700">
-                  {post.author.charAt(0)}
-                </span>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-2">
-                  <h3 className="font-semibold text-gray-900">{post.author}</h3>
-                  <span className="text-sm text-gray-500">•</span>
-                  <span className="text-sm text-gray-500">
-                    {new Date(post.createdAt).toLocaleDateString('ar-SA')}
-                  </span>
-                  <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                    {post.category}
-                  </span>
-                </div>
-                <h4 className="text-lg font-medium text-gray-900 mb-2">{post.title}</h4>
-                <p className="text-gray-600 mb-4">{post.content}</p>
-                
-                <div className="flex items-center space-x-6 text-sm text-gray-500">
-                  <button className={`flex items-center space-x-1 ${post.isLiked ? 'text-red-600' : 'hover:text-red-600'} transition-colors`}>
-                    <span>{post.isLiked ? '❤️' : '🤍'}</span>
-                    <span>{post.likes}</span>
-                  </button>
-                  <button className="flex items-center space-x-1 hover:text-blue-600 transition-colors">
-                    <span>💬</span>
-                    <span>{post.comments}</span>
-                  </button>
-                  <button className="flex items-center space-x-1 hover:text-green-600 transition-colors">
-                    <span>📤</span>
-                    <span>مشاركة</span>
-                  </button>
-                </div>
-              </div>
+            {showCreatePost ? 'إلغاء' : 'منشور جديد'}
+          </Button>
+        </div>
+
+        {showCreatePost && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="space-y-4"
+          >
+            <Input
+              label="عنوان المنشور"
+              value={newPostTitle}
+              onChange={(e) => setNewPostTitle(e.target.value)}
+              placeholder="اكتب عنواناً لمنشورك..."
+            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                محتوى المنشور
+              </label>
+              <textarea
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+                placeholder="شارك أفكارك وخبراتك مع المجتمع..."
+                rows={4}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-main focus:border-transparent"
+              />
             </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-
-  // Discussions Tab Component
-  const DiscussionsTab = () => (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">المناقشات</h2>
-        <Button>+ مناقشة جديدة</Button>
-      </div>
-
-      <div className="space-y-4">
-        {mockDiscussions.map((discussion, index) => (
-          <motion.div
-            key={discussion.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white rounded-lg shadow-custom border border-gray-200 p-6"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">{discussion.title}</h3>
-                  {discussion.isActive && (
-                    <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                      نشط
-                    </span>
-                  )}
-                </div>
-                <p className="text-gray-600 mb-3">{discussion.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {discussion.tags.map((tag, index) => (
-                    <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center space-x-4 text-sm text-gray-500">
-                  <span>بواسطة {discussion.author}</span>
-                  <span>•</span>
-                  <span>{discussion.participants} مشارك</span>
-                  <span>•</span>
-                  <span>
-                    آخر نشاط: {new Date(discussion.lastActivity).toLocaleString('ar-SA')}
-                  </span>
-                </div>
-              </div>
-              <Button variant="outline" size="sm">
-                انضم للمناقشة
+            <div className="flex justify-end space-x-3">
+              <Button
+                variant="ghost"
+                onClick={() => setShowCreatePost(false)}
+              >
+                إلغاء
+              </Button>
+              <Button
+                variant="primary"
+                onClick={handleCreatePost}
+                loading={createPostMutation.isPending}
+                disabled={!newPostTitle.trim() || !newPostContent.trim()}
+              >
+                نشر
               </Button>
             </div>
           </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-
-  // Live Rooms Tab Component
-  const LiveRoomsTab = () => (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">الغرف المباشرة</h2>
-        <Button>+ إنشاء غرفة</Button>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {mockLiveRooms.map((room, index) => (
-          <motion.div
-            key={room.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white rounded-lg shadow-custom border border-gray-200 p-6"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
-                {room.category}
-              </span>
-              {room.isActive ? (
-                <span className="flex items-center space-x-1 text-green-600">
-                  <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse"></span>
-                  <span className="text-sm">مباشر</span>
-                </span>
-              ) : (
-                <span className="text-sm text-gray-500">مجدول</span>
-              )}
-            </div>
-
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{room.title}</h3>
-            <p className="text-gray-600 mb-4">{room.description}</p>
-
-            <div className="space-y-2 text-sm text-gray-600 mb-4">
-              <div className="flex justify-between">
-                <span>المضيف:</span>
-                <span>{room.host}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>المشاركون:</span>
-                <span>{room.participants}/{room.maxParticipants}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>الوقت:</span>
-                <span>{new Date(room.startTime).toLocaleString('ar-SA')}</span>
-              </div>
-            </div>
-
-            <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div
-                className="bg-blue-600 h-2 rounded-full"
-                style={{ width: `${(room.participants / room.maxParticipants) * 100}%` }}
-              ></div>
-            </div>
-
+      {/* Posts List */}
+      {postsLoading ? (
+        <div className="flex justify-center py-12">
+          <LoadingAnimation size="lg" text="جاري تحميل المنشورات..." />
+        </div>
+      ) : postsError ? (
+        <Alert variant="error" title="خطأ في تحميل المنشورات">
+          حدث خطأ أثناء تحميل المنشورات. يرجى المحاولة مرة أخرى.
+        </Alert>
+      ) : filteredPosts.length > 0 ? (
+        <div className="space-y-6">
+          {filteredPosts.map((post: any) => {
+            // Ensure post has required structure for PostCard
+            const postWithAuthor = {
+              ...post,
+              author: post.author || currentUser,
+              comments: post.comments || []
+            };
+            
+            return (
+              <PostCard
+                key={post.id}
+                post={postWithAuthor}
+                currentUser={currentUser}
+                onLike={handleLikePost}
+                onComment={handleCommentPost}
+                onShare={handleSharePost}
+                onEdit={handleEditPost}
+                onDelete={handleDeletePost}
+                isLiked={false} // You can implement this logic based on user data
+                className="hover:shadow-lg transition-shadow duration-200"
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">لا توجد منشورات</h3>
+          <p className="text-gray-500 mb-4">
+            {searchTerm ? 'لم يتم العثور على منشورات تطابق البحث' : 'كن أول من ينشر في المجتمع'}
+          </p>
+          {!searchTerm && (
             <Button
-              variant={room.isActive ? 'primary' : 'outline'}
-              fullWidth
-              disabled={room.participants >= room.maxParticipants}
+              variant="primary"
+              onClick={() => setShowCreatePost(true)}
+              icon={<Plus className="w-4 h-4" />}
             >
-              {room.isActive ? 'انضم الآن' : 'سجل اهتمام'}
+              إنشاء منشور جديد
             </Button>
-          </motion.div>
-        ))}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 
-  // Groups Tab Component
-  const GroupsTab = () => (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">المجموعات</h2>
-        <Button>+ إنشاء مجموعة</Button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {mockGroups.map((group, index) => (
-          <motion.div
-            key={group.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white rounded-lg shadow-custom border border-gray-200 p-6"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-semibold">
-                  {group.name.charAt(0)}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                {group.isPrivate && (
-                  <span className="text-gray-400">🔒</span>
-                )}
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
-                  {group.category}
-                </span>
-              </div>
-            </div>
-
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{group.name}</h3>
-            <p className="text-gray-600 mb-4 text-sm">{group.description}</p>
-
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-gray-600">
-                {group.members} عضو
-              </span>
-              <span className="text-sm text-gray-500">
-                {group.isPrivate ? 'خاصة' : 'عامة'}
-              </span>
-            </div>
-
-            <Button variant="outline" fullWidth>
-              {group.isPrivate ? 'طلب انضمام' : 'انضم للمجموعة'}
-            </Button>
-          </motion.div>
-        ))}
-      </div>
+  const renderDiscussionsTab = () => (
+    <div className="text-center py-12">
+      <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-medium text-gray-900 mb-2">النقاشات</h3>
+      <p className="text-gray-500">قريباً - ستتمكن من المشاركة في النقاشات المختلفة</p>
     </div>
   );
 
-  const tabItems = [
-    {
-      id: 'posts',
-      label: 'المنشورات',
-      content: <PostsTab />,
-      icon: '📝'
-    },
-    {
-      id: 'discussions',
-      label: 'المناقشات',
-      content: <DiscussionsTab />,
-      icon: '💭'
-    },
-    {
-      id: 'liverooms',
-      label: 'الغرف المباشرة',
-      content: <LiveRoomsTab />,
-      icon: '📺'
-    },
-    {
-      id: 'groups',
-      label: 'المجموعات',
-      content: <GroupsTab />,
-      icon: '👥'
-    }
-  ];
+  const renderLiveRoomsTab = () => (
+    <div className="text-center py-12">
+      <Video className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-medium text-gray-900 mb-2">الغرف المباشرة</h3>
+      <p className="text-gray-500">قريباً - ستتمكن من حضور الجلسات المباشرة</p>
+    </div>
+  );
+
+  const renderGroupsTab = () => (
+    <div className="text-center py-12">
+      <Settings className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-medium text-gray-900 mb-2">المجموعات</h3>
+      <p className="text-gray-500">قريباً - ستتمكن من الانضمام إلى المجموعات المختلفة</p>
+    </div>
+  );
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">المجتمعات</h1>
-          <p className="text-gray-600">تواصل وتبادل الخبرات مع زملائك المحاضرين</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="p-6">
+        {/* Page Header */}
+        <div className="mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-between"
+          >
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">المجتمع</h1>
+              <p className="text-gray-600">تواصل مع المحاضرين والطلاب وشارك خبراتك</p>
+            </div>
+          </motion.div>
         </div>
-        <div className="flex space-x-3">
-          <Input
-            placeholder="البحث في المجتمعات..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            icon={<span>🔍</span>}
-            className="w-64"
-          />
+
+        {/* Search and Filter */}
+        <div className="mb-6 flex items-center space-x-4">
+          <div className="flex-1">
+            <Input
+              placeholder="ابحث في المنشورات والنقاشات..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              icon={<Search className="w-4 h-4" />}
+            />
+          </div>
+          <Button
+            variant="outline"
+            icon={<Filter className="w-4 h-4" />}
+          >
+            تصفية
+          </Button>
         </div>
-      </div>
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">المنشورات</p>
-              <p className="text-2xl font-bold text-gray-900">{mockPosts.length}</p>
-            </div>
-            <div className="text-3xl">📝</div>
-          </div>
-        </motion.div>
+        {/* Communities Error */}
+        {communitiesError && (
+          <Alert variant="warning" className="mb-6">
+            تعذر تحميل بيانات المجتمعات. بعض الميزات قد لا تعمل بشكل صحيح.
+          </Alert>
+        )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">المناقشات النشطة</p>
-              <p className="text-2xl font-bold text-green-600">
-                {mockDiscussions.filter(d => d.isActive).length}
-              </p>
-            </div>
-            <div className="text-3xl">💭</div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">الغرف المباشرة</p>
-              <p className="text-2xl font-bold text-purple-600">
-                {mockLiveRooms.filter(r => r.isActive).length}
-              </p>
-            </div>
-            <div className="text-3xl">📺</div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-white p-6 rounded-lg shadow-custom border border-gray-200"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm">المجموعات</p>
-              <p className="text-2xl font-bold text-blue-600">{mockGroups.length}</p>
-            </div>
-            <div className="text-3xl">👥</div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Main Content with Tabs */}
-      <div className="bg-white rounded-lg shadow-custom border border-gray-200">
+        {/* Tabs */}
         <Tabs
-          items={tabItems}
+          items={tabs.map(tab => ({
+            id: tab.id,
+            label: tab.label,
+            icon: tab.icon,
+            content: (() => {
+              switch (tab.id) {
+                case 'posts':
+                  return renderPostsTab();
+                case 'discussions':
+                  return renderDiscussionsTab();
+                case 'live-rooms':
+                  return renderLiveRoomsTab();
+                case 'groups':
+                  return renderGroupsTab();
+                default:
+                  return <div>المحتوى غير متوفر</div>;
+              }
+            })(),
+          }))}
           defaultActiveTab="posts"
           variant="underline"
-          className="p-6"
+          fullWidth
+          onTabChange={setActiveTab}
         />
+
+        {/* Post Details Modal */}
+        {selectedPost && (
+          <PostDetails
+            post={{
+              ...selectedPost,
+              author: selectedPost.author || currentUser,
+              comments: selectedPost.comments || []
+            }}
+            isOpen={!!selectedPost}
+            onClose={() => setSelectedPost(null)}
+            currentUser={currentUser}
+            onLike={handleLikePost}
+            onComment={handleCommentPost}
+            onShare={handleSharePost}
+            onEdit={handleEditPost}
+            onDelete={handleDeletePost}
+            isLiked={false}
+          />
+        )}
       </div>
     </div>
   );
