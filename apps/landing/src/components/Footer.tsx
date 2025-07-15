@@ -26,7 +26,7 @@ import { Button } from '@3de/ui';
 const footerLinks = {
   company: [
     { href: '/about-us', label: 'من نحن', icon: null },
-    { href: '/academy', label: 'الأكاديمية', icon: null },
+    { href: '/our-academy', label: 'الأكاديمية', icon: null },
     { href: '/instructors', label: 'المحاضرون', icon: Users },
     { href: '/blogs', label: 'المدونة', icon: null },
     { href: '/contact-us', label: 'تواصل معنا', icon: MessageCircle },

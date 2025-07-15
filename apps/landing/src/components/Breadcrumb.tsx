@@ -27,7 +27,7 @@ const pathNameMap: Record<string, string> = {
   'about-us': 'من نحن',
   'courses': 'الكورسات',
   'instructors': 'المحاضرون',
-  'academy': 'الأكاديمية',
+  'our-academy': 'الأكاديمية',
   'blogs': 'المدونة',
   'events': 'الفعاليات',
   'contact-us': 'تواصل معنا',
