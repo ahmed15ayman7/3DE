@@ -108,10 +108,10 @@ const popularCourses = [
     id: "react-advanced",
     title: "React المتقدم - بناء تطبيقات متقدمة",
     description: "تعلم بناء تطبيقات React معقدة مع أحدث الممارسات والتقنيات",
-    image: "/images/courses/react-advanced.jpg",
+    image: "https://www.patterns.dev/img/reactjs/react-logo@3x.svg",
     instructor: {
       name: "أحمد محمد",
-      avatar: "/images/instructors/ahmed.jpg"
+      avatar: "https://media.istockphoto.com/id/2194078950/photo/profile-picture-of-smiling-confident-arabic-businessman.jpg?s=2048x2048&w=is&k=20&c=L9F4GK4q8_DiSOtQfWoc_XgDAPWsymcwnRji2qs01do="
     },
     duration: "8 أسابيع",
     lessons: 32,
@@ -128,10 +128,10 @@ const popularCourses = [
     id: "ai-fundamentals",
     title: "أساسيات الذكاء الاصطناعي والتعلم الآلي",
     description: "مقدمة شاملة لعالم الذكاء الاصطناعي مع تطبيقات عملية",
-    image: "/images/courses/ai-fundamentals.jpg",
+    image: "https://academy.hsoub.com/uploads/monthly_2023_01/374072051_--.jpg.c7dab48ef8c4be326eb8c9f64a2c0b3c.jpg",
     instructor: {
       name: "د. سارة أحمد",
-      avatar: "/images/instructors/sara.jpg"
+      avatar: "https://media.istockphoto.com/id/2194078950/photo/profile-picture-of-smiling-confident-arabic-businessman.jpg?s=2048x2048&w=is&k=20&c=L9F4GK4q8_DiSOtQfWoc_XgDAPWsymcwnRji2qs01do="
     },
     duration: "10 أسابيع",
     lessons: 40,
@@ -146,10 +146,10 @@ const popularCourses = [
     id: "digital-marketing",
     title: "التسويق الرقمي المتقدم",
     description: "استراتيجيات التسويق الرقمي الحديثة ووسائل التواصل الاجتماعي",
-    image: "/images/courses/digital-marketing.jpg",
+    image: "https://goalmakers.net/wp-content/uploads/2024/03/%D8%A7%D9%84%D8%AA%D8%B3%D9%88%D9%8A%D9%82-%D8%A7%D9%84%D8%B1%D9%82%D9%85%D9%8A-%D9%A2%D9%A5-.png",
     instructor: {
       name: "ليلى السعد",
-      avatar: "/images/instructors/layla.jpg"
+      avatar: "https://media.istockphoto.com/id/2194078950/photo/profile-picture-of-smiling-confident-arabic-businessman.jpg?s=2048x2048&w=is&k=20&c=L9F4GK4q8_DiSOtQfWoc_XgDAPWsymcwnRji2qs01do="
     },
     duration: "6 أسابيع",
     lessons: 24,
@@ -303,7 +303,7 @@ export default function AcademyPage() {
             >
               <div className="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-2xl p-8">
                 <img
-                  src="/images/academy/learning-illustration.svg"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKQR9frNh-pCp_-2Rgpj50GH6qdbu7PwDBBQ&s"
                   alt="التعلم الرقمي"
                   className="w-full h-auto"
                 />
@@ -546,18 +546,18 @@ export default function AcademyPage() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               ابدأ رحلتك التعليمية معنا اليوم
             </h2>
-            <p className="text-xl mb-8 opacity-90">
+            <p className="text-xl mb-8 opacity-90 text-gray-200">
               انضم إلى آلاف الطلاب الذين حققوا أهدافهم المهنية من خلال أكاديمية 3DE
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:gap-6 sm:gap-reverse">
-              <Button size="lg" className="bg-white text-primary-main hover:bg-gray-100">
+              <Button size="lg" variant='primary'>
                 <GraduationCap size={20} className="ml-2" />
                 اختر مسارك التعليمي
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-main">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-primary-main">
                 تحدث مع مستشار تعليمي
               </Button>
             </div>

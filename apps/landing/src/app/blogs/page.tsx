@@ -378,10 +378,10 @@ export default function BlogsPage() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               اشترك في نشرتنا الإخبارية
             </h2>
-            <p className="text-xl mb-8 opacity-90">
+            <p className="text-xl mb-8 opacity-90 text-gray-200">
               احصل على أحدث المقالات والرؤى التقنية مباشرة في بريدك الإلكتروني
             </p>
             
@@ -390,13 +390,13 @@ export default function BlogsPage() {
                 <input
                   type="email"
                   placeholder="أدخل بريدك الإلكتروني"
-                  className="flex-1 px-4 py-3 rounded-lg text-text-primary focus:ring-2 focus:ring-white focus:ring-opacity-50"
+                  className="flex-1 px-4 py-3 rounded-lg text-white focus:ring-2 focus:ring-white focus:ring-opacity-50"
                 />
-                <Button size="lg" className="bg-white text-primary-main hover:bg-gray-100">
+                <Button size="lg" variant='primary'>
                   اشتراك
                 </Button>
               </div>
-              <p className="text-sm opacity-75 mt-3">
+              <p className="text-sm opacity-75 mt-3 text-gray-200">
                 لن نرسل لك رسائل مزعجة. يمكنك إلغاء الاشتراك في أي وقت.
               </p>
             </div>

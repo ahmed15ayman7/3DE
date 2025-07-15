@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
@@ -40,7 +40,7 @@ const navigationItems = [
     icon: Users,
   },
   {
-    href: '/academy',
+    href: '/our-academy',
     label: 'الأكاديمية',
     icon: null,
   },
@@ -70,7 +70,7 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-
+  const router = useRouter();
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -185,17 +185,17 @@ export default function Navigation() {
             transition={{ delay: 0.2 }}
             className="hidden md:flex items-center gap-4"
           >
-            <Link href="/auth/signin">
+            <div className='cursor-pointer' onClick={() => router.push('/auth/signin')}>
               <Button variant="ghost" size="sm" className="text-text-secondary hover:text-primary-main">
                 <LogIn size={16} className="ml-1" />
                 دخول
               </Button>
-            </Link>
-            <Link href="/auth/signup">
+            </div>
+            <div className='cursor-pointer' onClick={() => router.push('/auth/signup')}>
               <Button size="sm" className="bg-gradient-primary hover:opacity-90">
                 تسجيل مجاني
               </Button>
-            </Link>
+            </div>
           </motion.div>
 
           {/* Mobile Menu Button */}

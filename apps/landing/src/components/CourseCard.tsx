@@ -76,8 +76,8 @@ export default function CourseCard({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -5 }}
-      className={`card group cursor-pointer ${
-        isFeatured ? 'ring-2 ring-primary-main ring-offset-2 scale-105' : ''
+      className={`card group cursor-pointer min-h-[85vh] max-h-[85vh] ${
+        isFeatured ? 'ring-2 ring-primary-main ring-offset-2 ' : ''
       } ${className}`}
     >
       <Link href={`/courses/${id}`}>
@@ -139,7 +139,7 @@ export default function CourseCard({
         </div>
 
         {/* Content */}
-        <div className="card-body">
+        <div className="card-body flex flex-col justify-between">
           {/* Category */}
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-primary-main font-medium">{category}</span>
@@ -206,7 +206,7 @@ export default function CourseCard({
           </div>
 
           {/* Price and Action */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-auto">
             <div className="flex items-center gap-2 gap-reverse">
               {isFree ? (
                 <span className="text-lg font-bold text-green-600">مجاني</span>

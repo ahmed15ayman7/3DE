@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@3de/ui', 'lucide-react'],
   },
+  allowedDevOrigins: ['https://3de.school'],
   images: {
     domains: ['localhost', '3de.school'],
   },
