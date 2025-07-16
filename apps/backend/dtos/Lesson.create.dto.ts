@@ -6,7 +6,7 @@ import {
   User,
   LessonStatus,
   Attendance,
-  LessonBlockList,
+  LessonWhiteList,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";

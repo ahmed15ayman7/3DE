@@ -242,7 +242,7 @@ exports.Prisma.MilestoneScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.LessonBlockListScalarFieldEnum = {
+exports.Prisma.LessonWhiteListScalarFieldEnum = {
   id: 'id',
   lessonId: 'lessonId',
   userId: 'userId',
@@ -1135,7 +1135,7 @@ exports.Prisma.ModelName = {
   Course: 'Course',
   Path: 'Path',
   Milestone: 'Milestone',
-  LessonBlockList: 'LessonBlockList',
+  LessonWhiteList: 'LessonWhiteList',
   Lesson: 'Lesson',
   File: 'File',
   Enrollment: 'Enrollment',

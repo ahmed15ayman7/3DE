@@ -34,7 +34,7 @@ import { TraineeManagementEntity } from "./TraineeManagement.entity";
 import { TrainingScheduleEntity } from "./TrainingSchedule.entity";
 import { EmployeeAttendanceLogEntity } from "./EmployeeAttendanceLog.entity";
 import { CommentEntity } from "./Comment.entity";
-import { LessonBlockListEntity } from "./LessonBlockList.entity";
+import { LessonWhiteListEntity } from "./LessonWhiteList.entity";
 import {
   UserRole,
   Academy,
@@ -72,7 +72,7 @@ import {
   TrainingSchedule,
   EmployeeAttendanceLog,
   Comment,
-  LessonBlockList,
+  LessonWhiteList,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -339,8 +339,8 @@ export class UserEntity {
   @Column()
   Comment: Comment[];
 
-  @ApiProperty({ type: LessonBlockListEntity })
-  // Field: LessonBlockList, Type: LessonBlockList[]
+  @ApiProperty({ type: LessonWhiteListEntity })
+  // Field: LessonWhiteList, Type: LessonWhiteList[]
   @Column()
-  LessonBlockList: LessonBlockList[];
+  LessonWhiteList: LessonWhiteList[];
 }

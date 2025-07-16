@@ -1,25 +1,35 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  basePath: '/instructor',
-  assetPrefix: '/instructor/',
-  trailingSlash: true,
-  output: 'standalone',
   transpilePackages: ['@3de/ui', '@3de/apis', '@3de/interfaces', '@3de/auth'],
   experimental: {
-    optimizePackageImports: ['@3de/ui', 'lucide-react'],
+    optimizePackageImports: ['lucide-react', 'framer-motion', 'recharts'],
   },
-  allowedDevOrigins: ['https://3de.school'],
   images: {
-    domains: ['localhost', '3de.school'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': require('path').resolve(__dirname, 'src'),
-    };
-    return config;
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+    ]
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

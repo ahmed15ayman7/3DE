@@ -3,9 +3,9 @@ import { LessonsService } from './lessons.service';
 import { CreateLessonDto } from '../../dtos/Lesson.create.dto';
 import { UpdateLessonDto } from '../../dtos/Lesson.update.dto';
 import { AuthGuard } from '../auth/auth.guard';
-import { Lesson, LessonBlockList } from '@shared/prisma';
+import { Lesson, LessonWhiteList } from '@shared/prisma';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UpdateLessonBlockListDto } from '../../dtos/LessonBlockList.update.dto';
+import { UpdateLessonWhiteListDto } from '../../dtos/LessonWhiteList.update.dto';
 @ApiTags('الدروس')
 @Controller('lessons')
 @ApiBearerAuth()
@@ -41,7 +41,7 @@ export class LessonsController {
         return this.lessonsService.remove(id);
     }
     @Post('block-list')
-    async updateLessonBlockList(@Body() updateLessonBlockListDto: UpdateLessonBlockListDto): Promise<LessonBlockList> {
-        return this.lessonsService.updateLessonBlockList(updateLessonBlockListDto.lessonId, updateLessonBlockListDto.userId, updateLessonBlockListDto.isBlocked);
+    async updateLessonWhiteList(@Body() updateLessonWhiteListDto: UpdateLessonWhiteListDto): Promise<LessonWhiteList> {
+        return this.lessonsService.updateLessonWhiteList(updateLessonWhiteListDto.lessonId, updateLessonWhiteListDto.userId, updateLessonWhiteListDto.isBlocked);
     }
 } 

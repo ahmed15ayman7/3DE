@@ -58,8 +58,8 @@ export class LessonsService {
             },
         });
     }
-    async updateLessonBlockList(lessonId: string, userId: string, isBlocked: boolean) {
-        return this.prisma.lessonBlockList.upsert({
+    async updateLessonWhiteList(lessonId: string, userId: string, isBlocked: boolean) {
+        return this.prisma.LessonWhiteList.upsert({
             where: { id: lessonId },
             update: { isBlocked },
             create: { lessonId, userId, isBlocked },

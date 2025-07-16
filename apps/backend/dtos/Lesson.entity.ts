@@ -4,7 +4,7 @@ import { FileEntity } from "./File.entity";
 import { QuizEntity } from "./Quiz.entity";
 import { UserEntity } from "./User.entity";
 import { AttendanceEntity } from "./Attendance.entity";
-import { LessonBlockListEntity } from "./LessonBlockList.entity";
+import { LessonWhiteListEntity } from "./LessonWhiteList.entity";
 import {
   Course,
   File,
@@ -12,7 +12,7 @@ import {
   User,
   LessonStatus,
   Attendance,
-  LessonBlockList,
+  LessonWhiteList,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -84,8 +84,8 @@ export class LessonEntity {
   @Column()
   Attendance: Attendance[];
 
-  @ApiProperty({ type: LessonBlockListEntity })
-  // Field: LessonBlockList, Type: LessonBlockList[]
+  @ApiProperty({ type: LessonWhiteListEntity })
+  // Field: LessonWhiteList, Type: LessonWhiteList[]
   @Column()
-  LessonBlockList: LessonBlockList[];
+  LessonWhiteList: LessonWhiteList[];
 }

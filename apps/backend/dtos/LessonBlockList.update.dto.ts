@@ -3,8 +3,8 @@ import { Lesson, User } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
-// This is the Update Entity for LessonBlockList
-export class UpdateLessonBlockListDto {
+// This is the Update Entity for LessonWhiteList
+export class UpdateLessonWhiteListDto {
   @ApiProperty({ type: "string" })
   // Field: lessonId, Type: string
   @Column()

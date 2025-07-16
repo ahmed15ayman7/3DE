@@ -89,7 +89,7 @@ model User {
 
     Comment Comment[]
 
-    LessonBlockList LessonBlockList[]
+    LessonWhiteList LessonWhiteList[]
 }
 
 model LoginHistory {
@@ -264,7 +264,7 @@ enum LessonStatus {
     COMPLETED
     NOT_STARTED
 }
-model LessonBlockList {
+model LessonWhiteList {
     id        String   @id @default(cuid())
     lessonId  String
     lesson    Lesson   @relation(fields: [lessonId], references: [id])
@@ -288,9 +288,10 @@ model Lesson {
     status      LessonStatus @default(NOT_STARTED)
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
+    lastOpenedAt DateTime?
     Attendance  Attendance[]
 
-    LessonBlockList LessonBlockList[]
+    LessonWhiteList LessonWhiteList[]
 }
 
 model File {
