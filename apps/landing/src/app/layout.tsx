@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cairo, Tajawal } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import "@3de/ui/styles.css";
 
 const cairo = Cairo({
   variable: "--font-cairo",
