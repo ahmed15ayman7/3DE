@@ -102,7 +102,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
       {/* رأس التقويم */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">تقويم الاختبارات</h2>
-        <div className="flex items-center space-x-4 space-x-reverse">
+        <div className="flex items-center gap-4 gap-reverse">
           <button
             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
             className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
@@ -198,29 +198,29 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <BookOpen className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">الدرس: {selectedExam.lesson.title}</span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <User className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">الكورس: {selectedExam.lesson.course.title}</span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <Clock className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">المدة: {selectedExam.duration} دقيقة</span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
                   تاريخ البدء: {selectedExam.startDate.toLocaleDateString('ar-SA')}
                 </span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
                   تاريخ النهاية: {selectedExam.endDate.toLocaleDateString('ar-SA')}

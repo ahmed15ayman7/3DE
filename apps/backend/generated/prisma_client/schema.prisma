@@ -90,6 +90,8 @@ model User {
   Comment Comment[]
 
   LessonWhiteList LessonWhiteList[]
+
+  WatchedLesson WatchedLesson[]
 }
 
 model LoginHistory {
@@ -277,22 +279,34 @@ model LessonWhiteList {
 }
 
 model Lesson {
-  id          String       @id @default(cuid())
-  title       String
-  content     String
+  id           String       @id @default(cuid())
+  title        String
+  content      String
   // videoUrl    String?
-  courseId    String
-  course      Course       @relation(fields: [courseId], references: [id])
-  files       File[]
-  quizzes     Quiz[]
-  completedBy User[]
-  progress    Float        @default(0)
-  status      LessonStatus @default(NOT_STARTED)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  Attendance  Attendance[]
+  courseId     String
+  course       Course       @relation(fields: [courseId], references: [id])
+  files        File[]
+  quizzes      Quiz[]
+  completedBy  User[]
+  progress     Float        @default(0)
+  status       LessonStatus @default(NOT_STARTED)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  lastOpenedAt DateTime?
+  Attendance   Attendance[]
 
   LessonWhiteList LessonWhiteList[]
+
+  WatchedLesson WatchedLesson[]
+}
+
+model WatchedLesson {
+  id       String @id @default(cuid())
+  progress Float  @default(0)
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
 }
 
 model File {
@@ -301,7 +315,7 @@ model File {
   url               String
   type              FileType
   isCompleted       Boolean                @default(false)
-  lastWatched       DateTime?
+  lastWatched       Int?
   lessonId          String?
   lesson            Lesson?                @relation(fields: [lessonId], references: [id])
   accountingEntryId String?
@@ -467,6 +481,7 @@ model Post {
   authorId   String
   author     User      @relation(fields: [authorId], references: [id])
   content    String
+  image      String?
   title      String
   createdAt  DateTime  @default(now())
   likesCount Int       @default(0)

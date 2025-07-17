@@ -71,6 +71,7 @@ export class CoursesService {
                 quizzes: true,
                 lessons: {
                     include: {
+                        WatchedLesson:true,
                         files: true,
                     },
                 },

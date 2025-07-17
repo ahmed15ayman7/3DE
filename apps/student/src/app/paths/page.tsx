@@ -10,6 +10,7 @@ import { BookOpen, Filter, Search } from 'lucide-react';
 import { Path, Course, User } from '@3de/interfaces';
 import { useRouter } from 'next/navigation';
 import { pathApi } from '@3de/apis';
+import Layout from '../../components/layout/Layout';
 
 interface PathWithRelations extends Path {
   courses: Course[];
@@ -62,15 +63,18 @@ export default function PathsPage() {
 
   if (error) {
     return (
+      <Layout>  
       <div className="container mx-auto px-4 py-8">
         <Alert variant="error" title="خطأ في تحميل المسارات">
           حدث خطأ أثناء تحميل مسارات التعلم. يرجى المحاولة مرة أخرى.
         </Alert>
       </div>
+      </Layout>
     );
   }
 
   return (
+    <Layout>
     <div className="container mx-auto px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -195,5 +199,6 @@ export default function PathsPage() {
         )}
       </motion.div>
     </div>
+    </Layout>
   );
 } 

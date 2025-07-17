@@ -98,7 +98,7 @@ export const Tabs: React.FC<TabsProps> = ({
                 ${fullWidth ? 'flex-1' : ''}
                 ${isActive ? variantClasses.active : variantClasses.inactive}
                 ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                flex items-center justify-center space-x-2
+                flex items-center justify-center gap-2
               `}
             >
               {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
@@ -178,7 +178,7 @@ export const TabTrigger: React.FC<TabTriggerProps> = ({
         ${variantClasses.tab}
         ${isActive ? variantClasses.active : variantClasses.inactive}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-        flex items-center space-x-2
+        flex items-center gap-2
         ${className}
       `}
     >

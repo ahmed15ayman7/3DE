@@ -61,7 +61,7 @@ export default function InstructorPage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-r from-primary-main to-secondary-main rounded-xl p-6 text-white"
         >
-          <div className="flex items-start space-x-6">
+          <div className="flex items-start gap-6">
             <Avatar
               src={instructor.data.user.avatar}
               alt={instructor.data.user.firstName + ' ' + instructor.data.user.lastName}
@@ -73,20 +73,20 @@ export default function InstructorPage() {
               <p className="text-xl text-white/90 mb-4">{instructor.data.title}</p>
               <p className="text-white/80 mb-4">{instructor.data.bio}</p>
               
-              <div className="flex items-center space-x-6 text-sm">
-                <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-6 text-sm">
+                <div className="flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-300" />
                   <span>{instructor.data.rating} تقييم</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   <span>{instructor.data.courses.length} طالب</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <BookOpen className="w-5 h-5" />
                   <span>{instructor.data.courses.length} كورس</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5" />
                   <span>{instructor.data.experienceYears} سنوات خبرة</span>
                 </div>
@@ -106,7 +106,7 @@ export default function InstructorPage() {
               
               <div className="space-y-4">
                 {instructor.data.user.email && (
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-gray-400" />
                     <div>
                       <p className="text-sm text-gray-500">البريد الإلكتروني</p>
@@ -116,7 +116,7 @@ export default function InstructorPage() {
                 )}
 
                 {instructor.data.user.phone && (
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-gray-400" />
                     <div>
                       <p className="text-sm text-gray-500">رقم الهاتف</p>
@@ -126,7 +126,7 @@ export default function InstructorPage() {
                 )}
 
                 {instructor.data.location && (
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <MapPin className="w-5 h-5 text-gray-400" />
                     <div>
                       <p className="text-sm text-gray-500">الموقع</p>

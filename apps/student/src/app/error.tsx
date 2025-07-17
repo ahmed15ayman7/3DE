@@ -23,7 +23,7 @@ export default function Error({
         <p className="text-gray-600 mb-8">
           عذراً، حدث خطأ أثناء تحميل الصفحة. يرجى المحاولة مرة أخرى
         </p>
-        <div className="space-x-4">
+        <div className="gap-4">
           <Button onClick={reset}>
             إعادة المحاولة
           </Button>

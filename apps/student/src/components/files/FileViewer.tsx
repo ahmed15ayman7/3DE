@@ -18,7 +18,7 @@ export default function FileViewer({ file, onProgress, onComplete }: FileViewerP
         return (
           <VideoPlayer
             src={file.url}
-            lastWatched={file.lastWatched ? file.lastWatched.getTime() : 0}
+            lastWatched={file.lastWatched ? file.lastWatched : 0}
             onProgress={onProgress}
             onComplete={onComplete}
           />

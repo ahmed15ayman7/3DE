@@ -39,7 +39,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
     case 'minimal':
       return {
         container: 'flex items-center justify-between',
-        navigation: 'flex items-center space-x-1',
+        navigation: 'flex items-center gap-1',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50',
         activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -47,7 +47,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
     default:
       return {
         container: 'flex items-center justify-between',
-        navigation: 'flex items-center space-x-2',
+        navigation: 'flex items-center gap-2',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 rounded-md',
         activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600 rounded-md',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed rounded-md'
@@ -113,7 +113,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className={`${variantClasses.container} ${className}`}>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-4">
         {showTotalItems && (
           <div className="text-sm text-gray-700">
             عرض {startItem} إلى {endItem} من {totalItems} نتيجة
@@ -121,7 +121,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         )}
         
         {showItemsPerPage && onItemsPerPageChange && (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <span className="text-sm text-gray-700">عرض</span>
             <select
               value={itemsPerPage}
@@ -238,7 +238,7 @@ export const ItemsPerPage: React.FC<ItemsPerPageProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={`flex items-center gap-2 ${className}`}>
       <span className="text-sm text-gray-700">عرض</span>
       <select
         value={value}

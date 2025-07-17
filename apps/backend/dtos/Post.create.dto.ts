@@ -23,6 +23,11 @@ export class CreatePostDto {
   content: string;
 
   @ApiProperty({ type: "string" })
+  // Field: image, Type: string
+  @Column()
+  image?: string;
+
+  @ApiProperty({ type: "string" })
   // Field: title, Type: string
   @Column()
   title: string;

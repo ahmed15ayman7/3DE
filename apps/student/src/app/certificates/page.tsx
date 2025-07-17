@@ -10,6 +10,7 @@ import { Award, Download, Share2 } from 'lucide-react';
 import { Certificate } from '@3de/interfaces';
 import { certificateApi } from '@3de/apis';
 import { useAuth } from '@3de/auth';
+import Layout from '../../components/layout/Layout';
 
 export default function CertificatesPage() {
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
@@ -64,15 +65,18 @@ export default function CertificatesPage() {
 
   if (error) {
     return (
+      <Layout>
       <div className="container mx-auto px-4 py-8">
         <Alert variant="error" title="خطأ في تحميل الشهادات">
           حدث خطأ أثناء تحميل الشهادات. يرجى المحاولة مرة أخرى.
         </Alert>
       </div>
+      </Layout>
     );
   }
 
   return (
+    <Layout>
     <div className="container mx-auto px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -182,5 +186,6 @@ export default function CertificatesPage() {
         courseTitle="دورة جديدة"
       />
     </div>
+    </Layout>
   );
 } 

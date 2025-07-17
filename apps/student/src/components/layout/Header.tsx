@@ -36,7 +36,7 @@ export default function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) 
           {/* Logo */}
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-3"
+            className="flex items-center gap-3"
 
           >
             <div className="w-20 h-20 rounded-full flex items-center justify-center border border-white/30">
@@ -47,7 +47,7 @@ export default function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) 
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center gap-6">
             <motion.div whileHover={{ scale: 1.05 }}>
               <Button variant="ghost" className="relative text-white hover:bg-white/20">
                 <Bell className="w-5 h-5" />
@@ -57,7 +57,7 @@ export default function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) 
 
             <Dropdown
               trigger={
-                <div className="flex items-center space-x-2 cursor-pointer">
+                <div className="flex items-center gap-2 cursor-pointer">
                   {user?.avatar ? (
                     <Avatar 
                       src={user.avatar} 

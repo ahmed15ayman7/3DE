@@ -24,7 +24,7 @@ export const Comment: React.FC<CommentProps> = ({
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.2 }}
-      className="flex space-x-3 space-x-reverse"
+      className="flex gap-3 gap-reverse"
     >
       <Avatar
         src={comment.author.avatar}
@@ -53,10 +53,10 @@ export const Comment: React.FC<CommentProps> = ({
           </p>
         </div>
         
-        <div className="flex items-center space-x-4 space-x-reverse mt-2">
+        <div className="flex items-center gap-4 gap-reverse mt-2">
           <button
             onClick={() => onLike?.(comment.id)}
-            className={`flex items-center space-x-1 space-x-reverse text-xs transition-colors ${
+            className={`flex items-center gap-1 gap-reverse text-xs transition-colors ${
               isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'
             }`}
           >
@@ -66,7 +66,7 @@ export const Comment: React.FC<CommentProps> = ({
           
           <button
             onClick={() => onReply?.(comment.id)}
-            className="flex items-center space-x-1 space-x-reverse text-xs text-gray-500 hover:text-gray-700 transition-colors"
+            className="flex items-center gap-1 gap-reverse text-xs text-gray-500 hover:text-gray-700 transition-colors"
           >
             <Reply className="w-3 h-3" />
             <span>رد</span>

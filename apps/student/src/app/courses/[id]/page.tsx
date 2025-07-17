@@ -51,9 +51,10 @@ export default function CoursePage() {
 
   const handleFileProgress = async (progress: number,duration:number) => {
     if(currentFile?.id){
+      console.log("currentFile?.id",progress,duration);
       setInterval(()=>{
-        const timeInMinutes = duration / 60;
-        fileApi.update(currentFile?.id || '',{lastWatched:new Date(timeInMinutes)});
+        const timeInSeconds = duration ;
+        // fileApi.update(currentFile?.id || '',{lastWatched:timeInSeconds});
       },3000);
     }
     if (currentLessonId && progress >= 90) {
@@ -118,7 +119,7 @@ export default function CoursePage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
-          <div className="flex items-start space-x-4">
+          <div className="flex items-start gap-4">
             {course.data.image && (
               <img
                 src={course.data.image}
@@ -129,7 +130,7 @@ export default function CoursePage() {
             <div className="flex-1">
               <h1 className="text-2xl font-bold text-gray-900 mb-2">{course.data.title}</h1>
               <p className="text-gray-600 mb-4">{course.data.description}</p>
-              <div className="flex items-center space-x-6 text-sm text-gray-500">
+              <div className="flex items-center gap-6 text-sm text-gray-500">
                 <span>{course.data.lessons.length} درس</span>
                 <span>{new Date(course.data.startDate||"").toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }) || 'غير محدد'}</span>
                 <span>{course.data.instructors?.map((instructor: Instructor) => instructor.user?.firstName + ' ' + instructor.user?.lastName).join(', ') || 'غير محدد'}</span>

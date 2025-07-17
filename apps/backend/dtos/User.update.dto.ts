@@ -37,6 +37,7 @@ import {
   EmployeeAttendanceLog,
   Comment,
   LessonWhiteList,
+  WatchedLesson,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";

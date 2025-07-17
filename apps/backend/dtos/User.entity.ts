@@ -35,6 +35,7 @@ import { TrainingScheduleEntity } from "./TrainingSchedule.entity";
 import { EmployeeAttendanceLogEntity } from "./EmployeeAttendanceLog.entity";
 import { CommentEntity } from "./Comment.entity";
 import { LessonWhiteListEntity } from "./LessonWhiteList.entity";
+import { WatchedLessonEntity } from "./WatchedLesson.entity";
 import {
   UserRole,
   Academy,
@@ -73,6 +74,7 @@ import {
   EmployeeAttendanceLog,
   Comment,
   LessonWhiteList,
+  WatchedLesson,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -343,4 +345,9 @@ export class UserEntity {
   // Field: LessonWhiteList, Type: LessonWhiteList[]
   @Column()
   LessonWhiteList: LessonWhiteList[];
+
+  @ApiProperty({ type: WatchedLessonEntity })
+  // Field: WatchedLesson, Type: WatchedLesson[]
+  @Column()
+  WatchedLesson: WatchedLesson[];
 }

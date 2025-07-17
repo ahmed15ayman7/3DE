@@ -79,7 +79,7 @@ export default function ImageViewer({ src, title, alt }: ImageViewerProps) {
               <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between bg-white/90 backdrop-blur-sm rounded-lg p-3">
                 <h3 className="text-lg font-medium text-gray-900">{title}</h3>
                 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
                     size="sm"

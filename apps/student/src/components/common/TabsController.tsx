@@ -24,7 +24,7 @@ export const TabsController: React.FC<TabsControllerProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`flex space-x-1 space-x-reverse bg-gray-100 p-1 rounded-lg ${className}`}>
+    <div className={`flex gap-1 gap-reverse bg-gray-100 p-1 rounded-lg ${className}`}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         
@@ -32,7 +32,7 @@ export const TabsController: React.FC<TabsControllerProps> = ({
           <motion.button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`flex items-center space-x-2 space-x-reverse px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+            className={`flex items-center gap-2 gap-reverse px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
               isActive
                 ? 'bg-white text-blue-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'

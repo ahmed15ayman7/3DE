@@ -180,7 +180,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   const overflowCount = totalCount - displayCount;
 
   return (
-    <div className={`flex -space-x-2 ${className}`}>
+    <div className={`flex -gap-2 ${className}`}>
       {childrenArray.slice(0, displayCount).map((child, index) => (
         <div key={index} className="relative">
           {React.isValidElement(child)

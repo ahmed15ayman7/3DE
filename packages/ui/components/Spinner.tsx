@@ -56,7 +56,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
     switch (variant) {
       case 'dots':
         return (
-          <div className={`flex space-x-1 ${sizeClasses}`}>
+          <div className={`flex gap-1 ${sizeClasses}`}>
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
@@ -72,7 +72,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
 
       case 'bars':
         return (
-          <div className={`flex space-x-1 ${sizeClasses}`}>
+          <div className={`flex gap-1 ${sizeClasses}`}>
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
@@ -192,9 +192,9 @@ export const SpinnerGroup: React.FC<SpinnerGroupProps> = ({
 }) => {
   const directionClass = direction === 'horizontal' ? 'flex-row' : 'flex-col';
   const spacingClass = {
-    sm: 'space-x-2',
-    md: 'space-x-4',
-    lg: 'space-x-6'
+    sm: 'gap-2',
+    md: 'gap-4',
+    lg: 'gap-6'
   }[spacing];
 
   return (

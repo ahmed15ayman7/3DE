@@ -64,7 +64,7 @@ export const InfiniteLoader: React.FC<InfiniteLoaderProps> = ({
           transition={{ duration: 0.3 }}
         >
           {isLoading ? (
-            <div className="flex items-center space-x-2 space-x-reverse">
+            <div className="flex items-center gap-2 gap-reverse">
               <Spinner size="sm" />
               <span className="text-gray-600">جاري التحميل...</span>
             </div>

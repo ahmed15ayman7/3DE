@@ -105,9 +105,9 @@ export const BadgeGroup: React.FC<BadgeGroupProps> = ({
   gap = 'md'
 }) => {
   const gapClasses = {
-    sm: 'space-x-1',
-    md: 'space-x-2',
-    lg: 'space-x-3'
+    sm: 'gap-1',
+    md: 'gap-2',
+    lg: 'gap-3'
   };
 
   return (

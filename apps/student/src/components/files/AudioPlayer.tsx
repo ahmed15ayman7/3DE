@@ -149,7 +149,7 @@ export default function AudioPlayer({ src, title, onProgress, onComplete }: Audi
       </div>
 
       {/* Control Buttons */}
-      <div className="flex items-center justify-center space-x-4 mb-4">
+      <div className="flex items-center justify-center gap-4 mb-4">
         <Button
           variant="ghost"
           size="sm"
@@ -180,7 +180,7 @@ export default function AudioPlayer({ src, title, onProgress, onComplete }: Audi
 
       {/* Volume and Speed Controls */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
@@ -198,9 +198,9 @@ export default function AudioPlayer({ src, title, onProgress, onComplete }: Audi
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">السرعة:</span>
-          <div className="flex space-x-1">
+          <div className="flex gap-1">
             {[0.5, 1, 1.25, 1.5, 2].map((rate) => (
               <Button
                 key={rate}

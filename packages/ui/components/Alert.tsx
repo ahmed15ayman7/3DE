@@ -112,7 +112,7 @@ export const Alert: React.FC<AlertProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           {action && (
             <div className="flex-shrink-0">
               {action}

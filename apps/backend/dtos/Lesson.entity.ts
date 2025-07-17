@@ -5,6 +5,7 @@ import { QuizEntity } from "./Quiz.entity";
 import { UserEntity } from "./User.entity";
 import { AttendanceEntity } from "./Attendance.entity";
 import { LessonWhiteListEntity } from "./LessonWhiteList.entity";
+import { WatchedLessonEntity } from "./WatchedLesson.entity";
 import {
   Course,
   File,
@@ -13,6 +14,7 @@ import {
   LessonStatus,
   Attendance,
   LessonWhiteList,
+  WatchedLesson,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -79,6 +81,11 @@ export class LessonEntity {
   @Column()
   updatedAt: Date;
 
+  @ApiProperty({ type: "string", format: "date-time", nullable: true })
+  // Field: lastOpenedAt, Type: Date
+  @Column()
+  lastOpenedAt?: Date;
+
   @ApiProperty({ type: AttendanceEntity })
   // Field: Attendance, Type: Attendance[]
   @Column()
@@ -88,4 +95,9 @@ export class LessonEntity {
   // Field: LessonWhiteList, Type: LessonWhiteList[]
   @Column()
   LessonWhiteList: LessonWhiteList[];
+
+  @ApiProperty({ type: WatchedLessonEntity })
+  // Field: WatchedLesson, Type: WatchedLesson[]
+  @Column()
+  WatchedLesson: WatchedLesson[];
 }

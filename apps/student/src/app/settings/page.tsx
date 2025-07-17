@@ -63,7 +63,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, x: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Bell className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">التنبيهات</h2>
               </div>
@@ -111,7 +111,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, x: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Shield className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">الخصوصية</h2>
               </div>
@@ -163,7 +163,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Palette className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">المظهر</h2>
               </div>
@@ -173,7 +173,7 @@ export default function SettingsPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     المظهر
                   </label>
-                  <div className="flex space-x-2">
+                  <div className="flex gap-2">
                     <Button
                       variant={settings.appearance.theme === 'light' ? 'primary' : 'outline'}
                       size="sm"
@@ -231,7 +231,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Globe className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">الحساب</h2>
               </div>

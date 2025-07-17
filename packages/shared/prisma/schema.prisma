@@ -90,6 +90,8 @@ model User {
     Comment Comment[]
 
     LessonWhiteList LessonWhiteList[]
+
+    WatchedLesson WatchedLesson[]
 }
 
 model LoginHistory {
@@ -292,6 +294,16 @@ model Lesson {
     Attendance  Attendance[]
 
     LessonWhiteList LessonWhiteList[]
+
+    WatchedLesson WatchedLesson[]
+}
+model WatchedLesson {
+    id        String   @id @default(cuid())
+    progress  Float    @default(0)
+    lessonId  String
+    lesson    Lesson   @relation(fields: [lessonId], references: [id])
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
 }
 
 model File {
@@ -300,7 +312,7 @@ model File {
     url               String
     type              FileType
     isCompleted       Boolean                @default(false)
-    lastWatched       DateTime?
+    lastWatched       Int?
     lessonId          String?
     lesson            Lesson?                @relation(fields: [lessonId], references: [id])
     accountingEntryId String?
@@ -466,6 +478,7 @@ model Post {
     authorId   String
     author     User      @relation(fields: [authorId], references: [id])
     content    String
+    image      String?
     title      String
     createdAt  DateTime  @default(now())
     likesCount Int       @default(0)

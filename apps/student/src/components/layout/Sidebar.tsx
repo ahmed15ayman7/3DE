@@ -91,7 +91,8 @@ export default function Sidebar({ isSidebarOpen, onToggle, isMobile }: SidebarPr
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2">
           {menuItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href ||( pathname.startsWith(item.href) && item.href !== '/');
+
             return (
               <Link key={item.href} href={item.href}>
                 <motion.div

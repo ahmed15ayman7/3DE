@@ -42,7 +42,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       <Card className="p-6">
         {/* رأس المنشور */}
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3 space-x-reverse">
+          <div className="flex items-center gap-3 gap-reverse">
             <Avatar
               src={post.author.avatar}
               alt={`${post.author.firstName} ${post.author.lastName}`}
@@ -79,11 +79,16 @@ export const PostCard: React.FC<PostCardProps> = ({
           <p className="text-gray-700 leading-relaxed">
             {post.content}
           </p>
+          {post.image && (
+              <div className="w-full h-96 mt-4 bg-gray-200 rounded-lg overflow-hidden">
+                <img src={post.image} alt="Post Image" className="w-full h-full object-cover" />
+              </div>
+            )}
         </div>
 
         {/* إحصائيات المنشور */}
         <div className="flex items-center justify-between py-3 border-t border-b border-gray-100 mb-4">
-          <div className="flex items-center space-x-4 space-x-reverse text-sm text-gray-500">
+          <div className="flex items-center gap-4 gap-reverse text-sm text-gray-500">
             <span>{post.likesCount} إعجاب</span>
             <span>{post.comments?.length || 0} تعليق</span>
           </div>
@@ -91,7 +96,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 
         {/* أزرار التفاعل */}
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-4 space-x-reverse">
+          <div className="flex items-center gap-4 gap-reverse">
             <Button
               variant={isLiked ? 'primary' : 'ghost'}
               size="sm"
@@ -141,7 +146,7 @@ export const PostCard: React.FC<PostCardProps> = ({
               className="space-y-4"
             >
               {/* إضافة تعليق جديد */}
-              <div className="flex space-x-2 space-x-reverse">
+              <div className="flex gap-2 gap-reverse">
                 <input
                   type="text"
                   value={commentContent}

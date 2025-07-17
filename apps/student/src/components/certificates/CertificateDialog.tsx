@@ -139,7 +139,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
 
           {/* معلومات مهمة */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="flex items-start space-x-2 space-x-reverse">
+            <div className="flex items-start gap-2 gap-reverse">
               <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
                 <span className="text-blue-600 text-xs font-bold">!</span>
               </div>
@@ -155,7 +155,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
           </div>
 
           {/* أزرار الإجراءات */}
-          <div className="flex space-x-3 space-x-reverse pt-4">
+          <div className="flex gap-3 gap-reverse pt-4">
             <Button
               type="button"
               variant="outline"

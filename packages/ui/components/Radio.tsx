@@ -112,7 +112,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   size = 'md',
   direction = 'vertical'
 }) => {
-  const directionClass = direction === 'horizontal' ? 'flex-row space-x-4' : 'flex-col space-y-2';
+  const directionClass = direction === 'horizontal' ? 'flex-row gap-4' : 'flex-col space-y-2';
 
   return (
     <div className={`flex ${directionClass} ${className}`}>

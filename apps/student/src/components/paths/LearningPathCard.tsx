@@ -83,22 +83,22 @@ export const LearningPathCard: React.FC<LearningPathCardProps> = ({
 
         {/* إحصائيات المسار */}
         <div className="grid grid-cols-2 gap-4 py-4 border-t border-b border-gray-100">
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <BookOpen className="w-4 h-4" />
             <span>{path.courses?.length || 0} كورس</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Clock className="w-4 h-4" />
             <span>{formatTime(path.studyTime)}</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Target className="w-4 h-4" />
             <span>{path.completedTasks}/{path.totalTasks} مهام</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Users className="w-4 h-4" />
             <span>{path.peers?.length || 0} مشارك</span>
           </div>

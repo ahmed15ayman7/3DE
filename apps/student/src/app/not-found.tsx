@@ -16,7 +16,7 @@ export default function NotFound() {
         <p className="text-gray-600 mb-8">
           عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها
         </p>
-        <div className="space-x-4">
+        <div className="gap-4">
           <Link href="/">
             <Button>العودة للرئيسية</Button>
           </Link>

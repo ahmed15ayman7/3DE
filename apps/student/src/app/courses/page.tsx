@@ -70,7 +70,7 @@ export default function CoursesPage() {
           transition={{ delay: 0.1 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
+          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -84,7 +84,7 @@ export default function CoursesPage() {
             </div>
 
             {/* Categories */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Filter className="w-5 h-5 text-gray-400" />
               <select
                 value={category}
@@ -98,7 +98,7 @@ export default function CoursesPage() {
             </div>
 
             {/* View Mode */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button
                 variant={viewMode === 'grid' ? 'primary' : 'outline'}
                 size="sm"
@@ -127,7 +127,7 @@ export default function CoursesPage() {
           <p className="text-gray-600">
             تم العثور على {filteredCourses?.length || 0} كورس
           </p>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <Badge variant="outline">
               {enrolledCourses.length} مشترك
             </Badge>

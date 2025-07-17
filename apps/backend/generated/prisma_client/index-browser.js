@@ -259,7 +259,15 @@ exports.Prisma.LessonScalarFieldEnum = {
   progress: 'progress',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  lastOpenedAt: 'lastOpenedAt'
+};
+
+exports.Prisma.WatchedLessonScalarFieldEnum = {
+  id: 'id',
+  progress: 'progress',
+  lessonId: 'lessonId',
+  userId: 'userId'
 };
 
 exports.Prisma.FileScalarFieldEnum = {
@@ -382,6 +390,7 @@ exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   authorId: 'authorId',
   content: 'content',
+  image: 'image',
   title: 'title',
   createdAt: 'createdAt',
   likesCount: 'likesCount',
@@ -1137,6 +1146,7 @@ exports.Prisma.ModelName = {
   Milestone: 'Milestone',
   LessonWhiteList: 'LessonWhiteList',
   Lesson: 'Lesson',
+  WatchedLesson: 'WatchedLesson',
   File: 'File',
   Enrollment: 'Enrollment',
   Quiz: 'Quiz',

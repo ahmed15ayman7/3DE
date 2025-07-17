@@ -7,6 +7,7 @@ import {
   LessonStatus,
   Attendance,
   LessonWhiteList,
+  WatchedLesson,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -47,4 +48,9 @@ export class UpdateLessonDto {
   // Field: updatedAt, Type: Date
   @Column()
   updatedAt: Date;
+
+  @ApiProperty({ type: "string", format: "date-time", nullable: true })
+  // Field: lastOpenedAt, Type: Date
+  @Column()
+  lastOpenedAt?: Date;
 }

@@ -54,7 +54,7 @@ export default function QuizQuestion({
           <h3 className="text-lg font-semibold text-gray-900">
             السؤال {question.id}
           </h3>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <span className="text-sm text-gray-500">النقاط:</span>
             <span className="text-sm font-medium text-primary-main">
               {question.points}
@@ -96,7 +96,7 @@ export default function QuizQuestion({
             }`}
             onClick={() => handleAnswerChange(option.id, !isAnswerSelected(option.id))}
           >
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-3">
               {question.isMultiple ? (
                 <Checkbox
                   checked={isAnswerSelected(option.id)}
@@ -126,7 +126,7 @@ export default function QuizQuestion({
 
       {/* Question Type Indicator */}
       <div className="mt-6 pt-4 border-t border-gray-200">
-        <div className="flex items-center space-x-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-sm text-gray-500">
           {question.isMultiple ? (
             <>
               <CheckSquare className="w-4 h-4" />

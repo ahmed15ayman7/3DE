@@ -23,17 +23,18 @@ export const Input: React.FC<InputProps> = ({
           {label}
         </label>
       )}
-      <div className="relative">
+      <div className="relative h-full">
         {icon && (
-          <div  className="absolute inset-y-0 left-0 pl-3 flex items-center  pointer-events-none text-gray-400">
+          <div style={{ height: '100%',paddingRight: '.3rem' }} className="absolute inset-y-0 left-0 top-0  pl-3 flex items-center  pointer-events-none text-gray-400">
             {icon}
           </div>
         )}
         <input
+          style={{ paddingRight: icon ? '1.5rem' : '.4rem' }}
           className={clsx(
-            'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-main focus:border-transparent',
-            error ? 'border-error-main' : 'border-gray-300',
-            icon ? 'pl-10' : '',
+            'w-full px-3 py-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-main focus:border-transparent',
+            error ? 'border-error-main' : 'border-secondary-main',
+            icon ? 'pr-16' : '',
             className
           )}
           {...props}

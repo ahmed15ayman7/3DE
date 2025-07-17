@@ -479,18 +479,18 @@ export default function CoursesPage() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               لم تجد الكورس المناسب؟
             </h2>
-            <p className="text-xl mb-8 opacity-90">
+            <p className="text-xl mb-8 opacity-90 text-gray-200">
               تواصل معنا وسنساعدك في العثور على البرنامج التدريبي المثالي لاحتياجاتك
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:gap-6 sm:gap-reverse">
-              <Button size="lg" className="bg-white text-primary-main hover:bg-gray-100">
+              <Button size="lg" variant='primary'>
                 <BookOpen size={20} className="ml-2" />
                 اقترح كورس
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-main">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-primary-main">
                 تواصل معنا
               </Button>
             </div>

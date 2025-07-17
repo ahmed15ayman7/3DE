@@ -37,7 +37,7 @@ export default function LessonList({
 
   const isLessonLocked = (lesson: Lesson, index: number) => {
     if (index === 0 && lesson.status=="IN_PROGRESS") return false;
-    if (lesson.status=="NOT_STARTED"||(index !== 0 &&lesson.LessonBlockList?.map(block=>block.userId==user?.id&&block.isBlocked).some(block=>block))) return true;
+    if (lesson.status=="NOT_STARTED"||(index !== 0 &&lesson.LessonWhiteList?.map(block=>block.userId==user?.id&&block.isBlocked).some(block=>block))) return true;
     const previousLesson = lessons[index - 1];
     return !isLessonCompleted(previousLesson);
   };
@@ -79,7 +79,7 @@ export default function LessonList({
                 }`}
                 onClick={() => !isLocked && onLessonSelect(lesson.id)}
               >
-                <div className="flex items-center space-x-3 flex-1">
+                <div className="flex items-center gap-3 flex-1">
                   {/* Status Icon */}
                   <div className="flex-shrink-0">
                     {isLocked ? (
@@ -105,7 +105,7 @@ export default function LessonList({
                 </div>
 
                 {/* Progress */}
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <div className="w-20">
                     <Progress 
                       value={lesson.progress || 0} 
@@ -148,7 +148,7 @@ export default function LessonList({
                       {lesson.files.map((file) => (
                         <div
                           key={file.id}
-                          className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                          className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
                           onClick={() => onFileSelect(file)}
                         >
                           {getFileIcon(file.type ||"pdf")}

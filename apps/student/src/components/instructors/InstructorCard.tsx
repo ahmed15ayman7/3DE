@@ -17,7 +17,7 @@ export default function InstructorCard({ instructor }: InstructorCardProps) {
       className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
     >
       {/* Instructor Header */}
-      <div className="flex items-center space-x-4 mb-4">
+      <div className="flex items-center gap-4 mb-4">
         <Avatar
           src={instructor.user?.avatar}
           alt={instructor.user?.firstName + ' ' + instructor.user?.lastName}
@@ -29,8 +29,8 @@ export default function InstructorCard({ instructor }: InstructorCardProps) {
             {instructor.user?.firstName + ' ' + instructor.user?.lastName}
           </h3>
           <p className="text-gray-600 mb-2">{instructor.user?.email}</p>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
               <span className="text-sm text-gray-600">
                 {instructor.rating || 0}
@@ -51,13 +51,13 @@ export default function InstructorCard({ instructor }: InstructorCardProps) {
       {/* Contact Info */}
       <div className="space-y-2 mb-4">
         {instructor.user?.email && (
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
             <Mail className="w-4 h-4" />
             <span>{instructor.user?.email}</span>
           </div>
         )}
         {instructor.user?.phone && (
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
             <Phone className="w-4 h-4" />
             <span>{instructor.user?.phone}</span>
           </div>

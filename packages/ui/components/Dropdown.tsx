@@ -113,7 +113,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     disabled={item.disabled}
                     className={`
                       w-full px-4 py-2 text-left text-sm
-                      flex items-center space-x-2
+                      flex items-center gap-2
                       transition-colors duration-150
                       ${item.disabled
                         ? 'text-gray-400 cursor-not-allowed'
@@ -175,7 +175,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       disabled={disabled}
       className={`
         w-full px-4 py-2 text-left text-sm
-        flex items-center space-x-2
+        flex items-center gap-2
         transition-colors duration-150
         ${disabled
           ? 'text-gray-400 cursor-not-allowed'

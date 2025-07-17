@@ -2576,7 +2576,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             </div>
 
             {/* Instructor */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <img
                 src={course.instructor.avatar || '/placeholder-avatar.jpg'}
                 alt={course.instructor.name}
@@ -2589,21 +2589,21 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
             {/* Stats */}
             <div className="flex items-center justify-between text-sm text-gray-500">
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-1">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-1">
                   <BookOpen className="w-4 h-4" />
                   <span>{course.lessons.length} درس</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center gap-1">
                   <Clock className="w-4 h-4" />
                   <span>2 ساعة</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center gap-1">
                   <Users className="w-4 h-4" />
                   <span>{course.enrollments.length} طالب</span>
                 </div>
               </div>
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center gap-1">
                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
                 <span>4.8</span>
               </div>
@@ -5707,7 +5707,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   size = 'md',
   direction = 'vertical'
 }) => {
-  const directionClass = direction === 'horizontal' ? 'flex-row space-x-4' : 'flex-col space-y-2';
+  const directionClass = direction === 'horizontal' ? 'flex-row gap-4' : 'flex-col space-y-2';
 
   return (
     <div className={`flex ${directionClass} ${className}`}>
@@ -5840,9 +5840,9 @@ export const BadgeGroup: React.FC<BadgeGroupProps> = ({
   gap = 'md'
 }) => {
   const gapClasses = {
-    sm: 'space-x-1',
-    md: 'space-x-2',
-    lg: 'space-x-3'
+    sm: 'gap-1',
+    md: 'gap-2',
+    lg: 'gap-3'
   };
 
   return (
@@ -6037,7 +6037,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   const overflowCount = totalCount - displayCount;
 
   return (
-    <div className={`flex -space-x-2 ${className}`}>
+    <div className={`flex -gap-2 ${className}`}>
       {childrenArray.slice(0, displayCount).map((child, index) => (
         <div key={index} className="relative">
           {React.cloneElement(child as React.ReactElement, { size })}
@@ -6184,7 +6184,7 @@ export const Alert: React.FC<AlertProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           {action && (
             <div className="flex-shrink-0">
               {action}
@@ -6496,7 +6496,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     disabled={item.disabled}
                     className={`
                       w-full px-4 py-2 text-left text-sm
-                      flex items-center space-x-2
+                      flex items-center gap-2
                       transition-colors duration-150
                       ${item.disabled
                         ? 'text-gray-400 cursor-not-allowed'
@@ -6558,7 +6558,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       disabled={disabled}
       className={`
         w-full px-4 py-2 text-left text-sm
-        flex items-center space-x-2
+        flex items-center gap-2
         transition-colors duration-150
         ${disabled
           ? 'text-gray-400 cursor-not-allowed'
@@ -6694,7 +6694,7 @@ export const Tabs: React.FC<TabsProps> = ({
                 ${fullWidth ? 'flex-1' : ''}
                 ${isActive ? variantClasses.active : variantClasses.inactive}
                 ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                flex items-center justify-center space-x-2
+                flex items-center justify-center gap-2
               `}
             >
               {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
@@ -6774,7 +6774,7 @@ export const TabTrigger: React.FC<TabTriggerProps> = ({
         ${variantClasses.tab}
         ${isActive ? variantClasses.active : variantClasses.inactive}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-        flex items-center space-x-2
+        flex items-center gap-2
         ${className}
       `}
     >
@@ -6897,7 +6897,7 @@ export const Accordion: React.FC<AccordionProps> = ({
                 transition-colors duration-200
               `}
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
                 <span className="font-medium text-left">{item.title}</span>
               </div>
@@ -6982,7 +6982,7 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
         ${className}
       `}
     >
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-2">
         {icon && <span className="flex-shrink-0">{icon}</span>}
         <span className="font-medium text-left">{children}</span>
       </div>
@@ -7348,7 +7348,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
     case 'minimal':
       return {
         container: 'flex items-center justify-between',
-        navigation: 'flex items-center space-x-1',
+        navigation: 'flex items-center gap-1',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50',
         activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -7356,7 +7356,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
     default:
       return {
         container: 'flex items-center justify-between',
-        navigation: 'flex items-center space-x-2',
+        navigation: 'flex items-center gap-2',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 rounded-md',
         activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600 rounded-md',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed rounded-md'
@@ -7422,7 +7422,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className={`${variantClasses.container} ${className}`}>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-4">
         {showTotalItems && (
           <div className="text-sm text-gray-700">
             عرض {startItem} إلى {endItem} من {totalItems} نتيجة
@@ -7430,7 +7430,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         )}
         
         {showItemsPerPage && onItemsPerPageChange && (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <span className="text-sm text-gray-700">عرض</span>
             <select
               value={itemsPerPage}
@@ -7547,7 +7547,7 @@ export const ItemsPerPage: React.FC<ItemsPerPageProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={`flex items-center gap-2 ${className}`}>
       <span className="text-sm text-gray-700">عرض</span>
       <select
         value={value}
@@ -7832,7 +7832,7 @@ export const ProgressGroup: React.FC<ProgressGroupProps> = ({
   direction = 'vertical',
   spacing = 'md'
 }) => {
-  const directionClass = direction === 'horizontal' ? 'flex-row space-x-4' : 'flex-col space-y-4';
+  const directionClass = direction === 'horizontal' ? 'flex-row gap-4' : 'flex-col space-y-4';
   const spacingClass = {
     sm: 'space-y-2',
     md: 'space-y-4',
@@ -7909,7 +7909,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
     switch (variant) {
       case 'dots':
         return (
-          <div className={`flex space-x-1 ${sizeClasses}`}>
+          <div className={`flex gap-1 ${sizeClasses}`}>
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
@@ -7925,7 +7925,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
 
       case 'bars':
         return (
-          <div className={`flex space-x-1 ${sizeClasses}`}>
+          <div className={`flex gap-1 ${sizeClasses}`}>
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
@@ -8045,9 +8045,9 @@ export const SpinnerGroup: React.FC<SpinnerGroupProps> = ({
 }) => {
   const directionClass = direction === 'horizontal' ? 'flex-row' : 'flex-col';
   const spacingClass = {
-    sm: 'space-x-2',
-    md: 'space-x-4',
-    lg: 'space-x-6'
+    sm: 'gap-2',
+    md: 'gap-4',
+    lg: 'gap-6'
   }[spacing];
 
   return (
@@ -8230,7 +8230,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
 }) => {
   return (
     <div className={`bg-white border border-gray-200 rounded-lg p-4 ${className}`}>
-      <div className="flex items-start space-x-3">
+      <div className="flex items-start gap-3">
         {showAvatar && (
           <SkeletonAvatar size="md" animated={animated} />
         )}
@@ -8253,7 +8253,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
       </div>
       
       {showActions && (
-        <div className="mt-4 flex space-x-2">
+        <div className="mt-4 flex gap-2">
           <SkeletonButton size="sm" animated={animated} />
           <SkeletonButton size="sm" animated={animated} />
         </div>
@@ -8281,7 +8281,7 @@ export const SkeletonTable: React.FC<SkeletonTableProps> = ({
     <div className={`bg-white border border-gray-200 rounded-lg overflow-hidden ${className}`}>
       {showHeader && (
         <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-          <div className="flex space-x-4">
+          <div className="flex gap-4">
             {[...Array(columns)].map((_, index) => (
               <Skeleton
                 key={index}
@@ -8298,7 +8298,7 @@ export const SkeletonTable: React.FC<SkeletonTableProps> = ({
       <div className="divide-y divide-gray-200">
         {[...Array(rows)].map((_, rowIndex) => (
           <div key={rowIndex} className="px-6 py-4">
-            <div className="flex space-x-4">
+            <div className="flex gap-4">
               {[...Array(columns)].map((_, colIndex) => (
                 <Skeleton
                   key={colIndex}
@@ -8329,7 +8329,7 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
   direction = 'vertical',
   spacing = 'md'
 }) => {
-  const directionClass = direction === 'horizontal' ? 'flex-row space-x-4' : 'flex-col space-y-4';
+  const directionClass = direction === 'horizontal' ? 'flex-row gap-4' : 'flex-col space-y-4';
   const spacingClass = {
     sm: 'space-y-2',
     md: 'space-y-4',
@@ -9393,7 +9393,7 @@ export default function Header() {
           {/* Logo */}
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-3"
+            className="flex items-center gap-3"
           >
             <div className="w-8 h-8 bg-primary-main rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">3DE</span>
@@ -9402,7 +9402,7 @@ export default function Header() {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center gap-6">
             <motion.div whileHover={{ scale: 1.05 }}>
               <Button variant="ghost" className="relative">
                 <Bell className="w-5 h-5" />
@@ -9412,7 +9412,7 @@ export default function Header() {
 
             <Dropdown
               trigger={
-                <div className="flex items-center space-x-2 cursor-pointer">
+                <div className="flex items-center gap-2 cursor-pointer">
                   <Avatar 
                     src={user?.avatar} 
                     alt={user?.name || 'User'}
@@ -9504,7 +9504,7 @@ export default function Header() {
           {/* Logo */}
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-3"
+            className="flex items-center gap-3"
           >
             <div className="w-8 h-8 bg-primary-main rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">3DE</span>
@@ -9513,7 +9513,7 @@ export default function Header() {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center gap-6">
             <motion.div whileHover={{ scale: 1.05 }}>
               <Button variant="ghost" className="relative">
                 <Bell className="w-5 h-5" />
@@ -9523,7 +9523,7 @@ export default function Header() {
 
             <Dropdown
               trigger={
-                <div className="flex items-center space-x-2 cursor-pointer">
+                <div className="flex items-center gap-2 cursor-pointer">
                   <Avatar 
                     src={user?.avatar} 
                     alt={user?.name || 'User'}
@@ -9634,7 +9634,7 @@ export default function Sidebar() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex items-center space-x-2"
+              className="flex items-center gap-2"
             >
               <div className="w-8 h-8 bg-primary-main rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">3DE</span>
@@ -9661,7 +9661,7 @@ export default function Sidebar() {
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 ${
+                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 ${
                     isActive
                       ? 'bg-primary-main text-white'
                       : 'text-gray-700 hover:bg-gray-100'
@@ -9782,16 +9782,16 @@ export default function CourseCard({ course, isEnrolled = false }: CourseCardPro
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center space-x-4 mb-4 text-sm text-gray-500">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             <span>{course.duration || 'غير محدد'}</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             <span>{course.studentsCount || 0} طالب</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
             <span>{course.lessonsCount || 0} درس</span>
           </div>
@@ -9844,7 +9844,7 @@ export default function InstructorCard({ instructor }: InstructorCardProps) {
       className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
     >
       {/* Instructor Header */}
-      <div className="flex items-center space-x-4 mb-4">
+      <div className="flex items-center gap-4 mb-4">
         <Avatar
           src={instructor.avatar}
           alt={instructor.name}
@@ -9856,8 +9856,8 @@ export default function InstructorCard({ instructor }: InstructorCardProps) {
             {instructor.name}
           </h3>
           <p className="text-gray-600 mb-2">{instructor.title}</p>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
               <span className="text-sm text-gray-600">
                 {instructor.rating || 0}
@@ -9878,13 +9878,13 @@ export default function InstructorCard({ instructor }: InstructorCardProps) {
       {/* Contact Info */}
       <div className="space-y-2 mb-4">
         {instructor.email && (
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
             <Mail className="w-4 h-4" />
             <span>{instructor.email}</span>
           </div>
         )}
         {instructor.phone && (
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
             <Phone className="w-4 h-4" />
             <span>{instructor.phone}</span>
           </div>
@@ -10110,7 +10110,7 @@ export default function VideoPlayer({ src, title, onProgress, onComplete }: Vide
 
             {/* Control Buttons */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -10120,7 +10120,7 @@ export default function VideoPlayer({ src, title, onProgress, onComplete }: Vide
                   {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
                 </Button>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -10143,7 +10143,7 @@ export default function VideoPlayer({ src, title, onProgress, onComplete }: Vide
                 </span>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -10218,7 +10218,7 @@ export default function PDFViewer({ src, title }: PDFViewerProps) {
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
         <h3 className="text-lg font-medium text-gray-900">{title}</h3>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -10435,7 +10435,7 @@ export default function AudioPlayer({ src, title, onProgress, onComplete }: Audi
       </div>
 
       {/* Control Buttons */}
-      <div className="flex items-center justify-center space-x-4 mb-4">
+      <div className="flex items-center justify-center gap-4 mb-4">
         <Button
           variant="ghost"
           size="sm"
@@ -10466,7 +10466,7 @@ export default function AudioPlayer({ src, title, onProgress, onComplete }: Audi
 
       {/* Volume and Speed Controls */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
@@ -10484,9 +10484,9 @@ export default function AudioPlayer({ src, title, onProgress, onComplete }: Audi
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">السرعة:</span>
-          <div className="flex space-x-1">
+          <div className="flex gap-1">
             {[0.5, 1, 1.25, 1.5, 2].map((rate) => (
               <Button
                 key={rate}
@@ -10591,7 +10591,7 @@ export default function ImageViewer({ src, title, alt }: ImageViewerProps) {
               <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between bg-white/90 backdrop-blur-sm rounded-lg p-3">
                 <h3 className="text-lg font-medium text-gray-900">{title}</h3>
                 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
                     size="sm"
@@ -10859,7 +10859,7 @@ export default function LessonList({
                 }`}
                 onClick={() => !isLocked && onLessonSelect(lesson.id)}
               >
-                <div className="flex items-center space-x-3 flex-1">
+                <div className="flex items-center gap-3 flex-1">
                   {/* Status Icon */}
                   <div className="flex-shrink-0">
                     {isLocked ? (
@@ -10885,7 +10885,7 @@ export default function LessonList({
                 </div>
 
                 {/* Progress */}
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <div className="w-20">
                     <Progress 
                       value={lesson.progress || 0} 
@@ -10928,7 +10928,7 @@ export default function LessonList({
                       {lesson.files.map((file) => (
                         <div
                           key={file.id}
-                          className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                          className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
                           onClick={() => onFileSelect(file)}
                         >
                           {getFileIcon(file.type)}
@@ -11013,7 +11013,7 @@ export default function QuizQuestion({
           <h3 className="text-lg font-semibold text-gray-900">
             السؤال {question.order}
           </h3>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <span className="text-sm text-gray-500">النقاط:</span>
             <span className="text-sm font-medium text-primary-main">
               {question.points}
@@ -11055,7 +11055,7 @@ export default function QuizQuestion({
             }`}
             onClick={() => handleAnswerChange(option.id, !isAnswerSelected(option.id))}
           >
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-3">
               {question.isMultiple ? (
                 <Checkbox
                   checked={isAnswerSelected(option.id)}
@@ -11082,7 +11082,7 @@ export default function QuizQuestion({
 
       {/* Question Type Indicator */}
       <div className="mt-6 pt-4 border-t border-gray-200">
-        <div className="flex items-center space-x-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-sm text-gray-500">
           {question.isMultiple ? (
             <>
               <CheckSquare className="w-4 h-4" />
@@ -11200,7 +11200,7 @@ export default function HomePage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Card className="p-6">
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-lg ${stat.bgColor}`}>
                       <stat.icon className={`w-6 h-6 ${stat.color}`} />
                     </div>
@@ -11260,7 +11260,7 @@ export default function HomePage() {
         )}
 
         {/* Tabs */}
-        <div className="flex space-x-4 border-b border-gray-200">
+        <div className="flex gap-4 border-b border-gray-200">
           <button
             onClick={() => setActiveTab('courses')}
             className={`pb-2 px-1 border-b-2 font-medium text-sm transition-colors ${
@@ -11485,7 +11485,7 @@ export default function CoursePage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
-          <div className="flex items-start space-x-4">
+          <div className="flex items-start gap-4">
             {course.thumbnail && (
               <img
                 src={course.thumbnail}
@@ -11496,7 +11496,7 @@ export default function CoursePage() {
             <div className="flex-1">
               <h1 className="text-2xl font-bold text-gray-900 mb-2">{course.title}</h1>
               <p className="text-gray-600 mb-4">{course.description}</p>
-              <div className="flex items-center space-x-6 text-sm text-gray-500">
+              <div className="flex items-center gap-6 text-sm text-gray-500">
                 <span>{lessons.length} درس</span>
                 <span>{course.duration || 'غير محدد'}</span>
                 <span>{course.instructor?.name}</span>
@@ -11811,7 +11811,7 @@ export default function QuizPage() {
             السؤال السابق
           </Button>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             {currentQuestionIndex === totalQuestions - 1 ? (
               <Button
                 onClick={handleSubmitQuiz}
@@ -12317,7 +12317,7 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-r from-primary-main to-secondary-main rounded-xl p-6 text-white"
         >
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
             <Avatar
               src={profile?.avatar || user?.avatar}
               alt={profile?.name || user?.name}
@@ -12360,7 +12360,7 @@ export default function ProfilePage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-4">المعلومات الشخصية</h2>
               
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <User className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -12380,7 +12380,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -12400,7 +12400,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -12420,7 +12420,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -12440,7 +12440,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     <p className="text-sm text-gray-500">تاريخ الانضمام</p>
@@ -12501,7 +12501,7 @@ export default function ProfilePage() {
               
               <div className="space-y-4">
                 {profile?.recentActivity?.map((activity, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-2 h-2 bg-primary-main rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-900">{activity.title}</p>
@@ -12590,7 +12590,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, x: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Bell className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">التنبيهات</h2>
               </div>
@@ -12638,7 +12638,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, x: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Shield className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">الخصوصية</h2>
               </div>
@@ -12690,7 +12690,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Palette className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">المظهر</h2>
               </div>
@@ -12700,7 +12700,7 @@ export default function SettingsPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     المظهر
                   </label>
-                  <div className="flex space-x-2">
+                  <div className="flex gap-2">
                     <Button
                       variant={settings.appearance.theme === 'light' ? 'primary' : 'outline'}
                       size="sm"
@@ -12758,7 +12758,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             <Card className="p-6">
-              <div className="flex items-center space-x-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <Globe className="w-6 h-6 text-primary-main" />
                 <h2 className="text-lg font-semibold text-gray-900">الحساب</h2>
               </div>
@@ -12906,7 +12906,7 @@ export default function NotificationsPage() {
                 {unreadCount} تنبيه جديد
               </p>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
                 تحديد الكل كمقروء
               </Button>
@@ -12923,7 +12923,7 @@ export default function NotificationsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex space-x-4"
+          className="flex gap-4"
         >
           <Button
             variant={filter === 'all' ? 'primary' : 'outline'}
@@ -12958,7 +12958,7 @@ export default function NotificationsPage() {
               transition={{ delay: index * 0.05 }}
             >
               <Card className={`p-4 ${!notification.isRead ? 'border-primary-main bg-primary-main/5' : ''}`}>
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-lg ${getNotificationColor(notification.type)}`}>
                     {getNotificationIcon(notification.type)}
                   </div>
@@ -12972,7 +12972,7 @@ export default function NotificationsPage() {
                         <p className="text-sm text-gray-600 mb-2">
                           {notification.message}
                         </p>
-                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
                           <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
                           <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
                           {notification.type && (
@@ -12983,7 +12983,7 @@ export default function NotificationsPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center gap-2">
                         {!notification.isRead && (
                           <Button
                             variant="ghost"
@@ -13101,7 +13101,7 @@ export default function CoursesPage() {
           transition={{ delay: 0.1 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
+          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -13115,7 +13115,7 @@ export default function CoursesPage() {
             </div>
 
             {/* Categories */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Filter className="w-5 h-5 text-gray-400" />
               <select
                 value={category}
@@ -13129,7 +13129,7 @@ export default function CoursesPage() {
             </div>
 
             {/* View Mode */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button
                 variant={viewMode === 'grid' ? 'primary' : 'outline'}
                 size="sm"
@@ -13158,7 +13158,7 @@ export default function CoursesPage() {
           <p className="text-gray-600">
             تم العثور على {filteredCourses?.length || 0} كورس
           </p>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <Badge variant="outline">
               {enrolledCourses.length} مشترك
             </Badge>
@@ -13323,7 +13323,7 @@ export default function InstructorPage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-r from-primary-main to-secondary-main rounded-xl p-6 text-white"
         >
-          <div className="flex items-start space-x-6">
+          <div className="flex items-start gap-6">
             <Avatar
               src={instructor.avatar}
               alt={instructor.name}
@@ -13335,20 +13335,20 @@ export default function InstructorPage() {
               <p className="text-xl text-white/90 mb-4">{instructor.title}</p>
               <p className="text-white/80 mb-4">{instructor.bio}</p>
               
-              <div className="flex items-center space-x-6 text-sm">
-                <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-6 text-sm">
+                <div className="flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-300" />
                   <span>{instructor.rating} تقييم</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   <span>{instructor.studentsCount} طالب</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <BookOpen className="w-5 h-5" />
                   <span>{instructor.coursesCount} كورس</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5" />
                   <span>{instructor.experienceYears} سنوات خبرة</span>
                 </div>
@@ -13368,7 +13368,7 @@ export default function InstructorPage() {
               
               <div className="space-y-4">
                 {instructor.email && (
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-gray-400" />
                     <div>
                       <p className="text-sm text-gray-500">البريد الإلكتروني</p>
@@ -13378,7 +13378,7 @@ export default function InstructorPage() {
                 )}
 
                 {instructor.phone && (
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-gray-400" />
                     <div>
                       <p className="text-sm text-gray-500">رقم الهاتف</p>
@@ -13388,7 +13388,7 @@ export default function InstructorPage() {
                 )}
 
                 {instructor.location && (
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center gap-3">
                     <MapPin className="w-5 h-5 text-gray-400" />
                     <div>
                       <p className="text-sm text-gray-500">الموقع</p>
@@ -13933,7 +13933,7 @@ export default function NotFound() {
         <p className="text-gray-600 mb-8">
           عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها
         </p>
-        <div className="space-x-4">
+        <div className="gap-4">
           <Link href="/">
             <Button>العودة للرئيسية</Button>
           </Link>
@@ -13976,7 +13976,7 @@ export default function Error({
         <p className="text-gray-600 mb-8">
           عذراً، حدث خطأ أثناء تحميل الصفحة. يرجى المحاولة مرة أخرى
         </p>
-        <div className="space-x-4">
+        <div className="gap-4">
           <Button onClick={reset}>
             إعادة المحاولة
           </Button>
@@ -15764,7 +15764,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       {/* Course Content */}
       <div className="p-6">
         {/* Instructor Info */}
-        <div className="flex items-center space-x-3 mb-4">
+        <div className="flex items-center gap-3 mb-4">
           <Avatar
             src={getInstructorAvatar()}
             alt={getInstructorName()}
@@ -15789,23 +15789,23 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center space-x-4 mb-4 text-sm text-gray-500">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
             <span>{course.lessons?.length || 0} درس</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             <span>4 ساعات</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             <span>{course.enrollments?.length || 0} طالب</span>
           </div>
         </div>
 
         {/* Rating */}
-        <div className="flex items-center space-x-1 mb-4">
+        <div className="flex items-center gap-1 mb-4">
           <Star className="w-4 h-4 text-yellow-400 fill-current" />
           <span className="text-sm font-medium text-gray-900">4.8</span>
           <span className="text-sm text-gray-500">(120 تقييم)</span>
@@ -15931,7 +15931,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       {/* Course Content */}
       <div className="p-6">
         {/* Instructor Info */}
-        <div className="flex items-center space-x-3 mb-4">
+        <div className="flex items-center gap-3 mb-4">
           <Avatar
             src={getInstructorAvatar()}
             alt={getInstructorName()}
@@ -15956,23 +15956,23 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center space-x-4 mb-4 text-sm text-gray-500">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <span>📚</span>
             <span>{course.lessons?.length || 0} درس</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <span>⏰</span>
             <span>4 ساعات</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <span>👥</span>
             <span>{course.enrollments?.length || 0} طالب</span>
           </div>
         </div>
 
         {/* Rating */}
-        <div className="flex items-center space-x-1 mb-4">
+        <div className="flex items-center gap-1 mb-4">
           <span className="text-yellow-400">⭐</span>
           <span className="text-sm font-medium text-gray-900">4.8</span>
           <span className="text-sm text-gray-500">(120 تقييم)</span>
@@ -16459,7 +16459,7 @@ export default function NotificationsPage() {
                 {unreadCount} تنبيه جديد
               </p>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
                 تحديد الكل كمقروء
               </Button>
@@ -16472,7 +16472,7 @@ export default function NotificationsPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex space-x-4 transition-all duration-300">
+        <div className="flex gap-4 transition-all duration-300">
           <Button
             variant={filter === 'all' ? 'primary' : 'outline'}
             size="sm"
@@ -16505,7 +16505,7 @@ export default function NotificationsPage() {
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <Card className={`p-4 ${!notification.read ? 'border-primary-main bg-primary-main/5' : ''}`}>
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-lg ${getNotificationColor(notification.type)}`}>
                     {getNotificationIcon(notification.type)}
                   </div>
@@ -16519,7 +16519,7 @@ export default function NotificationsPage() {
                         <p className="text-sm text-gray-600 mb-2">
                           {notification.message}
                         </p>
-                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
                           <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
                           <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
                           {notification.type && (
@@ -16530,7 +16530,7 @@ export default function NotificationsPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center gap-2">
                         {!notification.read && (
                           <Button
                             variant="ghost"
@@ -16555,7 +16555,7 @@ export default function NotificationsPage() {
         
         {/* Pagination */}
         {notifications?.data && notifications.data.length && notifications.data.length > 0 && (
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center gap-2">
             <Button variant="outline" disabled={page === 0} onClick={() => setPage(page - 1)}>السابق</Button>
             <Button variant="outline" onClick={() => setPage(page + 1)}>التالي</Button>
           </div>
@@ -16819,7 +16819,7 @@ export default function CoursesPage() {
           transition={{ delay: 0.1 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
+          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -16833,7 +16833,7 @@ export default function CoursesPage() {
             </div>
 
             {/* Categories */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Filter className="w-5 h-5 text-gray-400" />
               <select
                 value={category}
@@ -16847,7 +16847,7 @@ export default function CoursesPage() {
             </div>
 
             {/* View Mode */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button
                 variant={viewMode === 'grid' ? 'primary' : 'outline'}
                 size="sm"
@@ -16876,7 +16876,7 @@ export default function CoursesPage() {
           <p className="text-gray-600">
             تم العثور على {filteredCourses?.length || 0} كورس
           </p>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <Badge variant="outline">
               {enrolledCourses.length} مشترك
             </Badge>
@@ -17048,7 +17048,7 @@ export default function CoursesPage() {
           transition={{ delay: 0.1 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
+          <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -17062,7 +17062,7 @@ export default function CoursesPage() {
             </div>
 
             {/* Categories */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Filter className="w-5 h-5 text-gray-400" />
               <select
                 value={category}
@@ -17076,7 +17076,7 @@ export default function CoursesPage() {
             </div>
 
             {/* View Mode */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button
                 variant={viewMode === 'grid' ? 'primary' : 'outline'}
                 size="sm"
@@ -17105,7 +17105,7 @@ export default function CoursesPage() {
           <p className="text-gray-600">
             تم العثور على {filteredCourses?.length || 0} كورس
           </p>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <Badge variant="outline">
               {enrolledCourses.length} مشترك
             </Badge>
@@ -17308,7 +17308,7 @@ export default function NotificationsPage() {
                 {unreadCount} تنبيه جديد
               </p>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
                 تحديد الكل كمقروء
               </Button>
@@ -17325,7 +17325,7 @@ export default function NotificationsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex space-x-4"
+          className="flex gap-4"
         >
           <Button
             variant={filter === 'all' ? 'primary' : 'outline'}
@@ -17360,7 +17360,7 @@ export default function NotificationsPage() {
               transition={{ delay: index * 0.05 }}
             >
               <Card className={`p-4 ${!notification.read ? 'border-primary-main bg-primary-main/5' : ''}`}>
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-lg ${getNotificationColor(notification.type)}`}>
                     {getNotificationIcon(notification.type)}
                   </div>
@@ -17374,7 +17374,7 @@ export default function NotificationsPage() {
                         <p className="text-sm text-gray-600 mb-2">
                           {notification.message}
                         </p>
-                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
                           <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
                           <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
                           {notification.type && (
@@ -17385,7 +17385,7 @@ export default function NotificationsPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center gap-2">
                         {!notification.read && (
                           <Button
                             variant="ghost"
@@ -17410,7 +17410,7 @@ export default function NotificationsPage() {
         
         {/* Pagination */}
         {notifications && notifications.length && notifications.length > 0 && (
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center gap-2">
             <Button variant="outline" disabled={page === 0} onClick={() => setPage(page - 1)}>السابق</Button>
             <Button variant="outline" onClick={() => setPage(page + 1)}>التالي</Button>
           </div>
@@ -17524,16 +17524,16 @@ export default function CourseCard({ course, isEnrolled = false }: CourseCardPro
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center space-x-4 mb-4 text-sm text-gray-500">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             <span>{formatDate(course.startDate)}</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             <span>{course.enrollments?.length || 0} طالب</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
             <span>{course.lessons?.length || 0} درس</span>
           </div>
@@ -17675,7 +17675,7 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-r from-primary-main to-secondary-main rounded-xl p-6 text-white"
         >
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
             <Avatar
               src={profile?.avatar || user?.avatar}
               alt={profile?.firstName + ' ' + profile?.lastName || user?.firstName + ' ' + user?.lastName || ''}
@@ -17718,7 +17718,7 @@ export default function ProfilePage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-4">المعلومات الشخصية</h2>
               
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <UserIcon className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -17737,7 +17737,7 @@ export default function ProfilePage() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <UserIcon className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -17757,7 +17757,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -17777,7 +17777,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -17797,7 +17797,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                {/* <div className="flex items-center space-x-3">
+                {/* <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     {isEditing ? (
@@ -17817,7 +17817,7 @@ export default function ProfilePage() {
                   </div>
                 </div> */}
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-gray-400" />
                   <div className="flex-1">
                     <p className="text-sm text-gray-500">تاريخ الانضمام</p>
@@ -17891,7 +17891,7 @@ export default function ProfilePage() {
               
               <div className="space-y-4">
                 {profile?.loginHistory?.map((activity: any, index: number) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-2 h-2 bg-primary-main rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-900">{activity.device}</p>
@@ -17985,7 +17985,7 @@ export default function InstructorsPage() {
         
         {/* Pagination */}
         {instructors && instructors.length && instructors.length > 0 && (
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center gap-2">
             <Button variant="outline" disabled={page === 0} onClick={() => setPage(page - 1)}>السابق</Button>
             <Button variant="outline" onClick={() => setPage(page + 1)}>التالي</Button>
           </div>
@@ -18465,7 +18465,7 @@ export default function HomePage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Card className="p-6">
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-lg ${stat.bgColor}`}>
                       <stat.icon className={`w-6 h-6 ${stat.color}`} />
                     </div>
@@ -18538,7 +18538,7 @@ export default function HomePage() {
         )}
 
         {/* Tabs */}
-        <div className="flex space-x-4 border-b border-gray-200">
+        <div className="flex gap-4 border-b border-gray-200">
           <button
             onClick={() => setActiveTab('courses')}
             className={`pb-2 px-1 border-b-2 font-medium text-sm transition-colors ${
@@ -18796,7 +18796,7 @@ export default function Pagination({
   hasPrevious = true 
 }: PaginationProps) {
   return (
-    <div className="flex justify-center space-x-2">
+    <div className="flex justify-center gap-2">
       <Button 
         variant="outline" 
         disabled={!hasPrevious || currentPage === 0} 
@@ -19050,7 +19050,7 @@ export default function NotificationsPage() {
                 {unreadCount} تنبيه جديد
               </p>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
                 تحديد الكل كمقروء
               </Button>
@@ -19067,7 +19067,7 @@ export default function NotificationsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex space-x-4"
+          className="flex gap-4"
         >
           <Button
             variant={filter === 'all' ? 'primary' : 'outline'}
@@ -19102,7 +19102,7 @@ export default function NotificationsPage() {
               transition={{ delay: index * 0.05 }}
             >
               <Card className={`p-4 ${!notification.read ? 'border-primary-main bg-primary-main/5' : ''}`}>
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-lg ${getNotificationColor(notification.type)}`}>
                     {getNotificationIcon(notification.type)}
                   </div>
@@ -19116,7 +19116,7 @@ export default function NotificationsPage() {
                         <p className="text-sm text-gray-600 mb-2">
                           {notification.message}
                         </p>
-                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
                           <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
                           <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
                           {notification.type && (
@@ -19127,7 +19127,7 @@ export default function NotificationsPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center gap-2">
                         {!notification.read && (
                           <Button
                             variant="ghost"
@@ -19218,7 +19218,7 @@ export default function NotFound() {
         <p className="text-gray-600 mb-8">
           عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها
         </p>
-        <div className="space-x-4">
+        <div className="gap-4">
           <Link href="/">
             <Button>العودة للرئيسية</Button>
           </Link>
@@ -19932,7 +19932,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
       {/* رأس التقويم */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">تقويم الاختبارات</h2>
-        <div className="flex items-center space-x-4 space-x-reverse">
+        <div className="flex items-center gap-4 gap-reverse">
           <button
             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
             className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
@@ -20028,29 +20028,29 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <BookOpen className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">الدرس: {selectedExam.lesson.title}</span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <User className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">الكورس: {selectedExam.lesson.course.title}</span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <Clock className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">المدة: {selectedExam.duration} دقيقة</span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
                   تاريخ البدء: {selectedExam.startDate.toLocaleDateString('ar-SA')}
                 </span>
               </div>
 
-              <div className="flex items-center space-x-2 space-x-reverse">
+              <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
                   تاريخ النهاية: {selectedExam.endDate.toLocaleDateString('ar-SA')}
@@ -20158,22 +20158,22 @@ export const ExamCard: React.FC<ExamCardProps> = ({ quiz, onStartExam }) => {
         </div>
 
         <div className="space-y-2">
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <BookOpen className="w-4 h-4" />
             <span>الدرس: {quiz.lesson.title}</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <User className="w-4 h-4" />
             <span>الكورس: {quiz.lesson.course.title}</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Clock className="w-4 h-4" />
             <span>المدة: {quiz.timeLimit || 60} دقيقة</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Calendar className="w-4 h-4" />
             <span>تاريخ الإنشاء: {new Date(quiz.createdAt).toLocaleDateString('ar-SA')}</span>
           </div>
@@ -20250,7 +20250,7 @@ export const TabsController: React.FC<TabsControllerProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`flex space-x-1 space-x-reverse bg-gray-100 p-1 rounded-lg ${className}`}>
+    <div className={`flex gap-1 gap-reverse bg-gray-100 p-1 rounded-lg ${className}`}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         
@@ -20258,7 +20258,7 @@ export const TabsController: React.FC<TabsControllerProps> = ({
           <motion.button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`flex items-center space-x-2 space-x-reverse px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+            className={`flex items-center gap-2 gap-reverse px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
               isActive
                 ? 'bg-white text-blue-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
@@ -20346,7 +20346,7 @@ export const InfiniteLoader: React.FC<InfiniteLoaderProps> = ({
           transition={{ duration: 0.3 }}
         >
           {isLoading ? (
-            <div className="flex items-center space-x-2 space-x-reverse">
+            <div className="flex items-center gap-2 gap-reverse">
               <Spinner size="sm" />
               <span className="text-gray-600">جاري التحميل...</span>
             </div>
@@ -20421,7 +20421,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       <Card className="p-6">
         {/* رأس المنشور */}
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3 space-x-reverse">
+          <div className="flex items-center gap-3 gap-reverse">
             <Avatar
               src={post.author.avatar}
               alt={`${post.author.firstName} ${post.author.lastName}`}
@@ -20462,7 +20462,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 
         {/* إحصائيات المنشور */}
         <div className="flex items-center justify-between py-3 border-t border-b border-gray-100 mb-4">
-          <div className="flex items-center space-x-4 space-x-reverse text-sm text-gray-500">
+          <div className="flex items-center gap-4 gap-reverse text-sm text-gray-500">
             <span>{post.likesCount} إعجاب</span>
             <span>{post.comments?.length || 0} تعليق</span>
           </div>
@@ -20470,7 +20470,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 
         {/* أزرار التفاعل */}
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-4 space-x-reverse">
+          <div className="flex items-center gap-4 gap-reverse">
             <Button
               variant={isLiked ? 'primary' : 'ghost'}
               size="sm"
@@ -20520,7 +20520,7 @@ export const PostCard: React.FC<PostCardProps> = ({
               className="space-y-4"
             >
               {/* إضافة تعليق جديد */}
-              <div className="flex space-x-2 space-x-reverse">
+              <div className="flex gap-2 gap-reverse">
                 <input
                   type="text"
                   value={commentContent}
@@ -20583,7 +20583,7 @@ export const Comment: React.FC<CommentProps> = ({
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.2 }}
-      className="flex space-x-3 space-x-reverse"
+      className="flex gap-3 gap-reverse"
     >
       <Avatar
         src={comment.author.avatar}
@@ -20612,10 +20612,10 @@ export const Comment: React.FC<CommentProps> = ({
           </p>
         </div>
         
-        <div className="flex items-center space-x-4 space-x-reverse mt-2">
+        <div className="flex items-center gap-4 gap-reverse mt-2">
           <button
             onClick={() => onLike?.(comment.id)}
-            className={`flex items-center space-x-1 space-x-reverse text-xs transition-colors ${
+            className={`flex items-center gap-1 gap-reverse text-xs transition-colors ${
               isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'
             }`}
           >
@@ -20625,7 +20625,7 @@ export const Comment: React.FC<CommentProps> = ({
           
           <button
             onClick={() => onReply?.(comment.id)}
-            className="flex items-center space-x-1 space-x-reverse text-xs text-gray-500 hover:text-gray-700 transition-colors"
+            className="flex items-center gap-1 gap-reverse text-xs text-gray-500 hover:text-gray-700 transition-colors"
           >
             <Reply className="w-3 h-3" />
             <span>رد</span>
@@ -20703,12 +20703,12 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
 
         {/* إحصائيات المجتمع */}
         <div className="grid grid-cols-2 gap-4 py-4 border-t border-b border-gray-100">
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Users className="w-4 h-4" />
             <span>{community.participants?.length || 0} عضو</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <MessageCircle className="w-4 h-4" />
             <span>مناقشات نشطة</span>
           </div>
@@ -20716,7 +20716,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
 
         {/* معلومات إضافية */}
         <div className="flex items-center justify-between text-sm text-gray-500">
-          <div className="flex items-center space-x-2 space-x-reverse">
+          <div className="flex items-center gap-2 gap-reverse">
             <Calendar className="w-4 h-4" />
             <span>
               تم الإنشاء في {new Date(community.createdAt).toLocaleDateString('ar-SA', {
@@ -21896,7 +21896,7 @@ export default function CommunitiesPage() {
                 إضافة صورة
               </Button>
               
-              <div className="flex space-x-2 space-x-reverse">
+              <div className="flex gap-2 gap-reverse">
                 <Button
                   variant="outline"
                   onClick={() => setShowCreatePost(false)}
@@ -22100,7 +22100,7 @@ export default function CommunityPage() {
           <Card className="p-8">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <div className="flex items-center space-x-4 space-x-reverse mb-4">
+                <div className="flex items-center gap-4 gap-reverse mb-4">
                   <Avatar
                     src={community?.image}
                     alt={community?.name}
@@ -22117,17 +22117,17 @@ export default function CommunityPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                  <div className="flex items-center space-x-2 space-x-reverse text-gray-600">
+                  <div className="flex items-center gap-2 gap-reverse text-gray-600">
                     <Users className="w-5 h-5" />
                     <span>{community?.participants?.length || 0} عضو</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2 space-x-reverse text-gray-600">
+                  <div className="flex items-center gap-2 gap-reverse text-gray-600">
                     <MessageCircle className="w-5 h-5" />
                     <span>{posts?.length || 0} منشور</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2 space-x-reverse text-gray-600">
+                  <div className="flex items-center gap-2 gap-reverse text-gray-600">
                     <Calendar className="w-5 h-5" />
                     <span>
                       تم الإنشاء في {community?.createdAt 
@@ -22663,7 +22663,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
 
           {/* معلومات مهمة */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="flex items-start space-x-2 space-x-reverse">
+            <div className="flex items-start gap-2 gap-reverse">
               <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
                 <span className="text-blue-600 text-xs font-bold">!</span>
               </div>
@@ -22679,7 +22679,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
           </div>
 
           {/* أزرار الإجراءات */}
-          <div className="flex space-x-3 space-x-reverse pt-4">
+          <div className="flex gap-3 gap-reverse pt-4">
             <Button
               type="button"
               variant="outline"
@@ -22783,11 +22783,11 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           <p className="text-gray-600 mb-3">
             {certificate.name}
           </p>
-          <div className="flex items-center justify-center space-x-2 space-x-reverse">
+          <div className="flex items-center justify-center gap-2 gap-reverse">
             <Badge variant="primary">
               {certificate.type}
             </Badge>
-            <div className="flex items-center space-x-1 space-x-reverse text-yellow-600">
+            <div className="flex items-center gap-1 gap-reverse text-yellow-600">
               <Star className="w-4 h-4 fill-current" />
               <span className="text-sm font-medium">{certificate.points} نقطة</span>
             </div>
@@ -23110,22 +23110,22 @@ export const LearningPathCard: React.FC<LearningPathCardProps> = ({
 
         {/* إحصائيات المسار */}
         <div className="grid grid-cols-2 gap-4 py-4 border-t border-b border-gray-100">
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <BookOpen className="w-4 h-4" />
             <span>{path.courses?.length || 0} كورس</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Clock className="w-4 h-4" />
             <span>{formatTime(path.studyTime)}</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Target className="w-4 h-4" />
             <span>{path.completedTasks}/{path.totalTasks} مهام</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Users className="w-4 h-4" />
             <span>{path.peers?.length || 0} مشارك</span>
           </div>
@@ -24235,7 +24235,7 @@ export default function PathDetailPage() {
         <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-8 mb-8">
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
-              <div className="flex items-center space-x-3 space-x-reverse mb-4">
+              <div className="flex items-center gap-3 gap-reverse mb-4">
                 <Badge className={getLevelColor(path.level)}>
                   {getLevelText(path.level)}
                 </Badge>
@@ -24320,7 +24320,7 @@ export default function PathDetailPage() {
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                   >
-                    <div className="flex items-center space-x-3 space-x-reverse">
+                    <div className="flex items-center gap-3 gap-reverse">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <Play className="w-5 h-5 text-blue-600" />
                       </div>
@@ -24329,7 +24329,7 @@ export default function PathDetailPage() {
                         <p className="text-sm text-gray-600">{course.description}</p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2 space-x-reverse">
+                    <div className="flex items-center gap-2 gap-reverse">
                       <span className="text-sm text-gray-600">{formatTime(course.duration)}</span>
                       <CheckCircle className="w-5 h-5 text-green-500" />
                     </div>
@@ -25317,7 +25317,7 @@ export default function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) 
           {/* Logo */}
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-3"
+            className="flex items-center gap-3"
           >
             <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30">
               <span className="text-white font-bold text-lg">3DE</span>
@@ -25326,7 +25326,7 @@ export default function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) 
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center gap-6">
             <motion.div whileHover={{ scale: 1.05 }}>
               <Button variant="ghost" className="relative text-white hover:bg-white/20">
                 <Bell className="w-5 h-5" />
@@ -25336,7 +25336,7 @@ export default function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) 
 
             <Dropdown
               trigger={
-                <div className="flex items-center space-x-2 cursor-pointer">
+                <div className="flex items-center gap-2 cursor-pointer">
                   {user?.image ? (
                     <Avatar 
                       src={user.image} 
@@ -25359,7 +25359,7 @@ export default function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) 
           </nav>
 
           {/* Sidebar Toggle Button */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
             <motion.div whileHover={{ scale: 1.05 }}>
               <Button
                 variant="ghost"
@@ -25530,7 +25530,7 @@ const menuItems = [
 -            <motion.div
 -              initial={{ opacity: 0 }}
 -              animate={{ opacity: 1 }}
--              className="flex items-center space-x-2"
+-              className="flex items-center gap-2"
 -            >
 -              <div className="w-8 h-8 bg-primary-main rounded-lg flex items-center justify-center">
 -                <span className="text-white font-bold text-sm">3DE</span>
@@ -25557,7 +25557,7 @@ const menuItems = [
 -                <motion.div
 -                  whileHover={{ scale: 1.02 }}
 -                  whileTap={{ scale: 0.98 }}
--                  className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 ${
+-                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 ${
 -                    isActive
 -                      ? 'bg-primary-main text-white'
 -                      : 'text-gray-700 hover:bg-gray-100'
@@ -25968,7 +25968,7 @@ import { useAuth } from '@3de/auth';
           {/* Logo */}
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-3"
+            className="flex items-center gap-3"
           >
             <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30">
               <span className="text-white font-bold text-lg">3DE</span>
@@ -25977,7 +25977,7 @@ import { useAuth } from '@3de/auth';
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center gap-6">
             <motion.div whileHover={{ scale: 1.05 }}>
               <Button variant="ghost" className="relative text-white hover:bg-white/20">
                 <Bell className="w-5 h-5" />
@@ -25987,7 +25987,7 @@ import { useAuth } from '@3de/auth';
 
             <Dropdown
               trigger={
-                <div className="flex items-center space-x-2 cursor-pointer">
+                <div className="flex items-center gap-2 cursor-pointer">
                   {user?.avatar ? (
                     <Avatar 
                       src={user.avatar} 
@@ -26010,7 +26010,7 @@ import { useAuth } from '@3de/auth';
           </nav>
 
 -          {/* Sidebar Toggle Button */}
--          <div className="flex items-center space-x-4">
+-          <div className="flex items-center gap-4">
 -            <motion.div whileHover={{ scale: 1.05 }}>
 -              <Button
 -                variant="ghost"

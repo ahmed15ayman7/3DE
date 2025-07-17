@@ -18,7 +18,7 @@ export default function Pagination({
   hasPrevious = true 
 }: PaginationProps) {
   return (
-    <div className="flex justify-center space-x-2">
+    <div className="flex justify-center gap-2">
       <Button 
         variant="outline" 
         disabled={!hasPrevious || currentPage === 0} 

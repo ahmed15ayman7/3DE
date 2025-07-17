@@ -240,7 +240,7 @@ export default function QuizPage() {
             السؤال السابق
           </Button>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             {currentQuestionIndex === totalQuestions - 1 ? (
               <Button
                 onClick={handleSubmitQuiz}

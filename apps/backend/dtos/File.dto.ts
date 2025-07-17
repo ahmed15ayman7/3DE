@@ -48,10 +48,10 @@ export class FileDto {
   @Column()
   isCompleted: boolean;
 
-  @ApiProperty({ type: "string", format: "date-time", nullable: true })
-  // Field: lastWatched, Type: Date
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: lastWatched, Type: number
   @Column()
-  lastWatched?: Date;
+  lastWatched?: number;
 
   @ApiProperty({ type: "string", nullable: true })
   // Field: lessonId, Type: string

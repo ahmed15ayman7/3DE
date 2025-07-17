@@ -49,12 +49,12 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
 
         {/* إحصائيات المجتمع */}
         <div className="grid grid-cols-2 gap-4 py-4 border-t border-b border-gray-100">
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Users className="w-4 h-4" />
             <span>{community.participants?.length || 0} عضو</span>
           </div>
           
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <MessageCircle className="w-4 h-4" />
             <span>مناقشات نشطة</span>
           </div>
@@ -62,7 +62,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
 
         {/* معلومات إضافية */}
         <div className="flex items-center justify-between text-sm text-gray-500">
-          <div className="flex items-center space-x-2 space-x-reverse">
+          <div className="flex items-center gap-2 gap-reverse">
             <Calendar className="w-4 h-4" />
             <span>
               تم الإنشاء في {new Date(community.createdAt).toLocaleDateString('ar-SA', {

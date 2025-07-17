@@ -118,7 +118,7 @@ export default function HomePage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Card className="p-6">
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-lg ${stat.bgColor}`}>
                       <stat.icon className={`w-6 h-6 ${stat.color}`} />
                     </div>
@@ -191,7 +191,7 @@ export default function HomePage() {
         )}
 
         {/* Tabs */}
-        <div className="flex space-x-4 border-b border-gray-200">
+        <div className="flex gap-4 border-b border-gray-200">
           <button
             onClick={() => setActiveTab('courses')}
             className={`pb-2 px-1 border-b-2 font-medium text-sm transition-colors ${

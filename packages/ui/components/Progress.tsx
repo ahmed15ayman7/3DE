@@ -12,6 +12,7 @@ export interface ProgressProps {
   striped?: boolean;
   className?: string;
   onChange?: (value: number) => void;
+  color?: string;
 }
 
 const getVariantClasses = (variant: ProgressProps['variant']) => {
@@ -56,6 +57,7 @@ export const Progress: React.FC<ProgressProps> = ({
   labelPosition = 'top',
   animated = false,
   striped = false,
+  color,
   onChange,
   className = ''
 }) => {
@@ -63,13 +65,14 @@ export const Progress: React.FC<ProgressProps> = ({
   const percentage = Math.min(Math.max((internalValue / max) * 100, 0), 100);
   const variantClasses = getVariantClasses(variant);
   const sizeClasses = getSizeClasses(size);
-
+  const colorClasses = color ? `bg-[${color}]` : '';
   const progressBarClasses = [
     'transition-all duration-300 ease-out',
     variantClasses,
     sizeClasses.container,
     animated && 'animate-pulse',
-    striped && 'bg-gradient-to-r from-transparent via-white to-transparent bg-[length:20px_100%] animate-pulse'
+    striped && 'bg-gradient-to-r from-transparent via-white to-transparent bg-[length:20px_100%] animate-pulse',
+    colorClasses
   ].filter(Boolean).join(' ');
 
   const label = `${Math.round(percentage)}%`;
@@ -210,7 +213,7 @@ export const ProgressGroup: React.FC<ProgressGroupProps> = ({
   direction = 'vertical',
   spacing = 'md'
 }) => {
-  const directionClass = direction === 'horizontal' ? 'flex-row space-x-4' : 'flex-col space-y-4';
+  const directionClass = direction === 'horizontal' ? 'flex-row gap-4' : 'flex-col space-y-4';
   const spacingClass = {
     sm: 'space-y-2',
     md: 'space-y-4',

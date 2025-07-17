@@ -8,6 +8,7 @@ import { User, UserRole } from '@3de/interfaces';
 
 // React Hooks
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
+import { authApi } from '@3de/apis';
 
 export interface Session {
   user: User;
@@ -220,17 +221,8 @@ class AuthService {
         throw new Error('No refresh token available');
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.3de.school" || 'https://api.3de.school'}/auth/refresh-token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          refreshToken: refreshToken
-        }),
-      });
-
-      if (!response.ok) {
+      const response = await authApi.refreshToken({ refreshToken });
+      if (!response) {
         throw new Error('Failed to refresh token');
       }
 
@@ -294,7 +286,7 @@ class AuthService {
         const user: User = {
           id: refreshPayload.userId,
           email: refreshPayload.email,
-          LessonBlockList: [],
+          LessonWhiteList: [],
           firstName: '',
           Comment: [],
           lastName: '',
@@ -354,7 +346,7 @@ class AuthService {
       const user: User = {
         id: payload.userId,
         email: payload.email,
-        LessonBlockList: [],
+        LessonWhiteList: [],
         firstName: '',
         Comment: [],
         lastName: '',
@@ -483,7 +475,7 @@ class AuthService {
         if (!session) {
           // Redirect to login
           if (typeof window !== 'undefined') {
-            window.location.href = '/auth/login';
+            window.location.href = '/auth/signin';
           }
           return null;
         }
@@ -579,9 +571,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const initAuth = async () => {
       try {
         const isAuth = await authService.isAuthenticated();
+        console.log('🔐 isAuth', isAuth);
         if (isAuth) {
           const currentUser = authService.getCurrentUser();
           setUser(currentUser);
+          console.log('🔐 currentUser', currentUser);
         }
       } catch (error) {
         console.error('Auth initialization error:', error);

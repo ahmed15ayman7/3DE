@@ -166,7 +166,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
 }) => {
   return (
     <div className={`bg-white border border-gray-200 rounded-lg p-4 ${className}`}>
-      <div className="flex items-start space-x-3">
+      <div className="flex items-start gap-3">
         {showAvatar && (
           <SkeletonAvatar size="md" animated={animated} />
         )}
@@ -189,7 +189,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
       </div>
       
       {showActions && (
-        <div className="mt-4 flex space-x-2">
+        <div className="mt-4 flex gap-2">
           <SkeletonButton size="sm" animated={animated} />
           <SkeletonButton size="sm" animated={animated} />
         </div>
@@ -217,7 +217,7 @@ export const SkeletonTable: React.FC<SkeletonTableProps> = ({
     <div className={`bg-white border border-gray-200 rounded-lg overflow-hidden ${className}`}>
       {showHeader && (
         <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-          <div className="flex space-x-4">
+          <div className="flex gap-4">
             {[...Array(columns)].map((_, index) => (
               <Skeleton
                 key={index}
@@ -234,7 +234,7 @@ export const SkeletonTable: React.FC<SkeletonTableProps> = ({
       <div className="divide-y divide-gray-200">
         {[...Array(rows)].map((_, rowIndex) => (
           <div key={rowIndex} className="px-6 py-4">
-            <div className="flex space-x-4">
+            <div className="flex gap-4">
               {[...Array(columns)].map((_, colIndex) => (
                 <Skeleton
                   key={colIndex}
@@ -265,7 +265,7 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
   direction = 'vertical',
   spacing = 'md'
 }) => {
-  const directionClass = direction === 'horizontal' ? 'flex-row space-x-4' : 'flex-col space-y-4';
+  const directionClass = direction === 'horizontal' ? 'flex-row gap-4' : 'flex-col space-y-4';
   const spacingClass = {
     sm: 'space-y-2',
     md: 'space-y-4',

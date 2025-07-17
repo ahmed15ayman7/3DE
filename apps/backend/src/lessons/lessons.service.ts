@@ -59,7 +59,7 @@ export class LessonsService {
         });
     }
     async updateLessonWhiteList(lessonId: string, userId: string, isBlocked: boolean) {
-        return this.prisma.LessonWhiteList.upsert({
+        return this.prisma.lessonWhiteList.upsert({
             where: { id: lessonId },
             update: { isBlocked },
             create: { lessonId, userId, isBlocked },
@@ -105,4 +105,28 @@ export class LessonsService {
             },
         });
     }
+
+    async addWatchedLesson(lessonId: string, userId: string) {
+        return this.prisma.watchedLesson.create({
+            data: {
+                lessonId,
+                progress: 10,
+                userId,
+            },
+        });
+    }
+
+    async updateWatchedLesson(lessonId: string, userId: string, progress: number) {
+        const watchedLesson = await this.prisma.watchedLesson.findFirst({
+            where: { lessonId, userId },
+        });
+        if (watchedLesson) {
+        return this.prisma.watchedLesson.update({
+                where: { id: watchedLesson.id },
+                data: { progress },
+            });
+        }
+        return this.addWatchedLesson(lessonId, userId);
+    }
+
 } 

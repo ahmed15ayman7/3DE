@@ -70,11 +70,11 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           <p className="text-gray-600 mb-3">
             {certificate.name}
           </p>
-          <div className="flex items-center justify-center space-x-2 space-x-reverse">
+          <div className="flex items-center justify-center gap-2 gap-reverse">
             <Badge variant="primary">
               {certificate.type}
             </Badge>
-            <div className="flex items-center space-x-1 space-x-reverse text-yellow-600">
+            <div className="flex items-center gap-1 gap-reverse text-yellow-600">
               <Star className="w-4 h-4 fill-current" />
               <span className="text-sm font-medium">{certificate.points} نقطة</span>
             </div>

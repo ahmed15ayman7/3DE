@@ -140,7 +140,7 @@ export default function PathDetailPage({params}: {params: Promise<{id: string}>}
         <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-8 mb-8">
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
-              <div className="flex items-center space-x-3 space-x-reverse mb-4">
+              <div className="flex items-center gap-3 gap-reverse mb-4">
                 <Badge className={getLevelColor(path.level)}>
                   {getLevelText(path.level)}
                 </Badge>
@@ -225,7 +225,7 @@ export default function PathDetailPage({params}: {params: Promise<{id: string}>}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                   >
-                    <div className="flex items-center space-x-3 space-x-reverse">
+                    <div className="flex items-center gap-3 gap-reverse">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <Play className="w-5 h-5 text-blue-600" />
                       </div>
@@ -234,7 +234,7 @@ export default function PathDetailPage({params}: {params: Promise<{id: string}>}
                         <p className="text-sm text-gray-600">{course.description}</p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2 space-x-reverse">
+                    <div className="flex items-center gap-2 gap-reverse">
                       <span className="text-sm text-gray-600">{formatTime(course.duration || 0)}</span>
                       <CheckCircle className="w-5 h-5 text-green-500" />
                     </div>

@@ -15,7 +15,7 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ src, lastWatched = 0, onProgress, onComplete }: VideoPlayerProps) {
   const playerRef = useRef<any>(null);
   const [showLastWatched, setShowLastWatched] = useState(true);
-
+  const [duration, setDuration] = useState(0);
   // ⏪ ابدأ من آخر مشاهدة
   useEffect(() => {
     if (playerRef.current && lastWatched) {
@@ -34,9 +34,6 @@ export default function VideoPlayer({ src, lastWatched = 0, onProgress, onComple
           controls
           width="100%"
           height="100%"
-          onProgress={(progress:any)=>{
-            onProgress?.(progress.playedSeconds,Math.floor(playerRef.current?.getDuration() || 0));
-          }}
           onEnded={()=>{
             onComplete?.();
           }}

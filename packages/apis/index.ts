@@ -72,7 +72,7 @@ import {
 } from '@3de/interfaces';
 
 // API Configuration
-const API_URL = process.env.NEXT_PUBLIC_API_URL|| "https://api.3de.school" || 'https://api.3de.school' ;
+const API_URL = process.env.NEXT_PUBLIC_API_URL|| "https://api.iafce.net" || 'https://api.iafce.net' ;
 
 interface TokenPayload {
   exp: number;
@@ -401,6 +401,10 @@ export const lessonApi = {
         api.post(`/lessons/${lessonId}/complete`),
     updateBlockList: (lessonId: string, userId: string, isBlocked: boolean) =>
         api.post(`/lessons/block-list`, { lessonId, userId, isBlocked }),
+    updateWatchedLesson: (lessonId: string, userId: string, progress: number) =>
+        api.put(`/lessons/watched-lesson/${lessonId}/${userId}`, { progress }),
+    addWatchedLesson: (lessonId: string, userId: string) =>
+        api.post(`/lessons/watched-lesson`, { lessonId, userId }),
 };
 
 // Quiz APIs
@@ -581,7 +585,7 @@ export const messageApi = {
 export const postApi = {
     getAll: () => api.get('/posts'),
     getById: (id: string) => api.get(`/posts/${id}`),
-    create: (data: { content: string }) => api.post('/posts', data),
+    create: (data: Partial<Post>) => api.post('/posts', data),
     update: (id: string, content: string) =>
         api.patch(`/posts/${id}`, { content }),
     delete: (id: string) => api.delete(`/posts/${id}`),
@@ -842,7 +846,7 @@ export const instructorApi = {
 export const contactApi = {
     getAll: (): Promise<{ success: boolean, data: ContactUs[] }> => api.get('/contacts'),
     getById: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.get(`/contacts/${id}`),
-    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://3de.school/contacts', data),
+    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://iafce.net/contacts', data),
     update: (id: string, data: Partial<ContactUs>): Promise<{ success: boolean, data: ContactUs }> => api.patch(`/contacts/${id}`, data),
     delete: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.delete(`/contacts/${id}`),
 };

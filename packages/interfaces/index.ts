@@ -83,7 +83,8 @@ export interface User {
   trainingSchedules: TrainingSchedule[] | undefined;
   employeeAttendanceLogs: EmployeeAttendanceLog[] | undefined;
   Comment: Comment[] | undefined;
-  LessonBlockList: LessonBlockList[] | undefined;
+  LessonWhiteList: LessonWhiteList[] | undefined;
+  WatchedLesson: WatchedLesson[] | undefined;
 }
 
 export interface LoginHistory {
@@ -223,7 +224,7 @@ export interface Milestone {
   createdAt: Date;
 }
 
-export interface LessonBlockList {
+export interface LessonWhiteList {
   id: string;
   lessonId: string;
   lesson: Lesson | undefined;
@@ -248,8 +249,19 @@ export interface Lesson {
   status: LessonStatus;
   createdAt: Date;
   updatedAt: Date;
+  lastOpenedAt?: Date;
   Attendance: Attendance[] | undefined;
-  LessonBlockList: LessonBlockList[] | undefined;
+  LessonWhiteList: LessonWhiteList[] | undefined;
+  WatchedLesson: WatchedLesson[] | undefined;
+}
+
+export interface WatchedLesson {
+  id: string;
+  progress: number;
+  lessonId: string;
+  lesson: Lesson | undefined;
+  userId: string;
+  user: User | undefined;
 }
 
 export interface File {
@@ -258,7 +270,7 @@ export interface File {
   url: string;
   type: FileType | undefined;
   isCompleted: boolean;
-  lastWatched?: Date;
+  lastWatched?: number;
   lessonId?: string;
   lesson?: Lesson | undefined;
   accountingEntryId?: string;
@@ -399,6 +411,7 @@ export interface Post {
   authorId: string;
   author: User | undefined;
   content: string;
+  image?: string;
   title: string;
   createdAt: Date;
   likesCount: number;

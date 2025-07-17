@@ -81,7 +81,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       {/* Course Content */}
       <div className="p-6">
         {/* Instructor Info */}
-        <div className="flex items-center space-x-3 mb-4">
+        <div className="flex items-center gap-3 mb-4">
           <Avatar
             src={getInstructorAvatar()}
             alt={getInstructorName()}
@@ -106,23 +106,23 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center space-x-4 mb-4 text-sm text-gray-500">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <span>📚</span>
             <span>{course.lessons?.length || 0} درس</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <span>⏰</span>
             <span>4 ساعات</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <span>👥</span>
             <span>{course.enrollments?.length || 0} طالب</span>
           </div>
         </div>
 
         {/* Rating */}
-        <div className="flex items-center space-x-1 mb-4">
+        <div className="flex items-center gap-1 mb-4">
           <span className="text-yellow-400">⭐</span>
           <span className="text-sm font-medium text-gray-900">4.8</span>
           <span className="text-sm text-gray-500">(120 تقييم)</span>

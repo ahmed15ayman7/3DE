@@ -43,7 +43,7 @@ export default function PDFViewer({ src, title }: PDFViewerProps) {
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
         <h3 className="text-lg font-medium text-gray-900">{title}</h3>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="sm"

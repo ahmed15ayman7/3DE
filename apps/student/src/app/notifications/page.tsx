@@ -110,7 +110,7 @@ export default function NotificationsPage() {
                 {unreadCount} تنبيه جديد
               </p>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
                 تحديد الكل كمقروء
               </Button>
@@ -127,7 +127,7 @@ export default function NotificationsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex space-x-4"
+          className="flex gap-4"
         >
           <Button
             variant={filter === 'all' ? 'primary' : 'outline'}
@@ -162,7 +162,7 @@ export default function NotificationsPage() {
               transition={{ delay: index * 0.05 }}
             >
               <Card className={`p-4 ${!notification.read ? 'border-primary-main bg-primary-main/5' : ''}`}>
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-lg ${getNotificationColor(notification.type)}`}>
                     {getNotificationIcon(notification.type)}
                   </div>
@@ -176,7 +176,7 @@ export default function NotificationsPage() {
                         <p className="text-sm text-gray-600 mb-2">
                           {notification.message}
                         </p>
-                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
                           <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
                           <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
                           {notification.type && (
@@ -187,7 +187,7 @@ export default function NotificationsPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center gap-2">
                         {!notification.read && (
                           <Button
                             variant="ghost"

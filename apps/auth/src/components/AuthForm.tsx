@@ -248,7 +248,10 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
       <div className="bg-white rounded-xl shadow-2xl p-8">
         <div className="text-center mb-8">
             <div className="flex justify-center items-center">
-            <Image src="/logo.png" alt="logo" width={100} height={100} className="mb-4 w-40 h-40 rounded-full" />
+            {/* <Image src="/logo.png" alt="logo" width={100} height={100} className="mb-4 w-40 h-40 rounded-full" /> */}
+            <div className="w-12 h-12 mb-4 bg-gradient-primary rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-xl">3DE</span>
+              </div>
             </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {getFormTitle()}

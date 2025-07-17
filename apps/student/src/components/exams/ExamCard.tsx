@@ -69,22 +69,22 @@ export const ExamCard: React.FC<ExamCardProps> = ({ quiz, onStartExam }) => {
         </div>
 
         <div className="space-y-2">
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <BookOpen className="w-4 h-4" />
             <span>الدرس: {quiz.lesson.title}</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <User className="w-4 h-4" />
             <span>الكورس: {quiz.lesson.course.title}</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Clock className="w-4 h-4" />
             <span>المدة: {quiz.timeLimit || 60} دقيقة</span>
           </div>
 
-          <div className="flex items-center space-x-2 space-x-reverse text-sm text-gray-600">
+          <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Calendar className="w-4 h-4" />
             <span>تاريخ الإنشاء: {new Date(quiz.createdAt).toLocaleDateString('ar-SA')}</span>
           </div>

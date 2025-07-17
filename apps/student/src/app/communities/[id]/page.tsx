@@ -132,7 +132,7 @@ export default function CommunityPage() {
           <Card className="p-8">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <div className="flex items-center space-x-4 space-x-reverse mb-4">
+                <div className="flex items-center gap-4 gap-reverse mb-4">
                   <Avatar
                     src={community?.image}
                     alt={community?.name}
@@ -149,17 +149,17 @@ export default function CommunityPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                  <div className="flex items-center space-x-2 space-x-reverse text-gray-600">
+                  <div className="flex items-center gap-2 gap-reverse text-gray-600">
                     <Users className="w-5 h-5" />
                     <span>{community?.participants?.length || 0} عضو</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2 space-x-reverse text-gray-600">
+                  <div className="flex items-center gap-2 gap-reverse text-gray-600">
                     <MessageCircle className="w-5 h-5" />
                     <span>{posts?.length || 0} منشور</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2 space-x-reverse text-gray-600">
+                  <div className="flex items-center gap-2 gap-reverse text-gray-600">
                     <Calendar className="w-5 h-5" />
                     <span>
                       تم الإنشاء في {community?.createdAt 

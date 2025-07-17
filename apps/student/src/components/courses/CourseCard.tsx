@@ -40,7 +40,7 @@ export default function CourseCard({ course, isEnrolled = false }: CourseCardPro
             className="w-full h-full object-cover"
           />
         )}
-        <div className="absolute inset-0 bg-black bg-opacity-20" />
+        {/* <div className="absolute inset-0 bg-black bg-opacity-20" /> */}
         <div className="absolute top-4 right-4">
           <Badge variant={isEnrolled ? 'primary' : 'outline'}>
             {isEnrolled ? 'مشترك' : 'متاح'}
@@ -58,16 +58,16 @@ export default function CourseCard({ course, isEnrolled = false }: CourseCardPro
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center space-x-4 mb-4 text-sm text-gray-500">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
             <span>{formatDate(course.startDate)}</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             <span>{course.enrollments?.length || 0} طالب</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
             <span>{course.lessons?.length || 0} درس</span>
           </div>

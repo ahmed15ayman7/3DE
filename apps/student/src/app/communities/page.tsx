@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { communityApi } from '@3de/apis';
+import { communityApi, postApi, userApi } from '@3de/apis';
 import Layout from '../../components/layout/Layout';
 import { TabsController } from '../../components/common/TabsController';
 import { CommunityCard } from '../../components/community/CommunityCard';
@@ -29,6 +29,39 @@ export default function CommunitiesPage() {
   const [postTitle, setPostTitle] = useState('');
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click(); // فتح نافذة اختيار الملف
+  };
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ''); // 👈 غيّرها
+    formData.append("folder", "uploads");
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (data.secure_url) {
+        console.log("🔗 Uploaded Image URL:", data.secure_url);
+        setImageUrl(data.secure_url);
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      alert("❌ فشل رفع الصورة!");
+    }
+  };
+
 
   // جلب المجتمعات
   const { data: communitiesData, isLoading: communitiesLoading, error: communitiesError } = useQuery({
@@ -39,12 +72,12 @@ export default function CommunitiesPage() {
   // جلب المنشورات
   const { data: postsData, isLoading: postsLoading } = useQuery({
     queryKey: ['posts', 'all'],
-    queryFn: () => communityApi.getPosts('all'),
+    queryFn: () => postApi.getAll(),
     enabled: activeTab === 'posts'
   });
 
   const communities = sanitizeApiResponse(communitiesData?.data || []) as (Community & { participants: User[] })[];
-  const posts = sanitizeApiResponse(postsData || []) as (Post & { author: User; comments: any[] })[];
+  const posts = sanitizeApiResponse(postsData?.data || []) as (Post & { author: User; comments: any[] })[];
 
   // تصنيف المجتمعات
   const myCommunities = communities.filter(community => 
@@ -71,7 +104,10 @@ export default function CommunitiesPage() {
 
   // طفرة إنشاء منشور
   const createPostMutation = useMutation({
-    mutationFn: (data: { content: string; title?: string }) => communityApi.getPosts('all').then(() => data),
+    mutationFn: (data: { content: string; title: string; image?: string }) =>{
+      console.log(user);
+      return postApi.create({...data, authorId: user?.id || '',});
+    },
     onSuccess: () => {
       setShowCreatePost(false);
       setPostContent('');
@@ -98,7 +134,7 @@ export default function CommunitiesPage() {
 
   const handleCreatePost = () => {
     if (postContent.trim()) {
-      createPostMutation.mutate({ content: postContent, title: postTitle });
+      createPostMutation.mutate({ content: postContent, title: postTitle, image: imageUrl || undefined });
     }
   };
 
@@ -338,14 +374,21 @@ export default function CommunitiesPage() {
 
         {/* Modal إنشاء منشور */}
         <Modal
+          className='w-full max-w-md'
           isOpen={showCreatePost}
           onClose={() => setShowCreatePost(false)}
           title="منشور جديد"
         >
           <div className="space-y-4">
+            {/* i need create image component w=2h if imageUrl is not null  */}
+            {imageUrl && (
+              <div className="w-full h-48 bg-gray-200 rounded-lg overflow-hidden">
+                <img src={imageUrl} alt="Post Image" className="w-full h-full object-cover" />
+              </div>
+            )}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                العنوان (اختياري)
+                العنوان
               </label>
               <Input
                 value={postTitle}
@@ -367,14 +410,21 @@ export default function CommunitiesPage() {
             </div>
 
             <div className="flex items-center justify-between pt-4">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+              />
               <Button
                 variant="ghost"
                 icon={<ImageIcon className="w-4 h-4" />}
+                onClick={handleUploadClick}
               >
                 إضافة صورة
               </Button>
               
-              <div className="flex space-x-2 space-x-reverse">
+              <div className="flex gap-2 gap-reverse">
                 <Button
                   variant="outline"
                   onClick={() => setShowCreatePost(false)}

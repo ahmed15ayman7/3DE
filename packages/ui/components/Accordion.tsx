@@ -107,7 +107,7 @@ export const Accordion: React.FC<AccordionProps> = ({
                 transition-colors duration-200
               `}
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
                 <span className="font-medium text-left">{item.title}</span>
               </div>
@@ -192,7 +192,7 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
         ${className}
       `}
     >
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-2">
         {icon && <span className="flex-shrink-0">{icon}</span>}
         <span className="font-medium text-left">{children}</span>
       </div>
