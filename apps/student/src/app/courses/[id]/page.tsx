@@ -18,9 +18,8 @@ export default function CoursePage() {
   const { user } = useAuth();
   const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
-
   // Fetch course data
-  const { data: course, isLoading: courseLoading } = useQuery({
+  const { data: course, isLoading: courseLoading, refetch } = useQuery({
     queryKey: ['course', courseId],
     queryFn: () => courseApi.getById(courseId),
   });
@@ -51,11 +50,7 @@ export default function CoursePage() {
 
   const handleFileProgress = async (progress: number,duration:number) => {
     if(currentFile?.id){
-      console.log("currentFile?.id",progress,duration);
-      setInterval(()=>{
-        const timeInSeconds = duration ;
-        // fileApi.update(currentFile?.id || '',{lastWatched:timeInSeconds});
-      },3000);
+      
     }
     if (currentLessonId && progress >= 90) {
       // Update lesson progress when file is almost complete
@@ -70,12 +65,20 @@ export default function CoursePage() {
   };
 
   const handleFileComplete = async () => {
-    if (currentLessonId) {
+    console.log("currentLessonId",currentLessonId);
+    console.log("user?.id",user?.id);
+    console.log("currentFile?.id",currentFile?.id);
+    if (currentLessonId && user?.id && currentFile?.id) {
       try {
-        await lessonApi.update(currentLessonId, { progress: 100 });
-        // Refetch lessons to update progress
-        // You might want to use queryClient.invalidateQueries here
-      } catch (error) {
+
+        const lesson = course?.data.lessons?.find((lesson: Lesson) => lesson.id === currentLessonId);
+        const currentFileIndex = lesson?.files?.findIndex((file: File) => file.id === currentFile?.id);
+        
+          const progress = ((currentFileIndex||0) + 1) / (lesson?.files?.length || 1);
+          await lessonApi.updateWatchedLesson(currentLessonId, user?.id, progress *100);
+          refetch();
+        
+        } catch (error) {
         console.error('Failed to update lesson progress:', error);
       }
     }

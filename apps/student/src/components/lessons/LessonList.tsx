@@ -32,7 +32,7 @@ export default function LessonList({
   };
 
   const isLessonCompleted = (lesson: Lesson) => {
-    return lesson.progress === 100;
+    return lesson.WatchedLesson?.[0]?.progress === 100;
   };
 
   const isLessonLocked = (lesson: Lesson, index: number) => {
@@ -108,12 +108,12 @@ export default function LessonList({
                 <div className="flex items-center gap-3">
                   <div className="w-20">
                     <Progress 
-                      value={lesson.progress || 0} 
+                      value={lesson.WatchedLesson?.[0]?.progress || 0} 
                       className="h-1"
                     />
                   </div>
                   <span className="text-xs text-gray-500 min-w-[40px]">
-                    {Math.round(lesson.progress || 0)}%
+                    {Math.round(lesson.WatchedLesson?.[0]?.progress || 0)}%
                   </span>
                   
                   {/* Expand Button */}
@@ -145,7 +145,10 @@ export default function LessonList({
                     className="mt-3 pl-8"
                   >
                     <div className="space-y-2">
-                      {lesson.files.map((file) => (
+                      {lesson.files.map((file,index) => {
+                        const progress = (lesson.WatchedLesson?.[0]?.progress||0)/(index+1);
+                        console.log("progress",progress);
+                        return (
                         <div
                           key={file.id}
                           className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer"
@@ -155,11 +158,11 @@ export default function LessonList({
                           <span className="text-sm text-gray-700 flex-1">
                             {file.name}
                           </span>
-                          {file.isCompleted && (
+                          {progress === 100/(lesson.files?.length||1) && (
                             <CheckCircle className="w-4 h-4 text-green-500" />
                           )}
                         </div>
-                      ))}
+                      )})}
                     </div>
                   </motion.div>
                 )}

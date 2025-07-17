@@ -70,6 +70,9 @@ export class CoursesService {
                 },
                 quizzes: true,
                 lessons: {
+                    orderBy: {
+                        createdAt: "asc",
+                    },
                     include: {
                         WatchedLesson:true,
                         files: true,

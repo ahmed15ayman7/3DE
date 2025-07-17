@@ -106,11 +106,11 @@ export class LessonsService {
         });
     }
 
-    async addWatchedLesson(lessonId: string, userId: string) {
+    async addWatchedLesson(lessonId: string, userId: string,progress:number) {
         return this.prisma.watchedLesson.create({
             data: {
                 lessonId,
-                progress: 10,
+                progress,
                 userId,
             },
         });
@@ -126,7 +126,7 @@ export class LessonsService {
                 data: { progress },
             });
         }
-        return this.addWatchedLesson(lessonId, userId);
+        return this.addWatchedLesson(lessonId, userId,progress);
     }
 
 } 

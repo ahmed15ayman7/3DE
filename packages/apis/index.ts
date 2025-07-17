@@ -403,8 +403,8 @@ export const lessonApi = {
         api.post(`/lessons/block-list`, { lessonId, userId, isBlocked }),
     updateWatchedLesson: (lessonId: string, userId: string, progress: number) =>
         api.put(`/lessons/watched-lesson/${lessonId}/${userId}`, { progress }),
-    addWatchedLesson: (lessonId: string, userId: string) =>
-        api.post(`/lessons/watched-lesson`, { lessonId, userId }),
+    addWatchedLesson: (lessonId: string, userId: string,progress:number) =>
+        api.post(`/lessons/watched-lesson`, { lessonId, userId,progress }),
 };
 
 // Quiz APIs
