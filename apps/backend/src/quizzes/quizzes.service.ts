@@ -12,43 +12,18 @@ export class QuizzesService {
         private questionsService: QuestionsService
     ) { }
 
-    async create(createQuizInput: CreateQuizDto & { questions: (CreateQuestionDto & { options: (CreateOptionDto)[] })[] }) {
+    async create(createQuizInput: CreateQuizDto ) {
         const createdQuiz = await this.prisma.quiz.create({
             data: {
-                title: createQuizInput.title,
-                description: createQuizInput.description,
-                lessonId: createQuizInput.lessonId,
-                timeLimit: createQuizInput.timeLimit,
-                passingScore: createQuizInput.passingScore,
-                courseId: createQuizInput.courseId,
-            },
-            include: {
-                questions: {
-                    include: {
-                        options: true,
-                    }
-                },
+                ...createQuizInput,
             }
         });
-        const createdQuestions = await Promise.all(createQuizInput.questions.map(async (question) => {
-            try {
-                const createdQuestion = await this.questionsService.create({
-                    ...question,
 
-                }, createdQuiz.id);
-                return createdQuestion;
-            } catch (error) {
-                console.error(error);
-                throw new BadRequestException('Failed to create question' + error.message);
-            }
-        }));
+    
 
-        return {
-            quiz: createdQuiz,
-            questions: createdQuestions,
-
-        };
-    }
+       
+   return createdQuiz;
+}
 
     async findAll() {
         return this.prisma.quiz.findMany({
@@ -123,11 +98,7 @@ export class QuizzesService {
                
             },
             include: {
-                submissions: {
-                    where: {
-                        userId: studentId,
-                    },
-                },
+                    submissions:true,
             },
         });
     }

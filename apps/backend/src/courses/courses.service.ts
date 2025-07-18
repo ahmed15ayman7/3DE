@@ -224,9 +224,9 @@ export class CoursesService {
     async getCourseQuizzes(courseId: string) {
         await this.findOne(courseId);
         return this.prisma.quiz.findMany({
-            where: { Course: { some: { id: courseId } } },
+            where: { courseId },
             include: {
-                Course: true,
+                course: true,
                 questions: true,
             },
         });
