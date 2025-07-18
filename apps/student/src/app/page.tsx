@@ -62,7 +62,7 @@ export default function HomePage() {
       title: 'الكورسات المشترك فيها',
       value: stats?.enrollments?.length || 0,
       icon: BookOpen,
-      color: 'text-blue-600',
+      color: 'text-primary-main',
       bgColor: 'bg-blue-100',
     },
     {

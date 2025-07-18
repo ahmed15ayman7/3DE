@@ -99,6 +99,7 @@ export class QuizzesService {
             },
             include: {
                     submissions:true,
+                    lesson:true,
             },
         });
     }

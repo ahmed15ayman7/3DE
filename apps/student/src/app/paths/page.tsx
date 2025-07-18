@@ -83,7 +83,7 @@ export default function PathsPage() {
       >
         {/* رأس الصفحة */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-primary-main rounded-full flex items-center justify-center mx-auto mb-4">
             <BookOpen className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -127,7 +127,7 @@ export default function PathsPage() {
           {/* إحصائيات سريعة */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-blue-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{filteredPaths.length}</div>
+              <div className="text-2xl font-bold text-primary-main">{filteredPaths.length}</div>
               <div className="text-sm text-gray-600">إجمالي المسارات</div>
             </div>
             <div className="bg-green-50 rounded-lg p-4 text-center">

@@ -26,7 +26,7 @@ const getSizeClasses = (size: SpinnerProps['size']) => {
 const getColorClasses = (color: SpinnerProps['color']) => {
   switch (color) {
     case 'primary':
-      return 'text-blue-600';
+      return 'text-primary-main';
     case 'secondary':
       return 'text-gray-600';
     case 'success':
@@ -38,7 +38,7 @@ const getColorClasses = (color: SpinnerProps['color']) => {
     case 'white':
       return 'text-white';
     default:
-      return 'text-blue-600';
+      return 'text-primary-main';
   }
 };
 

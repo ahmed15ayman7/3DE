@@ -173,7 +173,7 @@ export default function AchievementsPage() {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className="p-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+            <Card className="p-6 bg-gradient-to-r from-blue-500 to-primary-main text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-100 text-sm font-medium">الشارات</p>
@@ -234,7 +234,7 @@ export default function AchievementsPage() {
                     className={`
                       relative inline-flex items-center px-6 py-4 text-sm font-medium transition-colors
                       ${activeTab === tab.id
-                        ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                        ? 'text-primary-main border-b-2 border-primary-main bg-blue-50'
                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                       }
                     `}
@@ -362,7 +362,7 @@ export default function AchievementsPage() {
                       {item.points && (
                         <div className="flex items-center justify-between mb-4">
                           <span className="text-sm text-gray-500">النقاط:</span>
-                          <span className="text-lg font-bold text-blue-600">{item.points}</span>
+                          <span className="text-lg font-bold text-primary-main">{item.points}</span>
                         </div>
                       )}
 

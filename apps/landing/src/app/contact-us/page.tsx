@@ -112,7 +112,7 @@ const contactMethods = [
 
 // Social Media Links
 const socialLinks = [
-  { platform: "Facebook", icon: Facebook, href: "https://facebook.com/3de", color: "hover:text-blue-600" },
+  { platform: "Facebook", icon: Facebook, href: "https://facebook.com/3de", color: "hover:text-primary-main" },
   { platform: "Twitter", icon: Twitter, href: "https://twitter.com/3de", color: "hover:text-blue-400" },
   { platform: "Instagram", icon: Instagram, href: "https://instagram.com/3de", color: "hover:text-pink-600" },
   { platform: "YouTube", icon: Youtube, href: "https://youtube.com/3de", color: "hover:text-red-600" },

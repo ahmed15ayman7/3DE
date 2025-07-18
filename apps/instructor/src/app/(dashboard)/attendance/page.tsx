@@ -182,7 +182,7 @@ export default function AttendancePage() {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className="p-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+            <Card className="p-6 bg-gradient-to-r from-blue-500 to-primary-main text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-100 text-sm font-medium">معدل الحضور</p>

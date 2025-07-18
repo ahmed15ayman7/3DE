@@ -7,33 +7,14 @@ import { Calendar, Clock, BookOpen, User } from 'lucide-react';
 import { Quiz, Lesson, Course } from '@3de/interfaces';
 
 interface CalendarExamsProps {
-  quizzes: (Quiz & { lesson: Lesson & { course: Course } })[];
+  quizzes: Quiz[];
 }
 
-interface ExamEvent {
-  id: string;
-  title: string;
-  lesson: Lesson & { course: Course };
-  startDate: Date;
-  endDate: Date;
-  status: 'active' | 'completed' | 'upcoming';
-  duration: number;
-}
 
 export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
-  const [selectedExam, setSelectedExam] = useState<ExamEvent | null>(null);
+  const [selectedExam,  setSelectedExam] = useState<Quiz | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  // تحويل الاختبارات إلى أحداث تقويم
-  const examEvents: ExamEvent[] = quizzes.map(quiz => ({
-    id: quiz.id,
-    title: quiz.title,
-    lesson: quiz.lesson,
-    startDate: new Date(quiz.createdAt),
-    endDate: new Date(quiz.createdAt.getTime() + (quiz.timeLimit || 60) * 60000),
-    status: quiz.isCompleted ? 'completed' : quiz.upComing ? 'upcoming' : 'active',
-    duration: quiz.timeLimit || 60
-  }));
 
   // الحصول على أيام الشهر الحالي
   const getDaysInMonth = (date: Date) => {
@@ -61,8 +42,8 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
 
   // الحصول على الاختبارات في يوم معين
   const getExamsForDay = (date: Date) => {
-    return examEvents.filter(exam => {
-      const examDate = new Date(exam.startDate);
+    return quizzes.filter(quiz => {
+      const examDate = new Date(quiz.startDate||"");
       return examDate.getDate() === date.getDate() &&
              examDate.getMonth() === date.getMonth() &&
              examDate.getFullYear() === date.getFullYear();
@@ -148,7 +129,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
               {day && (
                 <>
                   <div className={`text-sm font-medium mb-2 ${
-                    isToday ? 'text-blue-600' : 'text-gray-900'
+                    isToday ? 'text-primary-main' : 'text-gray-900'
                   }`}>
                     {day.getDate()}
                   </div>
@@ -158,7 +139,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
                       <motion.div
                         key={exam.id}
                         className={`p-1 rounded text-xs cursor-pointer ${
-                          getStatusColor(exam.status)
+                          getStatusColor(exam.isCompleted ? 'completed' : exam.upComing ? 'upcoming' : 'active')
                         } text-white`}
                         onClick={() => setSelectedExam(exam)}
                         whileHover={{ scale: 1.05 }}
@@ -191,46 +172,50 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-semibold">{selectedExam.title}</h3>
               <Badge
-                variant={selectedExam.status === 'active' ? 'success' : selectedExam.status === 'completed' ? 'primary' : 'warning'}
+                variant={selectedExam.isCompleted ? 'success' : selectedExam.upComing ? 'primary' : 'warning'}
               >
-                {getStatusText(selectedExam.status)}
+                {getStatusText(selectedExam.isCompleted ? 'completed' : selectedExam.upComing ? 'upcoming' : 'active')}
               </Badge>
             </div>
 
             <div className="space-y-3">
               <div className="flex items-center gap-2 gap-reverse">
                 <BookOpen className="w-4 h-4 text-gray-500" />
-                <span className="text-gray-700">الدرس: {selectedExam.lesson.title}</span>
+                <span className="text-gray-700">الكورس: {selectedExam.course?.title}</span>
+              </div>
+              <div className="flex items-center gap-2 gap-reverse">
+                <BookOpen className="w-4 h-4 text-gray-500" />
+                <span className="text-gray-700">الدرس: {selectedExam.lesson?.title}</span>
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
                 <User className="w-4 h-4 text-gray-500" />
-                <span className="text-gray-700">الكورس: {selectedExam.lesson.course.title}</span>
+                <span className="text-gray-700">الكورس: {selectedExam.lesson?.course?.title}</span>
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
                 <Clock className="w-4 h-4 text-gray-500" />
-                <span className="text-gray-700">المدة: {selectedExam.duration} دقيقة</span>
+                <span className="text-gray-700">المدة: {selectedExam.timeLimit} دقيقة</span>
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ البدء: {selectedExam.startDate.toLocaleDateString('ar-EG')}
+                  تاريخ البدء: {selectedExam.startDate?.toLocaleDateString('ar-EG')}
                 </span>
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ النهاية: {selectedExam.endDate.toLocaleDateString('ar-EG')}
+                  تاريخ النهاية: {selectedExam.endDate?.toLocaleDateString('ar-EG')}
                 </span>
               </div>
             </div>
 
-            {selectedExam.status === 'active' && (
+            {selectedExam.upComing && new Date(selectedExam.startDate||"") <= new Date() && new Date(selectedExam.endDate||"") >= new Date() && (
               <div className="pt-4 border-t">
-                <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                <button className="w-full bg-primary-main text-white py-2 px-4 rounded-lg hover:bg-primary-main/80 transition-colors">
                   ابدأ الاختبار الآن
                 </button>
               </div>

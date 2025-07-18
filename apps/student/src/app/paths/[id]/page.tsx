@@ -162,7 +162,7 @@ export default function PathDetailPage({params}: {params: Promise<{id: string}>}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <BookOpen className="w-6 h-6 text-blue-600" />
+                <BookOpen className="w-6 h-6 text-primary-main" />
               </div>
               <div className="text-2xl font-bold text-gray-900">{path.courses?.length || 0}</div>
               <div className="text-sm text-gray-600">كورس</div>
@@ -227,7 +227,7 @@ export default function PathDetailPage({params}: {params: Promise<{id: string}>}
                   >
                     <div className="flex items-center gap-3 gap-reverse">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <Play className="w-5 h-5 text-blue-600" />
+                        <Play className="w-5 h-5 text-primary-main" />
                       </div>
                       <div>
                         <h3 className="font-medium text-gray-900">{course.title}</h3>

@@ -69,7 +69,7 @@ export const Radio: React.FC<RadioProps> = ({
             duration-200 
             ease-in-out
             ${checked 
-              ? 'border-blue-600 bg-blue-600' 
+              ? 'border-primary-main bg-primary-main' 
               : 'border-gray-300 bg-white hover:border-blue-400'
             }
             ${disabled ? 'border-gray-200 bg-gray-100' : ''}

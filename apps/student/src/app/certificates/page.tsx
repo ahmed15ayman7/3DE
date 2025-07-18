@@ -137,7 +137,7 @@ export default function CertificatesPage() {
             </p>
             <button
               onClick={() => setIsDialogOpen(true)}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-primary-main text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Award className="w-4 h-4 mr-2" />
               طلب شهادة
@@ -153,7 +153,7 @@ export default function CertificatesPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6"
           >
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white text-center">
+            <div className="bg-gradient-to-br from-blue-500 to-primary-main rounded-lg p-6 text-white text-center">
               <Award className="w-8 h-8 mx-auto mb-2" />
               <div className="text-2xl font-bold">{certificates.length}</div>
               <div className="text-sm opacity-90">إجمالي الشهادات</div>

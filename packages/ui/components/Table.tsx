@@ -125,7 +125,7 @@ export function Table<T = any>({
     const isActive = sortKey === key;
     return (
       <svg
-        className={`w-4 h-4 ml-1 ${isActive ? 'text-blue-600' : 'text-gray-400'}`}
+        className={`w-4 h-4 ml-1 ${isActive ? 'text-primary-main' : 'text-gray-400'}`}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -175,7 +175,7 @@ export function Table<T = any>({
                   type="checkbox"
                   checked={selectedRows.size === data.length && data.length > 0}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-primary-main focus:ring-blue-500"
                 />
               </th>
             )}
@@ -210,7 +210,7 @@ export function Table<T = any>({
                     type="checkbox"
                     checked={selectedRows.has(rowIndex)}
                     onChange={(e) => handleRowSelect(rowIndex, e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-gray-300 text-primary-main focus:ring-blue-500"
                   />
                 </td>
               )}

@@ -5292,17 +5292,17 @@ const buttonVariants: Variants = {
 const getVariantClasses = (variant: ButtonProps['variant']) => {
   switch (variant) {
     case 'primary':
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl';
+      return 'bg-primary-main hover:bg-blue-700 text-white shadow-lg hover:shadow-xl';
     case 'secondary':
       return 'bg-gray-600 hover:bg-gray-700 text-white shadow-lg hover:shadow-xl';
     case 'outline':
-      return 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white';
+      return 'border-2 border-primary-main text-primary-main hover:bg-primary-main hover:text-white';
     case 'ghost':
       return 'text-gray-700 hover:bg-gray-100';
     case 'danger':
       return 'bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-xl';
     default:
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl';
+      return 'bg-primary-main hover:bg-blue-700 text-white shadow-lg hover:shadow-xl';
   }
 };
 
@@ -5517,17 +5517,17 @@ export interface ButtonProps {
 const getVariantClasses = (variant: ButtonProps['variant']) => {
   switch (variant) {
     case 'primary':
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
+      return 'bg-primary-main hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     case 'secondary':
       return 'bg-gray-600 hover:bg-gray-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     case 'outline':
-      return 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transform hover:scale-105 active:scale-95';
+      return 'border-2 border-primary-main text-primary-main hover:bg-primary-main hover:text-white transform hover:scale-105 active:scale-95';
     case 'ghost':
       return 'text-gray-700 hover:bg-gray-100 transform hover:scale-105 active:scale-95';
     case 'danger':
       return 'bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     default:
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
+      return 'bg-primary-main hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
   }
 };
 
@@ -5664,7 +5664,7 @@ export const Radio: React.FC<RadioProps> = ({
             duration-200 
             ease-in-out
             ${checked 
-              ? 'border-blue-600 bg-blue-600' 
+              ? 'border-primary-main bg-primary-main' 
               : 'border-gray-300 bg-white hover:border-blue-400'
             }
             ${disabled ? 'border-gray-200 bg-gray-100' : ''}
@@ -6627,14 +6627,14 @@ const getVariantClasses = (variant: TabsProps['variant']) => {
       return {
         container: 'border-b border-gray-200',
         tab: 'px-4 py-2 text-sm font-medium border-b-2 transition-all duration-200',
-        active: 'border-blue-500 text-blue-600',
+        active: 'border-blue-500 text-primary-main',
         inactive: 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
       };
     default:
       return {
         container: '',
         tab: 'px-4 py-2 text-sm font-medium transition-all duration-200',
-        active: 'text-blue-600 border-b-2 border-blue-600',
+        active: 'text-primary-main border-b-2 border-primary-main',
         inactive: 'text-gray-500 hover:text-gray-700'
       };
   }
@@ -7155,7 +7155,7 @@ export function Table<T = any>({
     const isActive = sortKey === key;
     return (
       <svg
-        className={`w-4 h-4 ml-1 ${isActive ? 'text-blue-600' : 'text-gray-400'}`}
+        className={`w-4 h-4 ml-1 ${isActive ? 'text-primary-main' : 'text-gray-400'}`}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -7205,7 +7205,7 @@ export function Table<T = any>({
                   type="checkbox"
                   checked={selectedRows.size === data.length && data.length > 0}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-primary-main focus:ring-blue-500"
                 />
               </th>
             )}
@@ -7240,7 +7240,7 @@ export function Table<T = any>({
                     type="checkbox"
                     checked={selectedRows.has(rowIndex)}
                     onChange={(e) => handleRowSelect(rowIndex, e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-gray-300 text-primary-main focus:ring-blue-500"
                   />
                 </td>
               )}
@@ -7350,7 +7350,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
         container: 'flex items-center justify-between',
         navigation: 'flex items-center gap-1',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50',
-        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600',
+        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-primary-main',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed'
       };
     default:
@@ -7358,7 +7358,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
         container: 'flex items-center justify-between',
         navigation: 'flex items-center gap-2',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 rounded-md',
-        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600 rounded-md',
+        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-primary-main rounded-md',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed rounded-md'
       };
   }
@@ -7879,7 +7879,7 @@ const getSizeClasses = (size: SpinnerProps['size']) => {
 const getColorClasses = (color: SpinnerProps['color']) => {
   switch (color) {
     case 'primary':
-      return 'text-blue-600';
+      return 'text-primary-main';
     case 'secondary':
       return 'text-gray-600';
     case 'success':
@@ -7891,7 +7891,7 @@ const getColorClasses = (color: SpinnerProps['color']) => {
     case 'white':
       return 'text-white';
     default:
-      return 'text-blue-600';
+      return 'text-primary-main';
   }
 };
 
@@ -11144,7 +11144,7 @@ export default function HomePage() {
       title: 'الكورسات المشترك فيها',
       value: stats?.enrolledCourses || 0,
       icon: BookOpen,
-      color: 'text-blue-600',
+      color: 'text-primary-main',
       bgColor: 'bg-blue-100',
     },
     {
@@ -12857,7 +12857,7 @@ export default function NotificationsPage() {
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'course':
-        return 'text-blue-600 bg-blue-100';
+        return 'text-primary-main bg-blue-100';
       case 'social':
         return 'text-green-600 bg-green-100';
       case 'achievement':
@@ -15530,7 +15530,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
             duration-200 
             ease-in-out
             ${checked 
-              ? 'border-blue-600 bg-blue-600' 
+              ? 'border-primary-main bg-primary-main' 
               : 'border-gray-300 bg-white hover:border-blue-400'
             }
             ${disabled ? 'border-gray-200 bg-gray-100' : ''}
@@ -16414,7 +16414,7 @@ export default function NotificationsPage() {
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'course':
-        return 'text-blue-600 bg-blue-100';
+        return 'text-primary-main bg-blue-100';
       case 'social':
         return 'text-green-600 bg-green-100';
       case 'achievement':
@@ -17259,7 +17259,7 @@ export default function NotificationsPage() {
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'course':
-        return 'text-blue-600 bg-blue-100';
+        return 'text-primary-main bg-blue-100';
       case 'social':
         return 'text-green-600 bg-green-100';
       case 'achievement':
@@ -18409,7 +18409,7 @@ export default function HomePage() {
       title: 'الكورسات المشترك فيها',
       value: stats?.enrollments?.length || 0,
       icon: BookOpen,
-      color: 'text-blue-600',
+      color: 'text-primary-main',
       bgColor: 'bg-blue-100',
     },
     {
@@ -18691,17 +18691,17 @@ export interface ButtonProps {
 const getVariantClasses = (variant: ButtonProps['variant']) => {
   switch (variant) {
     case 'primary':
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
+      return 'bg-primary-main hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     case 'secondary':
       return 'bg-gray-600 hover:bg-gray-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     case 'outline':
-      return 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transform hover:scale-105 active:scale-95';
+      return 'border-2 border-primary-main text-primary-main hover:bg-primary-main hover:text-white transform hover:scale-105 active:scale-95';
     case 'ghost':
       return 'text-gray-700 hover:bg-gray-100 transform hover:scale-105 active:scale-95';
     case 'danger':
       return 'bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
     default:
-      return 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
+      return 'bg-primary-main hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95';
   }
 };
 
@@ -18993,7 +18993,7 @@ export default function NotificationsPage() {
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'course':
-        return 'text-blue-600 bg-blue-100';
+        return 'text-primary-main bg-blue-100';
       case 'social':
         return 'text-green-600 bg-green-100';
       case 'achievement':
@@ -19609,15 +19609,15 @@ module.exports = {
   ],
   safelist: [
     // Button variants
-    'bg-blue-600',
+    'bg-primary-main',
     'hover:bg-blue-700',
     'bg-gray-600',
     'hover:bg-gray-700',
     'bg-red-600',
     'hover:bg-red-700',
-    'border-blue-600',
-    'text-blue-600',
-    'hover:bg-blue-600',
+    'border-primary-main',
+    'text-primary-main',
+    'hover:bg-primary-main',
     'hover:text-white',
     'text-gray-700',
     'hover:bg-gray-100',
@@ -19978,7 +19978,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
               {day && (
                 <>
                   <div className={`text-sm font-medium mb-2 ${
-                    isToday ? 'text-blue-600' : 'text-gray-900'
+                    isToday ? 'text-primary-main' : 'text-gray-900'
                   }`}>
                     {day.getDate()}
                   </div>
@@ -20060,7 +20060,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
 
             {selectedExam.status === 'active' && (
               <div className="pt-4 border-t">
-                <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                <button className="w-full bg-primary-main text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
                   ابدأ الاختبار الآن
                 </button>
               </div>
@@ -20260,7 +20260,7 @@ export const TabsController: React.FC<TabsControllerProps> = ({
             onClick={() => onTabChange(tab.id)}
             className={`flex items-center gap-2 gap-reverse px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
               isActive
-                ? 'bg-white text-blue-600 shadow-sm'
+                ? 'bg-white text-primary-main shadow-sm'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
             }`}
             whileHover={{ scale: 1.02 }}
@@ -22601,7 +22601,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
         {/* رأس النموذج */}
         <div className="text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Award className="w-8 h-8 text-blue-600" />
+            <Award className="w-8 h-8 text-primary-main" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
             طلب شهادة إتمام الدورة
@@ -22665,7 +22665,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <div className="flex items-start gap-2 gap-reverse">
               <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
-                <span className="text-blue-600 text-xs font-bold">!</span>
+                <span className="text-primary-main text-xs font-bold">!</span>
               </div>
               <div className="text-sm text-blue-800">
                 <p className="font-medium mb-1">معلومات مهمة:</p>
@@ -23182,7 +23182,7 @@ export const LearningPathCard: React.FC<LearningPathCardProps> = ({
 
         {/* زر الانتقال */}
         <div className="pt-4 border-t border-gray-100">
-          <div className="flex items-center justify-center text-blue-600 hover:text-blue-700 transition-colors">
+          <div className="flex items-center justify-center text-primary-main hover:text-blue-700 transition-colors">
             <span className="text-sm font-medium">عرض تفاصيل المسار</span>
             <ArrowRight className="w-4 h-4 mr-1" />
           </div>
@@ -23464,7 +23464,7 @@ export default function CertificatesPage() {
             </p>
             <button
               onClick={() => setIsDialogOpen(true)}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-primary-main text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Award className="w-4 h-4 mr-2" />
               طلب شهادة
@@ -23480,7 +23480,7 @@ export default function CertificatesPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6"
           >
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white text-center">
+            <div className="bg-gradient-to-br from-blue-500 to-primary-main rounded-lg p-6 text-white text-center">
               <Award className="w-8 h-8 mx-auto mb-2" />
               <div className="text-2xl font-bold">{certificates.length}</div>
               <div className="text-sm opacity-90">إجمالي الشهادات</div>
@@ -23706,7 +23706,7 @@ export default function CertificatesPage() {
             </p>
             <button
               onClick={() => setIsDialogOpen(true)}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-primary-main text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Award className="w-4 h-4 mr-2" />
               طلب شهادة
@@ -23722,7 +23722,7 @@ export default function CertificatesPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6"
           >
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white text-center">
+            <div className="bg-gradient-to-br from-blue-500 to-primary-main rounded-lg p-6 text-white text-center">
               <Award className="w-8 h-8 mx-auto mb-2" />
               <div className="text-2xl font-bold">{certificates.length}</div>
               <div className="text-sm opacity-90">إجمالي الشهادات</div>
@@ -23896,7 +23896,7 @@ export default function PathsPage() {
       >
         {/* رأس الصفحة */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-primary-main rounded-full flex items-center justify-center mx-auto mb-4">
             <BookOpen className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -23940,7 +23940,7 @@ export default function PathsPage() {
           {/* إحصائيات سريعة */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-blue-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{filteredPaths.length}</div>
+              <div className="text-2xl font-bold text-primary-main">{filteredPaths.length}</div>
               <div className="text-sm text-gray-600">إجمالي المسارات</div>
             </div>
             <div className="bg-green-50 rounded-lg p-4 text-center">
@@ -24257,7 +24257,7 @@ export default function PathDetailPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <BookOpen className="w-6 h-6 text-blue-600" />
+                <BookOpen className="w-6 h-6 text-primary-main" />
               </div>
               <div className="text-2xl font-bold text-gray-900">{path.courses?.length || 0}</div>
               <div className="text-sm text-gray-600">كورس</div>
@@ -24322,7 +24322,7 @@ export default function PathDetailPage() {
                   >
                     <div className="flex items-center gap-3 gap-reverse">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <Play className="w-5 h-5 text-blue-600" />
+                        <Play className="w-5 h-5 text-primary-main" />
                       </div>
                       <div>
                         <h3 className="font-medium text-gray-900">{course.title}</h3>

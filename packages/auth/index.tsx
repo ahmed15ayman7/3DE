@@ -220,7 +220,7 @@ class AuthService {
         throw new Error('No refresh token available');
       }
 
-      const response = await fetch(`https://api.3de.school/auth/refresh-token`, {
+      const response = await fetch(` https://api.3de.school/auth/refresh-token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -264,7 +264,9 @@ class AuthService {
     
     // إعادة التوجيه إلى صفحة تسجيل الدخول
     if (typeof window !== 'undefined') {
-      window.location.href = '/auth/signin';
+      if(!window.location.href.includes('/auth/signin')){
+        window.location.href = '/auth/signin';
+      }
     }
   }
 
@@ -603,6 +605,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const currentUser = authService.getCurrentUser();
           setUser(currentUser);
           console.log('🔐 currentUser', currentUser);
+        }else{
+          if(typeof window !== 'undefined'){
+           if(window.location.href !== '/auth/signin'){
+             authService.logout();
+           }
+
+          }
         }
       } catch (error) {
         console.error('Auth initialization error:', error);

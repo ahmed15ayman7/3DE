@@ -154,7 +154,7 @@ export const LearningPathCard: React.FC<LearningPathCardProps> = ({
 
         {/* زر الانتقال */}
         <div className="pt-4 border-t border-gray-100">
-          <div className="flex items-center justify-center text-blue-600 hover:text-blue-700 transition-colors">
+          <div className="flex items-center justify-center text-primary-main hover:text-blue-700 transition-colors">
             <span className="text-sm font-medium">عرض تفاصيل المسار</span>
             <ArrowRight className="w-4 h-4 mr-1" />
           </div>

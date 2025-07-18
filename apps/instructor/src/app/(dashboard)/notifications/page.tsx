@@ -375,7 +375,7 @@ export default function NotificationsPage() {
         </Card>
 
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-blue-600 mb-1">
+          <div className="text-2xl font-bold text-primary-main mb-1">
             {unreadCount}
           </div>
           <div className="text-sm text-gray-600">غير مقروءة</div>

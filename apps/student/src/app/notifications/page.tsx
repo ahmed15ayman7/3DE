@@ -53,7 +53,7 @@ export default function NotificationsPage() {
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'course':
-        return 'text-blue-600 bg-blue-100';
+        return 'text-primary-main bg-blue-100';
       case 'social':
         return 'text-green-600 bg-green-100';
       case 'achievement':

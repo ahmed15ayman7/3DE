@@ -34,7 +34,7 @@ export const TabsController: React.FC<TabsControllerProps> = ({
             onClick={() => onTabChange(tab.id)}
             className={`flex items-center gap-2 gap-reverse px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
               isActive
-                ? 'bg-white text-blue-600 shadow-sm'
+                ? 'bg-white text-primary-main shadow-sm'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
             }`}
             whileHover={{ scale: 1.02 }}

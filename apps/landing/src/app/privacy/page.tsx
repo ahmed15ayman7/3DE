@@ -75,7 +75,7 @@ export default function PrivacyPage() {
 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <div className="flex items-start">
-                    <Shield size={20} className="text-blue-600 mt-1 ml-2" />
+                    <Shield size={20} className="text-primary-main mt-1 ml-2" />
                     <div>
                       <p className="font-medium text-blue-800">التزامنا بالخصوصية:</p>
                       <p className="mt-2 text-blue-700 text-sm">

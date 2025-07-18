@@ -41,7 +41,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
         container: 'flex items-center justify-between',
         navigation: 'flex items-center gap-1',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50',
-        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600',
+        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-primary-main',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed'
       };
     default:
@@ -49,7 +49,7 @@ const getVariantClasses = (variant: PaginationProps['variant']) => {
         container: 'flex items-center justify-between',
         navigation: 'flex items-center gap-2',
         button: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 rounded-md',
-        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-blue-600 rounded-md',
+        activeButton: 'border-blue-500 bg-blue-500 text-white hover:bg-primary-main rounded-md',
         disabledButton: 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed rounded-md'
       };
   }
