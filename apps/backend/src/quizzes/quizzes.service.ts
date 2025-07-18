@@ -106,6 +106,45 @@ export class QuizzesService {
             throw new BadRequestException('Failed to delete quiz' + error.message);
         }
     }
+    async getByStudent(studentId: string) {
+        return this.prisma.quiz.findMany({
+            where: {
+                Course: {
+                    some: {
+                    enrollments: {
+                        some: {
+                            userId: studentId,
+                        },
+                    },
+                },
+                },
+               
+               
+            },
+            include: {
+                submissions: {
+                    where: {
+                        userId: studentId,
+                    },
+                },
+            },
+        });
+    }
+    async getByInstructor(instructorId: string) {
+        return this.prisma.quiz.findMany({
+            where: {
+                Course: {
+                    some: {
+                        instructors: {
+                            some: {
+                                userId: instructorId,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    }
 
 
     // async submitQuizAttempt(userId: string, quizId: string, answers: { questionId: string; answer: string }[]) {

@@ -57,7 +57,14 @@ export class QuizzesController {
         return this.quizzesService.remove(id);
     }
 
-
+    @Get('student/:studentId')
+    async getByStudent(@Param('studentId') studentId: string) {
+        return this.quizzesService.getByStudent(studentId);
+    }
+    @Get('instructor/:instructorId')
+    async getByInstructor(@Param('instructorId') instructorId: string) {
+        return this.quizzesService.getByInstructor(instructorId);
+    }
 
 
     // @Post(':id/submit')
