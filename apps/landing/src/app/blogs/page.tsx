@@ -66,8 +66,8 @@ export default function BlogsPage() {
     title: post.title,
     excerpt: post.content.substring(0, 200) + "...",
     featuredImage: "/images/blog/default.jpg",
-    publishDate: new Date(post.createdAt).toLocaleDateString('ar-SA'),
-    publishedAt: new Date(post.createdAt).toLocaleDateString('ar-SA'),
+    publishDate: new Date(post.createdAt).toLocaleDateString('ar-EG'),
+    publishedAt: new Date(post.createdAt).toLocaleDateString('ar-EG'),
     readTime: Math.ceil(post.content.split(' ').length / 200) + " دقيقة",
     author: {
       name: post.author?.firstName + " " + post.author?.lastName,

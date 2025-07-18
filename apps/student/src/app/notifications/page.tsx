@@ -177,8 +177,8 @@ export default function NotificationsPage() {
                           {notification.message}
                         </p>
                         <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
-                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-EG')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-EG')}</span>
                           {notification.type && (
                             <Badge variant="outline" className="text-xs">
                               {notification.type}

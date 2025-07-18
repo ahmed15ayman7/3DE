@@ -64,6 +64,16 @@ export class QuizEntity {
   @Column()
   averageScore?: number;
 
+  @ApiProperty({ type: "string", format: "date-time", nullable: true })
+  // Field: startDate, Type: Date
+  @Column()
+  startDate?: Date;
+
+  @ApiProperty({ type: "string", format: "date-time", nullable: true })
+  // Field: endDate, Type: Date
+  @Column()
+  endDate?: Date;
+
   @ApiProperty({ type: "boolean" })
   // Field: upComing, Type: boolean
   @Column()

@@ -365,6 +365,8 @@ model Quiz {
     passingScore Int?
     failCount    Int?
     averageScore Float?
+    startDate    DateTime?
+    endDate      DateTime?
     upComing     Boolean      @default(false)
     isCompleted  Boolean      @default(false)
     createdAt    DateTime     @default(now())

@@ -305,6 +305,8 @@ exports.Prisma.QuizScalarFieldEnum = {
   passingScore: 'passingScore',
   failCount: 'failCount',
   averageScore: 'averageScore',
+  startDate: 'startDate',
+  endDate: 'endDate',
   upComing: 'upComing',
   isCompleted: 'isCompleted',
   createdAt: 'createdAt',

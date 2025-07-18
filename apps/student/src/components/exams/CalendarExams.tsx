@@ -110,7 +110,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
             ‹
           </button>
           <span className="text-lg font-semibold">
-            {currentDate.toLocaleDateString('ar-SA', { year: 'numeric', month: 'long' })}
+            {currentDate.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long' })}
           </span>
           <button
             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
@@ -216,14 +216,14 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ البدء: {selectedExam.startDate.toLocaleDateString('ar-SA')}
+                  تاريخ البدء: {selectedExam.startDate.toLocaleDateString('ar-EG')}
                 </span>
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ النهاية: {selectedExam.endDate.toLocaleDateString('ar-SA')}
+                  تاريخ النهاية: {selectedExam.endDate.toLocaleDateString('ar-EG')}
                 </span>
               </div>
             </div>

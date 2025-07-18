@@ -100,7 +100,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           <div className="flex items-center justify-between py-2 border-b border-gray-100">
             <span className="text-gray-600">تاريخ الإصدار:</span>
             <span className="font-medium">
-              {new Date(certificate.earnedAt).toLocaleDateString('ar-SA', {
+              {new Date(certificate.earnedAt).toLocaleDateString('ar-EG', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'

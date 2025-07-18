@@ -80,9 +80,9 @@ export default function EventCard({
     const date = new Date(dateString);
     return {
       day: date.getDate(),
-      month: date.toLocaleDateString('ar-SA', { month: 'short' }),
-      weekday: date.toLocaleDateString('ar-SA', { weekday: 'short' }),
-      full: date.toLocaleDateString('ar-SA', {
+      month: date.toLocaleDateString('ar-EG', { month: 'short' }),
+      weekday: date.toLocaleDateString('ar-EG', { weekday: 'short' }),
+      full: date.toLocaleDateString('ar-EG', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'

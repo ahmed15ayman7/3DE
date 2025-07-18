@@ -65,7 +65,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
           <div className="flex items-center gap-2 gap-reverse">
             <Calendar className="w-4 h-4" />
             <span>
-              تم الإنشاء في {new Date(community.createdAt).toLocaleDateString('ar-SA', {
+              تم الإنشاء في {new Date(community.createdAt).toLocaleDateString('ar-EG', {
                 year: 'numeric',
                 month: 'long'
               })}

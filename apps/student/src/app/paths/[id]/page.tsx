@@ -278,13 +278,13 @@ export default function PathDetailPage({params}: {params: Promise<{id: string}>}
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">تاريخ الإنشاء:</span>
                   <span className="font-medium">
-                    {new Date(path.createdAt).toLocaleDateString('ar-SA')}
+                    {new Date(path.createdAt).toLocaleDateString('ar-EG')}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">آخر تحديث:</span>
                   <span className="font-medium">
-                    {new Date(path.updatedAt).toLocaleDateString('ar-SA')}
+                    {new Date(path.updatedAt).toLocaleDateString('ar-EG')}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

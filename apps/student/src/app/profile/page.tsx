@@ -72,10 +72,10 @@ export default function ProfilePage() {
   const formatDate = (date: any) => {
     if (!date) return 'غير محدد';
     if (typeof date === 'string') {
-      return new Date(date).toLocaleDateString('ar-SA');
+      return new Date(date).toLocaleDateString('ar-EG');
     }
     if (date instanceof Date) {
-      return date.toLocaleDateString('ar-SA');
+      return date.toLocaleDateString('ar-EG');
     }
     return 'غير محدد';
   };

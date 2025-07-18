@@ -108,7 +108,7 @@ export default function CoursesPage() {
     category: course.level, // Using level as category for now
     isNew: new Date(course.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
     isFree: true, // Default to free
-    startDate: course.startDate ? new Date(course.startDate).toLocaleDateString('ar-SA') : undefined
+    startDate: course.startDate ? new Date(course.startDate).toLocaleDateString('ar-EG') : undefined
   });
 
   // Filter and search logic

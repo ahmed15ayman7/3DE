@@ -86,7 +86,7 @@ export const ExamCard: React.FC<ExamCardProps> = ({ quiz, onStartExam }) => {
 
           <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Calendar className="w-4 h-4" />
-            <span>تاريخ الإنشاء: {new Date(quiz.createdAt).toLocaleDateString('ar-SA')}</span>
+            <span>تاريخ الإنشاء: {new Date(quiz.createdAt).toLocaleDateString('ar-EG')}</span>
           </div>
         </div>
 

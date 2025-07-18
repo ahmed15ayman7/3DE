@@ -313,6 +313,8 @@ export interface Quiz {
   passingScore?: number;
   failCount?: number;
   averageScore?: number;
+  startDate?: Date;
+  endDate?: Date;
   upComing: boolean;
   isCompleted: boolean;
   createdAt: Date;

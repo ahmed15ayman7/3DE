@@ -229,7 +229,7 @@ export default function ExamsPage() {
                               <span>تاريخ الإكمال:</span>
                               <span>
                                 {submission?.createdAt 
-                                  ? new Date(submission.createdAt).toLocaleDateString('ar-SA')
+                                  ? new Date(submission.createdAt).toLocaleDateString('ar-EG')
                                   : 'غير محدد'
                                 }
                               </span>

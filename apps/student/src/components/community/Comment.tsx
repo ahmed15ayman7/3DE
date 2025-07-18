@@ -39,7 +39,7 @@ export const Comment: React.FC<CommentProps> = ({
               {comment.author.firstName} {comment.author.lastName}
             </h4>
             <span className="text-xs text-gray-500">
-              {new Date(comment.createdAt).toLocaleDateString('ar-SA', {
+              {new Date(comment.createdAt).toLocaleDateString('ar-EG', {
                 month: 'short',
                 day: 'numeric',
                 hour: '2-digit',

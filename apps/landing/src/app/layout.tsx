@@ -74,7 +74,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://3de.sa',
     languages: {
-      'ar-SA': 'https://3de.sa',
+      'ar-EG': 'https://3de.sa',
       'ar': 'https://3de.sa/ar',
     },
   },

@@ -163,7 +163,7 @@ export default function CommunityPage() {
                     <Calendar className="w-5 h-5" />
                     <span>
                       تم الإنشاء في {community?.createdAt 
-                        ? new Date(community.createdAt).toLocaleDateString('ar-SA', {
+                        ? new Date(community.createdAt).toLocaleDateString('ar-EG', {
                             year: 'numeric',
                             month: 'long'
                           })

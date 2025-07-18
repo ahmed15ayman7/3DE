@@ -133,7 +133,7 @@ export default function HomePage() {
     category: course.level,
     isNew: new Date(course.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
     isFree: true, // Default to free
-    startDate: course.startDate ? new Date(course.startDate).toLocaleDateString('ar-SA') : undefined
+    startDate: course.startDate ? new Date(course.startDate).toLocaleDateString('ar-EG') : undefined
   });
 
   const transformInstructorData = (instructor: Instructor) => ({
@@ -159,8 +159,8 @@ export default function HomePage() {
     description: event.description || "حدث تعليمي مميز",
     featuredImage: "/images/events/default.jpg",
     startDate: new Date(event.startTime).toISOString().split('T')[0],
-    startTime: new Date(event.startTime).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
-    endTime: new Date(event.endTime).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+    startTime: new Date(event.startTime).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+    endTime: new Date(event.endTime).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
     location: {
       type: "offline" as const,
       venue: "أكاديمية 3DE",

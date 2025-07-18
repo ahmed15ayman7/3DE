@@ -53,7 +53,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                 {post.author.firstName} {post.author.lastName}
               </h3>
               <p className="text-sm text-gray-500">
-                {new Date(post.createdAt).toLocaleDateString('ar-SA', {
+                {new Date(post.createdAt).toLocaleDateString('ar-EG', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',

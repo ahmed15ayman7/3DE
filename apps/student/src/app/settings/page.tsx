@@ -245,7 +245,7 @@ export default function SettingsPage() {
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-600 mb-2">تاريخ الانضمام</p>
                   <p className="font-medium">
-                    {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('ar-SA') : 'غير محدد'}
+                    {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('ar-EG') : 'غير محدد'}
                   </p>
                 </div>
 

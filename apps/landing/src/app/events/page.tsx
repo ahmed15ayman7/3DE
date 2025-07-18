@@ -74,8 +74,8 @@ export default function EventsPage() {
     description: event.description || "حدث تعليمي مميز",
     featuredImage: "/images/events/default.jpg",
     startDate: new Date(event.startTime).toISOString().split('T')[0],
-    startTime: new Date(event.startTime).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
-    endTime: new Date(event.endTime).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+    startTime: new Date(event.startTime).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+    endTime: new Date(event.endTime).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
     location: {
       type: "offline" as const,
       venue: "أكاديمية 3DE",
