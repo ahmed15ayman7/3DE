@@ -311,6 +311,8 @@ export interface Quiz {
   submissions: Submission[] | undefined;
   timeLimit?: number;
   passingScore?: number;
+  failCount?: number;
+  averageScore?: number;
   upComing: boolean;
   isCompleted: boolean;
   createdAt: Date;
@@ -351,6 +353,7 @@ export interface Submission {
   answers: any[];
   score?: number;
   feedback?: string;
+  timeLimit?: number;
   passed?: boolean;
   createdAt: Date;
   updatedAt: Date;

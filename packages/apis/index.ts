@@ -72,7 +72,7 @@ import {
 } from '@3de/interfaces';
 
 // API Configuration
-const API_URL = process.env.NEXT_PUBLIC_API_URL|| "https://api.iafce.net" || 'https://api.iafce.net' ;
+const API_URL = process.env.NEXT_PUBLIC_API_URL|| "https://api.3de.school" || 'https://api.3de.school' ;
 
 interface TokenPayload {
   exp: number;

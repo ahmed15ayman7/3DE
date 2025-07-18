@@ -363,6 +363,8 @@ model Quiz {
     submissions  Submission[]
     timeLimit    Int?
     passingScore Int?
+    failCount    Int?
+    averageScore Float?
     upComing     Boolean      @default(false)
     isCompleted  Boolean      @default(false)
     createdAt    DateTime     @default(now())
@@ -404,6 +406,7 @@ model Submission {
     answers   Json[]
     score     Float?
     feedback  String?
+    timeLimit Int?
     passed    Boolean? @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

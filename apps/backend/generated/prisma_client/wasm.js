@@ -303,6 +303,8 @@ exports.Prisma.QuizScalarFieldEnum = {
   lessonId: 'lessonId',
   timeLimit: 'timeLimit',
   passingScore: 'passingScore',
+  failCount: 'failCount',
+  averageScore: 'averageScore',
   upComing: 'upComing',
   isCompleted: 'isCompleted',
   createdAt: 'createdAt',
@@ -337,6 +339,7 @@ exports.Prisma.SubmissionScalarFieldEnum = {
   answers: 'answers',
   score: 'score',
   feedback: 'feedback',
+  timeLimit: 'timeLimit',
   passed: 'passed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

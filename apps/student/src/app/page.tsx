@@ -15,7 +15,7 @@ import { Course, Instructor, Lesson } from '@3de/interfaces';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'courses' | 'instructors'>('courses');
   const { user } = useAuth();
-  
+  console.log(user);
   // Fetch data
   const { data: coursesResponse, isLoading: coursesLoading } = useQuery({
     queryKey: ['courses'],
@@ -234,7 +234,7 @@ export default function HomePage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                       >
-                        <CourseCard course={course} isEnrolled={true} />
+                        <CourseCard userId={user?.id!} course={course} isEnrolled={true} />
                       </motion.div>
                     ))
                   )}
@@ -258,7 +258,7 @@ export default function HomePage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <CourseCard course={course} isEnrolled={false} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} />
                     </motion.div>
                   ))
                 )}

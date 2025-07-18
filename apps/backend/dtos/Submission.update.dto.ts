@@ -30,6 +30,11 @@ export class UpdateSubmissionDto {
   @Column()
   feedback?: string;
 
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: timeLimit, Type: number
+  @Column()
+  timeLimit?: number;
+
   @ApiProperty({ type: "boolean", nullable: true })
   // Field: passed, Type: boolean
   @Column()

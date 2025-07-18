@@ -30,6 +30,16 @@ export class CreateQuizDto {
   @Column()
   passingScore?: number;
 
+  @ApiProperty({ type: "number" })
+  // Field: failCount, Type: number
+  @Column()
+  failCount?: number;
+
+  @ApiProperty({ type: "number" })
+  // Field: averageScore, Type: number
+  @Column()
+  averageScore?: number;
+
   @ApiProperty({ type: "boolean" })
   // Field: upComing, Type: boolean
   @Column()

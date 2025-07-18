@@ -7,13 +7,14 @@ import { Button, Badge, Progress } from '@3de/ui';
 import { Course } from '@3de/interfaces';
 
 interface CourseCardProps {
+  userId: string;
   course: Course;
   isEnrolled?: boolean;
 }
 
-export default function CourseCard({ course, isEnrolled = false }: CourseCardProps) {
-  const progress = course.progress || 0;
-
+export default function CourseCard({ userId, course, isEnrolled = false }: CourseCardProps) {
+  const progress = (course.lessons?.filter((lesson: any) => lesson.WatchedLesson?.some((watched: any) => watched.userId === userId)).length || 0) / (course.lessons?.length || 1) * 100 || 0;
+  console.log(progress);
   // تحويل التاريخ إلى string إذا كان Date object
   const formatDate = (date: any) => {
     if (!date) return 'غير محدد';

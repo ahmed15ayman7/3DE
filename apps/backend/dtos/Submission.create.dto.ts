@@ -30,6 +30,11 @@ export class CreateSubmissionDto {
   @Column()
   feedback?: string;
 
+  @ApiProperty({ type: "number" })
+  // Field: timeLimit, Type: number
+  @Column()
+  timeLimit?: number;
+
   @ApiProperty({ type: "boolean" })
   // Field: passed, Type: boolean
   @Column()

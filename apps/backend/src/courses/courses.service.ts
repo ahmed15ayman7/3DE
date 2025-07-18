@@ -48,7 +48,11 @@ export class CoursesService {
                         user: true,
                     },
                 },
-                lessons: true,
+                lessons: {
+                    select: {
+                        WatchedLesson:true,
+                    },
+                },
                 quizzes: true,
             },
         });

@@ -1,6 +1,4 @@
 'use client';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 import { jwtDecode } from 'jwt-decode';
 import React from 'react';
@@ -8,7 +6,6 @@ import { User, UserRole } from '@3de/interfaces';
 
 // React Hooks
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-import { authApi } from '@3de/apis';
 
 export interface Session {
   user: User;
@@ -17,7 +14,7 @@ export interface Session {
 }
 
 export interface JWTPayload {
-  userId: string;
+  sub: string;
   email: string;
   role: UserRole;
   iat: number;
@@ -33,8 +30,7 @@ interface TokenPayload {
   };
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-refresh-secret-key';
+// تم إزالة JWT_SECRET و JWT_REFRESH_SECRET لأنها لا تستخدم في client-side
 
 // Cookie configuration constants
 const COOKIE_CONFIG = {
@@ -68,33 +64,28 @@ class AuthService {
   }
 
   // JWT Token Management
+  // ملاحظة: هذه الدوال لا تعمل في المتصفح، يجب استخدامها في server-side فقط
   public generateAccessToken(user: User): string {
-    return jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-      },
-      JWT_SECRET,
-      { expiresIn: '1h' } // Updated to 1 hour
-    );
+    console.warn('generateAccessToken: This function should only be used on server-side');
+    return '';
   }
 
   public generateRefreshToken(user: User): string {
-    return jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-      },
-      JWT_REFRESH_SECRET,
-      { expiresIn: '30d' } // Updated to 30 days
-    );
+    console.warn('generateRefreshToken: This function should only be used on server-side');
+    return '';
   }
 
   public verifyToken(token: string): JWTPayload | null {
     try {
-      return jwt.verify(token, JWT_SECRET) as JWTPayload;
+      // استخدام jwtDecode للقراءة فقط في المتصفح
+      const payload = jwtDecode<JWTPayload>(token);
+      
+      // التحقق من انتهاء الصلاحية
+      if (payload.exp * 1000 <= Date.now()) {
+        return null;
+      }
+      
+      return payload;
     } catch (error) {
       return null;
     }
@@ -102,14 +93,22 @@ class AuthService {
 
   public verifyRefreshToken(token: string): JWTPayload | null {
     try {
-      return jwt.verify(token, JWT_REFRESH_SECRET) as JWTPayload;
+      // استخدام jwtDecode للقراءة فقط في المتصفح
+      const payload = jwtDecode<JWTPayload>(token);
+      
+      // التحقق من انتهاء الصلاحية
+      if (payload.exp * 1000 <= Date.now()) {
+        return null;
+      }
+      
+      return payload;
     } catch (error) {
       return null;
     }
   }
 
   // دالة مستقلة لحفظ التوكنات في cookies
-  public saveTokens(accessToken: string, refreshToken: string): void {
+  public saveTokens(accessToken: string, refreshToken: string,isSession:boolean=false): void {
     if (!accessToken || !refreshToken) {
       console.error('Invalid tokens provided for saving');
       return;
@@ -124,13 +123,13 @@ class AuthService {
     });
 
     // حفظ access token لمدة ساعة واحدة
-    setCookie('accessToken', accessToken, {
+    setCookie(isSession?'sessionAccessToken':'accessToken', accessToken, {
       ...COOKIE_CONFIG,
       maxAge: 60 * 60, // 1 hour in seconds
     });
 
     // حفظ refresh token لمدة 30 يوم
-    setCookie('refreshToken', refreshToken, {
+    setCookie(isSession?'sessionRefreshToken':'refreshToken', refreshToken, {
       ...COOKIE_CONFIG,
       maxAge: 30 * 24 * 60 * 60, // 30 days in seconds
     });
@@ -139,8 +138,8 @@ class AuthService {
     
     // Debug: Check if cookies were actually set
     setTimeout(() => {
-      const savedAccessToken = getCookie('accessToken');
-      const savedRefreshToken = getCookie('refreshToken');
+      const savedAccessToken = getCookie(isSession?'sessionAccessToken':'accessToken');
+      const savedRefreshToken = getCookie(isSession?'sessionRefreshToken':'refreshToken');
       console.log('🍪 COOKIE: Verification - Access Token saved:', !!savedAccessToken);
       console.log('🍪 COOKIE: Verification - Refresh Token saved:', !!savedRefreshToken);
     }, 100);
@@ -164,20 +163,20 @@ class AuthService {
   }
 
   // الحصول على التوكن من cookies
-  public getAccessTokenFromCookie(): string {
-    const token = getCookie('accessToken') as string;
+  public getAccessTokenFromCookie(isSession:boolean=false): string {
+    const token = getCookie(isSession?'sessionAccessToken':'accessToken') as string;
     return token || '';
   }
 
   // الحصول على refresh token من cookies
-  public getRefreshTokenFromCookie(): string {
-    const token = getCookie('refreshToken') as string;
+  public getRefreshTokenFromCookie(isSession:boolean=false): string {
+    const token = getCookie(isSession?'sessionRefreshToken':'refreshToken') as string;
     return token || '';
   }
 
   // التحقق من حالة تسجيل الدخول
   public async isAuthenticated(): Promise<boolean> {
-    const token = this.getAccessTokenFromCookie();
+    const token = this.getAccessTokenFromCookie(true);
     if (!token) return false;
 
     try {
@@ -191,7 +190,7 @@ class AuthService {
   // بدء مؤقت تجديد التوكن
   private startRefreshTokenTimer() {
     try {
-      const accessToken = this.getAccessTokenFromCookie();
+      const accessToken = this.getAccessTokenFromCookie(true);
       if (!accessToken) return;
 
       const decodedToken = jwtDecode<TokenPayload>(accessToken);
@@ -216,13 +215,22 @@ class AuthService {
   // تجديد التوكن
   public async refreshToken(): Promise<string> {
     try {
-      const refreshToken = this.getRefreshTokenFromCookie();
+      const refreshToken = this.getRefreshTokenFromCookie(true);
       if (!refreshToken) {
         throw new Error('No refresh token available');
       }
 
-      const response = await authApi.refreshToken({ refreshToken });
-      if (!response) {
+      const response = await fetch(`https://api.3de.school/auth/refresh-token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          refreshToken: refreshToken
+        }),
+      });
+
+      if (!response.ok) {
         throw new Error('Failed to refresh token');
       }
 
@@ -246,6 +254,8 @@ class AuthService {
   // تسجيل الخروج
   public async logout() {
     // حذف التوكنات من cookies
+    deleteCookie('sessionAccessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+    deleteCookie('sessionRefreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     deleteCookie('accessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     deleteCookie('refreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     
@@ -259,6 +269,8 @@ class AuthService {
   }
 
   public async clearTokens() {
+    deleteCookie('sessionAccessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+    deleteCookie('sessionRefreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     deleteCookie('accessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     deleteCookie('refreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     this.stopRefreshTokenTimer();    
@@ -267,31 +279,92 @@ class AuthService {
   // Session Management
   public getSession(): Session | null {
     try {
-      const accessToken = this.getAccessTokenFromCookie();
-      const refreshToken = this.getRefreshTokenFromCookie();
+      const accessToken = this.getAccessTokenFromCookie(true);
+      const refreshToken = this.getRefreshTokenFromCookie(true);
       
       if (!accessToken || !refreshToken) {
         return null;
       }
 
-      const payload = this.verifyToken(accessToken);
-      if (!payload) {
-        // محاولة تجديد التوكن
-        const refreshPayload = this.verifyRefreshToken(refreshToken);
-        if (!refreshPayload) {
-          return null;
-        }
+      // استخدام jwtDecode للقراءة فقط بدلاً من التحقق من الصحة
+      try {
+        const payload = jwtDecode<JWTPayload>(accessToken);
         
-        // إنشاء مستخدم جديد من refresh token
+        // التحقق من انتهاء صلاحية التوكن
+        if (payload.exp * 1000 <= Date.now()) {
+          // التوكن منتهي الصلاحية، نحاول استخدام refresh token
+          const refreshPayload = jwtDecode<JWTPayload>(refreshToken);
+          
+          if (refreshPayload.exp * 1000 <= Date.now()) {
+            // refresh token أيضاً منتهي الصلاحية
+            return null;
+          }
+          
+          // إنشاء مستخدم من refresh token
+          const user: User = {
+            id: refreshPayload.sub,
+            email: refreshPayload.email,
+            LessonWhiteList: [],
+            WatchedLesson: [],
+            firstName: '',
+            Comment: [],
+            lastName: '',
+            role: refreshPayload.role,
+            password: '',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            isOnline: false,
+            isVerified: false,
+            enrollments: [],
+            achievements: [],
+            notifications: [],
+            messages: [],
+            posts: [],
+            groups: [],
+            channels: [],
+            bookmarks: [],
+            Submission: [],
+            Attendance: [],
+            payments: [],
+            installments: [],
+            Instructor: [],
+            Owner: [],
+            Admin: [],
+            Lesson: [],
+            Report: [],
+            Badge: [],
+            Certificate: [],
+            Community: [],
+            LiveRoom: [],
+            NotificationSettings: [],
+            Path: [],
+            LoginHistory: [],
+            TwoFactor: [],
+            UserAcademyCEO: [],
+            SalaryPayment: [],
+            MeetingParticipant: [],
+            LegalCase: [],
+            traineeManagement: [],
+            trainingSchedules: [],
+            employeeAttendanceLogs: [],
+          };
+          
+          return {
+            user,
+            accessToken,
+            refreshToken,
+          };
+        }
+
         const user: User = {
-          id: refreshPayload.userId,
-          email: refreshPayload.email,
+          id: payload.sub,
+          email: payload.email,
           LessonWhiteList: [],
           WatchedLesson: [],
           firstName: '',
           Comment: [],
           lastName: '',
-          role: refreshPayload.role,
+          role: payload.role,
           password: '',
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -330,88 +403,38 @@ class AuthService {
           trainingSchedules: [],
           employeeAttendanceLogs: [],
         };
-        
-        const newAccessToken = this.generateAccessToken(user);
-        const newRefreshToken = this.generateRefreshToken(user);
-        
-        // حفظ التوكنات الجديدة
-        this.saveTokens(newAccessToken, newRefreshToken);
-        
+
         return {
           user,
-          accessToken: newAccessToken,
-          refreshToken: newRefreshToken,
+          accessToken,
+          refreshToken,
         };
+      } catch (decodeError) {
+        console.error('Error decoding token:', decodeError);
+        return null;
       }
-
-      const user: User = {
-        id: payload.userId,
-        email: payload.email,
-        LessonWhiteList: [],
-        WatchedLesson: [],
-        firstName: '',
-        Comment: [],
-        lastName: '',
-        role: payload.role,
-        password: '',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isOnline: false,
-        isVerified: false,
-        enrollments: [],
-        achievements: [],
-        notifications: [],
-        messages: [],
-        posts: [],
-        groups: [],
-        channels: [],
-        bookmarks: [],
-        Submission: [],
-        Attendance: [],
-        payments: [],
-        installments: [],
-        Instructor: [],
-        Owner: [],
-        Admin: [],
-        Lesson: [],
-        Report: [],
-        Badge: [],
-        Certificate: [],
-        Community: [],
-        LiveRoom: [],
-        NotificationSettings: [],
-        Path: [],
-        LoginHistory: [],
-        TwoFactor: [],
-        UserAcademyCEO: [],
-        SalaryPayment: [],
-        MeetingParticipant: [],
-        LegalCase: [],
-        traineeManagement: [],
-        trainingSchedules: [],
-        employeeAttendanceLogs: [],
-      };
-
-      return {
-        user,
-        accessToken,
-        refreshToken,
-      };
     } catch (error) {
       console.error('Error getting session:', error);
       return null;
     }
   }
 
-  public setSession(user: User): void {
-    const accessToken = this.generateAccessToken(user);
-    const refreshToken = this.generateRefreshToken(user);
+  public setSession(user: User, accessToken?: string, refreshToken?: string): void {
+    // إذا لم يتم تمرير التوكنات، نحاول الحصول عليها من الكوكيز
+    if (!accessToken || !refreshToken) {
+      accessToken = this.getAccessTokenFromCookie(true);
+      refreshToken = this.getRefreshTokenFromCookie(true);
+    }
     
-    // حفظ التوكنات في cookies
-    this.saveTokens(accessToken, refreshToken);
+    // إذا كانت التوكنات متوفرة، نحفظها في الكوكيز
+    if (accessToken && refreshToken) {
+      this.saveTokens(accessToken, refreshToken, true);
+    }
   }
 
   public clearSession(): void {
+    deleteCookie('sessionAccessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+    deleteCookie('sessionRefreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     deleteCookie('accessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
     deleteCookie('refreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
   }
@@ -436,13 +459,15 @@ class AuthService {
   }
 
   // Password Management
+  // ملاحظة: هذه الدوال لا تعمل في المتصفح، يجب استخدامها في server-side فقط
   public async hashPassword(password: string): Promise<string> {
-    const saltRounds = 12;
-    return bcrypt.hash(password, saltRounds);
+    console.warn('hashPassword: This function should only be used on server-side');
+    return '';
   }
 
   public async comparePassword(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+    console.warn('comparePassword: This function should only be used on server-side');
+    return false;
   }
 
   // Middleware for Next.js
@@ -599,8 +624,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refreshTokenLength: data.refreshToken.length
       });
       
-      // حفظ التوكنات في cookies
-      authService.saveTokens(data.access_token, data.refreshToken);
+      authService.setSession(data.user, data.access_token, data.refreshToken);
       
       // تعيين التوكنات وبدء المؤقت
       await authService.setTokens(data.access_token, data.refreshToken);

@@ -421,7 +421,7 @@ export default function CoursesPage() {
       {/* Courses Grid/List */}
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.map((course: Course) => (
+          {filteredCourses?.map((course: Course) => (
             <CourseCard
               key={course.id}
               course={course}
@@ -432,7 +432,7 @@ export default function CoursesPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {filteredCourses.map((course: Course) => (
+          {filteredCourses?.map((course: Course) => (
             <CourseListItem
               key={course.id}
               course={course}
@@ -444,7 +444,7 @@ export default function CoursesPage() {
       )}
 
       {/* Empty State */}
-      {filteredCourses.length === 0 && (
+      {filteredCourses?.length === 0 && (
         <Card className="p-12 text-center">
           <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">

@@ -10,12 +10,13 @@ import { Button, Skeleton, Badge } from '@3de/ui';
 import { Search, Filter, Grid, List } from 'lucide-react';
 import { Course } from '@3de/interfaces';
 import { sanitizeApiResponse } from '../../lib/utils';
+import { useAuth } from '@3de/auth';
 
 export default function CoursesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-
+  const { user } = useAuth();
   const { data: coursesResponse, isLoading } = useQuery({
     queryKey: ['courses'],
     queryFn: async () => {
@@ -165,7 +166,7 @@ export default function CoursesPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + index * 0.1 }}
                     >
-                      <CourseCard course={course} isEnrolled={true} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={true} />
                     </motion.div>
                   ))}
                 </div>
@@ -188,7 +189,7 @@ export default function CoursesPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 + index * 0.1 }}
                     >
-                      <CourseCard course={course} isEnrolled={false} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} />
                     </motion.div>
                   ))}
                 </div>

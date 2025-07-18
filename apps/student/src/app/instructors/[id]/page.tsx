@@ -9,11 +9,11 @@ import CourseCard from '../../../components/courses/CourseCard';
 import { Button, Card, Avatar, Badge, Progress, Skeleton } from '@3de/ui';
 import { Mail, Phone, MapPin, Star, Users, BookOpen, Clock } from 'lucide-react';
 import { Course } from '@3de/interfaces';
-
+import { useAuth } from '@3de/auth';
 export default function InstructorPage() {
   const params = useParams();
   const instructorId = params.id as string;
-
+  const { user } = useAuth();
   const { data: instructor, isLoading: instructorLoading } = useQuery({
     queryKey: ['instructor', instructorId],
     queryFn: () => instructorApi.getById(instructorId),
@@ -208,7 +208,7 @@ export default function InstructorPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <CourseCard course={course} isEnrolled={false} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} />
                     </motion.div>
                   ))}
                 </div>

@@ -30,6 +30,16 @@ export class UpdateQuizDto {
   @Column()
   passingScore?: number;
 
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: failCount, Type: number
+  @Column()
+  failCount?: number;
+
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: averageScore, Type: number
+  @Column()
+  averageScore?: number;
+
   @ApiProperty({ type: "boolean" })
   // Field: upComing, Type: boolean
   @Column()
