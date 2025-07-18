@@ -372,7 +372,8 @@ model Quiz {
     createdAt    DateTime     @default(now())
     updatedAt    DateTime     @updatedAt
 
-    Course Course[]
+    courseId String
+    course   Course   @relation(fields: [courseId], references: [id])
 }
 
 model Question {

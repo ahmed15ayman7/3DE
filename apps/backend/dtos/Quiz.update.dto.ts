@@ -69,4 +69,9 @@ export class UpdateQuizDto {
   // Field: updatedAt, Type: Date
   @Column()
   updatedAt: Date;
+
+  @ApiProperty({ type: "string" })
+  // Field: courseId, Type: string
+  @Column()
+  courseId: string;
 }

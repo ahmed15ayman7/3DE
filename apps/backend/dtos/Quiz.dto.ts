@@ -94,8 +94,13 @@ export class QuizDto {
   @Column()
   updatedAt: Date;
 
-  @ApiProperty({ type: CourseEntity })
-  // Field: Course, Type: Course[]
+  @ApiProperty({ type: "string" })
+  // Field: courseId, Type: string
   @Column()
-  Course: Course[];
+  courseId: string;
+
+  @ApiProperty({ type: CourseEntity })
+  // Field: course, Type: Course
+  @Column()
+  course: Course;
 }

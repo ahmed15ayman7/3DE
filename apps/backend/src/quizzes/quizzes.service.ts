@@ -20,6 +20,7 @@ export class QuizzesService {
                 lessonId: createQuizInput.lessonId,
                 timeLimit: createQuizInput.timeLimit,
                 passingScore: createQuizInput.passingScore,
+                courseId: createQuizInput.courseId,
             },
             include: {
                 questions: {
@@ -109,15 +110,15 @@ export class QuizzesService {
     async getByStudent(studentId: string) {
         return this.prisma.quiz.findMany({
             where: {
-                Course: {
-                    some: {
+                course: {
+                   
                     enrollments: {
                         some: {
                             userId: studentId,
                         },
                     },
                 },
-                },
+               
                
                
             },
@@ -133,14 +134,14 @@ export class QuizzesService {
     async getByInstructor(instructorId: string) {
         return this.prisma.quiz.findMany({
             where: {
-                Course: {
-                    some: {
+                course: {
+                   
                         instructors: {
                             some: {
                                 userId: instructorId,
                             },
                         },
-                    },
+                    
                 },
             },
         });

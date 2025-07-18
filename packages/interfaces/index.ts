@@ -319,7 +319,8 @@ export interface Quiz {
   isCompleted: boolean;
   createdAt: Date;
   updatedAt: Date;
-  Course: Course[] | undefined;
+  courseId: string;
+  course: Course | undefined;
 }
 
 export interface Question {
