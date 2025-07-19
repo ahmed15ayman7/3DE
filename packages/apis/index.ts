@@ -847,7 +847,7 @@ export const instructorApi = {
 export const contactApi = {
     getAll: (): Promise<{ success: boolean, data: ContactUs[] }> => api.get('/contacts'),
     getById: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.get(`/contacts/${id}`),
-    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://iafce.net/contacts', data),
+    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://3de.school/contacts', data),
     update: (id: string, data: Partial<ContactUs>): Promise<{ success: boolean, data: ContactUs }> => api.patch(`/contacts/${id}`, data),
     delete: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.delete(`/contacts/${id}`),
 };

@@ -102,7 +102,7 @@ export default function HomePage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-r from-primary-main to-secondary-main rounded-xl p-6 text-white"
         >
-          <h1 className="text-2xl font-bold mb-2">مرحباً بك في منصة IAFCE التعليمية</h1>
+          <h1 className="text-2xl font-bold mb-2">مرحباً بك في منصة 3DE التعليمية</h1>
           <p className="text-white/90">
             استكشف الكورسات المتاحة وتعلم من أفضل المحاضرين
           </p>
