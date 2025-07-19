@@ -12,6 +12,7 @@ import { useAuth } from '@3de/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { authDebugger } from '../utils/auth-debug';
+import Link from 'next/link';
 // مخططات التحقق
 const signinSchema = z.object({
     email: z.string().email('البريد الإلكتروني غير صحيح'),
@@ -371,14 +372,14 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
             <>
               <p className="text-sm text-gray-600">
                 ليس لديك حساب؟{' '}
-                <a href="/signup" className="text-primary-main hover:text-primary-dark font-medium">
+                <Link href="/signup" className="text-primary-main hover:text-primary-dark font-medium">
                   إنشاء حساب جديد
-                </a>
+                </Link>
               </p>
               <p className="text-sm text-gray-600">
-                <a href="/forgot-password" className="text-primary-main hover:text-primary-dark">
+                <Link href="/forgot-password" className="text-primary-main hover:text-primary-dark">
                   نسيت كلمة المرور؟
-                </a>
+                </Link>
               </p>
             </>
           )}
@@ -386,25 +387,25 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
           {type === 'signup' && (
             <p className="text-sm text-gray-600">
               لديك حساب بالفعل؟{' '}
-              <a href="/signin" className="text-primary-main hover:text-primary-dark font-medium">
+              <Link href="/signin" className="text-primary-main hover:text-primary-dark font-medium">
                 تسجيل الدخول
-              </a>
+              </Link>
             </p>
           )}
 
           {type === 'forgot-password' && (
             <p className="text-sm text-gray-600">
-              <a href="/signin" className="text-primary-main hover:text-primary-dark">
+              <Link href="/signin" className="text-primary-main hover:text-primary-dark">
                 العودة لتسجيل الدخول
-              </a>
+              </Link>
             </p>
           )}
 
           {type === 'reset-password' && (
             <p className="text-sm text-gray-600">
-              <a href="/signin" className="text-primary-main hover:text-primary-dark">
+              <Link href="/signin" className="text-primary-main hover:text-primary-dark">
                 العودة لتسجيل الدخول
-              </a>
+              </Link>
             </p>
           )}
         </div>
