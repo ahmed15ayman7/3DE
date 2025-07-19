@@ -183,10 +183,10 @@ const QuizCard = ({ quiz, onEdit, onDelete, onViewResults }: QuizCardProps) => {
           </div>
 
           {/* Course Info */}
-          {quiz.Course && (
+          {quiz.course && (
             <div className="mt-4 pt-4 border-t border-gray-200">
               <p className="text-xs text-gray-500">
-                الكورس: <span className="font-medium">{quiz.Course?.[0]?.title}</span>
+                الكورس: <span className="font-medium">{quiz.course?.title}</span>
               </p>
             </div>
           )}
