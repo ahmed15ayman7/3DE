@@ -403,6 +403,13 @@ exports.Prisma.PostScalarFieldEnum = {
   publicRelationsRecordId: 'publicRelationsRecordId'
 };
 
+exports.Prisma.LikeScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   postId: 'postId',
@@ -1056,6 +1063,12 @@ exports.FileType = exports.$Enums.FileType = {
   AUDIO: 'AUDIO'
 };
 
+exports.EnrollmentStatus = exports.$Enums.EnrollmentStatus = {
+  ACTIVE: 'ACTIVE',
+  PENDING: 'PENDING',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.NotificationType = exports.$Enums.NotificationType = {
   ASSIGNMENT: 'ASSIGNMENT',
   GRADE: 'GRADE',
@@ -1164,6 +1177,7 @@ exports.Prisma.ModelName = {
   NotificationSettings: 'NotificationSettings',
   Message: 'Message',
   Post: 'Post',
+  Like: 'Like',
   Comment: 'Comment',
   Group: 'Group',
   Admin: 'Admin',

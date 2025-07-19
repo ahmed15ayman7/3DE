@@ -38,6 +38,7 @@ import {
   Comment,
   LessonWhiteList,
   WatchedLesson,
+  Like,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";

@@ -5,14 +5,17 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { Modal, Input, Textarea, Button, Alert } from '@3de/ui';
+import { Modal, Input, Textarea, Button, Alert, Select } from '@3de/ui';
 import { Award, User, MapPin, Phone, FileText } from 'lucide-react';
-
+import { courseApi } from '@3de/apis';
+import { useQuery } from '@tanstack/react-query';
 const certificateSchema = z.object({
   name: z.string().min(2, 'الاسم يجب أن يكون على الأقل حرفين'),
   address: z.string().min(5, 'العنوان يجب أن يكون على الأقل 5 أحرف'),
   phone: z.string().min(10, 'رقم الهاتف غير صحيح'),
   notes: z.string().optional(),
+  courseId: z.string().optional(),
+  points: z.number().optional(),
 });
 
 type CertificateFormData = z.infer<typeof certificateSchema>;
@@ -23,6 +26,7 @@ interface CertificateDialogProps {
   onSubmit: (data: CertificateFormData) => Promise<void>;
   courseTitle: string;
   isLoading?: boolean;
+  userId?: string;
 }
 
 export const CertificateDialog: React.FC<CertificateDialogProps> = ({
@@ -30,20 +34,29 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
   onClose,
   onSubmit,
   courseTitle,
-  isLoading = false
+  isLoading = false,
+  userId
 }) => {
+  let { data: courses } = useQuery({
+    queryKey: ['courses'],
+    queryFn: () => courseApi.getByStudentId(userId||""),
+    enabled: !!userId
+  });
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setValue
   } = useForm<CertificateFormData>({
     resolver: zodResolver(certificateSchema),
     defaultValues: {
       name: '',
       address: '',
       phone: '',
-      notes: ''
+      courseId: '',
+      notes: '',
+      points: 0
     }
   });
 
@@ -66,7 +79,8 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="طلب شهادة"
+      // title="طلب شهادة"
+      style={{overflowY: 'auto'}}
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -82,14 +96,12 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
             طلب شهادة إتمام الدورة
           </h3>
-          <p className="text-gray-600">
-            {courseTitle}
-          </p>
         </div>
 
         {/* نموذج البيانات */}
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-          <div>
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 ">
+          <div className="grid grid-cols-2 gap-4">
+          <div className="max-sm:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <User className="w-4 h-4 inline mr-1" />
               الاسم الكامل
@@ -101,7 +113,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
             />
           </div>
 
-          <div>
+          <div className="max-sm:col-span-1">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <MapPin className="w-4 h-4 inline mr-1" />
               العنوان
@@ -113,7 +125,7 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
             />
           </div>
 
-          <div>
+          <div className="max-sm:col-span-1">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <Phone className="w-4 h-4 inline mr-1" />
               رقم الهاتف
@@ -124,8 +136,28 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
               error={errors.phone?.message}
             />
           </div>
+          <div className="max-sm:col-span-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <FileText className="w-4 h-4 inline mr-1" />
+              اختر الكورس
+            </label>
+            <Select
+              {...register('courseId')}
+              onChange={(e) => {
+                register('courseId').onChange(e);
+                let course = courses?.data.find((course) => course.id === e.target.value);
+                if(course){
+                  setValue('points', 0);
+                }
+              }}
+              options={courses?.data.map((course) => ({
+                label: course.title,
+                value: course.id
+              })) || []}
+            />
+          </div>
 
-          <div>
+          <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <FileText className="w-4 h-4 inline mr-1" />
               ملاحظات إضافية (اختياري)
@@ -133,8 +165,9 @@ export const CertificateDialog: React.FC<CertificateDialogProps> = ({
             <Textarea
               {...register('notes')}
               placeholder="أضف أي ملاحظات إضافية..."
-              rows={3}
+              rows={1}
             />
+          </div>
           </div>
 
           {/* معلومات مهمة */}

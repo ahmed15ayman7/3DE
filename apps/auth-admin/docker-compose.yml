@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  auth-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=https://api.3de.school
+    restart: unless-stopped
+    networks:
+      - 3de-network
+
+  # يمكن إضافة خدمات أخرى مثل قاعدة البيانات هنا
+  # postgres:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_DB: 3de_auth
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: password
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - 3de-network
+
+networks:
+  3de-network:
+    driver: bridge
+
+# volumes:
+#   postgres_data: 

@@ -92,6 +92,8 @@ model User {
   LessonWhiteList LessonWhiteList[]
 
   WatchedLesson WatchedLesson[]
+
+  Like Like[]
 }
 
 model LoginHistory {
@@ -349,10 +351,16 @@ model Enrollment {
   courseId          String
   course            Course              @relation(fields: [courseId], references: [id])
   progress          Float               @default(0)
-  status            String              @default("ACTIVE")
+  status            EnrollmentStatus    @default(PENDING)
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   traineeManagement TraineeManagement[]
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  PENDING
+  CANCELLED
 }
 
 // Assessment and Quizzes
@@ -492,14 +500,23 @@ model Post {
   createdAt  DateTime  @default(now())
   likesCount Int       @default(0)
   comments   Comment[]
-
-  Group Group[]
+  likes      Like[]
+  Group      Group[]
 
   Community Community[]
 
   Discussion              Discussion[]
   PublicRelationsRecord   PublicRelationsRecord? @relation(fields: [publicRelationsRecordId], references: [id])
   publicRelationsRecordId String?
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Comment {

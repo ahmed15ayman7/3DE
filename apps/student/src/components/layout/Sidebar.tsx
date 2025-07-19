@@ -3,17 +3,17 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, BookOpen, Users, FileText, Bell, Settings, User, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Home, BookOpen, Users, FileText, Bell, Settings, User, ChevronLeft, ChevronRight, Award ,Route,School } from 'lucide-react';
 import { Button } from '@3de/ui';
 
 const menuItems = [
   { label: 'الرئيسية', icon: Home, href: '/' },
   { label: 'الكورسات', icon: BookOpen, href: '/courses' },
-  { label: 'المحاضرين', icon: Users, href: '/instructors' },
+  { label: 'المحاضرين', icon: School, href: '/instructors' },
   { label: 'الاختبارات', icon: FileText, href: '/exams' },
   { label: 'المجتمعات', icon: Users, href: '/communities' },
-  { label: 'المسارات', icon: BookOpen, href: '/paths' },
-  { label: 'الشهادات', icon: FileText, href: '/certificates' },
+  { label: 'المسارات', icon: Route, href: '/paths' },
+  { label: 'الشهادات', icon: Award, href: '/certificates' },
   { label: 'التنبيهات', icon: Bell, href: '/notifications' },
   { label: 'الملف الشخصي', icon: User, href: '/profile' },
   { label: 'الإعدادات', icon: Settings, href: '/settings' },

@@ -9,7 +9,7 @@ import { Comment as CommentComponent } from './Comment';
 
 interface PostCardProps {
   post: Post & { author: User; comments: Comment[] };
-  onLike?: (postId: string) => void;
+  onLike?: (postId: string,isLike:boolean) => void;
   onComment?: (postId: string, content: string) => void;
   onShare?: (postId: string) => void;
   isLiked?: boolean;
@@ -24,6 +24,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 }) => {
   const [showComments, setShowComments] = useState(false);
   const [commentContent, setCommentContent] = useState('');
+  let [isLikedState, setIsLikedState] = useState(isLiked);
 
   const handleSubmitComment = () => {
     if (commentContent.trim() && onComment) {
@@ -98,12 +99,15 @@ export const PostCard: React.FC<PostCardProps> = ({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4 gap-reverse">
             <Button
-              variant={isLiked ? 'primary' : 'ghost'}
+              variant={isLikedState ? 'primary' : 'ghost'}
               size="sm"
-              onClick={() => onLike?.(post.id)}
-              icon={<Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />}
+              onClick={() => {
+                setIsLikedState(!isLikedState);
+                onLike?.(post.id,!isLikedState);
+              }}
+              icon={<Heart className={`w-4 h-4 ${isLikedState ? 'fill-current' : ''}`} />}
             >
-              {isLiked ? 'أعجبني' : 'إعجاب'}
+              {isLikedState ? 'أعجبني' : 'إعجاب'}
             </Button>
 
             <Button

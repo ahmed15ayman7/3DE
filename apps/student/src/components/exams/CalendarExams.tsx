@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Card, Badge, Modal } from '@3de/ui';
 import { Calendar, Clock, BookOpen, User } from 'lucide-react';
 import { Quiz, Lesson, Course } from '@3de/interfaces';
+import { useRouter } from 'next/navigation';
 
 interface CalendarExamsProps {
   quizzes: Quiz[];
@@ -14,7 +15,7 @@ interface CalendarExamsProps {
 export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
   const [selectedExam,  setSelectedExam] = useState<Quiz | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
-
+  const router = useRouter();
 
   // الحصول على أيام الشهر الحالي
   const getDaysInMonth = (date: Date) => {
@@ -189,11 +190,6 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
-                <User className="w-4 h-4 text-gray-500" />
-                <span className="text-gray-700">الكورس: {selectedExam.lesson?.course?.title}</span>
-              </div>
-
-              <div className="flex items-center gap-2 gap-reverse">
                 <Clock className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">المدة: {selectedExam.timeLimit} دقيقة</span>
               </div>
@@ -201,21 +197,21 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ البدء: {selectedExam.startDate?.toLocaleDateString('ar-EG')}
+                  تاريخ البدء: {new Date(selectedExam.startDate||"").toLocaleDateString('ar-EG')}
                 </span>
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ النهاية: {selectedExam.endDate?.toLocaleDateString('ar-EG')}
+                  تاريخ النهاية: {new Date(selectedExam.endDate||"").toLocaleDateString('ar-EG')}
                 </span>
               </div>
             </div>
 
-            {selectedExam.upComing && new Date(selectedExam.startDate||"") <= new Date() && new Date(selectedExam.endDate||"") >= new Date() && (
+            {selectedExam.upComing && (
               <div className="pt-4 border-t">
-                <button className="w-full bg-primary-main text-white py-2 px-4 rounded-lg hover:bg-primary-main/80 transition-colors">
+                <button className="w-full bg-primary-main cursor-pointer text-white py-2 px-4 rounded-lg hover:bg-primary-main/80 transition-colors" onClick={() => router.push(`/exams/${selectedExam.id}`)}>
                   ابدأ الاختبار الآن
                 </button>
               </div>

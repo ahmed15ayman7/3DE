@@ -5774,7 +5774,7 @@ const getSizeClasses = (size: BadgeProps['size']) => {
     case 'lg':
       return 'px-3 py-1.5 text-base';
     default:
-      return 'px-2.5 py-1 text-sm';
+      return 'px-2 py-1 text-sm';
   }
 };
 

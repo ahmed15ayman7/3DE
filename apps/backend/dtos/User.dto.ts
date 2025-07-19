@@ -36,6 +36,7 @@ import { EmployeeAttendanceLogEntity } from "./EmployeeAttendanceLog.entity";
 import { CommentEntity } from "./Comment.entity";
 import { LessonWhiteListEntity } from "./LessonWhiteList.entity";
 import { WatchedLessonEntity } from "./WatchedLesson.entity";
+import { LikeEntity } from "./Like.entity";
 import {
   UserRole,
   Academy,
@@ -75,6 +76,7 @@ import {
   Comment,
   LessonWhiteList,
   WatchedLesson,
+  Like,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -350,4 +352,9 @@ export class UserDto {
   // Field: WatchedLesson, Type: WatchedLesson[]
   @Column()
   WatchedLesson: WatchedLesson[];
+
+  @ApiProperty({ type: LikeEntity })
+  // Field: Like, Type: Like[]
+  @Column()
+  Like: Like[];
 }

@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   User,
   Comment,
+  Like,
   Group,
   Community,
   Discussion,

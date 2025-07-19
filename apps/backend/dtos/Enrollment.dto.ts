@@ -2,7 +2,12 @@ import { ApiProperty } from "@nestjs/swagger";
 import { UserEntity } from "./User.entity";
 import { CourseEntity } from "./Course.entity";
 import { TraineeManagementEntity } from "./TraineeManagement.entity";
-import { User, Course, TraineeManagement } from "@shared/prisma";
+import {
+  User,
+  Course,
+  EnrollmentStatus,
+  TraineeManagement,
+} from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -38,10 +43,10 @@ export class EnrollmentDto {
   @Column()
   progress: number;
 
-  @ApiProperty({ type: "string" })
-  // Field: status, Type: string
+  @ApiProperty({ enum: EnrollmentStatus })
+  // Field: status, Type: EnrollmentStatus
   @Column()
-  status: string;
+  status: EnrollmentStatus;
 
   @ApiProperty({ type: "string", format: "date-time" })
   // Field: createdAt, Type: Date

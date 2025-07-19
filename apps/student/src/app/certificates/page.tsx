@@ -11,11 +11,14 @@ import { Certificate } from '@3de/interfaces';
 import { certificateApi } from '@3de/apis';
 import { useAuth } from '@3de/auth';
 import Layout from '../../components/layout/Layout';
+import { useRouter } from 'next/navigation';
 
 export default function CertificatesPage() {
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [message, setMessage] = useState<{message:string,variant:string} | null>(null);
   const { user } = useAuth();
+  let router=useRouter();
   // جلب الشهادات الموافق عليها
   const { data: certificates, isLoading, error } = useQuery({
     queryKey: ['certificates', 'approved'],
@@ -28,6 +31,7 @@ export default function CertificatesPage() {
   const handleDownload = async (certificateId: string) => {
     try {
       // محاكاة تحميل الشهادة
+      router.push(`https://api.3de.school/certificate/file/${certificateId}`)
       console.log('Downloading certificate:', certificateId);
     } catch (error) {
       console.error('Error downloading certificate:', error);
@@ -57,6 +61,12 @@ export default function CertificatesPage() {
     try {
       // محاكاة إرسال طلب الشهادة
       console.log('Requesting certificate:', data);
+      let certificate = await certificateApi.create({...data,userId:user?.id||"",title:"شهادة إتمام الدورة",type:"certificate",earnedAt:new Date()});
+      if(certificate.data.success){
+        setMessage({message:'تم طلب الشهادة بنجاح',variant:'success'});
+      }else{
+        setMessage({message:'حدث خطأ أثناء طلب الشهادة',variant:'error'});
+      }
     } catch (error) {
       console.error('Error requesting certificate:', error);
       throw error;
@@ -77,6 +87,7 @@ export default function CertificatesPage() {
 
   return (
     <Layout>
+      {message && <Alert variant={message.variant as 'success' | 'error' } title={message.message} closable={true} onClose={() => setMessage(null)} children={<></>} />}
     <div className="container mx-auto px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -181,6 +192,7 @@ export default function CertificatesPage() {
       {/* نموذج طلب شهادة */}
       <CertificateDialog
         isOpen={isDialogOpen}
+        userId={user?.id}
         onClose={() => setIsDialogOpen(false)}
         onSubmit={handleRequestCertificate}
         courseTitle="دورة جديدة"

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
@@ -62,6 +62,10 @@ export class AuthService {
 
     async register(userData: CreateUserDto) {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
+        let existingUser = await this.usersService.findByEmail(userData.email);
+        if (existingUser) {
+            throw new BadRequestException('البريد الإلكتروني مستخدم من قبل');
+        }
         const user = await this.usersService.create({
             ...userData,
             password: hashedPassword,

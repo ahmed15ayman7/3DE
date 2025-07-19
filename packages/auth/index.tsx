@@ -264,8 +264,10 @@ class AuthService {
     
     // إعادة التوجيه إلى صفحة تسجيل الدخول
     if (typeof window !== 'undefined') {
-      if(!window.location.href.includes('/auth/signin')){
-        window.location.href = '/auth/signin';
+      if (typeof window !== 'undefined') {
+        if(!window.location.href.includes('/auth/signin') && !window.location.href.includes('/auth/signup') && !window.location.href.includes('/auth/reset-password') && !window.location.href.includes('/auth/forgot-password') ){
+          window.location.href = '/auth/signin';
+        }
       }
     }
   }
@@ -307,6 +309,7 @@ class AuthService {
             id: refreshPayload.sub,
             email: refreshPayload.email,
             LessonWhiteList: [],
+            Like: [],
             WatchedLesson: [],
             firstName: '',
             Comment: [],
@@ -362,6 +365,7 @@ class AuthService {
           id: payload.sub,
           email: payload.email,
           LessonWhiteList: [],
+          Like: [],
           WatchedLesson: [],
           firstName: '',
           Comment: [],

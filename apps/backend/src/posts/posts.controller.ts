@@ -49,17 +49,17 @@ export class PostsController {
     async remove(@Param('id') id: string): Promise<PostModel> {
         return this.postsService.remove(id);
     }
-    @Post(':id/like')
+    @Post(':id/like/:userId')
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
-    async likePost(@Param('id') id: string): Promise<PostModel> {
-        return this.postsService.likePost(id);
+    async likePost(@Param('id') id: string, @Param('userId') userId: string): Promise<PostModel> {
+        return this.postsService.likePost(id, userId);
     }
-    @Post(':id/unlike')
+    @Post(':id/unlike/:userId')
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
-    async unlikePost(@Param('id') id: string): Promise<PostModel> {
-        return this.postsService.unlikePost(id);
+    async unlikePost(@Param('id') id: string, @Param('userId') userId: string): Promise<PostModel> {
+        return this.postsService.unlikePost(id, userId);
     }
     @Get('user/:userId')
     @ApiBearerAuth()

@@ -9,7 +9,7 @@ import { TabsController } from '../../components/common/TabsController';
 import { CommunityCard } from '../../components/community/CommunityCard';
 import { PostCard } from '../../components/community/PostCard';
 import { InfiniteLoader } from '../../components/common/InfiniteLoader';
-import { Card, Skeleton, Alert, Button, Modal, Input, Textarea } from '@3de/ui';
+import { Card, Skeleton, Alert, Button, Modal, Input, Textarea, toast } from '@3de/ui';
 import { Users, MessageCircle, Video, UserPlus, Plus, Image as ImageIcon } from 'lucide-react';
 import { Community, User, Post, Discussion, LiveRoom, Group } from '@3de/interfaces';
 import { useAuth } from '@3de/auth';
@@ -138,19 +138,30 @@ export default function CommunitiesPage() {
     }
   };
 
-  const handleLikePost = (postId: string) => {
+  const handleLikePost = async  (postId: string,isLike:boolean) => {
     // تنفيذ الإعجاب بالمنشور
-    console.log('Like post:', postId);
+    let like = isLike ? await postApi.like(postId,user?.id||"") : await postApi.unlike(postId,user?.id||"");
+    if(like.status>=200 && like.status<300){
+      toast.success('تم الإعجاب بالمنشور بنجاح');
+    }else{
+      toast.error('حدث خطأ أثناء الإعجاب بالمنشور');
+    }
   };
 
-  const handleCommentPost = (postId: string, content: string) => {
+  const handleCommentPost = async (postId: string, content: string) => {
+    let toastId = toast.loading('جاري إضافة التعليق...');
     // تنفيذ التعليق على المنشور
-    console.log('Comment on post:', postId, content);
+    let comment = await postApi.createComment(postId,user?.id||"",content);
+    if(comment.status>=200 && comment.status<300){
+      toast.success('تم إضافة التعليق بنجاح',{id:toastId});
+    }else{
+      toast.error('حدث خطأ أثناء إضافة التعليق',{id:toastId});
+    }
   };
 
-  const handleSharePost = (postId: string) => {
-    // تنفيذ مشاركة المنشور
-    console.log('Share post:', postId);
+  const handleSharePost = async (postId: string) => {
+    await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL||"https://3de.school"}/communities/${postId}`);
+    toast.success('تم النسخ بنجاح');
   };
 
   if (communitiesError) {

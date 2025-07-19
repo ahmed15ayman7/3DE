@@ -589,8 +589,12 @@ export const postApi = {
     update: (id: string, content: string) =>
         api.patch(`/posts/${id}`, { content }),
     delete: (id: string) => api.delete(`/posts/${id}`),
-    like: (id: string) => api.post(`/posts/${id}/like`),
-    unlike: (id: string) => api.delete(`/posts/${id}/like`),
+    like: (id: string,userId:string) => api.post(`/posts/${id}/like/${userId}`),
+    unlike: (id: string,userId:string) => api.delete(`/posts/${id}/unlike/${userId}`),
+    createComment: (id: string,userId:string,content:string) => api.post(`/posts/${id}/comments`,{userId,content}),
+    getComments: (id: string) => api.get(`/posts/${id}/comments`),
+    updateComment: (id: string,commentId:string,content:string) => api.put(`/posts/${id}/comments/${commentId}`,{content}),
+    deleteComment: (id: string,commentId:string) => api.delete(`/posts/${id}/comments/${commentId}`),
 };
 
 // Bookmark APIs
@@ -657,10 +661,7 @@ export const enrollmentApi = {
     getAll: (): Promise<{ success: boolean, data: (Enrollment & { course: Course & { quizzes: Quiz[] } })[] }> => api.get('/enrollments'),
     getByUser: (userId: string): Promise<{ success: boolean, data: (Enrollment & { course: Course & { quizzes: Quiz[] } })[] }> => api.get(`/enrollments/user/${userId}`),
     getByCourse: (courseId: string): Promise<{ success: boolean, data: (Enrollment & { course: Course & { quizzes: Quiz[] } })[] }> => api.get(`/enrollments/course/${courseId}`),
-    create: (data: {
-        userId: string;
-        courseId: string;
-    }) => api.post('/enrollments', data),
+    create: (data: Partial<Enrollment>) => api.post('/enrollments', data),
     update: (id: string, data: {
         progress?: number;
         status?: string;
@@ -755,7 +756,7 @@ export const badgeApi = {
 export const certificateApi = {
     getAll: (): Promise<{ success: boolean, data: (Certificate & { user: User })[] }> => api.get('/certificates'),
     getById: (id: string): Promise<{ success: boolean, data: (Certificate & { user: User }) }> => api.get(`/certificates/${id}`),
-    getByStudent: (studentId: string): Promise<{ success: boolean, data: (Certificate & { user: User })[] }> => api.get(`/certificates/student/${studentId}`),
+    getByStudent: (studentId: string): Promise<{ success: boolean, data: (Certificate & { user: User })[] }> => api.get(`/certificates/student?userId=${studentId}`),
     create: (data: {
         name: string;
         address: string;

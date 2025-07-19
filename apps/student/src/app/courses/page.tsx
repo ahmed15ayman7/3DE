@@ -17,7 +17,7 @@ export default function CoursesPage() {
   const [category, setCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const { user } = useAuth();
-  const { data: coursesResponse, isLoading } = useQuery({
+  const { data: coursesResponse, isLoading,refetch } = useQuery({
     queryKey: ['courses'],
     queryFn: async () => {
       const response = await courseApi.getAll();
@@ -166,7 +166,7 @@ export default function CoursesPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + index * 0.1 }}
                     >
-                      <CourseCard userId={user?.id!} course={course} isEnrolled={true} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={true} refetch={refetch} />
                     </motion.div>
                   ))}
                 </div>
@@ -189,7 +189,7 @@ export default function CoursesPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 + index * 0.1 }}
                     >
-                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} refetch={refetch} />
                     </motion.div>
                   ))}
                 </div>

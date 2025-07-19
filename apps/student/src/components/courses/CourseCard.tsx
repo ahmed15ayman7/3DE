@@ -3,18 +3,20 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Clock, Users, BookOpen, Play } from 'lucide-react';
-import { Button, Badge, Progress } from '@3de/ui';
+import { Button, Badge, Progress, toast } from '@3de/ui';
 import { Course } from '@3de/interfaces';
+import { enrollmentApi } from '@3de/apis';
 
 interface CourseCardProps {
   userId: string;
   course: Course;
   isEnrolled?: boolean;
+  refetch: () => void;
 }
 
-export default function CourseCard({ userId, course, isEnrolled = false }: CourseCardProps) {
-  const progress = (course.lessons?.filter((lesson: any) => lesson.WatchedLesson?.some((watched: any) => watched.userId === userId)).length || 0) / (course.lessons?.length || 1) * 100 || 0;
-  console.log(progress);
+export default function CourseCard({ userId, course, isEnrolled = false, refetch }: CourseCardProps) {
+  const progress = (course.lessons?.filter((lesson: any) => lesson.WatchedLesson.some((watched: any) => watched.userId === userId)).length || 0) / (course.lessons?.length || 1) * 100 || 0;
+  let isPending = course.enrollments?.find((enrollment) => enrollment.userId === userId && enrollment.status === "PENDING");
   // تحويل التاريخ إلى string إذا كان Date object
   const formatDate = (date: any) => {
     if (!date) return 'غير محدد';
@@ -26,6 +28,16 @@ export default function CourseCard({ userId, course, isEnrolled = false }: Cours
     }
     return 'غير محدد';
   };
+  let handleEnroll = async () => {
+    let toastId = toast.loading('يتم الالتحاق بالكورس...');
+    let enrollment = await enrollmentApi.create({courseId:course.id,userId:userId,status:"PENDING"});
+    if(enrollment.status>=200 && enrollment.status<300){
+      toast.success('تم الالتحاق بالكورس بنجاح',{id:toastId});
+      refetch();
+      }else{
+      toast.error('حدث خطأ أثناء الالتحاق بالكورس',{id:toastId});
+    }
+  }
 
   return (
     <motion.div
@@ -86,12 +98,15 @@ export default function CourseCard({ userId, course, isEnrolled = false }: Cours
         )}
 
         {/* Action Button */}
-        <Link href={`/courses/${course.id}`}>
-          <Button className="w-full" variant={isEnrolled ? 'primary' : 'outline'}>
+        {isEnrolled ? <Link href={`/courses/${course.id}`}>
+          <Button className="w-full" variant={isEnrolled && !isPending ? 'primary': isPending ? 'secondary' : 'outline'} disabled={isPending ? true : false}>
             <Play className="w-4 h-4 ml-2" />
-            {isEnrolled ? 'استكمال الكورس' : 'الالتحاق بالكورس'}
+           {isPending ? 'جاري التحقق...' : 'استكمال الكورس'}
           </Button>
-        </Link>
+        </Link> : <Button className="w-full" variant={isEnrolled ? 'primary' : 'outline'} onClick={handleEnroll}>
+          <Play className="w-4 h-4 ml-2" />
+          الالتحاق بالكورس
+        </Button>}
       </div>
     </motion.div>
   );

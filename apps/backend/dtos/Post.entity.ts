@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { UserEntity } from "./User.entity";
 import { CommentEntity } from "./Comment.entity";
+import { LikeEntity } from "./Like.entity";
 import { GroupEntity } from "./Group.entity";
 import { CommunityEntity } from "./Community.entity";
 import { DiscussionEntity } from "./Discussion.entity";
@@ -8,6 +9,7 @@ import { PublicRelationsRecordEntity } from "./PublicRelationsRecord.entity";
 import {
   User,
   Comment,
+  Like,
   Group,
   Community,
   Discussion,
@@ -62,6 +64,11 @@ export class PostEntity {
   // Field: comments, Type: Comment[]
   @Column()
   comments: Comment[];
+
+  @ApiProperty({ type: LikeEntity })
+  // Field: likes, Type: Like[]
+  @Column()
+  likes: Like[];
 
   @ApiProperty({ type: GroupEntity })
   // Field: Group, Type: Group[]

@@ -10,6 +10,8 @@ export type LessonStatus = 'IN_PROGRESS' | 'COMPLETED' | 'NOT_STARTED';
 
 export type FileType = 'VIDEO' | 'PDF' | 'DOCUMENT' | 'IMAGE' | 'AUDIO';
 
+export type EnrollmentStatus = 'ACTIVE' | 'PENDING' | 'CANCELLED';
+
 export type NotificationType = 'ASSIGNMENT' | 'GRADE' | 'MESSAGE' | 'ACHIEVEMENT' | 'URGENT' | 'EVENT' | 'ABSENCE';
 
 export type AccountingType = 'EXPENSE' | 'INCOME' | 'SALARY' | 'ADVANCE' | 'INVOICE';
@@ -85,6 +87,7 @@ export interface User {
   Comment: Comment[] | undefined;
   LessonWhiteList: LessonWhiteList[] | undefined;
   WatchedLesson: WatchedLesson[] | undefined;
+  Like: Like[] | undefined;
 }
 
 export interface LoginHistory {
@@ -295,7 +298,7 @@ export interface Enrollment {
   courseId: string;
   course: Course | undefined;
   progress: number;
-  status: string;
+  status: EnrollmentStatus;
   createdAt: Date;
   updatedAt: Date;
   traineeManagement: TraineeManagement[] | undefined;
@@ -422,11 +425,21 @@ export interface Post {
   createdAt: Date;
   likesCount: number;
   comments: Comment[] | undefined;
+  likes: Like[] | undefined;
   Group: Group[] | undefined;
   Community: Community[] | undefined;
   Discussion: Discussion[] | undefined;
   PublicRelationsRecord?: PublicRelationsRecord | undefined;
   publicRelationsRecordId?: string;
+}
+
+export interface Like {
+  id: string;
+  postId: string;
+  post: Post | undefined;
+  userId: string;
+  user: User | undefined;
+  createdAt: Date;
 }
 
 export interface Comment {

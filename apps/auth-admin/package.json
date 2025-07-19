@@ -1,17 +1,29 @@
 {
-  "name": "auth-admin",
+  "name": "auth",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 3007",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start -p 3007",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next out",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.5"
+    "next": "15.3.5",
+    "@3de/ui": "workspace:*",
+    "@3de/apis": "workspace:*",
+    "@3de/auth": "workspace:*",
+    "@3de/interfaces": "workspace:*",
+    "react-hook-form": "^7.48.2",
+    "@hookform/resolvers": "^3.3.2",
+    "zod": "^3.22.4",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.400.0"
   },
   "devDependencies": {
     "typescript": "^5",

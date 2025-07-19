@@ -100,6 +100,7 @@ export class QuizzesService {
             include: {
                     submissions:true,
                     lesson:true,
+                    course:true,
             },
         });
     }
@@ -115,6 +116,11 @@ export class QuizzesService {
                         },
                     
                 },
+            },
+            include: {
+                course:true,
+                lesson:true,
+                submissions:true,
             },
         });
     }

@@ -75,7 +75,7 @@ export class PostsService {
         });
     }
 
-    async likePost(id: string) {
+    async likePost(id: string, userId: string) {
         const post = await this.findOne(id);
         if (!post) {
             throw new NotFoundException(`Post with ID ${id} not found`);
@@ -85,6 +85,11 @@ export class PostsService {
             where: { id },
             data: {
                 likesCount: post.likesCount + 1,
+                likes: {
+                    create: {
+                        userId: userId,
+                    },
+                },
             },
             include: {
                 author: true,
@@ -93,16 +98,29 @@ export class PostsService {
         });
     }
 
-    async unlikePost(id: string) {
+    async unlikePost(id: string, userId: string) {
         const post = await this.findOne(id);
         if (!post) {
             throw new NotFoundException(`Post with ID ${id} not found`);
         }
-
+        const like = await this.prisma.like.findFirst({
+            where: {
+                userId: userId,
+                postId: id,
+            },
+        });
+        if (!like) {
+            throw new NotFoundException(`Like with ID ${userId} not found`);
+        }
         return this.prisma.post.update({
             where: { id },
             data: {
                 likesCount: Math.max(0, post.likesCount - 1),
+                likes: {
+                    delete: {
+                        id: like.id,
+                    },
+                },
             },
             include: {
                 author: true,

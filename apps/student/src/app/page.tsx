@@ -15,9 +15,9 @@ import { Course, Instructor, Lesson } from '@3de/interfaces';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'courses' | 'instructors'>('courses');
   const { user } = useAuth();
-  console.log(user);
+  
   // Fetch data
-  const { data: coursesResponse, isLoading: coursesLoading } = useQuery({
+  const { data: coursesResponse, isLoading: coursesLoading ,refetch} = useQuery({
     queryKey: ['courses'],
     queryFn: async () => {
       const response = await courseApi.getAll();
@@ -28,7 +28,7 @@ export default function HomePage() {
     },
   });
 
-  const { data: instructorsResponse, isLoading: instructorsLoading } = useQuery({
+  const { data: instructorsResponse, isLoading: instructorsLoading ,refetch:refetchInstructors} = useQuery({
     queryKey: ['instructors'],
     queryFn: async () => {
       const response = await instructorApi.getAll(0, 5, "");
@@ -39,7 +39,7 @@ export default function HomePage() {
     },
   });
 
-  const { data: statsResponse, isLoading: statsLoading } = useQuery({
+  const { data: statsResponse, isLoading: statsLoading ,refetch:refetchStats} = useQuery({
     queryKey: ['student-stats'],
     queryFn: async () => {
       const response = await userApi.getProfile(user?.id || "");
@@ -87,6 +87,11 @@ export default function HomePage() {
       bgColor: 'bg-orange-100',
     },
   ];
+  let refetchAll = () => {
+    refetch();
+    refetchInstructors();
+    refetchStats();
+  }
 
   return (
     <Layout>
@@ -97,7 +102,7 @@ export default function HomePage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-r from-primary-main to-secondary-main rounded-xl p-6 text-white"
         >
-          <h1 className="text-2xl font-bold mb-2">مرحباً بك في منصة 3DE التعليمية</h1>
+          <h1 className="text-2xl font-bold mb-2">مرحباً بك في منصة IAFCE التعليمية</h1>
           <p className="text-white/90">
             استكشف الكورسات المتاحة وتعلم من أفضل المحاضرين
           </p>
@@ -234,7 +239,7 @@ export default function HomePage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                       >
-                        <CourseCard userId={user?.id!} course={course} isEnrolled={true} />
+                        <CourseCard userId={user?.id!} course={course} isEnrolled={true} refetch={refetchAll} />
                       </motion.div>
                     ))
                   )}
@@ -258,7 +263,7 @@ export default function HomePage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} refetch={refetchAll} />
                     </motion.div>
                   ))
                 )}

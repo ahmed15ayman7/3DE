@@ -61,7 +61,7 @@ export class CertificateService {
         });
 
         if (!user) {
-            throw new NotFoundException(`User with ID ${user.id} not found`);
+            throw new NotFoundException(`User with ID ${userId} not found`);
         }
 
         return this.prisma.certificate.findMany({
