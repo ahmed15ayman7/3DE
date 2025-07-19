@@ -14,12 +14,12 @@ export default function InstructorPage() {
   const params = useParams();
   const instructorId = params.id as string;
   const { user } = useAuth();
-  const { data: instructor, isLoading: instructorLoading } = useQuery({
+  const { data: instructor, isLoading: instructorLoading, refetch: instructorRefetch } = useQuery({
     queryKey: ['instructor', instructorId],
     queryFn: () => instructorApi.getById(instructorId),
   });
 
-  const { data: courses, isLoading: coursesLoading } = useQuery({
+  const { data: courses, isLoading: coursesLoading, refetch: coursesRefetch } = useQuery({
     queryKey: ['instructor-courses', instructorId],
     queryFn: () => courseApi.getByInstructorId(instructorId),
   });
@@ -208,7 +208,7 @@ export default function InstructorPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} />
+                      <CourseCard userId={user?.id!} course={course} isEnrolled={false} refetch={coursesRefetch} />
                     </motion.div>
                   ))}
                 </div>
