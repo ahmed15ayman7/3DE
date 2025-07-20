@@ -62,17 +62,12 @@ export class AdminAuthService {
     async login(email: string, password: string) {
         const admin = await this.validateAdmin(email, password);
 
-        const permissions = admin.assignments
-            .flatMap((assignment) => assignment.role.permissions)
-            .map((permission) => permission.name);
-
-        const roles = admin.AdminRole;
 
         const payload = {
             sub: admin.userId,
             email: admin.user.email,
-            permissions,
-            roles,
+            role: admin.user.role,
+            roles: admin.AdminRole
         };
 
         return {
@@ -82,7 +77,8 @@ export class AdminAuthService {
                 id: admin.user.id,
                 email: admin.user.email,
                 firstName: admin.user.firstName,
-                lastName: admin.user.lastName
+                lastName: admin.user.lastName,
+                role: admin.user.role,
             },
         };
     }
