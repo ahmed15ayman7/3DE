@@ -307,7 +307,7 @@ class AuthService {
           
           // إنشاء مستخدم من refresh token
           const user=await userApi.getById(payload.sub)
-          const admin=user.data.role==='ADMIN'?await adminAuthApi.getAdminByUserId():null
+          const admin=user.data.role==='ADMIN'?await adminAuthApi.getAdminByUserId(user.data.id):null
           
           return {
             user:{...user.data,Admin:admin?[admin]:[]},

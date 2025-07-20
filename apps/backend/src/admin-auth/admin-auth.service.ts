@@ -78,13 +78,11 @@ export class AdminAuthService {
         return {
             access_token: this.jwtService.sign(payload),
             refreshToken: this.generateRefreshToken(payload),
-            admin: {
-                id: admin.id,
+            user: {
+                id: admin.user.id,
                 email: admin.user.email,
                 firstName: admin.user.firstName,
-                lastName: admin.user.lastName,
-                permissions,
-                roles,
+                lastName: admin.user.lastName
             },
         };
     }
