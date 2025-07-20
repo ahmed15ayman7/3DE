@@ -6,35 +6,24 @@ import { AuthLayout } from '../../components/AuthLayout';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { useAuth } from '@3de/auth';
 import { useRouter } from 'next/navigation';
+import { adminAuthApi } from '@3de/apis';
 
 export default function SignInPage() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   // إذا كان المستخدم مسجل الدخول بالفعل، قم بتحويله
-  //   if (user && !isLoading) {
-  //     switch (user.role) {
-  //       case 'STUDENT':
-  //         window.location.href = '/student';
-  //         break;
-  //       case 'INSTRUCTOR':
-  //         window.location.href = '/instructor';
-  //         break;
-  //       case 'ADMIN':
-  //         window.location.href = '/admin';
-  //         break;
-  //       case 'ACADEMY':
-  //         window.location.href = '/academy';
-  //         break;
-  //       case 'PARENT':
-  //         window.location.href = '/parent';
-  //         break;
-  //       default:
-  //         ;
-  //     }
-  //   }
-  // }, [user, isLoading, router]);
+  useEffect(() => {
+    // إذا كان المستخدم مسجل الدخول بالفعل، قم بتحويله
+    let getAdminData=async()=>{
+      const admin=user?.id? await adminAuthApi.getAdminByUserId(user?.id!) : null
+      if (user && !isLoading && admin) {
+        if (user.role === 'ADMIN' && admin?.AdminRole?.[0]?.name === 'ADMIN') {
+          window.location.href = '/admin';
+        } 
+      }
+    }
+    getAdminData()
+  }, [user, isLoading, router]);
 
   // إذا كان يتم تحميل حالة المصادقة، اعرض شاشة تحميل
   if (isLoading) {

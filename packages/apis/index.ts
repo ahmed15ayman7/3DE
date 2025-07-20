@@ -182,7 +182,8 @@ class AuthService {
       return access_Token;
     } catch (error: any) {
       await this.logout();
-      throw new Error('Failed to refresh token' + error);
+    //   throw new Error('Failed to refresh token' + error);
+    return ''
     }
   }
 
@@ -195,7 +196,9 @@ class AuthService {
     this.stopRefreshTokenTimer();
     
     if (typeof window !== 'undefined') {
-      window.location.href = '/auth/signin';
+        if(!window.location.href.includes('/auth/signin') && !window.location.href.includes('/auth/signup') && !window.location.href.includes('/auth/reset-password') && !window.location.href.includes('/auth/forgot-password') ){
+          window.location.href = '/auth/signin';
+      }
     }
   }
 

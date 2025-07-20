@@ -3,12 +3,14 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from 'dtos/User.create.dto';
-import { User } from '@shared/prisma';
+import { User,LoginDevice } from '@shared/prisma';
 import { ConfigService } from '@nestjs/config';
 import { UpdateUserDto } from 'dtos/User.update.dto';
+import { PrismaService } from '@/prisma/prisma.service';
 @Injectable()
 export class AuthService {
     constructor(
+        private prisma: PrismaService,
         private usersService: UsersService,
         private jwtService: JwtService,
         private configService: ConfigService,
@@ -34,18 +36,28 @@ export class AuthService {
             expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION'),
         });
     }
-    async validateUser(email: string, password: string): Promise<any> {
+    async validateUser(email: string, password: string,device?:LoginDevice): Promise<any> {
         const user = await this.usersService.findByEmail(email);
+        if(!user){
+            throw new NotFoundException('User not found');
+        }
         let verify = await bcrypt.compare(password, user?.password);
         console.log(verify);
         if (user && verify) {
             const { password: _, ...result } = user;
+            device? await this.prisma.loginHistory.create({
+                data: {
+                    userId: user.id,
+                    device: device || 'DESKTOP',
+                },
+            }):null;
             return result;
         }
         return null;
     }
 
     async login(user: User, refreshToken?: string) {
+
         const payload = { email: user.email, sub: user.id, role: user.role };
         return {
             access_token: this.jwtService.sign(payload),
@@ -69,6 +81,12 @@ export class AuthService {
         const user = await this.usersService.create({
             ...userData,
             password: hashedPassword,
+        });
+        await this.prisma.loginHistory.create({
+            data: {
+                userId: user.id,
+                device: 'DESKTOP',
+            },
         });
         return this.login(user);
     }

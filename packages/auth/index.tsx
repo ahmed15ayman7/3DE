@@ -264,11 +264,9 @@ class AuthService {
     this.stopRefreshTokenTimer();
     
     // إعادة التوجيه إلى صفحة تسجيل الدخول
-    if (typeof window !== 'undefined') {
       if (typeof window !== 'undefined') {
         if(!window.location.href.includes('/auth/signin') && !window.location.href.includes('/auth/signup') && !window.location.href.includes('/auth/reset-password') && !window.location.href.includes('/auth/forgot-password') ){
           window.location.href = '/auth/signin';
-        }
       }
     }
   }
