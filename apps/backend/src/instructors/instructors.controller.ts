@@ -64,13 +64,13 @@ export class InstructorsController {
         return this.instructorsService.getCourses(id);
     }
 
-    @Get('for-students')
+    @Get('for-students/:id')
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'الحصول على المدرسين للطلاب' })
     @ApiResponse({ status: 200, description: 'تم جلب المدرسين بنجاح' })
-    getAllForStudents() {
-        return this.instructorsService.findAllForStudents();
+    getAllForStudents(@Param('id') id: string) {
+        return this.instructorsService.findAllForStudents(id);
     }
 
     @Get('public')

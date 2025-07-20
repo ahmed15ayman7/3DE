@@ -114,14 +114,29 @@ export class InstructorsService {
         });
     }
 
-    async findAllForStudents() {
-        return this.prisma.instructor.findMany({
-            include: {
-                user: true,
-                courses: {
-                    include: {
-                        lessons: true,
-                        quizzes: true,
+    async findAllForStudents(instructorId:string) {
+        let instructor = await this.prisma.instructor.findFirst({
+            where: {
+                userId: instructorId,
+                user:{
+                    role:"INSTRUCTOR"
+                }
+            },
+        });
+        if (!instructor) {
+            throw new NotFoundException('Instructor not found');
+        }
+        return this.prisma.user.findMany({
+            where: {
+                enrollments: {
+                    some: {
+                        course: {
+                            instructors: {
+                                some: {
+                                    id: instructor.id,
+                                },
+                            },
+                        },
                     },
                 },
             },

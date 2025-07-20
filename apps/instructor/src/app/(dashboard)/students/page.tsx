@@ -27,6 +27,9 @@ import {
 import Link from 'next/link'
 import { Card, Button, Badge, Avatar, Dropdown, Progress, Tabs } from '@3de/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { useQuery } from '@tanstack/react-query'
+import { instructorApi } from '@3de/apis'
+import { useAuth } from '@3de/auth'
 
 interface StudentCardProps {
   student: any
@@ -269,63 +272,16 @@ const StudentListItem = ({ student, onViewProfile, onSendMessage }: StudentCardP
 export default function StudentsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCourse, setSelectedCourse] = useState('all')
+  let {user} = useAuth()
   const [selectedLevel, setSelectedLevel] = useState('all')
   const [selectedStatus, setSelectedStatus] = useState('all')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  let {data:students,isLoading,error,refetch} = useQuery({
+    queryKey: ['students'],
+    queryFn: () => instructorApi.getAllForStudents(user?.id),
+  })
 
-  // Mock data
-  const mockStudents = [
-    {
-      id: '1',
-      firstName: 'أحمد',
-      lastName: 'محمد',
-      email: 'ahmed@example.com',
-      avatar: '/student1.jpg',
-      level: 'متوسط',
-      enrolledCourses: 3,
-      completedCourses: 1,
-      overallProgress: 75,
-      averageScore: 85,
-      attendanceRate: 92,
-      lastActivity: 'منذ ساعة واحدة',
-      joinedDaysAgo: 45,
-      status: 'active',
-    },
-    {
-      id: '2',
-      firstName: 'فاطمة',
-      lastName: 'أحمد',
-      email: 'fatima@example.com',
-      avatar: '/student2.jpg',
-      level: 'متقدم',
-      enrolledCourses: 5,
-      completedCourses: 3,
-      overallProgress: 90,
-      averageScore: 92,
-      attendanceRate: 98,
-      lastActivity: 'منذ 30 دقيقة',
-      joinedDaysAgo: 120,
-      status: 'active',
-    },
-    {
-      id: '3',
-      firstName: 'محمد',
-      lastName: 'سالم',
-      email: 'mohammed@example.com',
-      avatar: '/student3.jpg',
-      level: 'مبتدئ',
-      enrolledCourses: 2,
-      completedCourses: 0,
-      overallProgress: 45,
-      averageScore: 65,
-      attendanceRate: 78,
-      lastActivity: 'منذ 3 أيام',
-      joinedDaysAgo: 15,
-      status: 'inactive',
-    },
-  ]
-
-  const filteredStudents = mockStudents.filter(student => {
+  const filteredStudents = students?.filter(student => {
     const matchesSearch = `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          student.email.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesCourse = selectedCourse === 'all' // Add course filtering logic
