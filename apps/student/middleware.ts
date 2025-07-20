@@ -24,7 +24,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   // Check if user has student role
-  const currentUser = authService.getCurrentUser();
+  const currentUser = await authService.getCurrentUser();
   if (!currentUser || currentUser.role !== 'STUDENT') {
     // Redirect to unauthorized page
     const unauthorizedUrl = new URL('/unauthorized', req.url);
