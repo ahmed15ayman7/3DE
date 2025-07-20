@@ -64,13 +64,13 @@ export default function CommunitiesPage() {
 
 
   // جلب المجتمعات
-  const { data: communitiesData, isLoading: communitiesLoading, error: communitiesError } = useQuery({
+  const { data: communitiesData, isLoading: communitiesLoading, error: communitiesError, refetch: refetchCommunities } = useQuery({
     queryKey: ['communities'],
     queryFn: () => communityApi.getAll(),
   });
 
   // جلب المنشورات
-  const { data: postsData, isLoading: postsLoading } = useQuery({
+  const { data: postsData, isLoading: postsLoading, refetch: refetchPosts } = useQuery({
     queryKey: ['posts', 'all'],
     queryFn: () => postApi.getAll(),
     enabled: activeTab === 'posts'
@@ -92,6 +92,8 @@ export default function CommunitiesPage() {
     mutationFn: (communityId: string) => communityApi.addParticipant(communityId, user?.id || ''),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['communities'] });
+      refetchCommunities()
+      refetchPosts()
     }
   });
 
@@ -99,6 +101,8 @@ export default function CommunitiesPage() {
     mutationFn: (communityId: string) => communityApi.removeParticipant(communityId, user?.id || ''),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['communities'] });
+      refetchCommunities()
+      refetchPosts()
     }
   });
 
@@ -113,6 +117,7 @@ export default function CommunitiesPage() {
       setPostContent('');
       setPostTitle('');
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      refetchPosts()
     }
   });
 
@@ -239,15 +244,18 @@ export default function CommunitiesPage() {
                     </div>
                   ) : posts.length > 0 ? (
                     <div className="space-y-6">
-                      {posts.map((post) => (
+                      {posts.map((post) => {
+                        let isLiked = post.likes?.some(like => like.userId === user?.id);
+                        return (
                         <PostCard
                           key={post.id}
                           post={post}
+                          isLiked={isLiked}
                           onLike={handleLikePost}
                           onComment={handleCommentPost}
                           onShare={handleSharePost}
                         />
-                      ))}
+                      )})}
                     </div>
                   ) : (
                     <Card className="p-8 text-center">

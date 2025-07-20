@@ -12,7 +12,6 @@ import { User } from '@3de/interfaces';
 import { sanitizeApiResponse } from '../../lib/utils';
 
 export default function ProfilePage() {
-  const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -22,31 +21,22 @@ export default function ProfilePage() {
     // bio: '',
     // location: '',
   });
-
-  const { data: profileResponse, isLoading } = useQuery({
-    queryKey: ['user-profile'],
-    queryFn: async () => {
-      const response = await userApi.getProfile(user?.id || "");
-      return sanitizeApiResponse(response);
-    },
-  });
-
-  const profile = (profileResponse as any)?.data;
+  let {user,isLoading, refetchUser} = useAuth()
 
   const updateProfileMutation = useMutation({
     mutationFn: (data: Partial<User>) => userApi.update(user?.id || "", data),
     onSuccess: () => {
       setIsEditing(false);
-      // Refetch profile data
+      refetchUser()
     },
   });
 
   const handleEdit = () => {
     setFormData({
-      firstName: profile?.firstName || '',
-      lastName: profile?.lastName || '',
-      email: profile?.email || '',
-      phone: profile?.phone || '',
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      email: user?.email || '',
+      phone: user?.phone || '',
     //   bio: profile?.bio || '',
     //   location: profile?.location || '',
     });
@@ -108,14 +98,14 @@ export default function ProfilePage() {
         >
           <div className="flex items-center gap-4">
             <Avatar
-              src={profile?.avatar || user?.avatar}
-              alt={profile?.firstName + ' ' + profile?.lastName || user?.firstName + ' ' + user?.lastName || ''}
+              src={user?.avatar}
+              alt={user?.firstName + ' ' + user?.lastName || ''}
               size="xl"
               className="w-20 h-20"
             />
             <div className="flex-1">
               <h1 className="text-2xl font-bold mb-2">
-                {profile?.firstName + ' ' + profile?.lastName || user?.firstName + ' ' + user?.lastName || 'الطالب'}
+                {user?.firstName + ' ' + user?.lastName || 'الطالب'}
               </h1>
               {/* <p className="text-white/90">
                 {profile?.bio || 'طالب في منصة 3DE التعليمية'}
@@ -123,15 +113,16 @@ export default function ProfilePage() {
             </div>
             <Button
               variant="outline"
+              className="text-white border-white focus:border-transparent"
               onClick={isEditing ? handleSave : handleEdit}
               disabled={updateProfileMutation.isPending}
               loading={updateProfileMutation.isPending}
             >
               {isEditing ? <Save className="w-4 h-4" /> : <Edit className="w-4 h-4" />}
-              {isEditing ? 'حفظ' : 'تعديل'}
+              <span className="max-md:hidden">{isEditing ? 'حفظ' : 'تعديل'}</span>
             </Button>
             {isEditing && (
-              <Button variant="outline" onClick={handleCancel}>
+              <Button variant="outline" onClick={handleCancel} className="text-white border-white focus:border-transparent">
                 <X className="w-4 h-4" />
                 إلغاء
               </Button>
@@ -163,7 +154,7 @@ export default function ProfilePage() {
                     ) : (
                       <div>
                         <p className="text-sm text-gray-500">الاسم</p>
-                        <p className="font-medium">{profile?.firstName  || 'غير محدد'}</p>
+                        <p className="font-medium">{user?.firstName  || 'غير محدد'}</p>
                       </div>
                     )}
                   </div>
@@ -182,7 +173,7 @@ export default function ProfilePage() {
                     ) : (
                       <div>
                         <p className="text-sm text-gray-500">اللقب</p>
-                        <p className="font-medium">{profile?.lastName || 'غير محدد'}</p>
+                        <p className="font-medium">{user?.lastName || 'غير محدد'}</p>
                       </div>
                     )}
                   </div>
@@ -202,7 +193,7 @@ export default function ProfilePage() {
                     ) : (
                       <div>
                         <p className="text-sm text-gray-500">البريد الإلكتروني</p>
-                        <p className="font-medium">{profile?.email || 'غير محدد'}</p>
+                        <p className="font-medium">{user?.email || 'غير محدد'}</p>
                       </div>
                     )}
                   </div>
@@ -222,7 +213,7 @@ export default function ProfilePage() {
                     ) : (
                       <div>
                         <p className="text-sm text-gray-500">رقم الهاتف</p>
-                        <p className="font-medium">{profile?.phone || 'غير محدد'}</p>
+                        <p className="font-medium">{user?.phone || 'غير محدد'}</p>
                       </div>
                     )}
                   </div>
@@ -253,7 +244,7 @@ export default function ProfilePage() {
                   <div className="flex-1">
                     <p className="text-sm text-gray-500">تاريخ الانضمام</p>
                     <p className="font-medium">
-                      {formatDate(profile?.createdAt)}
+                      {formatDate(user?.createdAt)}
                     </p>
                   </div>
                 </div>
@@ -277,17 +268,17 @@ export default function ProfilePage() {
                     <span className="text-sm font-medium text-gray-700">التقدم العام</span>
                     <span className="text-sm text-gray-500">
                       {(() => {
-                        if (!profile?.enrollments?.length) return 0;
-                        const totalProgress = profile.enrollments.reduce((acc: number, enrollment: any) => acc + (enrollment.progress || 0), 0);
-                        return Math.round(totalProgress / profile.enrollments.length);
+                        if (!user?.enrollments?.length) return 0;
+                        const totalProgress = user.enrollments.reduce((acc: number, enrollment: any) => acc + (enrollment.progress || 0), 0);
+                        return Math.round(totalProgress / user.enrollments.length);
                       })()}%
                     </span>
                   </div>
                   <Progress 
                     value={(() => {
-                      if (!profile?.enrollments?.length) return 0;
-                      const totalProgress = profile.enrollments.reduce((acc: number, enrollment: any) => acc + (enrollment.progress || 0), 0);
-                      return Math.round(totalProgress / profile.enrollments.length);
+                      if (!user?.enrollments?.length) return 0;
+                      const totalProgress = user.enrollments.reduce((acc: number, enrollment: any) => acc + (enrollment.progress || 0), 0);
+                      return Math.round(totalProgress / user.enrollments.length);
                     })()} 
                     className="h-2" 
                   />
@@ -296,19 +287,19 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <div className="text-2xl font-bold text-primary-main">
-                      {profile?.enrollments?.length || 0}
+                      {user?.enrollments?.length || 0}
                     </div>
                     <div className="text-sm text-gray-600">الكورسات المشترك فيها</div>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <div className="text-2xl font-bold text-primary-main">
-                      {profile?.enrollments?.filter((enrollment: any) => enrollment.progress === 100).length || 0}
+                      {user?.enrollments?.filter((enrollment: any) => enrollment.progress === 100).length || 0}
                     </div>
                     <div className="text-sm text-gray-600">الكورسات المكتملة</div>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <div className="text-2xl font-bold text-primary-main">
-                      {profile?.enrollments?.filter((enrollment: any) => enrollment.progress > 0 && enrollment.progress < 100).length || 0}
+                          {user?.enrollments?.filter((enrollment: any) => enrollment.progress > 0 && enrollment.progress < 100).length || 0}
                     </div>
                     <div className="text-sm text-gray-600">الكورسات قيد التقدم</div>
                   </div>
@@ -321,7 +312,7 @@ export default function ProfilePage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-4">النشاط الأخير</h2>
               
               <div className="space-y-4">
-                {profile?.loginHistory?.map((activity: any, index: number) => (
+                {user?.LoginHistory?.map((activity: any, index: number) => (
                   <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                     <div className="w-2 h-2 bg-primary-main rounded-full"></div>
                     <div className="flex-1">

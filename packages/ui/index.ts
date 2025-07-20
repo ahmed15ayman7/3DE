@@ -65,5 +65,7 @@ export {
   SkeletonGroup 
 } from './components/Skeleton'; 
 
+// Test Spaces Components
+export { default as TestSpaces } from './components/testSpaces';
 // Toaster Components
 export { Toaster, toast } from './components/toaster';

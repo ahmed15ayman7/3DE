@@ -6,6 +6,7 @@ import { User, UserRole } from '@3de/interfaces';
 
 // React Hooks
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
+import { userApi } from '@3de/apis';
 
 export interface Session {
   user: User;
@@ -43,6 +44,7 @@ const COOKIE_CONFIG = {
 
 interface AuthContextType {
   user: User | null;
+  refetchUser: () => Promise<void>;
   login: (data: { access_token: string, refreshToken: string, user: User }) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
@@ -281,7 +283,7 @@ class AuthService {
   }
 
   // Session Management
-  public getSession(): Session | null {
+  public async getSession(): Promise<Session | null> {
     try {
       const accessToken = this.getAccessTokenFromCookie(true);
       const refreshToken = this.getRefreshTokenFromCookie(true);
@@ -305,113 +307,19 @@ class AuthService {
           }
           
           // إنشاء مستخدم من refresh token
-          const user: User = {
-            id: refreshPayload.sub,
-            email: refreshPayload.email,
-            LessonWhiteList: [],
-            Like: [],
-            WatchedLesson: [],
-            firstName: '',
-            Comment: [],
-            lastName: '',
-            role: refreshPayload.role,
-            password: '',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            isOnline: false,
-            isVerified: false,
-            enrollments: [],
-            achievements: [],
-            notifications: [],
-            messages: [],
-            posts: [],
-            groups: [],
-            channels: [],
-            bookmarks: [],
-            Submission: [],
-            Attendance: [],
-            payments: [],
-            installments: [],
-            Instructor: [],
-            Owner: [],
-            Admin: [],
-            Lesson: [],
-            Report: [],
-            Badge: [],
-            Certificate: [],
-            Community: [],
-            LiveRoom: [],
-            NotificationSettings: [],
-            Path: [],
-            LoginHistory: [],
-            TwoFactor: [],
-            UserAcademyCEO: [],
-            SalaryPayment: [],
-            MeetingParticipant: [],
-            LegalCase: [],
-            traineeManagement: [],
-            trainingSchedules: [],
-            employeeAttendanceLogs: [],
-          };
+          const user=await userApi.getById(payload.sub)
           
           return {
-            user,
+            user:user.data,
             accessToken,
             refreshToken,
           };
         }
 
-        const user: User = {
-          id: payload.sub,
-          email: payload.email,
-          LessonWhiteList: [],
-          Like: [],
-          WatchedLesson: [],
-          firstName: '',
-          Comment: [],
-          lastName: '',
-          role: payload.role,
-          password: '',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          isOnline: false,
-          isVerified: false,
-          enrollments: [],
-          achievements: [],
-          notifications: [],
-          messages: [],
-          posts: [],
-          groups: [],
-          channels: [],
-          bookmarks: [],
-          Submission: [],
-          Attendance: [],
-          payments: [],
-          installments: [],
-          Instructor: [],
-          Owner: [],
-          Admin: [],
-          Lesson: [],
-          Report: [],
-          Badge: [],
-          Certificate: [],
-          Community: [],
-          LiveRoom: [],
-          NotificationSettings: [],
-          Path: [],
-          LoginHistory: [],
-          TwoFactor: [],
-          UserAcademyCEO: [],
-          SalaryPayment: [],
-          MeetingParticipant: [],
-          LegalCase: [],
-          traineeManagement: [],
-          trainingSchedules: [],
-          employeeAttendanceLogs: [],
-        };
+        const user = await userApi.getById(payload.sub)
 
         return {
-          user,
+          user:user.data,
           accessToken,
           refreshToken,
         };
@@ -501,9 +409,9 @@ class AuthService {
 
   // Route Protection HOC
   public withAuth(allowedRoles: UserRole[]) {
-    return (Component: React.ComponentType<any>) => {
-      return (props: any) => {
-        const session = this.getSession();
+    return async (Component: React.ComponentType<any>) => {
+      return async (props: any) => {
+        const session = await this.getSession();
         
         if (!session) {
           // Redirect to login
@@ -552,18 +460,18 @@ class AuthService {
   }
 
   // Utility Functions
-  public isAuthenticatedSync(): boolean {
-    const session = this.getSession();
+  public async isAuthenticatedSync(): Promise<boolean> {
+    const session = await this.getSession();
     return !!session;
   }
 
-  public getCurrentUser(): User | null {
-    const session = this.getSession();
+  public async getCurrentUser(): Promise<User | null> {
+    const session = await this.getSession();
     return session?.user || null;
   }
 
-  public getCurrentUserRole(): UserRole | null {
-    const session = this.getSession();
+  public async getCurrentUserRole(): Promise<UserRole | null> {
+    const session = await this.getSession();
     return session?.user?.role || null;
   }
 
@@ -596,17 +504,25 @@ class AuthService {
   }
 }
 
+
 export function AuthProvider({ children }: { children: ReactNode }) {
+
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+const refetchUser =async()=>{
+  const session = await authService.getSession();
+  if(session){
+    let {data:user}= await userApi.getById(session.user.id)
+    setUser(user);
+  }
+}
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const isAuth = await authService.isAuthenticated();
+        const isAuth = await authService.isAuthenticatedSync();
         console.log('🔐 isAuth', isAuth);
         if (isAuth) {
-          const currentUser = authService.getCurrentUser();
+          const currentUser = await authService.getCurrentUser();
           setUser(currentUser);
           console.log('🔐 currentUser', currentUser);
         }else{
@@ -660,7 +576,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading, refetchUser }}>
       {children}
     </AuthContext.Provider>
   );

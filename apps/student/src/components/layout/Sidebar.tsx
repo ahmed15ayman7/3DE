@@ -32,7 +32,7 @@ export default function Sidebar({ isSidebarOpen, onToggle, isMobile }: SidebarPr
     <motion.aside
       animate={{ width: isSidebarOpen && !isMobile ? 256 : 72}}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className={`bg-white shadow-xl fixed top-24 right-0 z-40 ${isMobile ? 'translate-x-full':isSidebarOpen && isMobile ? 'translate-x-0' : 'translate-x-0'}`}
+      className={`bg-white shadow-xl fixed top-24 right-0 z-40 ${isSidebarOpen && isMobile ? 'translate-x-0': isMobile ? 'translate-x-full' : 'translate-x-0'}`}
       style={{ height: 'calc(100vh - 96px)' }}
     >
       <div className="flex flex-col h-full">
@@ -73,11 +73,9 @@ export default function Sidebar({ isSidebarOpen, onToggle, isMobile }: SidebarPr
           </AnimatePresence>
 
           {/* Toggle Button */}
-          <Button
-            variant="text"
-            size="sm"
+          <button
             onClick={onToggle}
-            className="text-gray-700  hover:bg-gray-100 flex-shrink-0"
+            className={`text-gray-700  hover:bg-gray-100 flex-shrink-0 h-8 w-8 flex items-center justify-center rounded-full outline-primary-main outline outline-offset-1 ${!isSidebarOpen ? '-translate-x-1/2 bg-primary-main text-white hover:bg-primary-main/80' : 'mr-2'}`}
             aria-label={isSidebarOpen ? 'طي القائمة الجانبية' : 'فتح القائمة الجانبية'}
           >
             {isSidebarOpen ? (
@@ -85,7 +83,7 @@ export default function Sidebar({ isSidebarOpen, onToggle, isMobile }: SidebarPr
             ) : (
               <ChevronLeft className="w-5 h-5" />
             )}
-          </Button>
+          </button>
         </div>
 
         {/* Navigation */}

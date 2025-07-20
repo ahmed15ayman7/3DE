@@ -102,9 +102,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
           `}
           style={{ maxHeight: `${maxHeight}px` }}
         >
-          <div className="py-1 overflow-y-auto">
+          <div className="py-1 overflow-y-auto px-3">
             {items.map((item, index) => (
-              <React.Fragment key={item.id}>
+              <React.Fragment key={index}>
                 {item.divider ? (
                   <div className="border-t border-gray-100 my-1" />
                 ) : (
@@ -126,7 +126,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                         {item.icon}
                       </span>
                     )}
-                    <span className="flex-1">{item.label}</span>
+                    <span className="flex-1 flex max-md:hidden">{item.label}</span>
                   </button>
                 )}
               </React.Fragment>

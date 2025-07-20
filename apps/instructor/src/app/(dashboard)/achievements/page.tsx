@@ -130,7 +130,7 @@ export default function AchievementsPage() {
   const isLoading = achievementsLoading || badgesLoading || certificatesLoading
 
   return (
-    <div className="p-6 space-y-6 min-h-screen bg-gradient-to-br from-purple-50 to-pink-100">
+    <div className="p-6 space-y-6 min-h-screen ">
       {/* العنوان والإحصائيات */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -144,6 +144,7 @@ export default function AchievementsPage() {
           </div>
           <div className="flex gap-3">
             <Button 
+            className='px-4'
               onClick={handleCreateAchievement}
               icon={<Plus className="w-4 h-4" />}
             >

@@ -31,8 +31,9 @@ import {
   LineChart,
   Line,
 } from 'recharts'
-import { Card, Button, Badge, Avatar, Skeleton } from '@3de/ui'
+import { Card, Button, Badge, Avatar, Skeleton, toast } from '@3de/ui'
 import { instructorApi, courseApi, userApi } from '@3de/apis'
+import { useRouter } from 'next/navigation'
 
 // Mock data for charts
 const weeklyData = [
@@ -100,11 +101,11 @@ const QuickActionCard = ({ title, description, icon: Icon, onClick, color }: any
   </motion.div>
 )
 
-const RecentActivity = ({ activities }: { activities: any[] }) => (
+const RecentActivity = ({ activities,router }: { activities: any[],router:any }) => (
   <Card className="p-6">
     <div className="flex items-center justify-between mb-6">
       <h3 className="text-lg font-semibold text-gray-900">الأنشطة الأخيرة</h3>
-      <Button variant="ghost" size="sm">
+      <Button variant="ghost" size="sm" onClick={()=>router.push('/instructor/activities')}>
         <Eye className="h-4 w-4 ml-2" />
         عرض الكل
       </Button>
@@ -139,7 +140,7 @@ const RecentActivity = ({ activities }: { activities: any[] }) => (
 
 export default function DashboardPage() {
   const [timeRange, setTimeRange] = useState('week')
-
+  const router = useRouter()
   // Mock data for recent activities
   const recentActivities = [
     {
@@ -205,6 +206,10 @@ export default function DashboardPage() {
     },
   ]
 
+  const handleDownload = () => {
+    toast.success('  جاري تفعيل الميزة ')
+  }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -229,9 +234,9 @@ export default function DashboardPage() {
             <option value="year">هذا العام</option>
           </select>
           
-          <Button variant="primary">
-            <Download className="h-4 w-4 ml-2" />
-            تحميل التقرير
+          <Button variant="primary" className='px-2 ' onClick={()=>handleDownload()}>
+            <Download className="h-4 w-4 ml-2 max-md:ml-0" />
+           <span className="max-md:hidden">تحميل </span>
           </Button>
         </div>
       </div>
@@ -326,7 +331,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Activities */}
-        <RecentActivity activities={recentActivities} />
+        <RecentActivity activities={recentActivities} router={router} />
       </div>
 
       {/* Course Completion and Performance */}

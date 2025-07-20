@@ -15,6 +15,8 @@ import {
   Sun,
 } from 'lucide-react'
 import { Avatar, Dropdown, Badge } from '@3de/ui'
+import { useAuth } from '@3de/auth'
+import { useRouter } from 'next/navigation'
 
 interface HeaderProps {
   onMenuClick: () => void
@@ -23,25 +25,26 @@ interface HeaderProps {
 export default function Header({ onMenuClick }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [darkMode, setDarkMode] = useState(false)
-
+  let { user, logout } = useAuth()
+  const router = useRouter()
   const userMenuItems = [
     {
       id: 'profile',
-      label: 'الملف الشخصي',
+      label: 'حسابي',
       icon: <User className="h-4 w-4" />,
-      onClick: () => console.log('Profile clicked'),
+      onClick: () => router.push('/profile'),
     },
     {
       id: 'messages',
-      label: 'الرسائل',
-      icon: <MessageSquare className="h-4 w-4" />,
-      onClick: () => console.log('Messages clicked'),
+      label: 'الإعدادات',
+      icon: <Settings className="h-4 w-4" />,
+      onClick: () => router.push('/settings'),
     },
     {
       id: 'settings',
       label: 'الإعدادات',
       icon: <Settings className="h-4 w-4" />,
-      onClick: () => console.log('Settings clicked'),
+      onClick: () => router.push('/settings'),
     },
     {
       id: 'divider',
@@ -52,7 +55,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
       id: 'logout',
       label: 'تسجيل الخروج',
       icon: <LogOut className="h-4 w-4" />,
-      onClick: () => console.log('Logout clicked'),
+      onClick: () => logout(),
     },
   ]
 
@@ -70,14 +73,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </button>
 
           {/* Page title - could be dynamic */}
-          <div>
+          {/* <div>
             <h1 className="text-xl font-semibold text-gray-900">
               لوحة التحكم
             </h1>
             <p className="text-sm text-gray-500">
               مرحباً بك، أحمد محمد
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Center - Search */}
@@ -111,22 +114,24 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
           {/* Notifications */}
           <div className="relative">
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => {
+              router.push('/notifications')
+            }}>
               <div className="relative">
                 <Bell className="h-5 w-5 text-gray-600" />
-                <motion.span
+                {(user?.notifications?.filter(notification => notification.read === false)?.length || 0) > 0 && <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
                 >
-                  8
-                </motion.span>
+                  {user?.notifications?.filter(notification => notification.read === false).length}
+                </motion.span>}
               </div>
             </button>
           </div>
 
           {/* Messages */}
-          <div className="relative">
+          {/* <div className="relative">
             <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <div className="relative">
                 <MessageSquare className="h-5 w-5 text-gray-600" />
@@ -139,20 +144,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 </motion.span>
               </div>
             </button>
-          </div>
+          </div> */}
 
           {/* User menu */}
           <Dropdown
             trigger={
               <button className="flex items-center gap-2 gap-reverse hover:bg-gray-100 rounded-lg p-2 transition-colors">
                 <Avatar
-                  src="/instructor-avatar.jpg"
-                  fallback="أ ت"
+                  src={user?.avatar}
+                  fallback={user?.firstName?.charAt(0)}
                   size="sm"
                 />
                 <div className="hidden md:block text-right">
                   <p className="text-sm font-medium text-gray-900">
-                    أحمد محمد
+                    {user?.firstName} {user?.lastName}
                   </p>
                   <p className="text-xs text-gray-500">
                     محاضر

@@ -28,6 +28,7 @@ export class PostsService {
             include: {
                 author: true,
                 comments: true,
+                likes: true,
             },
         });
     }
@@ -38,6 +39,7 @@ export class PostsService {
             include: {
                 author: true,
                 comments: true,
+                likes: true,
             },
         });
 
@@ -60,6 +62,7 @@ export class PostsService {
             include: {
                 author: true,
                 comments: true,
+                likes: true,
             },
         });
     }
@@ -94,6 +97,7 @@ export class PostsService {
             include: {
                 author: true,
                 comments: true,
+                likes: true,
             },
         });
     }
@@ -125,6 +129,7 @@ export class PostsService {
             include: {
                 author: true,
                 comments: true,
+                likes: true,
             },
         });
     }
@@ -134,6 +139,7 @@ export class PostsService {
             include: {
                 author: true,
                 comments: true,
+                likes: true,
             },
         });
     }

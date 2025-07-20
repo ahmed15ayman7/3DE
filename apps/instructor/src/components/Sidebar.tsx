@@ -19,6 +19,8 @@ import {
   Calendar,
 } from 'lucide-react'
 import { Avatar } from '@3de/ui'
+import { useAuth } from '@3de/auth'
+import { useEffect, useState } from 'react'
 
 interface SidebarProps {
   isOpen: boolean
@@ -26,72 +28,76 @@ interface SidebarProps {
   isMobile: boolean
 }
 
-const menuItems = [
-  {
-    title: 'الرئيسية',
-    icon: LayoutDashboard,
-    href: '/',
-    badge: null,
-  },
-  {
-    title: 'كورساتي',
-    icon: BookOpen,
-    href: '/courses',
-    badge: null,
-  },
-  {
-    title: 'الاختبارات',
-    icon: ClipboardList,
-    href: '/quizzes',
-    badge: 3,
-  },
-  {
-    title: 'نتائج الاختبارات',
-    icon: BarChart3,
-    href: '/quizzes/results',
-    badge: null,
-  },
-  {
-    title: 'الطلاب',
-    icon: Users,
-    href: '/students',
-    badge: null,
-  },
-  {
-    title: 'الحضور',
-    icon: Calendar,
-    href: '/attendance',
-    badge: 2,
-  },
-  {
-    title: 'الإنجازات',
-    icon: Award,
-    href: '/achievements',
-    badge: null,
-  },
-  {
-    title: 'المجتمعات',
-    icon: Users2,
-    href: '/communities',
-    badge: 5,
-  },
-  {
-    title: 'الإشعارات',
-    icon: Bell,
-    href: '/notifications',
-    badge: 8,
-  },
-  {
-    title: 'الإعدادات',
-    icon: Settings,
-    href: '/settings',
-    badge: null,
-  },
-]
+
 
 export default function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
   const pathname = usePathname()
-
+  let { user } = useAuth()
+  let [menuItems,setMenuItems] = useState<any[]>([])
+  useEffect(() => {
+    setMenuItems([
+      {
+        title: 'الرئيسية',
+        icon: LayoutDashboard,
+        href: '/',
+        badge: null,
+      },
+      {
+        title: 'كورساتي',
+        icon: BookOpen,
+        href: '/courses',
+        badge: null,
+      },
+      {
+        title: 'الاختبارات',
+        icon: ClipboardList,
+        href: '/quizzes',
+        badge: 3,
+      },
+      {
+        title: 'نتائج الاختبارات',
+        icon: BarChart3,
+        href: '/quizzes/results',
+        badge: null,
+      },
+      {
+        title: 'الطلاب',
+        icon: Users,
+        href: '/students',
+        badge: null,
+      },
+      {
+        title: 'الحضور',
+        icon: Calendar,
+        href: '/attendance',
+        badge: 2,
+      },
+      {
+        title: 'الإنجازات',
+        icon: Award,
+        href: '/achievements',
+        badge: user?.achievements?.length || null,
+      },
+      {
+        title: 'المجتمعات',
+        icon: Users2,
+        href: '/communities',
+        badge: user?.Community?.length || null,
+      },
+      {
+        title: 'الإشعارات',
+        icon: Bell,
+        href: '/notifications',
+        badge: user?.notifications?.filter(notification => notification.read === false)?.length || null,
+      },
+      {
+        title: 'الإعدادات',
+        icon: Settings,
+        href: '/settings',
+        badge: null,
+      },
+    ])
+  }, [user])
   const sidebarVariants = {
     open: {
       x: 0,
@@ -154,16 +160,16 @@ export default function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center gap-3 gap-reverse">
           <Avatar
-            src="/instructor-avatar.jpg"
-            fallback="أ ت"
+            src={user?.avatar}
+            fallback={user?.firstName?.charAt(0)}
             size="md"
           />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">
-              أحمد محمد التميمي
+              {user?.firstName} {user?.lastName}
             </p>
             <p className="text-xs text-gray-500 truncate">
-              محاضر تطوير الويب
+                {user?.role}
             </p>
           </div>
         </div>
