@@ -26,6 +26,12 @@ export class AdminAuthController {
     }
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
+    @Get('admin-by-user-id')
+    async getAdminByUserId(@Query('userId') userId: string) {
+        return this.adminAuthService.getAdminByUserId(userId);
+    }
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
     @Post('create-admin')
     async createAdmin(@Body() createAdminDto: CreateAdminDto) {
         return this.adminAuthService.createAdmin(createAdminDto);

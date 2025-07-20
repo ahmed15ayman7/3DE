@@ -6,7 +6,7 @@ import { User, UserRole } from '@3de/interfaces';
 
 // React Hooks
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-import { userApi } from '@3de/apis';
+import { adminAuthApi, userApi } from '@3de/apis';
 
 export interface Session {
   user: User;
@@ -254,12 +254,11 @@ class AuthService {
   }
 
   // تسجيل الخروج
-  public async logout() {
-    // حذف التوكنات من cookies
-    deleteCookie('sessionAccessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
-    deleteCookie('sessionRefreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
-    deleteCookie('accessToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
-    deleteCookie('refreshToken', { domain: COOKIE_CONFIG.domain, path: COOKIE_CONFIG.path });
+  public async logout(setUser?: (user: User | null) => void) {
+    this.clearSession();
+    setUser?.(null);
+   await this.clearTokens();
+    
     
     // إيقاف المؤقت
     this.stopRefreshTokenTimer();
@@ -308,9 +307,10 @@ class AuthService {
           
           // إنشاء مستخدم من refresh token
           const user=await userApi.getById(payload.sub)
+          const admin=user.data.role==='ADMIN'?await adminAuthApi.getAdminByUserId():null
           
           return {
-            user:user.data,
+            user:{...user.data,Admin:admin?[admin]:[]},
             accessToken,
             refreshToken,
           };
@@ -528,7 +528,7 @@ const refetchUser =async()=>{
         }else{
           if(typeof window !== 'undefined'){
            if(window.location.href !== '/auth/signin'){
-             authService.logout();
+             authService.logout(setUser);
            }
 
           }
@@ -571,7 +571,7 @@ const refetchUser =async()=>{
   };
 
   const logout = async () => {
-    await authService.logout();
+    await authService.logout(setUser);
     setUser(null);
   };
 

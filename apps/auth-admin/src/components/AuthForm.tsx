@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react';
 import { Button, Input, Alert } from '@3de/ui';
-import { authApi } from '@3de/apis';
+import { authApi, adminAuthApi } from '@3de/apis';
 import { useAuth } from '@3de/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -115,7 +115,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
           // Debug login attempt
           authDebugger.debugLoginAttempt(data.email);
           
-          const loginResult = await authApi.login({
+          const loginResult = await adminAuthApi.login({
             email: data.email,
             password: data.password,
           });

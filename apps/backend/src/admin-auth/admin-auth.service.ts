@@ -13,7 +13,18 @@ export class AdminAuthService {
         private jwtService: JwtService,
         private configService: ConfigService,
     ) { }
-
+    async getAdminByUserId(userId: string) {
+        return await this.prisma.admin.findFirst({
+            where: {
+                user: {
+                    id: userId,
+                },
+            },
+            include: {
+                AdminRole: true,
+            }
+        });
+    }
     async validateAdmin(email: string, password: string) {
         const admin = await this.prisma.admin.findFirst({
             where: {
@@ -58,7 +69,7 @@ export class AdminAuthService {
         const roles = admin.AdminRole;
 
         const payload = {
-            sub: admin.id,
+            sub: admin.userId,
             email: admin.user.email,
             permissions,
             roles,
