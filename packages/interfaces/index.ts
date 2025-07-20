@@ -265,6 +265,7 @@ export interface WatchedLesson {
   lesson: Lesson | undefined;
   userId: string;
   user: User | undefined;
+  createdAt: Date;
 }
 
 export interface File {

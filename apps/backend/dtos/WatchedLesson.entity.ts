@@ -36,4 +36,9 @@ export class WatchedLessonEntity {
   // Field: user, Type: User
   @Column()
   user: User;
+
+  @ApiProperty({ type: "string", format: "date-time" })
+  // Field: createdAt, Type: Date
+  @Column()
+  createdAt: Date;
 }

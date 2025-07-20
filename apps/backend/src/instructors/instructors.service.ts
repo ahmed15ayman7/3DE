@@ -140,6 +140,38 @@ export class InstructorsService {
                     },
                 },
             },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                avatar: true,
+                email: true,
+                isOnline: true,
+                WatchedLesson: {
+                    select: {
+                        id: true,
+                        lesson: {
+                            select: {
+                                course: {
+                                    select: {
+                                        title: true,
+                                        lessons: {
+                                            select: {
+                                                id: true,
+                                            },
+                                        },
+                                        instructors: {
+                                            where: {
+                                                id: instructorId,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         });
     }
 

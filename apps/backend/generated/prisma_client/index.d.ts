@@ -25522,6 +25522,7 @@ export namespace Prisma {
     progress: number | null
     lessonId: string | null
     userId: string | null
+    createdAt: Date | null
   }
 
   export type WatchedLessonMaxAggregateOutputType = {
@@ -25529,6 +25530,7 @@ export namespace Prisma {
     progress: number | null
     lessonId: string | null
     userId: string | null
+    createdAt: Date | null
   }
 
   export type WatchedLessonCountAggregateOutputType = {
@@ -25536,6 +25538,7 @@ export namespace Prisma {
     progress: number
     lessonId: number
     userId: number
+    createdAt: number
     _all: number
   }
 
@@ -25553,6 +25556,7 @@ export namespace Prisma {
     progress?: true
     lessonId?: true
     userId?: true
+    createdAt?: true
   }
 
   export type WatchedLessonMaxAggregateInputType = {
@@ -25560,6 +25564,7 @@ export namespace Prisma {
     progress?: true
     lessonId?: true
     userId?: true
+    createdAt?: true
   }
 
   export type WatchedLessonCountAggregateInputType = {
@@ -25567,6 +25572,7 @@ export namespace Prisma {
     progress?: true
     lessonId?: true
     userId?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -25661,6 +25667,7 @@ export namespace Prisma {
     progress: number
     lessonId: string
     userId: string
+    createdAt: Date
     _count: WatchedLessonCountAggregateOutputType | null
     _avg: WatchedLessonAvgAggregateOutputType | null
     _sum: WatchedLessonSumAggregateOutputType | null
@@ -25687,6 +25694,7 @@ export namespace Prisma {
     progress?: boolean
     lessonId?: boolean
     userId?: boolean
+    createdAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["watchedLesson"]>
@@ -25696,6 +25704,7 @@ export namespace Prisma {
     progress?: boolean
     lessonId?: boolean
     userId?: boolean
+    createdAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["watchedLesson"]>
@@ -25705,6 +25714,7 @@ export namespace Prisma {
     progress?: boolean
     lessonId?: boolean
     userId?: boolean
+    createdAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["watchedLesson"]>
@@ -25714,9 +25724,10 @@ export namespace Prisma {
     progress?: boolean
     lessonId?: boolean
     userId?: boolean
+    createdAt?: boolean
   }
 
-  export type WatchedLessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "progress" | "lessonId" | "userId", ExtArgs["result"]["watchedLesson"]>
+  export type WatchedLessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "progress" | "lessonId" | "userId" | "createdAt", ExtArgs["result"]["watchedLesson"]>
   export type WatchedLessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -25741,6 +25752,7 @@ export namespace Prisma {
       progress: number
       lessonId: string
       userId: string
+      createdAt: Date
     }, ExtArgs["result"]["watchedLesson"]>
     composites: {}
   }
@@ -26170,6 +26182,7 @@ export namespace Prisma {
     readonly progress: FieldRef<"WatchedLesson", 'Float'>
     readonly lessonId: FieldRef<"WatchedLesson", 'String'>
     readonly userId: FieldRef<"WatchedLesson", 'String'>
+    readonly createdAt: FieldRef<"WatchedLesson", 'DateTime'>
   }
     
 
@@ -100668,7 +100681,8 @@ export namespace Prisma {
     id: 'id',
     progress: 'progress',
     lessonId: 'lessonId',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt'
   };
 
   export type WatchedLessonScalarFieldEnum = (typeof WatchedLessonScalarFieldEnum)[keyof typeof WatchedLessonScalarFieldEnum]
@@ -103090,6 +103104,7 @@ export namespace Prisma {
     progress?: FloatFilter<"WatchedLesson"> | number
     lessonId?: StringFilter<"WatchedLesson"> | string
     userId?: StringFilter<"WatchedLesson"> | string
+    createdAt?: DateTimeFilter<"WatchedLesson"> | Date | string
     lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -103099,6 +103114,7 @@ export namespace Prisma {
     progress?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
     lesson?: LessonOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -103111,6 +103127,7 @@ export namespace Prisma {
     progress?: FloatFilter<"WatchedLesson"> | number
     lessonId?: StringFilter<"WatchedLesson"> | string
     userId?: StringFilter<"WatchedLesson"> | string
+    createdAt?: DateTimeFilter<"WatchedLesson"> | Date | string
     lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -103120,6 +103137,7 @@ export namespace Prisma {
     progress?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
     _count?: WatchedLessonCountOrderByAggregateInput
     _avg?: WatchedLessonAvgOrderByAggregateInput
     _max?: WatchedLessonMaxOrderByAggregateInput
@@ -103135,6 +103153,7 @@ export namespace Prisma {
     progress?: FloatWithAggregatesFilter<"WatchedLesson"> | number
     lessonId?: StringWithAggregatesFilter<"WatchedLesson"> | string
     userId?: StringWithAggregatesFilter<"WatchedLesson"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"WatchedLesson"> | Date | string
   }
 
   export type FileWhereInput = {
@@ -109371,6 +109390,7 @@ export namespace Prisma {
   export type WatchedLessonCreateInput = {
     id?: string
     progress?: number
+    createdAt?: Date | string
     lesson: LessonCreateNestedOneWithoutWatchedLessonInput
     user: UserCreateNestedOneWithoutWatchedLessonInput
   }
@@ -109380,11 +109400,13 @@ export namespace Prisma {
     progress?: number
     lessonId: string
     userId: string
+    createdAt?: Date | string
   }
 
   export type WatchedLessonUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutWatchedLessonNestedInput
     user?: UserUpdateOneRequiredWithoutWatchedLessonNestedInput
   }
@@ -109394,6 +109416,7 @@ export namespace Prisma {
     progress?: FloatFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WatchedLessonCreateManyInput = {
@@ -109401,11 +109424,13 @@ export namespace Prisma {
     progress?: number
     lessonId: string
     userId: string
+    createdAt?: Date | string
   }
 
   export type WatchedLessonUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WatchedLessonUncheckedUpdateManyInput = {
@@ -109413,6 +109438,7 @@ export namespace Prisma {
     progress?: FloatFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FileCreateInput = {
@@ -116094,6 +116120,7 @@ export namespace Prisma {
     progress?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type WatchedLessonAvgOrderByAggregateInput = {
@@ -116105,6 +116132,7 @@ export namespace Prisma {
     progress?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type WatchedLessonMinOrderByAggregateInput = {
@@ -116112,6 +116140,7 @@ export namespace Prisma {
     progress?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type WatchedLessonSumOrderByAggregateInput = {
@@ -128806,6 +128835,7 @@ export namespace Prisma {
   export type WatchedLessonCreateWithoutUserInput = {
     id?: string
     progress?: number
+    createdAt?: Date | string
     lesson: LessonCreateNestedOneWithoutWatchedLessonInput
   }
 
@@ -128813,6 +128843,7 @@ export namespace Prisma {
     id?: string
     progress?: number
     lessonId: string
+    createdAt?: Date | string
   }
 
   export type WatchedLessonCreateOrConnectWithoutUserInput = {
@@ -129977,6 +130008,7 @@ export namespace Prisma {
     progress?: FloatFilter<"WatchedLesson"> | number
     lessonId?: StringFilter<"WatchedLesson"> | string
     userId?: StringFilter<"WatchedLesson"> | string
+    createdAt?: DateTimeFilter<"WatchedLesson"> | Date | string
   }
 
   export type LikeUpsertWithWhereUniqueWithoutUserInput = {
@@ -134038,6 +134070,7 @@ export namespace Prisma {
   export type WatchedLessonCreateWithoutLessonInput = {
     id?: string
     progress?: number
+    createdAt?: Date | string
     user: UserCreateNestedOneWithoutWatchedLessonInput
   }
 
@@ -134045,6 +134078,7 @@ export namespace Prisma {
     id?: string
     progress?: number
     userId: string
+    createdAt?: Date | string
   }
 
   export type WatchedLessonCreateOrConnectWithoutLessonInput = {
@@ -152294,6 +152328,7 @@ export namespace Prisma {
     id?: string
     progress?: number
     lessonId: string
+    createdAt?: Date | string
   }
 
   export type LikeCreateManyUserInput = {
@@ -153464,6 +153499,7 @@ export namespace Prisma {
   export type WatchedLessonUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutWatchedLessonNestedInput
   }
 
@@ -153471,12 +153507,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WatchedLessonUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LikeUpdateWithoutUserInput = {
@@ -155088,6 +155126,7 @@ export namespace Prisma {
     id?: string
     progress?: number
     userId: string
+    createdAt?: Date | string
   }
 
   export type FileUpdateWithoutLessonInput = {
@@ -155380,6 +155419,7 @@ export namespace Prisma {
   export type WatchedLessonUpdateWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutWatchedLessonNestedInput
   }
 
@@ -155387,12 +155427,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WatchedLessonUncheckedUpdateManyWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SecretaryFilesCreateManyFileInput = {

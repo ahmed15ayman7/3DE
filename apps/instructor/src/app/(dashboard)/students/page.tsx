@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Users,
@@ -30,14 +30,21 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useQuery } from '@tanstack/react-query'
 import { instructorApi } from '@3de/apis'
 import { useAuth } from '@3de/auth'
+import { Enrollment, EnrollmentStatus, User, WatchedLesson } from '@3de/interfaces'
 
 interface StudentCardProps {
-  student: any
+  student: User
   onViewProfile: (student: any) => void
   onSendMessage: (student: any) => void
 }
 
 const StudentCard = ({ student, onViewProfile, onSendMessage }: StudentCardProps) => {
+let [progress,setProgress] = useState(0)
+useEffect(() => {
+  let totalLessons = student.WatchedLesson?.map((watched: WatchedLesson) => watched?.lesson?.course?.lessons?.length).reduce((a: number|undefined, b: number|undefined) => (a || 0) + (b || 0), 0) ?? 0
+  let watchedLessons = student.WatchedLesson?.length ?? 0
+  setProgress(watchedLessons ? (watchedLessons / totalLessons) * 100 : 0)
+}, [student])
   const menuItems = [
     {
       id: 'profile',
@@ -76,32 +83,29 @@ const StudentCard = ({ student, onViewProfile, onSendMessage }: StudentCardProps
       whileHover={{ y: -5, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300 }}
     >
-      <Card className="overflow-hidden hover:shadow-lg transition-all duration-200">
+      <Card className="overflow-hidden hover:shadow-lg transition-all duration-200 relative">
         {/* Student Header */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4 gap-reverse">
+        <div className="p-6 border-b border-gray-200 flex flex-col  items-center gap-4 gap-reverse">
               <Avatar
                 src={student.avatar}
                 fallback={`${student.firstName[0]}${student.lastName[0]}`}
-                size="lg"
+                size="xl"
               />
+          <div className="text-center">
+            <div className="flex items-center gap-4 gap-reverse">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
                   {student.firstName} {student.lastName}
                 </h3>
                 <p className="text-gray-600 text-sm">{student.email}</p>
                 <div className="flex items-center gap-2 gap-reverse mt-1">
-                  <Badge variant="outline" size="sm">
-                    {student.level}
-                  </Badge>
-                  <span className="text-xs text-gray-500">
-                    انضم {student.joinedDaysAgo} يوم مضى
-                  </span>
+                 
                 </div>
               </div>
             </div>
 
+          </div>
+          <div className='absolute top-10 left-10'>
             <Dropdown
               trigger={
                 <Button variant="ghost" size="sm">
@@ -119,13 +123,13 @@ const StudentCard = ({ student, onViewProfile, onSendMessage }: StudentCardProps
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary-main">
-                {student.enrolledCourses}
+                {student.enrollments?.length}
               </div>
               <div className="text-xs text-gray-500">كورسات مسجل</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-secondary-main">
-                {student.completedCourses}
+                {student.enrollments?.filter((enrollment: Enrollment) => enrollment.status === "COMPLETED" as EnrollmentStatus).length}
               </div>
               <div className="text-xs text-gray-500">كورسات مكتملة</div>
             </div>
@@ -138,15 +142,15 @@ const StudentCard = ({ student, onViewProfile, onSendMessage }: StudentCardProps
                 التقدم الإجمالي
               </span>
               <span className="text-sm font-bold text-primary-main">
-                {student.overallProgress}%
+                {progress}%
               </span>
             </div>
-            <Progress value={student.overallProgress} className="h-2" />
+            <Progress value={progress} className="h-2" />
           </div>
 
           {/* Performance Metrics */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-sm">
+            {/* <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">متوسط الدرجات:</span>
               <div className="flex items-center gap-1 gap-reverse">
                 {getPerformanceIcon(student.averageScore)}
@@ -154,19 +158,23 @@ const StudentCard = ({ student, onViewProfile, onSendMessage }: StudentCardProps
                   {student.averageScore}%
                 </span>
               </div>
-            </div>
+            </div> */}
             
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">معدل الحضور:</span>
               <span className="font-medium text-gray-900">
-                {student.attendanceRate}%
+                {student.WatchedLesson?.length}/{student.enrollments?.map((enrollment: Enrollment) => enrollment?.course?.lessons?.length).reduce((a: number|undefined, b: number|undefined) => (a || 0) + (b || 0), 0)}
               </span>
             </div>
             
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">آخر نشاط:</span>
               <span className="text-gray-500">
-                {student.lastActivity}
+                {new Date(student.WatchedLesson?.[0]?.createdAt ?? "").toLocaleDateString("ar-EG",{
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </span>
             </div>
           </div>
@@ -196,7 +204,14 @@ const StudentCard = ({ student, onViewProfile, onSendMessage }: StudentCardProps
   )
 }
 
-const StudentListItem = ({ student, onViewProfile, onSendMessage }: StudentCardProps) => (
+const StudentListItem = ({ student, onViewProfile, onSendMessage }: StudentCardProps) => {
+  let [progress,setProgress] = useState(0)
+  useEffect(() => {
+    let totalLessons = student.WatchedLesson?.map((watched: WatchedLesson) => watched?.lesson?.course?.lessons?.length).reduce((a: number|undefined, b: number|undefined) => (a || 0) + (b || 0), 0) ?? 0
+    let watchedLessons = student.WatchedLesson?.length ?? 0
+    setProgress(watchedLessons ? (watchedLessons / totalLessons) * 100 : 0)
+  }, [student])
+  return (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -216,23 +231,25 @@ const StudentListItem = ({ student, onViewProfile, onSendMessage }: StudentCardP
               <h3 className="text-lg font-semibold text-gray-900">
                 {student.firstName} {student.lastName}
               </h3>
-              <Badge variant="outline" size="sm">
-                {student.level}
-              </Badge>
+              
             </div>
             <p className="text-gray-600 text-sm mb-2">{student.email}</p>
             <div className="flex items-center gap-6 gap-reverse text-sm text-gray-500">
               <span className="flex items-center gap-1 gap-reverse">
                 <BookOpen className="h-4 w-4" />
-                <span>{student.enrolledCourses} كورس</span>
+                <span>{student.enrollments?.length} كورس</span>
               </span>
               <span className="flex items-center gap-1 gap-reverse">
                 <Award className="h-4 w-4" />
-                <span>{student.averageScore}% متوسط</span>
+                <span>{student.enrollments?.filter((enrollment: Enrollment) => enrollment.status === "COMPLETED" as EnrollmentStatus).length} كورس مكتمل</span>
               </span>
               <span className="flex items-center gap-1 gap-reverse">
                 <Clock className="h-4 w-4" />
-                <span>{student.lastActivity}</span>
+                <span>{new Date(student.WatchedLesson?.[0]?.createdAt ?? "").toLocaleDateString("ar-EG",{
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}</span>
               </span>
             </div>
           </div>
@@ -241,9 +258,9 @@ const StudentListItem = ({ student, onViewProfile, onSendMessage }: StudentCardP
         <div className="flex items-center gap-4 gap-reverse">
           <div className="text-right">
             <div className="text-sm font-medium text-gray-900">
-              {student.overallProgress}% مكتمل
+              {progress}% مكتمل
             </div>
-            <Progress value={student.overallProgress} className="w-24 h-2 mt-1" />
+            <Progress value={progress} className="w-24 h-2 mt-1" />
           </div>
           
           <div className="flex items-center gap-2 gap-reverse">
@@ -267,7 +284,7 @@ const StudentListItem = ({ student, onViewProfile, onSendMessage }: StudentCardP
       </div>
     </Card>
   </motion.div>
-)
+)}
 
 export default function StudentsPage() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -278,17 +295,16 @@ export default function StudentsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   let {data:students,isLoading,error,refetch} = useQuery({
     queryKey: ['students'],
-    queryFn: () => instructorApi.getAllForStudents(user?.id),
+    queryFn: () => instructorApi.getAllForStudents(user?.id ?? ""),
   })
 
-  const filteredStudents = students?.filter(student => {
+  const filteredStudents = students?.data?.filter((student:User) => {
     const matchesSearch = `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          student.email.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesCourse = selectedCourse === 'all' // Add course filtering logic
-    const matchesLevel = selectedLevel === 'all' || student.level === selectedLevel
-    const matchesStatus = selectedStatus === 'all' || student.status === selectedStatus
+    const matchesStatus = selectedStatus === 'all' || (student.isOnline === true && selectedStatus === 'active') || (student.isOnline === false && selectedStatus === 'inactive')
     
-    return matchesSearch && matchesCourse && matchesLevel && matchesStatus
+    return matchesSearch && matchesCourse  && matchesStatus
   })
 
   const handleViewProfile = (student: any) => {
@@ -306,10 +322,10 @@ export default function StudentsPage() {
     { level: 'متقدم', count: 8, avgScore: 89 },
   ]
 
-  const activeStudents = filteredStudents.filter(s => s.status === 'active').length
-  const totalStudents = filteredStudents.length
-  const averageProgress = Math.round(filteredStudents.reduce((sum, s) => sum + s.overallProgress, 0) / totalStudents)
-  const averageScore = Math.round(filteredStudents.reduce((sum, s) => sum + s.averageScore, 0) / totalStudents)
+  const activeStudents = filteredStudents?.filter((s:any) => s.status === 'active').length
+  const totalStudents = filteredStudents?.length
+  const averageProgress = Math.round(filteredStudents?.reduce((sum:any, s:any) => sum + s.overallProgress, 0) / (totalStudents ?? 0))
+  const averageScore = Math.round(filteredStudents?.reduce((sum:any, s:any) => sum + s.averageScore, 0) / (totalStudents ?? 0))
 
   const tabItems = [
     {
@@ -334,16 +350,6 @@ export default function StudentsPage() {
               </div>
 
               <div className="flex items-center gap-4 gap-reverse">
-                <select
-                  value={selectedLevel}
-                  onChange={(e) => setSelectedLevel(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-main focus:border-transparent"
-                >
-                  <option value="all">جميع المستويات</option>
-                  <option value="مبتدئ">مبتدئ</option>
-                  <option value="متوسط">متوسط</option>
-                  <option value="متقدم">متقدم</option>
-                </select>
 
                 <select
                   value={selectedStatus}
@@ -384,7 +390,7 @@ export default function StudentsPage() {
           {/* Students Grid/List */}
           {viewMode === 'grid' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredStudents.map((student) => (
+              {filteredStudents?.map((student:any) => (
                 <StudentCard
                   key={student.id}
                   student={student}
@@ -395,7 +401,7 @@ export default function StudentsPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {filteredStudents.map((student) => (
+              {filteredStudents?.map((student:any) => (
                 <StudentListItem
                   key={student.id}
                   student={student}
@@ -406,7 +412,7 @@ export default function StudentsPage() {
             </div>
           )}
 
-          {filteredStudents.length === 0 && (
+          {filteredStudents?.length === 0 && (
             <Card className="p-12 text-center">
               <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -500,9 +506,9 @@ export default function StudentsPage() {
             </h3>
             <div className="space-y-4">
               {filteredStudents
-                .sort((a, b) => b.averageScore - a.averageScore)
-                .slice(0, 5)
-                .map((student, index) => (
+                ?.sort((a:any, b:any) => b.averageScore - a.averageScore)
+                ?.slice(0, 5)
+                ?.map((student:any, index:number) => (
                   <div key={student.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div className="flex items-center gap-3 gap-reverse">
                       <div className="text-lg font-bold text-primary-main">

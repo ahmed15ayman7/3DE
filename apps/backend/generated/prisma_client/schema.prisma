@@ -303,12 +303,13 @@ model Lesson {
 }
 
 model WatchedLesson {
-  id       String @id @default(cuid())
-  progress Float  @default(0)
-  lessonId String
-  lesson   Lesson @relation(fields: [lessonId], references: [id])
-  userId   String
-  user     User   @relation(fields: [userId], references: [id])
+  id        String   @id @default(cuid())
+  progress  Float    @default(0)
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model File {

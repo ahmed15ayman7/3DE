@@ -267,7 +267,8 @@ exports.Prisma.WatchedLessonScalarFieldEnum = {
   id: 'id',
   progress: 'progress',
   lessonId: 'lessonId',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.FileScalarFieldEnum = {

@@ -840,7 +840,7 @@ export const instructorApi = {
     update: (id: string, data: Partial<Instructor>) => api.patch(`/instructors/${id}`, data),
     getCourses: (id: string): Promise<{ success: boolean, data: (Course & { instructor: Instructor, quizzes: Quiz[], lessons: Lesson[], enrollments:( Enrollment &{user: User})[] })[] }> => api.get(`/instructors/${id}/courses`),
     delete: (id: string) => api.delete(`/instructors/${id}`),
-    getAllForStudents: (): Promise<{ success: boolean, data: (Instructor & { user: User, courses: Course[] })[] }> => api.get('/instructors/for-students'),
+    getAllForStudents: (id: string): Promise<{ success: boolean, data: User[] }> => api.get(`/instructors/for-students/${id}`),
 };
 
 // Contact APIs
