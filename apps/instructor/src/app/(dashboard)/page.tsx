@@ -34,23 +34,7 @@ import {
 import { Card, Button, Badge, Avatar, Skeleton, toast } from '@3de/ui'
 import { instructorApi, courseApi, userApi } from '@3de/apis'
 import { useRouter } from 'next/navigation'
-
-// Mock data for charts
-const weeklyData = [
-  { name: 'السبت', students: 24, quizzes: 3 },
-  { name: 'الأحد', students: 28, quizzes: 2 },
-  { name: 'الاثنين', students: 32, quizzes: 4 },
-  { name: 'الثلاثاء', students: 18, quizzes: 1 },
-  { name: 'الأربعاء', students: 42, quizzes: 5 },
-  { name: 'الخميس', students: 35, quizzes: 3 },
-  { name: 'الجمعة', students: 15, quizzes: 1 },
-]
-
-const courseCompletionData = [
-  { name: 'مكتمل', value: 65, color: '#10B981' },
-  { name: 'قيد التقدم', value: 25, color: '#3B82F6' },
-  { name: 'لم يبدأ', value: 10, color: '#F59E0B' },
-]
+import { useAuth } from '@3de/auth'
 
 const StatCard = ({ title, value, icon: Icon, trend, trendValue, color }: any) => (
   <motion.div
@@ -141,39 +125,85 @@ const RecentActivity = ({ activities,router }: { activities: any[],router:any })
 export default function DashboardPage() {
   const [timeRange, setTimeRange] = useState('week')
   const router = useRouter()
-  // Mock data for recent activities
-  const recentActivities = [
-    {
-      id: 1,
-      title: 'طالب جديد انضم لكورس React',
-      time: 'منذ 5 دقائق',
-      icon: Users,
-      color: 'bg-green-500',
-      badge: 'جديد',
-    },
-    {
-      id: 2,
-      title: 'تم إنجاز اختبار JavaScript',
-      time: 'منذ 15 دقيقة',
-      icon: ClipboardList,
-      color: 'bg-blue-500',
-    },
-    {
-      id: 3,
-      title: 'رسالة جديدة من طالب',
-      time: 'منذ 30 دقيقة',
-      icon: MessageSquare,
-      color: 'bg-purple-500',
-      badge: '3',
-    },
-    {
-      id: 4,
-      title: 'تم إضافة درس جديد',
-      time: 'منذ ساعة واحدة',
-      icon: BookOpen,
-      color: 'bg-orange-500',
-    },
-  ]
+  const { user } = useAuth()
+
+  // جلب بيانات dashboard من API
+  const { data: dashboardData, isLoading, error } = useQuery({
+    queryKey: ['instructor-dashboard', user?.id],
+    queryFn: () => instructorApi.getDashboardData(user?.id as string),
+    enabled: !!user?.id,
+  })
+
+  // استخدام البيانات من API أو القيم الافتراضية
+  const statistics = dashboardData?.data?.statistics || {
+    totalCourses: 0,
+    totalStudents: 0,
+    activeQuizzes: 0,
+    averageProgress: 0,
+  }
+
+  const performanceMetrics = dashboardData?.data?.performanceMetrics || {
+    assignmentCompletionRate: 0,
+    attendanceRate: 0,
+    successRate: 0,
+    lessonWatchRate: 0,
+  }
+
+  const weeklyData = dashboardData?.data?.weeklyData || []
+  const recentNotifications = dashboardData?.data?.recentNotifications || []
+  const courseCompletionData = dashboardData?.data?.courseCompletionData || []
+
+  // تحويل الإشعارات إلى تنسيق الأنشطة
+  const recentActivities = recentNotifications.map((notification, index) => ({
+    id: notification.id,
+    title: notification.title || notification.message,
+    time: new Date(notification.createdAt).toLocaleDateString('ar', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    }),
+    icon: notification.type === 'ACHIEVEMENT' ? Award : 
+          notification.type === 'ASSIGNMENT' ? ClipboardList :
+          notification.type === 'MESSAGE' ? MessageSquare : Bell,
+    color: notification.read ? 'bg-gray-500' : 'bg-primary-main',
+    badge: notification.read ? undefined : 'جديد',
+  }))
+
+  // إنشاء بيانات إنجاز الكورسات للرسم البياني
+  const pieChartData = (() => {
+    if (!courseCompletionData.length) {
+      return [
+        { name: 'مكتمل', value: 0, color: '#10B981' },
+        { name: 'قيد التقدم', value: 0, color: '#3B82F6' },
+        { name: 'لم يبدأ', value: 0, color: '#F59E0B' },
+      ]
+    }
+
+    const totals = courseCompletionData.reduce(
+      (acc: any, course: any) => ({
+        completed: acc.completed + course.completed,
+        inProgress: acc.inProgress + course.inProgress,
+        notStarted: acc.notStarted + course.notStarted,
+      }),
+      { completed: 0, inProgress: 0, notStarted: 0 }
+    )
+
+    const total = totals.completed + totals.inProgress + totals.notStarted
+    
+    if (total === 0) {
+      return [
+        { name: 'مكتمل', value: 0, color: '#10B981' },
+        { name: 'قيد التقدم', value: 0, color: '#3B82F6' },
+        { name: 'لم يبدأ', value: 0, color: '#F59E0B' },
+      ]
+    }
+
+    return [
+      { name: 'مكتمل', value: Math.round((totals.completed / total) * 100), color: '#10B981' },
+      { name: 'قيد التقدم', value: Math.round((totals.inProgress / total) * 100), color: '#3B82F6' },
+      { name: 'لم يبدأ', value: Math.round((totals.notStarted / total) * 100), color: '#F59E0B' },
+    ]
+  })()
 
   const quickActions = [
     {
@@ -243,38 +273,50 @@ export default function DashboardPage() {
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="إجمالي الكورسات"
-          value="12"
-          icon={BookOpen}
-          trend="up"
-          trendValue="+2 هذا الشهر"
-          color="bg-primary-main"
-        />
-        <StatCard
-          title="إجمالي الطلاب"
-          value="248"
-          icon={Users}
-          trend="up"
-          trendValue="+15 هذا الأسبوع"
-          color="bg-secondary-main"
-        />
-        <StatCard
-          title="الاختبارات النشطة"
-          value="8"
-          icon={ClipboardList}
-          trend="up"
-          trendValue="+3 اختبارات جديدة"
-          color="bg-accent-main"
-        />
-        <StatCard
-          title="معدل الإنجاز"
-          value="85%"
-          icon={Award}
-          trend="up"
-          trendValue="+5% هذا الشهر"
-          color="bg-warning-main"
-        />
+        {isLoading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <Card key={index} className="p-6">
+              <Skeleton className="h-4 w-24 mb-2" />
+              <Skeleton className="h-8 w-16 mb-2" />
+              <Skeleton className="h-4 w-20" />
+            </Card>
+          ))
+        ) : (
+          <>
+            <StatCard
+              title="إجمالي الكورسات"
+              value={statistics.totalCourses.toString()}
+              icon={BookOpen}
+              trend="up"
+              trendValue={`${statistics.totalCourses} كورسات`}
+              color="bg-primary-main"
+            />
+            <StatCard
+              title="إجمالي الطلاب"
+              value={statistics.totalStudents.toString()}
+              icon={Users}
+              trend="up"
+              trendValue={`${statistics.totalStudents} طالب`}
+              color="bg-secondary-main"
+            />
+            <StatCard
+              title="الاختبارات النشطة"
+              value={statistics.activeQuizzes.toString()}
+              icon={ClipboardList}
+              trend="up"
+              trendValue={`${statistics.activeQuizzes} اختبار نشط`}
+              color="bg-accent-main"
+            />
+            <StatCard
+              title="معدل الإنجاز"
+              value={`${statistics.averageProgress}%`}
+              icon={Award}
+              trend="up"
+              trendValue={`معدل عام ${statistics.averageProgress}%`}
+              color="bg-warning-main"
+            />
+          </>
+        )}
       </div>
 
       {/* Quick Actions */}
@@ -298,35 +340,43 @@ export default function DashboardPage() {
               <h3 className="text-lg font-semibold text-gray-900">
                 نشاط هذا الأسبوع
               </h3>
-              <div className="flex items-center gap-4 gap-reverse">
-                <div className="flex items-center">
-                  <div className="w-3 h-3 bg-primary-main rounded-full ml-2"></div>
-                  <span className="text-sm text-gray-600">الطلاب</span>
+              {!isLoading && (
+                <div className="flex items-center gap-4 gap-reverse">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-primary-main rounded-full ml-2"></div>
+                    <span className="text-sm text-gray-600">الطلاب</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-secondary-main rounded-full ml-2"></div>
+                    <span className="text-sm text-gray-600">الاختبارات</span>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-3 h-3 bg-secondary-main rounded-full ml-2"></div>
-                  <span className="text-sm text-gray-600">الاختبارات</span>
-                </div>
-              </div>
+              )}
             </div>
             
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={weeklyData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip 
-                  labelStyle={{ color: '#374151' }}
-                  contentStyle={{ 
-                    backgroundColor: 'white',
-                    border: '1px solid #E5E7EB',
-                    borderRadius: '8px'
-                  }}
-                />
-                <Bar dataKey="students" fill="#3B82F6" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="quizzes" fill="#10B981" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            {isLoading ? (
+              <div className="h-[300px] flex items-center justify-center">
+                <Skeleton className="w-full h-full" />
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={weeklyData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip 
+                    labelStyle={{ color: '#374151' }}
+                    contentStyle={{ 
+                      backgroundColor: 'white',
+                      border: '1px solid #E5E7EB',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <Bar dataKey="students" fill="#3B82F6" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="quizzes" fill="#10B981" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
           </Card>
         </div>
 
@@ -342,40 +392,56 @@ export default function DashboardPage() {
             معدل إنجاز الكورسات
           </h3>
           
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={courseCompletionData}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                dataKey="value"
-                label={({ name, value }) => `${name}: ${value}%`}
-              >
-                {courseCompletionData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+          {isLoading ? (
+            <div className="space-y-4">
+              <Skeleton className="w-full h-[250px] rounded-full mx-auto" />
+              <div className="space-y-2">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <Skeleton className="h-4 w-20" />
+                    <Skeleton className="h-4 w-12" />
+                  </div>
                 ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-          
-          <div className="mt-4 space-y-2">
-            {courseCompletionData.map((item, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div 
-                    className="w-3 h-3 rounded-full ml-2"
-                    style={{ backgroundColor: item.color }}
-                  ></div>
-                  <span className="text-sm text-gray-600">{item.name}</span>
-                </div>
-                <span className="text-sm font-medium text-gray-900">
-                  {item.value}%
-                </span>
               </div>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={pieChartData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    dataKey="value"
+                    label={({ name, value }) => `${name}: ${value}%`}
+                  >
+                    {pieChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              
+              <div className="mt-4 space-y-2">
+                {pieChartData.map((item, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div 
+                        className="w-3 h-3 rounded-full ml-2"
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                      <span className="text-sm text-gray-600">{item.name}</span>
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">
+                      {item.value}%
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </Card>
 
         {/* Performance Metrics */}
@@ -384,63 +450,77 @@ export default function DashboardPage() {
             مؤشرات الأداء
           </h3>
           
-          <div className="space-y-6">
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-700">
-                  معدل رضا الطلاب
-                </span>
-                <span className="text-sm font-bold text-primary-main">
-                  4.8/5
-                </span>
+          {isLoading ? (
+            <div className="space-y-6">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index}>
+                  <div className="flex justify-between items-center mb-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-4 w-12" />
+                  </div>
+                  <Skeleton className="w-full h-2 rounded-full" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-6">
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">
+                    معدل مشاهدة الدروس
+                  </span>
+                  <span className="text-sm font-bold text-primary-main">
+                    {performanceMetrics.lessonWatchRate}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="bg-primary-main h-2 rounded-full" style={{ width: `${performanceMetrics.lessonWatchRate}%` }}></div>
+                </div>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-primary-main h-2 rounded-full" style={{ width: '96%' }}></div>
+              
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">
+                    معدل إكمال الواجبات
+                  </span>
+                  <span className="text-sm font-bold text-secondary-main">
+                    {performanceMetrics.assignmentCompletionRate}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="bg-secondary-main h-2 rounded-full" style={{ width: `${performanceMetrics.assignmentCompletionRate}%` }}></div>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">
+                    معدل الحضور
+                  </span>
+                  <span className="text-sm font-bold text-accent-main">
+                    {performanceMetrics.attendanceRate}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="bg-accent-main h-2 rounded-full" style={{ width: `${performanceMetrics.attendanceRate}%` }}></div>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">
+                    معدل النجاح في الاختبارات
+                  </span>
+                  <span className="text-sm font-bold text-warning-main">
+                    {performanceMetrics.successRate}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="bg-warning-main h-2 rounded-full" style={{ width: `${performanceMetrics.successRate}%` }}></div>
+                </div>
               </div>
             </div>
-            
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-700">
-                  معدل إكمال الواجبات
-                </span>
-                <span className="text-sm font-bold text-secondary-main">
-                  92%
-                </span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-secondary-main h-2 rounded-full" style={{ width: '92%' }}></div>
-              </div>
-            </div>
-            
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-700">
-                  معدل الحضور
-                </span>
-                <span className="text-sm font-bold text-accent-main">
-                  88%
-                </span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-accent-main h-2 rounded-full" style={{ width: '88%' }}></div>
-              </div>
-            </div>
-            
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-700">
-                  معدل النجاح في الاختبارات
-                </span>
-                <span className="text-sm font-bold text-warning-main">
-                  85%
-                </span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-warning-main h-2 rounded-full" style={{ width: '85%' }}></div>
-              </div>
-            </div>
-          </div>
+          )}
         </Card>
       </div>
     </div>

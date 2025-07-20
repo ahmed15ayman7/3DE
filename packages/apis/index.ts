@@ -841,6 +841,62 @@ export const instructorApi = {
     getCourses: (id: string): Promise<{ success: boolean, data: (Course & { instructor: Instructor, quizzes: Quiz[], lessons: Lesson[], enrollments:( Enrollment &{user: User})[] })[] }> => api.get(`/instructors/${id}/courses`),
     delete: (id: string) => api.delete(`/instructors/${id}`),
     getAllForStudents: (id: string): Promise<{ success: boolean, data: User[] }> => api.get(`/instructors/for-students/${id}`),
+    getDashboardData: (id: string): Promise<{ 
+        success: boolean, 
+        data: {
+            statistics: {
+                totalCourses: number;
+                totalStudents: number;
+                activeQuizzes: number;
+                averageProgress: number;
+            };
+            performanceMetrics: {
+                assignmentCompletionRate: number;
+                attendanceRate: number;
+                successRate: number;
+                lessonWatchRate: number;
+            };
+            weeklyData: Array<{
+                name: string;
+                students: number;
+                quizzes: number;
+            }>;
+            recentNotifications: Array<{
+                id: string;
+                title: string;
+                message: string;
+                type: string;
+                createdAt: string;
+                read: boolean;
+            }>;
+            courseCompletionData: Array<{
+                courseId: string;
+                title: string;
+                completed: number;
+                inProgress: number;
+                notStarted: number;
+                totalStudents: number;
+            }>;
+            quizStatistics: Array<{
+                id: string;
+                title: string;
+                courseTitle: string;
+                totalSubmissions: number;
+                averageScore: number;
+                passRate: number;
+            }>;
+            courses: Array<{
+                id: string;
+                title: string;
+                description: string;
+                image: string;
+                studentsCount: number;
+                quizzesCount: number;
+                lessonsCount: number;
+                averageProgress: number;
+            }>;
+        }
+    }> => api.get(`/instructors/${id}/dashboard`),
 };
 
 // Contact APIs

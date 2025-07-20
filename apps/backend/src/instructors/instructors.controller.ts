@@ -79,4 +79,13 @@ export class InstructorsController {
     getPublicInstructors(@Query('search') search?: string) {
         return this.instructorsService.getPublicInstructors(search ?? "");
     }
+
+    @Get(':id/dashboard')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    @ApiOperation({ summary: 'الحصول على بيانات dashboard المدرس' })
+    @ApiResponse({ status: 200, description: 'تم جلب بيانات dashboard بنجاح' })
+    getDashboardData(@Param('id') id: string) {
+        return this.instructorsService.getDashboardData(id);
+    }
 } 
