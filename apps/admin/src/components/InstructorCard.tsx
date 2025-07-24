@@ -205,7 +205,7 @@ export default function InstructorCard({ instructor, delay = 0 }: InstructorCard
         {instructor.user?.createdAt && (
           <div className="mb-4 text-xs text-gray-500">
             <Calendar className="w-3 h-3 inline ml-1" />
-            انضم في: {new Date(instructor.user.createdAt).toLocaleDateString('ar-SA')}
+            انضم في: {new Date(instructor.user.createdAt).toLocaleDateString('ar-EG')}
           </div>
         )}
 

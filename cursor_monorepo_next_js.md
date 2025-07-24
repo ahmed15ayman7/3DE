@@ -12445,7 +12445,7 @@ export default function ProfilePage() {
                   <div className="flex-1">
                     <p className="text-sm text-gray-500">تاريخ الانضمام</p>
                     <p className="font-medium">
-                      {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString('ar-SA') : 'غير محدد'}
+                      {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString('ar-EG') : 'غير محدد'}
                     </p>
                   </div>
                 </div>
@@ -12772,7 +12772,7 @@ export default function SettingsPage() {
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-600 mb-2">تاريخ الانضمام</p>
                   <p className="font-medium">
-                    {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('ar-SA') : 'غير محدد'}
+                    {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('ar-EG') : 'غير محدد'}
                   </p>
                 </div>
 
@@ -12973,8 +12973,8 @@ export default function NotificationsPage() {
                           {notification.message}
                         </p>
                         <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
-                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-EG')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-EG')}</span>
                           {notification.type && (
                             <Badge variant="outline" className="text-xs">
                               {notification.type}
@@ -16520,8 +16520,8 @@ export default function NotificationsPage() {
                           {notification.message}
                         </p>
                         <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
-                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-EG')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-EG')}</span>
                           {notification.type && (
                             <Badge variant="outline" className="text-xs">
                               {notification.type}
@@ -17375,8 +17375,8 @@ export default function NotificationsPage() {
                           {notification.message}
                         </p>
                         <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
-                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-EG')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-EG')}</span>
                           {notification.type && (
                             <Badge variant="outline" className="text-xs">
                               {notification.type}
@@ -17484,10 +17484,10 @@ export default function CourseCard({ course, isEnrolled = false }: CourseCardPro
   const formatDate = (date: any) => {
     if (!date) return 'غير محدد';
     if (typeof date === 'string') {
-      return new Date(date).toLocaleDateString('ar-SA');
+      return new Date(date).toLocaleDateString('ar-EG');
     }
     if (date instanceof Date) {
-      return date.toLocaleDateString('ar-SA');
+      return date.toLocaleDateString('ar-EG');
     }
     return 'غير محدد';
   };
@@ -17641,10 +17641,10 @@ export default function ProfilePage() {
   const formatDate = (date: any) => {
     if (!date) return 'غير محدد';
     if (typeof date === 'string') {
-      return new Date(date).toLocaleDateString('ar-SA');
+      return new Date(date).toLocaleDateString('ar-EG');
     }
     if (date instanceof Date) {
-      return date.toLocaleDateString('ar-SA');
+      return date.toLocaleDateString('ar-EG');
     }
     return 'غير محدد';
   };
@@ -19117,8 +19117,8 @@ export default function NotificationsPage() {
                           {notification.message}
                         </p>
                         <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-SA')}</span>
-                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-SA')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleDateString('ar-EG')}</span>
+                          <span>{new Date(notification.createdAt).toLocaleTimeString('ar-EG')}</span>
                           {notification.type && (
                             <Badge variant="outline" className="text-xs">
                               {notification.type}
@@ -19940,7 +19940,7 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
             ‹
           </button>
           <span className="text-lg font-semibold">
-            {currentDate.toLocaleDateString('ar-SA', { year: 'numeric', month: 'long' })}
+            {currentDate.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long' })}
           </span>
           <button
             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
@@ -20046,14 +20046,14 @@ export const CalendarExams: React.FC<CalendarExamsProps> = ({ quizzes }) => {
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ البدء: {selectedExam.startDate.toLocaleDateString('ar-SA')}
+                  تاريخ البدء: {selectedExam.startDate.toLocaleDateString('ar-EG')}
                 </span>
               </div>
 
               <div className="flex items-center gap-2 gap-reverse">
                 <Calendar className="w-4 h-4 text-gray-500" />
                 <span className="text-gray-700">
-                  تاريخ النهاية: {selectedExam.endDate.toLocaleDateString('ar-SA')}
+                  تاريخ النهاية: {selectedExam.endDate.toLocaleDateString('ar-EG')}
                 </span>
               </div>
             </div>
@@ -20175,7 +20175,7 @@ export const ExamCard: React.FC<ExamCardProps> = ({ quiz, onStartExam }) => {
 
           <div className="flex items-center gap-2 gap-reverse text-sm text-gray-600">
             <Calendar className="w-4 h-4" />
-            <span>تاريخ الإنشاء: {new Date(quiz.createdAt).toLocaleDateString('ar-SA')}</span>
+            <span>تاريخ الإنشاء: {new Date(quiz.createdAt).toLocaleDateString('ar-EG')}</span>
           </div>
         </div>
 
@@ -20432,7 +20432,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                 {post.author.firstName} {post.author.lastName}
               </h3>
               <p className="text-sm text-gray-500">
-                {new Date(post.createdAt).toLocaleDateString('ar-SA', {
+                {new Date(post.createdAt).toLocaleDateString('ar-EG', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
@@ -20598,7 +20598,7 @@ export const Comment: React.FC<CommentProps> = ({
               {comment.author.firstName} {comment.author.lastName}
             </h4>
             <span className="text-xs text-gray-500">
-              {new Date(comment.createdAt).toLocaleDateString('ar-SA', {
+              {new Date(comment.createdAt).toLocaleDateString('ar-EG', {
                 month: 'short',
                 day: 'numeric',
                 hour: '2-digit',
@@ -20719,7 +20719,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
           <div className="flex items-center gap-2 gap-reverse">
             <Calendar className="w-4 h-4" />
             <span>
-              تم الإنشاء في {new Date(community.createdAt).toLocaleDateString('ar-SA', {
+              تم الإنشاء في {new Date(community.createdAt).toLocaleDateString('ar-EG', {
                 year: 'numeric',
                 month: 'long'
               })}
@@ -21141,7 +21141,7 @@ export default function ExamsPage() {
                               <span>تاريخ الإكمال:</span>
                               <span>
                                 {submission?.createdAt 
-                                  ? new Date(submission.createdAt).toLocaleDateString('ar-SA')
+                                  ? new Date(submission.createdAt).toLocaleDateString('ar-EG')
                                   : 'غير محدد'
                                 }
                               </span>
@@ -21454,7 +21454,7 @@ export default function ExamsPage() {
                               <span>تاريخ الإكمال:</span>
                               <span>
                                 {submission?.createdAt 
-                                  ? new Date(submission.createdAt).toLocaleDateString('ar-SA')
+                                  ? new Date(submission.createdAt).toLocaleDateString('ar-EG')
                                   : 'غير محدد'
                                 }
                               </span>
@@ -22131,7 +22131,7 @@ export default function CommunityPage() {
                     <Calendar className="w-5 h-5" />
                     <span>
                       تم الإنشاء في {community?.createdAt 
-                        ? new Date(community.createdAt).toLocaleDateString('ar-SA', {
+                        ? new Date(community.createdAt).toLocaleDateString('ar-EG', {
                             year: 'numeric',
                             month: 'long'
                           })
@@ -22813,7 +22813,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           <div className="flex items-center justify-between py-2 border-b border-gray-100">
             <span className="text-gray-600">تاريخ الإصدار:</span>
             <span className="font-medium">
-              {new Date(certificate.earnedAt).toLocaleDateString('ar-SA', {
+              {new Date(certificate.earnedAt).toLocaleDateString('ar-EG', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -24373,13 +24373,13 @@ export default function PathDetailPage() {
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">تاريخ الإنشاء:</span>
                   <span className="font-medium">
-                    {new Date(path.createdAt).toLocaleDateString('ar-SA')}
+                    {new Date(path.createdAt).toLocaleDateString('ar-EG')}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">آخر تحديث:</span>
                   <span className="font-medium">
-                    {new Date(path.updatedAt).toLocaleDateString('ar-SA')}
+                    {new Date(path.updatedAt).toLocaleDateString('ar-EG')}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

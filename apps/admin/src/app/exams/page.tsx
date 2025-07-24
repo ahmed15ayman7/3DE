@@ -418,14 +418,14 @@ export default function ExamsPage() {
                     {quiz.startDate && (
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
-                        بداية: {new Date(quiz.startDate).toLocaleDateString('ar-SA')}
+                        بداية: {new Date(quiz.startDate).toLocaleDateString('ar-EG')}
                       </div>
                     )}
                     
                     {quiz.endDate && (
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
-                        نهاية: {new Date(quiz.endDate).toLocaleDateString('ar-SA')}
+                        نهاية: {new Date(quiz.endDate).toLocaleDateString('ar-EG')}
                       </div>
                     )}
                   </div>
@@ -539,10 +539,10 @@ export default function ExamsPage() {
                 <h4 className="font-medium text-gray-900 mb-2">المواعيد</h4>
                 <div className="space-y-1 text-sm text-gray-600">
                   {selectedQuiz.startDate && (
-                    <p>البداية: {new Date(selectedQuiz.startDate).toLocaleString('ar-SA')}</p>
+                    <p>البداية: {new Date(selectedQuiz.startDate).toLocaleString('ar-EG')}</p>
                   )}
                   {selectedQuiz.endDate && (
-                    <p>النهاية: {new Date(selectedQuiz.endDate).toLocaleString('ar-SA')}</p>
+                    <p>النهاية: {new Date(selectedQuiz.endDate).toLocaleString('ar-EG')}</p>
                   )}
                 </div>
               </div>

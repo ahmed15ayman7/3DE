@@ -369,7 +369,7 @@ export default function CertificatesPage() {
                 {/* Date */}
                 <div className="mb-4 flex items-center gap-1 text-xs text-gray-500">
                   <Calendar className="w-3 h-3" />
-                  تاريخ الإنجاز: {new Date(certificate.earnedAt).toLocaleDateString('ar-SA')}
+                  تاريخ الإنجاز: {new Date(certificate.earnedAt).toLocaleDateString('ar-EG')}
                 </div>
 
                 {/* Actions */}

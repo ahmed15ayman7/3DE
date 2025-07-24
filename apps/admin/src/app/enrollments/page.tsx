@@ -165,8 +165,8 @@ export default function EnrollmentsPage() {
       enrollment.course?.title || '',
       getStatusText(enrollment.status),
       `${Math.round(enrollment.progress || 0)}%`,
-      new Date(enrollment.createdAt).toLocaleDateString('ar-SA'),
-      new Date(enrollment.updatedAt).toLocaleDateString('ar-SA')
+      new Date(enrollment.createdAt).toLocaleDateString('ar-EG'),
+      new Date(enrollment.updatedAt).toLocaleDateString('ar-EG')
     ]);
 
     const csvContent = [headers, ...csvData]
@@ -417,7 +417,7 @@ export default function EnrollmentsPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4 text-gray-400" />
-                      {new Date(enrollment.createdAt).toLocaleDateString('ar-SA')}
+                      {new Date(enrollment.createdAt).toLocaleDateString('ar-EG')}
                     </div>
                   </td>
                   

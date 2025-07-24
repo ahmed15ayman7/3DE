@@ -159,7 +159,7 @@ export default function AbsencesPage() {
       '', // We'll need to get course from lesson
       getStatusText(record.status),
       record.method || '',
-      new Date(record.createdAt).toLocaleDateString('ar-SA')
+      new Date(record.createdAt).toLocaleDateString('ar-EG')
     ]);
 
     const csvContent = [headers, ...csvData]
@@ -419,10 +419,10 @@ export default function AbsencesPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4 text-gray-400" />
-                      {new Date(record.createdAt).toLocaleDateString('ar-SA')}
+                      {new Date(record.createdAt).toLocaleDateString('ar-EG')}
                       <br />
                       <Clock className="w-4 h-4 text-gray-400" />
-                      {new Date(record.createdAt).toLocaleTimeString('ar-SA')}
+                      {new Date(record.createdAt).toLocaleTimeString('ar-EG')}
                     </div>
                   </td>
                   

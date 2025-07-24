@@ -161,7 +161,7 @@ export default function CourseCard({ course, delay = 0 }: CourseCardProps) {
             <div className="flex items-center gap-2 text-blue-800">
               <Calendar className="w-4 h-4" />
               <span className="text-sm font-medium">
-                تاريخ البدء: {new Date(course.startDate).toLocaleDateString('ar-SA')}
+                تاريخ البدء: {new Date(course.startDate).toLocaleDateString('ar-EG')}
               </span>
             </div>
           </div>

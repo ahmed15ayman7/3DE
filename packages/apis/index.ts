@@ -371,6 +371,7 @@ export const courseApi = {
     getByStudentId: (studentId: string): Promise<{ success: boolean, data: (Course & { instructors: (Instructor & { user: User })[] ,lessons: (Lesson & { files: FileModel[], quizzes: Quiz[] })[] })[] }> => api.get(`/courses/by-student/${studentId}`),
     getByInstructorId: (instructorId: string) => api.get(`/courses/by-instructor/${instructorId}`),
     getByAcademyId: (academyId: string) => api.get(`/courses/by-academy/${academyId}`),
+    updateEnrollment: (courseId: string, enrollmentId: string, data: Partial<Enrollment>) => api.patch(`/courses/${courseId}/enrollments/${enrollmentId}`, data),
 };
 
 // Lesson APIs

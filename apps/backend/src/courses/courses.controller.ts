@@ -5,6 +5,7 @@ import { UpdateCourseDto } from '../../dtos/Course.update.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { Course, Enrollment, Instructor, Lesson, Quiz, User } from '@shared/prisma';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UpdateEnrollmentDto } from 'dtos/Enrollment.update.dto';
 @ApiTags('الكورسات')
 @Controller('courses')
 export class CoursesController {
@@ -120,5 +121,11 @@ export class CoursesController {
     @Get('public')
     async getCoursesPublic(@Query('search') search?: string): Promise<Course[]> {
         return this.coursesService.getCoursesPublic(search ?? "");
+    }
+    @Put(':id/enrollment/:enrollmentId')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    async updateEnrollment(@Param('id') id: string, @Param('enrollmentId') enrollmentId: string, @Body() body: UpdateEnrollmentDto): Promise<Enrollment> {
+        return this.coursesService.updateEnrollment(id, enrollmentId, body);
     }
 } 

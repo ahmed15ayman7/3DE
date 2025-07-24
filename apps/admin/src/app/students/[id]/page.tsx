@@ -373,7 +373,7 @@ export default function StudentDetailPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">تاريخ التسجيل</label>
                 <div className="flex items-center gap-2 text-gray-900 bg-gray-50 p-3 rounded-lg">
                   <Calendar className="w-4 h-4 text-gray-500" />
-                  {new Date(student.createdAt).toLocaleDateString('ar-SA')}
+                  {new Date(student.createdAt).toLocaleDateString('ar-EG')}
                 </div>
               </div>
               

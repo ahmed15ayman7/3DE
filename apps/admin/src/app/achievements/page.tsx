@@ -414,7 +414,7 @@ export default function AchievementsPage() {
                     activeTab === 'achievements' 
                       ? (item as Achievement).createdAt 
                       : (item as Badge).earnedAt
-                  ).toLocaleDateString('ar-SA')}
+                  ).toLocaleDateString('ar-EG')}
                 </div>
 
                 {/* Actions */}
@@ -512,7 +512,7 @@ export default function AchievementsPage() {
                   activeTab === 'achievements' 
                     ? (selectedItem as Achievement).createdAt 
                     : (selectedItem as Badge).earnedAt
-                ).toLocaleDateString('ar-SA')}
+                ).toLocaleDateString('ar-EG')}
               </p>
             </div>
           </div>

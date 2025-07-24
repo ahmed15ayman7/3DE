@@ -23,7 +23,7 @@ function ResetPasswordContent() {
           window.location.href = '/instructor';
           break;
         case 'ADMIN':
-          window.location.href = '/admin';
+          window.location.href = '/';
           break;
         case 'ACADEMY':
           window.location.href = '/academy';

@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateCourseDto } from 'dtos/Course.create.dto';
 import { UpdateCourseDto } from 'dtos/Course.update.dto';
 import { Course, UserRole } from '@shared/prisma';
+import { UpdateEnrollmentDto } from 'dtos/Enrollment.update.dto';
 
 @Injectable()
 export class CoursesService {
@@ -374,4 +375,21 @@ export class CoursesService {
             take: 6,
         });
     }
+    async updateEnrollment(courseId: string, enrollmentId: string, data:UpdateEnrollmentDto) {
+       let course= await this.prisma.course.findUnique(
+        {
+            where:{
+                id:courseId
+            }
+        }
+       ) ;
+       if(!course){
+        throw new  NotFoundException("Course not found")
+       }
+        return this.prisma.enrollment.update({
+            where: { id: enrollmentId },
+            data:data,
+        });
+    }
+
 } 

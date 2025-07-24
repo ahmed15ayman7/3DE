@@ -61,6 +61,8 @@ export default function CourseDetailPage() {
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null);
   const [fileId, setFileId] = useState<string | null>(null);
   const [showStudentsModal, setShowStudentsModal] = useState(false);
+  const [showCancelEnrollmentsModal, setShowCancelEnrollmentsModal] = useState(false);
+  const [showNewEnrollmentsModal, setShowNewEnrollmentsModal] = useState(false);
   const [showLessonContentModal, setShowLessonContentModal] = useState(false);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [currentLessonData, setCurrentLessonData] = useState<Lesson | null>(
@@ -95,7 +97,9 @@ export default function CourseDetailPage() {
   });
 
   const course = courseData?.data;
-  const students = studentsData?.data || [];
+  const students = course?.enrollments.filter((enrollment:Enrollment)=>enrollment.status==="ACTIVE") || [];
+  const enrollments = courseData?.data?.enrollments.filter((enrollment:Enrollment)=>enrollment.status==="PENDING") || [];
+  const cancelEnrollments = courseData?.data?.enrollments.filter((enrollment:Enrollment)=>enrollment.status==="CANCELLED") || [];
 
   // Update course mutation
   const updateCourseMutation = useMutation({
@@ -229,6 +233,31 @@ export default function CourseDetailPage() {
 
   const handleFileSelect = (file: File) => {
     setCurrentFile(file);
+  };
+  const handleAcceptEnrollment = async (enrollmentId: string) => {
+    let toastId = toast.loading('جاري قبول الاشتراك...');
+    try {
+      await courseApi.updateEnrollment(courseId, enrollmentId, {status: "ACTIVE"});
+      toast.dismiss(toastId);
+      toast.success('تم قبول الاشتراك بنجاح');
+      refetchCourse();
+    } catch (error) {
+      toast.dismiss(toastId);
+      toast.error('حدث خطأ ما');
+    }
+  };
+  const handleRejectEnrollment = async (enrollmentId: string) => {
+    console.log(enrollmentId);
+    let toastId = toast.loading('جاري رفض الاشتراك...');
+    try {
+      await courseApi.updateEnrollment(courseId, enrollmentId, {status: "CANCELLED"});
+      toast.dismiss(toastId);
+      toast.success('تم رفض الاشتراك بنجاح');
+      refetchCourse();
+    } catch (error) {
+      toast.dismiss(toastId);
+      toast.error('حدث خطأ ما');
+    }
   };
 
   const handleFileProgress = (progress: number, duration: number) => {
@@ -623,7 +652,7 @@ export default function CourseDetailPage() {
                         <span className="text-sm text-gray-600">
                           البدء:{' '}
                           {new Date(course.startDate).toLocaleDateString(
-                            'ar-SA'
+                            'ar-EG'
                           )}
                         </span>
                       </div>
@@ -686,10 +715,24 @@ export default function CourseDetailPage() {
               <div className="space-y-2">
                 <Button
                   onClick={() => setShowStudentsModal(true)}
-                  className="w-full bg-primary-main hover:bg-blue-700 text-white"
+                  className="w-full bg-primary-main hover:bg-primary-dark text-white"
                 >
                   <Users className="w-4 h-4 ml-2" />
                   عرض الطلاب ({students.length})
+                </Button>
+                <Button
+                  onClick={() => setShowNewEnrollmentsModal(true)}
+                  className="w-full bg-primary-main hover:bg-primary-dark text-white"
+                >
+                  <Users className="w-4 h-4 ml-2" />
+                  عرض الاشتراكات الجديده ({enrollments.length})
+                </Button>
+                <Button
+                  onClick={() => setShowCancelEnrollmentsModal(true)}
+                  className="w-full bg-primary-main hover:bg-primary-dark text-white"
+                >
+                  <Users className="w-4 h-4 ml-2" />
+                  عرض الاشتراكات الملغيه ({cancelEnrollments.length})
                 </Button>
 
                 {/* <Button
@@ -908,12 +951,13 @@ export default function CourseDetailPage() {
         </motion.div>
        
       {/* Students Modal */}
-      <Modal
+      {showStudentsModal && <Modal
         isOpen={showStudentsModal}
         onClose={() => setShowStudentsModal(false)}
         title={`طلاب الكورس (${students.length})`}
+        size="sm"
       >
-        <div className="space-y-4 max-h-96 overflow-y-auto">
+        <div className="space-y-4 max-h-96 overflow-y-auto max-w-2xl mx-auto">
           {studentsLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
@@ -935,7 +979,16 @@ export default function CourseDetailPage() {
               <p className="text-gray-500">لا يوجد طلاب مسجلين في هذا الكورس</p>
             </div>
           ) : (
-            students.map((enrollment) => (
+            students.map((enrollment) => {
+              let userWatchedLessons = 0
+              course.lessons?.forEach((lesson)=>{
+                lesson.WatchedLesson?.forEach((watchedLesson)=>{
+                  if(watchedLesson.userId === enrollment.userId){
+                    userWatchedLessons += 1
+                  }
+                })
+              })
+              return (
               <div
                 key={enrollment.id}
                 className="p-3 border border-gray-200 rounded-lg"
@@ -944,44 +997,168 @@ export default function CourseDetailPage() {
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-primary-main rounded-full flex items-center justify-center">
                     <span className="text-white font-medium">
-                      {enrollment.user.firstName?.[0] || 'T'}
+                      {enrollment.user?.firstName?.[0] || 'T'}
                     </span>
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">
-                      {enrollment.user.firstName} {enrollment.user.lastName}
+                      {enrollment.user?.firstName} {enrollment.user?.lastName}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {enrollment.user.email}
+                      {enrollment.user?.email}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">
-                    {Math.round(enrollment.progress || 0)}%
+                <div className="flex items-center gap-2">
+                <p className="text-sm font-medium text-gray-900">
+                    {((userWatchedLessons / (course.lessons?.length||1))*100)}%
                   </p>
-                  <p
-                    className={`text-xs ${
-                      enrollment.status === 'ACTIVE'
-                        ? 'text-green-600'
-                        : enrollment.status === 'PENDING'
-                        ? 'text-yellow-600'
-                        : 'text-red-600'
-                    }`}
-                  >
-                    {enrollment.status === 'ACTIVE'
-                      ? 'نشط'
-                      : enrollment.status === 'PENDING'
-                      ? 'في الانتظار'
-                      : 'ملغى'}
-                  </p>
+                  <Button size="sm" variant="outline" className="text-primary-main" onClick={()=>handleRejectEnrollment(enrollment.id)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
                 </div>
               </div></div>
-            ))
+            )})
           )}
         </div>
-      </Modal>
+      </Modal>}
+      {/* Students Modal */}
+      {showCancelEnrollmentsModal && <Modal
+        isOpen={showCancelEnrollmentsModal}
+        onClose={() => setShowCancelEnrollmentsModal(false)}
+        title={`اشتراكات الكورس الملغيه (${cancelEnrollments.length})`}
+        size="sm"
+      >
+        <div className="space-y-4 max-h-96 overflow-y-auto max-w-2xl mx-auto">
+          {studentsLoading ? (
+            <div className="space-y-3">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 p-3 animate-pulse"
+                >
+                  <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                  <div className="flex-1">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-1"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : cancelEnrollments.length === 0 ? (
+            <div className="text-center py-8">
+              <Users className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+              <p className="text-gray-500">لا يوجد طلاب مسجلين في هذا الكورس</p>
+            </div>
+          ) : (
+            cancelEnrollments.map((enrollment) => {
+              return (
+              <div
+                key={enrollment.id}
+                className="p-3 border border-gray-200 rounded-lg"
+              >
+                <div className="flex items-center justify-between ">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary-main rounded-full flex items-center justify-center">
+                    <span className="text-white font-medium">
+                      {enrollment.user?.firstName?.[0] || 'T'}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {enrollment.user?.firstName} {enrollment.user?.lastName}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {enrollment.user?.email}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" className="text-primary-main" onClick={()=>handleAcceptEnrollment(enrollment.id)}>
+                    <Check className="w-4 h-4" />
+                  </Button>
+                </div>
+                </div>
+              </div></div>
+            )})
+          )}
+        </div>
+      </Modal>}
+      {/* new enrollments Modal */}
+      {showNewEnrollmentsModal && <Modal
+        isOpen={showNewEnrollmentsModal}
+        onClose={() => setShowNewEnrollmentsModal(false)}
+        title={`اشتراكات الكورس (${enrollments.length})`}
+        size="sm"
+      >
+        <div className="space-y-4 max-h-96 overflow-y-auto max-w-2xl mx-auto">
+          {courseLoading ? (
+            <div className="space-y-3">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 p-3 animate-pulse"
+                >
+                  <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                  <div className="flex-1">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-1"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : enrollments.length === 0 ? (
+            <div className="text-center py-8">
+              <Users className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+              <p className="text-gray-500">لا يوجد طلاب مسجلين في هذا الكورس</p>
+            </div>
+          ) : (
+            enrollments.map((enrollment) => {
+              return (
+              <div
+                key={enrollment.id}
+                className="p-3 border border-gray-200 rounded-lg"
+              >
+                <div className="flex items-center justify-between ">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary-main rounded-full flex items-center justify-center">
+                    <span className="text-white font-medium">
+                      {enrollment.user?.firstName?.[0] || 'T'}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {enrollment.user?.firstName} {enrollment.user?.lastName}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {enrollment.user?.email}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {enrollment.user?.phone}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                 <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" className="text-primary-main" onClick={()=>handleAcceptEnrollment(enrollment.id)}>
+                    <Check className="w-4 h-4" />
+                  </Button>
+                  <Button size="sm" variant="outline" className="text-red-500 bg-red-500/10 border-red-500" onClick={()=>handleRejectEnrollment(enrollment.id)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                 </div>
+                </div>
+              </div></div>
+            )})
+          )}
+        </div>
+      </Modal>}
 
       {/* Lesson Content Modal */}
       <Modal
@@ -1127,7 +1304,7 @@ export default function CourseDetailPage() {
       />}
       {showBlockLessonModal && <BlockLessonModal
         lesson={currentLessonData as Lesson}
-        students={students.map((student) => student.user)}
+        students={students.map((student) => student.user as User)}
         isOpen={showBlockLessonModal}
         onClose={() => setShowBlockLessonModal(false)}
         refetch={refetchCourse}

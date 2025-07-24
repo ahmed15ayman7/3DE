@@ -38,7 +38,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
             router.push('/instructor');
             break;
           case 'ADMIN':
-            router.push('/admin');
+            router.push('/');
             break;
           case 'ACADEMY':
             router.push('/academy');
