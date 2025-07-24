@@ -11,55 +11,18 @@ import {
   Submission,
   Achievement,
   Notification,
-  Message,
   Post,
   Comment,
   Group,
-  Payment,
   Certificate,
   Event,
   Attendance,
   Badge,
-  Report,
-  Admin,
-  AdminRole,
-  Permission,
-  Academy,
   Path,
   Milestone,
-  Bookmark,
   Community,
   Discussion,
   LiveRoom,
-  AccountingEntry,
-  Invoice,
-  LegalCase,
-  Installment,
-  Expense,
-  Branch,
-  BranchFinance,
-  PublicRelationsRecord,
-  PRResponse,
-  Meeting,
-  MeetingParticipant,
-  AboutSection,
-  NewsEvent,
-  SuccessStory,
-  Testimonial,
-  ContactMessage,
-  FAQ,
-  BlogPost,
-  Partnership,
-  PartnershipAgreement,
-  CSRProject,
-  CrisisCommunication,
-  MediaAlert,
-  SecretariatDashboard,
-  TraineeManagement,
-  TrainingSchedule,
-  QuickActionLink,
-  PaymentLogBySecretary,
-  InternalMessage,
   Profile,
   LoginHistory,
   TwoFactor,
@@ -182,8 +145,7 @@ class AuthService {
       return access_Token;
     } catch (error: any) {
       await this.logout();
-    //   throw new Error('Failed to refresh token' + error);
-    return ''
+      return "";
     }
   }
 
@@ -327,6 +289,7 @@ export const authApi = {
     resetPassword: (token: string, password: string) =>
         api.post('/auth/reset-password', { token, password }),
 };
+
 // Admin Auth APIs
 export const adminAuthApi = {
     login: async (credentials: { email: string; password: string }) => {
@@ -356,7 +319,7 @@ export const adminAuthApi = {
 export const userApi = {
     getAll: (page: number, limit: number, search: string): Promise<{ success: boolean, data: User[] }> => api.get(`/users?page=${page}&limit=${limit}&search=${search}`),
     getById: (id: string): Promise<{ success: boolean, data: User & { loginHistory: LoginHistory[], twoFactor: TwoFactor, createdCourses: Course[], enrollments: Enrollment[], achievements: Achievement[], notifications: Notification[], lessons: Lesson[] } }> => api.get(`/users/${id}`),
-        create: (data: Partial<User>) => api.post('/users', data),
+    create: (data: Partial<User>) => api.post('/users', data),
     update: (id: string, data: Partial<User>) => api.patch(`/users/${id}`, data),
     delete: (id: string) => api.delete(`/users/${id}`),
     getLoginHistory: (id: string): Promise<{ success: boolean, data: LoginHistory[] }> => api.get(`/users/${id}/login-history`),
@@ -399,7 +362,7 @@ export const courseApi = {
     delete: (id: string) => api.delete(`/courses/${id}`),
     enroll: (courseId: string) => api.post(`/courses/${courseId}/enroll`),
     unenroll: (courseId: string) => api.post(`/courses/${courseId}/unenroll`),
-    addInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/add-instructor/${instructorId}` ),
+    addInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/add-instructor/${instructorId}`),
     removeInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/remove-instructor`, { instructorId }),
     getLessons: (courseId: string) => api.get(`/courses/${courseId}/lessons`),
     getQuizzes: (courseId: string) => api.get(`/courses/${courseId}/quizzes`),
@@ -430,8 +393,8 @@ export const lessonApi = {
         api.post(`/lessons/block-list`, { lessonId, userId, isBlocked }),
     updateWatchedLesson: (lessonId: string, userId: string, progress: number) =>
         api.put(`/lessons/watched-lesson/${lessonId}/${userId}`, { progress }),
-    addWatchedLesson: (lessonId: string, userId: string,progress:number) =>
-        api.post(`/lessons/watched-lesson`, { lessonId, userId,progress }),
+    addWatchedLesson: (lessonId: string, userId: string, progress: number) =>
+        api.post(`/lessons/watched-lesson`, { lessonId, userId, progress }),
 };
 
 // Quiz APIs
@@ -439,7 +402,7 @@ export const quizApi = {
     getByLesson: (lessonId: string) => api.get(`/quizzes/lesson/${lessonId}`),
     getById: (id: string) => api.get(`/quizzes/${id}`),
     create: (data: Partial<Quiz>) => api.post('/quizzes', data),
-    update: (id: string, data:Partial<Quiz>) => api.put(`/quizzes/${id}`, data),
+    update: (id: string, data: Partial<Quiz>) => api.put(`/quizzes/${id}`, data),
     delete: (id: string) => api.delete(`/quizzes/${id}`),
     submit: (quizId: string, answers: any) =>
         api.post(`/quizzes/${quizId}/submit`, { answers }),
@@ -573,6 +536,7 @@ export const groupApi = {
         api.post(`/groups/${groupId}/members/${userId}`),
     removeMember: (groupId: string, userId: string) =>
         api.delete(`/groups/${groupId}/members/${userId}`),
+    getPosts: (groupId: string) => api.get(`/groups/${groupId}/posts`),
 };
 
 // Channel APIs
@@ -921,7 +885,7 @@ export const instructorApi = {
 export const contactApi = {
     getAll: (): Promise<{ success: boolean, data: ContactUs[] }> => api.get('/contacts'),
     getById: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.get(`/contacts/${id}`),
-    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://3de.school/contacts', data),
+    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://api.3de.school/contacts', data),
     update: (id: string, data: Partial<ContactUs>): Promise<{ success: boolean, data: ContactUs }> => api.patch(`/contacts/${id}`, data),
     delete: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.delete(`/contacts/${id}`),
 };

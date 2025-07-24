@@ -706,13 +706,12 @@ export default function CourseDetailPage() {
       </motion.div>
 
       {/* Lessons Section */}
-      {course.lessons && course.lessons.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="bg-white rounded-xl shadow-md p-6"
-        >
+          >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-gray-900">دروس الكورس</h3>
             <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={()=>{
@@ -723,6 +722,7 @@ export default function CourseDetailPage() {
               إضافة درس
             </Button>
           </div>
+            {course.lessons && course.lessons.length > 0 ? (
 
           <div className="space-y-4">
             {course.lessons.map((lesson, index) => {
@@ -785,7 +785,7 @@ export default function CourseDetailPage() {
                       <div className="mt-3 ml-11">
                         <div className="flex items-center gap-4 text-sm text-gray-600">
                           <span>
-                            التقدم: {((lesson.WatchedLesson?.length || 0)/students.length)*100}%
+                            التقدم: {((lesson.WatchedLesson?.length || 0) / (students.length || 1))*100}%
                           </span>
                           <span>
                             مكتمل بواسطة: {lesson.WatchedLesson?.length || 0} طالب
@@ -825,7 +825,7 @@ export default function CourseDetailPage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="text-yellow-600"
+                        className="text-primary-main"
                         onClick={() => handleBlockLesson(lesson, true)}
                       >
                         <Lock className="w-4 h-4" />
@@ -833,7 +833,7 @@ export default function CourseDetailPage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="text-yellow-600"
+                        className="text-primary-main"
                         onClick={() => handleEditLesson(lesson)}
                       >
                         <Edit className="w-4 h-4" />
@@ -843,11 +843,16 @@ export default function CourseDetailPage() {
                 </div>
               );
             })}
-          </div>
+          </div>):(
+            <div className="text-center py-8">
+              <FileText className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+              <p className="text-gray-500">لا يوجد دروس في هذا الكورس</p>
+            </div>
+          )}
         </motion.div>
-      )}
+      
        {/* quizzes Section */}
-       {course.quizzes && course.quizzes.length > 0 && (
+      
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -864,6 +869,7 @@ export default function CourseDetailPage() {
               إضافة اختبار
             </Button>
           </div>
+          {course.quizzes && course.quizzes.length > 0 ? (
           <div className="space-y-4">
             {course.quizzes.map((quiz) => (
               <div key={quiz.id} className="p-3 border border-gray-200 rounded-lg">
@@ -893,9 +899,14 @@ export default function CourseDetailPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </div>):(
+            <div className="text-center py-8">
+              <ScrollText className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+              <p className="text-gray-500">لا يوجد اختبارات في هذا الكورس</p>
+            </div>
+          )}
         </motion.div>
-       )}
+       
       {/* Students Modal */}
       <Modal
         isOpen={showStudentsModal}

@@ -82,7 +82,16 @@ export default function Dashboard() {
     queryKey: ['enrollments'],
     queryFn: () => enrollmentApi.getAll(),
   });
-
+  const formatDate = (date: any) => {
+    if (!date) return 'غير محدد';
+    if (typeof date === 'string') {
+      return new Date(date).toLocaleDateString('ar-EG');
+    }
+    if (date instanceof Date) {
+      return date.toLocaleDateString('ar-EG');
+    }
+    return 'غير محدد';
+  };
   // Quick stats data
   const stats = [
     {
@@ -166,7 +175,7 @@ export default function Dashboard() {
           <div className="text-right">
             <p className="text-sm text-gray-500">آخر تحديث</p>
             <p className="text-sm font-medium text-gray-900">
-              {new Date().toLocaleDateString('ar-SA')}
+              {formatDate(new Date())}
             </p>
           </div>
         </div>
@@ -232,22 +241,22 @@ export default function Dashboard() {
           <h2 className="text-xl font-bold text-gray-900 mb-6">إجراءات سريعة</h2>
           
           <div className="space-y-3">
-            <button className="w-full bg-gradient-to-r from-primary-main to-primary-dark text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2" onClick={() => setIsADDCOURSEDialogOpen(true)}>
+            <button className="w-full bg-gradient-to-r from-primary-main to-primary-dark text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2 cursor-pointer" onClick={() => setIsADDCOURSEDialogOpen(true)}>
               <BookOpen className="w-5 h-5" />
               إضافة كورس جديد
             </button>
             
-            <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2" onClick={() => setIsADDINSTRUCTORDialogOpen(true)} >
+            <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2 cursor-pointer" onClick={() => setIsADDINSTRUCTORDialogOpen(true)} >
               <GraduationCap className="w-5 h-5" />
               إضافة محاضر
             </button>
             
-            <button className="w-full bg-gradient-to-r from-blue-500 to-primary-main text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2" onClick={() => router.push('/admin/students')}>
+            <button className="w-full bg-gradient-to-r from-secondary-main to-primary-main text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2 cursor-pointer" onClick={() => router.push('/students')}>
               <Users className="w-5 h-5" />
               إدارة الطلاب
             </button>
             
-            <button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2">
+            <button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2 cursor-pointer">
               <BarChart3 className="w-5 h-5" />
               عرض التقارير
             </button>

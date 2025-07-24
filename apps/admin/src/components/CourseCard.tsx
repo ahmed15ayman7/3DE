@@ -189,12 +189,12 @@ export default function CourseCard({ course, delay = 0 }: CourseCardProps) {
             عرض التفاصيل
           </Link>
           
-          <Link 
+          {/* <Link 
             href={`/courses/${course.id}/edit`}
             className="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
           >
             <Edit className="w-4 h-4" />
-          </Link>
+          </Link> */}
         </div>
       </div>
     </motion.div>
