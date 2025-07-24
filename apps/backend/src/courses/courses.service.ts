@@ -79,6 +79,7 @@ export class CoursesService {
                     },
                     include: {
                         WatchedLesson:true,
+                        LessonWhiteList:true,
                         files: true,
                     },
                 },

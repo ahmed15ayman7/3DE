@@ -13,6 +13,10 @@ import {
   BarChart3 
 } from 'lucide-react';
 import { userApi, courseApi, instructorApi, enrollmentApi } from '@3de/apis';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import AddCourse from '../components/dialogs/AddCourse';
+import AddInstructor from '../components/dialogs/AddInstructor';
 
 const StatsCard = ({ 
   title, 
@@ -54,23 +58,27 @@ const StatsCard = ({
 );
 
 export default function Dashboard() {
+  const router = useRouter();
+  let [isADDCOURSEDialogOpen, setIsADDCOURSEDialogOpen] = useState(false);
+  let [isADDINSTRUCTORDialogOpen, setIsADDINSTRUCTORDialogOpen] = useState(false);
+
   // Fetch dashboard data
-  const { data: usersData, isLoading: usersLoading } = useQuery({
+  const { data: usersData, isLoading: usersLoading, refetch: usersRefetch } = useQuery({
     queryKey: ['users', 1, 10, ''],
     queryFn: () => userApi.getAll(1, 10, ''),
   });
 
-  const { data: coursesData, isLoading: coursesLoading } = useQuery({
+  const { data: coursesData, isLoading: coursesLoading, refetch: coursesRefetch } = useQuery({
     queryKey: ['courses'],
     queryFn: () => courseApi.getAll(),
   });
 
-  const { data: instructorsData, isLoading: instructorsLoading } = useQuery({
+  const { data: instructorsData, isLoading: instructorsLoading, refetch: instructorsRefetch } = useQuery({
     queryKey: ['instructors', 0, 10, ''],
     queryFn: () => instructorApi.getAll(0, 10, ''),
   });
 
-  const { data: enrollmentsData, isLoading: enrollmentsLoading } = useQuery({
+  const { data: enrollmentsData, isLoading: enrollmentsLoading, refetch: enrollmentsRefetch } = useQuery({
     queryKey: ['enrollments'],
     queryFn: () => enrollmentApi.getAll(),
   });
@@ -186,7 +194,7 @@ export default function Dashboard() {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900">النشاط الأخير</h2>
-            <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+            <button className="text-sm text-primary-main hover:text-primary-dark font-medium" onClick={() => router.push('/admin/activities')}>
               عرض الكل
             </button>
           </div>
@@ -224,17 +232,17 @@ export default function Dashboard() {
           <h2 className="text-xl font-bold text-gray-900 mb-6">إجراءات سريعة</h2>
           
           <div className="space-y-3">
-            <button className="w-full bg-gradient-to-r from-primary-main to-primary-dark text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2">
+            <button className="w-full bg-gradient-to-r from-primary-main to-primary-dark text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2" onClick={() => setIsADDCOURSEDialogOpen(true)}>
               <BookOpen className="w-5 h-5" />
               إضافة كورس جديد
             </button>
             
-            <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2">
+            <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2" onClick={() => setIsADDINSTRUCTORDialogOpen(true)} >
               <GraduationCap className="w-5 h-5" />
               إضافة محاضر
             </button>
             
-            <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2">
+            <button className="w-full bg-gradient-to-r from-blue-500 to-primary-main text-white py-3 px-4 rounded-lg hover:shadow-lg transition-shadow flex items-center justify-center gap-2" onClick={() => router.push('/admin/students')}>
               <Users className="w-5 h-5" />
               إدارة الطلاب
             </button>
@@ -279,6 +287,8 @@ export default function Dashboard() {
           </div>
         </motion.div>
       </div>
+      <AddCourse isOpen={isADDCOURSEDialogOpen} onClose={() => setIsADDCOURSEDialogOpen(false)} refetch={()=>{instructorsRefetch();usersRefetch();coursesRefetch();enrollmentsRefetch()}} />
+      <AddInstructor isOpen={isADDINSTRUCTORDialogOpen} onClose={() => setIsADDINSTRUCTORDialogOpen(false)} refetch={()=>{instructorsRefetch();usersRefetch();coursesRefetch();enrollmentsRefetch()}} />
     </div>
   );
 }

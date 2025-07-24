@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { User as UserType, Enrollment, Course, Achievement, Badge } from '@3de/interfaces';
+import { Avatar } from '@3de/ui';
 
 interface StudentCardProps {
   student: UserType & {
@@ -56,20 +57,20 @@ export default function StudentCard({ student, delay = 0 }: StudentCardProps) {
       className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden"
     >
       {/* Header */}
-      <div className="relative bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+      <div className="relative bg-gradient-to-r from-primary-main to-primary-dark p-6 flex flex-col text-center items-center gap-4">
         {/* Profile Image */}
-        <div className="flex items-center gap-4">
           <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md">
             {student.avatar ? (
-              <img 
+              <Avatar 
                 src={student.avatar} 
-                alt={`${student.firstName} ${student.lastName}`}
-                className="w-16 h-16 rounded-full object-cover"
+                alt={`${student.firstName.charAt(0).toUpperCase()}`}
+                className="w-16 h-16 rounded-full object-cover bg-white"
               />
             ) : (
-              <User className="w-8 h-8 text-blue-600" />
+              <User className="w-16 h-16 text-primary-main" />
             )}
           </div>
+              <div className="flex items-center gap-4">
           
           <div className="text-white">
             <h3 className="text-lg font-bold mb-1">
@@ -107,7 +108,7 @@ export default function StudentCard({ student, delay = 0 }: StudentCardProps) {
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6 pt-0">
         {/* Contact Info */}
         <div className="space-y-2 mb-4">
           {student.phone && (
@@ -133,7 +134,7 @@ export default function StudentCard({ student, delay = 0 }: StudentCardProps) {
         </div>
 
         {/* Role & Sub Role */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <div className="flex items-center gap-2">
             <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">
               {student.role}
@@ -144,7 +145,7 @@ export default function StudentCard({ student, delay = 0 }: StudentCardProps) {
               </span>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 p-3 bg-gray-50 rounded-lg">
@@ -242,7 +243,7 @@ export default function StudentCard({ student, delay = 0 }: StudentCardProps) {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
-              className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-primary-main to-secondary-main h-2 rounded-full transition-all duration-500"
               style={{ width: `${averageProgress}%` }}
             ></div>
           </div>
@@ -258,7 +259,7 @@ export default function StudentCard({ student, delay = 0 }: StudentCardProps) {
         <div className="flex gap-2">
           <Link 
             href={`/students/${student.id}`}
-            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 px-4 rounded-lg hover:shadow-md transition-shadow flex items-center justify-center gap-2 text-sm font-medium"
+            className="flex-1 bg-gradient-to-r from-primary-main to-primary-dark text-white py-2 px-4 rounded-lg hover:shadow-md transition-shadow flex items-center justify-center gap-2 text-sm font-medium"
           >
             <Eye className="w-4 h-4" />
             عرض التفاصيل

@@ -21,11 +21,13 @@ import {
 import { userApi, enrollmentApi, achievementApi } from '@3de/apis';
 import StudentCard from '../../components/StudentCard';
 import { Button, Input } from '@3de/ui';
+import AddStudent from '../../components/dialogs/AddStudent';
 
 export default function StudentsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [isAddStudentDialogOpen, setIsAddStudentDialogOpen] = useState(false);
   const [sortBy, setSortBy] = useState('firstName');
   const [sortOrder, setSortOrder] = useState('asc');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -33,13 +35,13 @@ export default function StudentsPage() {
   const limit = 12;
 
   // Fetch students data
-  const { data: studentsData, isLoading, error } = useQuery({
+  const { data: studentsData, isLoading, error, refetch: refetchStudents } = useQuery({
     queryKey: ['students', page, limit, searchTerm],
     queryFn: () => userApi.getAll(page, limit, searchTerm),
   });
 
   // Fetch enrollments for stats
-  const { data: enrollmentsData } = useQuery({
+  const { data: enrollmentsData, refetch: refetchEnrollments } = useQuery({
     queryKey: ['enrollments'],
     queryFn: () => enrollmentApi.getAll(),
   });
@@ -155,7 +157,7 @@ export default function StudentsPage() {
           </p>
         </div>
         
-        <Button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+        <Button className="bg-gradient-to-r from-primary-main to-primary-dark text-white" onClick={() => setIsAddStudentDialogOpen(true)}>
           <Plus className="w-5 h-5 ml-2" />
           إضافة طالب جديد
         </Button>
@@ -217,7 +219,7 @@ export default function StudentsPage() {
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-main"
           >
             <option value="ALL">جميع الطلاب</option>
             <option value="VERIFIED">متحققين</option>
@@ -228,7 +230,7 @@ export default function StudentsPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-main"
           >
             <option value="ALL">جميع الحالات</option>
             <option value="ONLINE">متصل</option>
@@ -239,7 +241,7 @@ export default function StudentsPage() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-main"
           >
             <option value="firstName">الاسم</option>
             <option value="email">البريد الإلكتروني</option>
@@ -340,6 +342,10 @@ export default function StudentsPage() {
           </Button>
         </motion.div>
       )}
+      <AddStudent isOpen={isAddStudentDialogOpen} onClose={() => setIsAddStudentDialogOpen(false)} refetch={() => {
+        refetchStudents();
+        refetchEnrollments();
+      }} />
     </div>
   );
 } 

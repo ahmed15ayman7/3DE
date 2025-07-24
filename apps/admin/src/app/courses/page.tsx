@@ -15,6 +15,7 @@ import {
 import { courseApi } from '@3de/apis';
 import CourseCard from '../../components/CourseCard';
 import { Button, Input } from '@3de/ui';
+import AddCourse from '../../components/dialogs/AddCourse';
 
 export default function CoursesPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,9 +24,9 @@ export default function CoursesPage() {
   const [sortBy, setSortBy] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-
+  const [isAddCourseDialogOpen, setIsAddCourseDialogOpen] = useState(false);
   // Fetch courses data
-  const { data: coursesData, isLoading, error } = useQuery({
+  const { data: coursesData, isLoading, error, refetch: refetchCourses } = useQuery({
     queryKey: ['courses'],
     queryFn: () => courseApi.getAll(),
   });
@@ -115,7 +116,7 @@ export default function CoursesPage() {
           </p>
         </div>
         
-        <Button className="bg-gradient-to-r from-primary-main to-primary-dark text-white">
+        <Button className="bg-gradient-to-r from-primary-main to-primary-dark text-white" onClick={() => setIsAddCourseDialogOpen(true)}>
           <Plus className="w-5 h-5 ml-2" />
           إضافة كورس جديد
         </Button>
@@ -237,6 +238,7 @@ export default function CoursesPage() {
           ))}
         </motion.div>
       )}
+      <AddCourse isOpen={isAddCourseDialogOpen} onClose={() => setIsAddCourseDialogOpen(false)} refetch={refetchCourses} />
     </div>
   );
 } 

@@ -40,7 +40,7 @@ export default function FileViewer({ file, onProgress, onComplete }: FileViewerP
         return (
           <VideoPlayer
             src={file.url}
-            title={file.name}
+            // title={file.name}
             onProgress={handleProgress}
             onComplete={handleComplete}
           />

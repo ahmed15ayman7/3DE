@@ -356,7 +356,7 @@ export const adminAuthApi = {
 export const userApi = {
     getAll: (page: number, limit: number, search: string): Promise<{ success: boolean, data: User[] }> => api.get(`/users?page=${page}&limit=${limit}&search=${search}`),
     getById: (id: string): Promise<{ success: boolean, data: User & { loginHistory: LoginHistory[], twoFactor: TwoFactor, createdCourses: Course[], enrollments: Enrollment[], achievements: Achievement[], notifications: Notification[], lessons: Lesson[] } }> => api.get(`/users/${id}`),
-    create: (data: User) => api.post('/users', data),
+        create: (data: Partial<User>) => api.post('/users', data),
     update: (id: string, data: Partial<User>) => api.patch(`/users/${id}`, data),
     delete: (id: string) => api.delete(`/users/${id}`),
     getLoginHistory: (id: string): Promise<{ success: boolean, data: LoginHistory[] }> => api.get(`/users/${id}/login-history`),
@@ -399,7 +399,7 @@ export const courseApi = {
     delete: (id: string) => api.delete(`/courses/${id}`),
     enroll: (courseId: string) => api.post(`/courses/${courseId}/enroll`),
     unenroll: (courseId: string) => api.post(`/courses/${courseId}/unenroll`),
-    addInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/add-instructor`, { instructorId }),
+    addInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/add-instructor/${instructorId}` ),
     removeInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/remove-instructor`, { instructorId }),
     getLessons: (courseId: string) => api.get(`/courses/${courseId}/lessons`),
     getQuizzes: (courseId: string) => api.get(`/courses/${courseId}/quizzes`),

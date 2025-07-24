@@ -27,13 +27,13 @@ export  function Switch({ checked, onChange, disabled }: SwitchProps) {
       aria-checked={isChecked}
       disabled={disabled}
       className={`relative inline-flex h-6 w-10 items-center rounded-full transition-colors duration-300 ease-in-out
-        ${isChecked ? "bg-primary" : "bg-gray-300"}
+        ${isChecked ? "bg-primary-main" : "bg-gray-300"}
         ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
       `}
     >
       <span
-        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out
-          ${isChecked ? "translate-x-4" : "translate-x-1"}
+        className={`inline-block absolute h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out
+          ${isChecked ? "left-0" : "right-0"}
         `}
       />
     </button>

@@ -57,7 +57,7 @@ export default function Header({
             whileHover={{ scale: 1.05 }}
             className="flex items-center gap-3"
           >
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center" onClick={() => window.location.href = '/'}>
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-primary-main to-secondary-main font-bold text-xl">
                 3DE
               </span>
