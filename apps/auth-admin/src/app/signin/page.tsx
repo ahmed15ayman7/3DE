@@ -18,7 +18,7 @@ export default function SignInPage() {
       const admin=user?.id? await adminAuthApi.getAdminByUserId(user?.id!) : null
       if (user && !isLoading && admin) {
         if (user.role === 'ADMIN' && admin?.AdminRole?.[0]?.name === 'ADMIN') {
-          window.location.href = '/admin';
+          window.location.href = '/';
         } 
       }
     }
