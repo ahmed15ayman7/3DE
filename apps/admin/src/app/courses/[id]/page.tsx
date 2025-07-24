@@ -27,6 +27,9 @@ import {
   ArrowLeft,
   Upload,
   Minus,
+  FilePlus,
+  Check,
+  ScrollText,
 } from 'lucide-react';
 import { courseApi, lessonApi, enrollmentApi } from '@3de/apis';
 import { Button, Input, Textarea, Modal, toast } from '@3de/ui';
@@ -34,6 +37,9 @@ import { Course, Lesson, File, Quiz, Enrollment, User } from '@3de/interfaces';
 import FileViewer from '../../../components/files/FileViewer';
 import AddInstructorInCourse from '@/components/dialogs/AddInstructorInCourse';
 import BlockLessonModal from '@/components/dialogs/BlockLessonModal';
+import AddFileModal from '@/components/dialogs/AddFileModal';
+import AddLessonModal from '@/components/dialogs/AddLessonModal';
+import AddQuizModal from '@/components/dialogs/AddQuizModal';
 
 export default function CourseDetailPage() {
   const params = useParams();
@@ -53,6 +59,7 @@ export default function CourseDetailPage() {
   });
   const [imageUrl, setImageUrl] = useState('');
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null);
+  const [fileId, setFileId] = useState<string | null>(null);
   const [showStudentsModal, setShowStudentsModal] = useState(false);
   const [showLessonContentModal, setShowLessonContentModal] = useState(false);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
@@ -62,6 +69,12 @@ export default function CourseDetailPage() {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [showInstructorsModal, setShowInstructorsModal] = useState(false);
   const [showBlockLessonModal, setShowBlockLessonModal] = useState(false);
+  const [isAddFile, setIsAddFile] = useState(false);
+  const [isAddLesson, setIsAddLesson] = useState(false);
+  const [isEditLesson, setIsEditLesson] = useState(false);
+  const [isAddQuiz, setIsAddQuiz] = useState(false);
+  const [isEditQuiz, setIsEditQuiz] = useState(false);
+  const [currentQuizData, setCurrentQuizData] = useState<Quiz | null>(null);
   // Fetch course data
   const {
     data: courseData,
@@ -192,6 +205,26 @@ export default function CourseDetailPage() {
   const handleBlockLesson = (lesson: Lesson, isBlocked: boolean) => {
     setShowBlockLessonModal(true);
     setCurrentLessonData(lesson);
+  };
+
+  const handleEditLesson = (lesson: Lesson) => {
+    setCurrentLessonData(lesson);
+    setIsAddLesson(true);
+    setIsEditLesson(true);
+  };
+
+  const handleAddFile = (lesson: Lesson) => {
+    setCurrentLessonData(lesson);
+    setIsAddFile(true);
+  };
+  const handleEditFile = (fileId:string, lesson: Lesson) => {
+    setCurrentLessonData(lesson);
+    setIsAddFile(true);
+    setFileId(fileId);
+  };
+  const handleAddQuiz = (lesson: Lesson) => {
+    setCurrentLessonData(lesson);
+    setIsAddQuiz(true);
   };
 
   const handleFileSelect = (file: File) => {
@@ -659,13 +692,13 @@ export default function CourseDetailPage() {
                   عرض الطلاب ({students.length})
                 </Button>
 
-                <Button
+                {/* <Button
                   onClick={() => router.push(`/courses/${courseId}/lessons`)}
                   className="w-full bg-green-600 hover:bg-green-700 text-white"
                 >
                   <BookOpen className="w-4 h-4 ml-2" />
                   إدارة الدروس
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
@@ -682,7 +715,10 @@ export default function CourseDetailPage() {
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-gray-900">دروس الكورس</h3>
-            <Button className="bg-green-600 hover:bg-green-700 text-white">
+            <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={()=>{
+              setIsAddLesson(true)
+              setIsEditLesson(false)
+            }}>
               <Plus className="w-4 h-4 ml-2" />
               إضافة درس
             </Button>
@@ -736,8 +772,8 @@ export default function CourseDetailPage() {
                               >
                                 {getFileIcon(file.type || '')}
                                 <span>{file.name}</span>
-                                <button className="text-primary-main hover:text-blue-700">
-                                  <Download className="w-3 h-3" />
+                                <button className="text-primary-main hover:text-primary-dark" onClick={()=>handleEditFile(file.id,lesson)}>
+                                  <Edit className="w-3 h-3" />
                                 </button>
                               </div>
                             ))}
@@ -749,10 +785,10 @@ export default function CourseDetailPage() {
                       <div className="mt-3 ml-11">
                         <div className="flex items-center gap-4 text-sm text-gray-600">
                           <span>
-                            التقدم: {Math.round(lesson.progress || 0)}%
+                            التقدم: {((lesson.WatchedLesson?.length || 0)/students.length)*100}%
                           </span>
                           <span>
-                            مكتمل بواسطة: {lesson.completedBy?.length || 0} طالب
+                            مكتمل بواسطة: {lesson.WatchedLesson?.length || 0} طالب
                           </span>
                           {lesson.quizzes && lesson.quizzes.length > 0 && (
                             <span>الاختبارات: {lesson.quizzes.length}</span>
@@ -761,22 +797,29 @@ export default function CourseDetailPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 max-md:flex-col">
                       <Button
                         onClick={() => handleViewLessonContent(lesson)}
                         size="sm"
-                        className="bg-primary-main hover:bg-blue-700 text-white"
+                        className="bg-primary-main hover:bg-primary-dark text-white"
                       >
-                        <Play className="w-4 h-4 ml-1" />
-                        عرض المحتوى
+                        <Play className="w-4 h-4 ml-1 max-md:ml-0" />
+                       <span className="max-md:hidden">عرض المحتوى</span>
                       </Button>
 
                       <Button
-                        onClick={() => setSelectedLesson(lesson.id)}
+                        onClick={() => handleAddFile(lesson)}
                         size="sm"
                         variant="outline"
                       >
-                        <Eye className="w-4 h-4" />
+                        <FilePlus className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        onClick={() => handleAddQuiz(lesson)}
+                        size="sm"
+                        variant="outline"
+                      >
+                        <ScrollText className="w-4 h-4" />
                       </Button>
 
                       <Button
@@ -787,6 +830,14 @@ export default function CourseDetailPage() {
                       >
                         <Lock className="w-4 h-4" />
                       </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-yellow-600"
+                        onClick={() => handleEditLesson(lesson)}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -795,7 +846,56 @@ export default function CourseDetailPage() {
           </div>
         </motion.div>
       )}
-
+       {/* quizzes Section */}
+       {course.quizzes && course.quizzes.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-xl shadow-md p-6"
+        >
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-gray-900">الاختبارات</h3>
+            <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={()=>{
+              setIsAddQuiz(true)
+              setIsEditQuiz(false)
+            }}>
+              <Plus className="w-4 h-4 ml-2" />
+              إضافة اختبار
+            </Button>
+          </div>
+          <div className="space-y-4">
+            {course.quizzes.map((quiz) => (
+              <div key={quiz.id} className="p-3 border border-gray-200 rounded-lg">
+                <div className="flex items-center justify-between gap-2">
+                  <h4 className="font-medium text-gray-900">{quiz.title}</h4>
+                  <div className="flex items-center gap-2">
+                      <Edit className="w-4 h-4 text-primary-main cursor-pointer" onClick={()=>{
+                      setIsEditQuiz(true)
+                      setCurrentQuizData(quiz as Quiz)
+                      setIsAddQuiz(true)
+                    }} />
+                    {quiz.isCompleted ? <Check className="w-4 h-4 text-green-500" /> : quiz.upComing ? <Clock className="w-4 h-4 text-yellow-500" /> : <X className="w-4 h-4 text-red-500" />}
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500">{quiz.description}</p>
+                <p className="text-sm text-gray-500">{quiz.questions?.length} {quiz.questions?.length && quiz.questions?.length > 0 ? 'سؤال' : ''}</p>
+                <p className="text-sm text-gray-500">
+                  الدرس: {course.lessons?.find((lesson) => lesson.id === quiz.lessonId)?.title}
+                </p>
+               <div className="flex items-center gap-2 justify-between">
+                <p className="text-sm text-green-500 flex items-center gap-2">
+                  البدء: {quiz.startDate ? new Date(quiz.startDate).toLocaleDateString('ar-EG') : ''}
+                </p>
+                <p className="text-sm text-red-500 flex items-center gap-2">
+                  الانتهاء: {quiz.endDate ? new Date(quiz.endDate).toLocaleDateString('ar-EG') : ''}
+                </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+       )}
       {/* Students Modal */}
       <Modal
         isOpen={showStudentsModal}
@@ -905,7 +1005,7 @@ export default function CourseDetailPage() {
                           onClick={() => handleFileSelect(file as File)}
                           className={`p-3 rounded-lg border cursor-pointer transition-colors ${
                             currentFile?.id === file.id
-                              ? 'border-blue-500 bg-blue-50'
+                              ? 'border-primary-main bg-primary-main/10'
                               : 'border-gray-200 hover:border-gray-300 hover:bg-white'
                           }`}
                         >
@@ -922,8 +1022,11 @@ export default function CourseDetailPage() {
                               </p>
                             </div>
                             {currentFile?.id === file.id && (
-                              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                              <div className="w-2 h-2 bg-primary-main rounded-full"></div>
                             )}
+                            <button className="text-primary-main hover:text-primary-dark cursor-pointer" onClick={()=>handleEditFile(file.id,currentLessonData)}>
+                              <Edit className="w-3 h-3" />
+                            </button>
                           </div>
                         </div>
                       ))}
@@ -1005,19 +1108,50 @@ export default function CourseDetailPage() {
           )}
         </div>
       </Modal>
-      <AddInstructorInCourse
+     {showInstructorsModal && <AddInstructorInCourse
         isOpen={showInstructorsModal}
         onClose={() => setShowInstructorsModal(false)}
         refetch={refetchCourse}
         courseId={courseId}
-      />
-      <BlockLessonModal
+      />}
+      {showBlockLessonModal && <BlockLessonModal
         lesson={currentLessonData as Lesson}
         students={students.map((student) => student.user)}
         isOpen={showBlockLessonModal}
         onClose={() => setShowBlockLessonModal(false)}
         refetch={refetchCourse}
-      />
+      />}
+      {isAddFile && <AddFileModal
+        isOpen={isAddFile}
+        onClose={() => setIsAddFile(false)}
+        refetch={refetchCourse}
+        lesson={currentLessonData as Lesson}
+        fileId={fileId || undefined}
+        setFileId={setFileId}
+        isEdit={fileId ? true : false}
+      />}
+      {isAddLesson && <AddLessonModal
+        isOpen={isAddLesson}
+        onClose={() => {setIsAddLesson(false)
+          setIsEditLesson(false)
+        }}
+        refetch={refetchCourse}
+        courseId={params.id as string}
+        lesson={currentLessonData as Lesson}
+        isEdit={isEditLesson}
+      />}
+      {isAddQuiz && <AddQuizModal
+        isOpen={isAddQuiz}
+        onClose={() => {setIsAddQuiz(false)
+          setIsEditQuiz(false)
+        }}
+        refetch={refetchCourse}
+        courseId={params.id as string}
+        quiz={currentQuizData as Quiz}
+        isEdit={isEditQuiz}
+        lessonId={currentLessonData?.id as string}
+        lessons={course.lessons as Lesson[]}
+      />}
     </div>
   );
 }

@@ -438,17 +438,8 @@ export const lessonApi = {
 export const quizApi = {
     getByLesson: (lessonId: string) => api.get(`/quizzes/lesson/${lessonId}`),
     getById: (id: string) => api.get(`/quizzes/${id}`),
-    create: (data: Quiz & { questions: (Question & { options:  Option[] })[] }) => api.post('/quizzes', data),
-    update: (id: string, data: {
-        title?: string;
-        description?: string;
-        questions?: Array<{
-            text: string;
-            type: string;
-            options?: any;
-            answer: any;
-        }>;
-    }) => api.patch(`/quizzes/${id}`, data),
+    create: (data: Partial<Quiz>) => api.post('/quizzes', data),
+    update: (id: string, data:Partial<Quiz>) => api.put(`/quizzes/${id}`, data),
     delete: (id: string) => api.delete(`/quizzes/${id}`),
     submit: (quizId: string, answers: any) =>
         api.post(`/quizzes/${quizId}/submit`, { answers }),

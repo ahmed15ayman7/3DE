@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Input, Button, Select, toast, Textarea, Switch } from '@3de/ui';
 import { courseApi, instructorApi, lessonApi, userApi } from '@3de/apis';
 import { useForm } from 'react-hook-form';
@@ -33,7 +33,10 @@ const BlockLessonModal = ({
       isBlocked: false,
     },
   });
-  // i need 
+  let isBlocked = lesson?.LessonWhiteList?.filter((whiteList) => whiteList.userId === form.watch('studentId'))?.[0]?.isBlocked;
+  useEffect(() => {
+    form.setValue('isBlocked', isBlocked || false);
+  }, [isBlocked]);
   const onSubmit = async (dataFull: z.infer<typeof formSchema>) => {
     let toastId = toast.loading(dataFull.isBlocked ? 'جاري حظر الطالب...' : 'جاري إلغاء الحظر...');
     try {
@@ -47,7 +50,6 @@ const BlockLessonModal = ({
       toast.error('حدث خطأ ما');
     }
   };
-
 
   return (
     <Modal title={`حظر طالب من محاضرة ${lesson?.title || '' }`} isOpen={isOpen} onClose={onClose} size="sm">
@@ -63,13 +65,13 @@ const BlockLessonModal = ({
           }))}
         />
           <Switch
-            checked={lesson?.LessonWhiteList?.filter((whiteList) => whiteList.userId === form.watch('studentId'))?.[0]?.isBlocked}
+            checked={form.watch('isBlocked')}
             onChange={(checked) => form.setValue('isBlocked', checked as boolean)}
           />
       </div>
       <div className="flex justify-center py-5">
         <Button type="submit" onClick={() => onSubmit(form.getValues())}>
-         {form.watch('isBlocked') ? "حظر الطالب" : "إلغاء الحظر"}
+         {form.watch('isBlocked') || !isBlocked ? "حظر الطالب" : "إلغاء الحظر"}
         </Button>
       </div>
     </Modal>

@@ -56,10 +56,7 @@ export class QuizzesService {
         return this.prisma.quiz.update({
             where: { id },
             data: {
-                title: updateQuizInput.title,
-                description: updateQuizInput.description,
-                timeLimit: updateQuizInput.timeLimit,
-                passingScore: updateQuizInput.passingScore,
+                ...updateQuizInput,
             },
             include: {
                 questions: true,
