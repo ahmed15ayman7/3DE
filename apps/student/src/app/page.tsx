@@ -15,6 +15,7 @@ import { Course, Instructor, Lesson } from '@3de/interfaces';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'courses' | 'instructors'>('courses');
   const { user } = useAuth();
+  console.log(user)
   
   // Fetch data
   const { data: coursesResponse, isLoading: coursesLoading ,refetch} = useQuery({
@@ -54,8 +55,8 @@ export default function HomePage() {
   const instructors = (instructorsResponse as any)?.data || [];
   const stats = (statsResponse as any)?.data;
 
-  const enrolledCourses = courses.filter((course: Course) => course.enrollments?.length && course.enrollments?.length > 0) || [];
-  const availableCourses = courses.filter((course: Course) => course.enrollments?.length === 0) || [];
+  const enrolledCourses = courses.filter((course: Course) => course.enrollments?.length && course.enrollments?.length > 0 && course.enrollments?.some(e => e.user?.id === user?.id)) || [];
+  const availableCourses = courses.filter((course: Course) => course.enrollments?.length === 0 || !course.enrollments?.some(e => e.user?.id === user?.id)) || [];
 
   const statsCards = [
     {

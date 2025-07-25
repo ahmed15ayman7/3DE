@@ -32,7 +32,7 @@ export default function LessonList({
   };
 
   const isLessonCompleted = (lesson: Lesson) => {
-    return lesson.WatchedLesson?.[0]?.progress === 100;
+    return lesson?.WatchedLesson?.[0]?.progress === 100;
   };
 
   const isLessonLocked = (lesson: Lesson, index: number) => {
@@ -121,7 +121,7 @@ export default function LessonList({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        toggleLesson(lesson.id);
+                        !isLocked && toggleLesson(lesson.id);
                       }}
                       className="p-1 hover:bg-gray-100 rounded"
                     >

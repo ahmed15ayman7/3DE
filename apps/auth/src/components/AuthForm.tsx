@@ -281,7 +281,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
           </motion.div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           {/* حقل الاسم - للتسجيل فقط */}
           {type === 'signup' && (
             <Input
@@ -328,7 +328,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute left-3 top-2/3  transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -348,7 +348,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute left-3 top-2/3 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
                 {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
