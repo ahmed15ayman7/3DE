@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AuthProvider } from '@3de/auth'
+import LayoutDash from './layoutDash'
 
 export default function RootProvider({
   children,
@@ -48,7 +49,9 @@ export default function RootProvider({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
           >
-          {children}
+            <LayoutDash>
+              {children}
+            </LayoutDash>
         </motion.div>
       </AnimatePresence>
           </AuthProvider>

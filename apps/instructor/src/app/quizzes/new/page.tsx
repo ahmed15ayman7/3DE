@@ -26,8 +26,8 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Card, Button, Input, Textarea, Select, Badge, Tabs, Switch } from '@3de/ui'
-import QuizForm from '../../../../components/QuizForm'
-import QuestionCard from '../../../../components/QuestionCard'
+import QuizForm from '../../../components/QuizForm'
+import QuestionCard from '../../../components/QuestionCard'
 
 // Validation schema
 const quizSchema = z.object({

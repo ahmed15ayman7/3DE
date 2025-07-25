@@ -32,8 +32,8 @@ import Link from 'next/link'
 import { Card, Button, Badge, Avatar, Progress, Tabs, Dropdown } from '@3de/ui'
 import { courseApi, lessonApi, fileApi } from '@3de/apis'
 import { Course, Lesson, FileType } from '@3de/interfaces'
-import LessonList from '../../../../components/LessonList'
-import LessonFileViewer from '../../../../components/LessonFileViewer'
+import LessonList from '../../../components/LessonList'
+import LessonFileViewer from '../../../components/LessonFileViewer'
 let getCourse=async(id:string):Promise<Course> =>{
   let course=await courseApi.getById(id)
   return course.data
