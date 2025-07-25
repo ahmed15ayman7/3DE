@@ -25,6 +25,7 @@ import {
 import { quizApi, courseApi, lessonApi, submissionApi } from '@3de/apis';
 import { Button, Input, Modal, toast } from '@3de/ui';
 import { Quiz, Course, Lesson, Submission, Question } from '@3de/interfaces';
+import AddQuizModal from '@/components/dialogs/AddQuizModal';
 
 export default function ExamsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -34,13 +35,13 @@ export default function ExamsPage() {
   const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const queryClient = useQueryClient();
 
   // Fetch quizzes data
   const { data: quizzesData, isLoading, error } = useQuery({
     queryKey: ['quizzes'],
-    queryFn: () => quizApi.getActive(), // Using getActive as a general fetch
+    queryFn: () => quizApi.getAll(), // Using getActive as a general fetch
   });
 
   // Fetch courses for filter
@@ -197,7 +198,9 @@ export default function ExamsPage() {
             </button>
           </div>
           
-          <Button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+          <Button className="bg-gradient-to-r from-primary-main to-primary-dark text-white" onClick={() => {
+            setShowCreateModal(true);
+          }}>
             <Plus className="w-5 h-5 ml-2" />
             إنشاء امتحان جديد
           </Button>
@@ -328,7 +331,7 @@ export default function ExamsPage() {
                 className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden"
               >
                 {/* Quiz Header */}
-                <div className="relative bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                <div className="relative bg-gradient-to-r from-primary-main to-primary-dark p-6">
                   <div className="flex items-center justify-between">
                     <div className="text-white">
                       <h3 className="text-lg font-bold mb-1">{quiz.title}</h3>
@@ -398,16 +401,16 @@ export default function ExamsPage() {
 
                   {/* Statistics */}
                   {quiz.averageScore !== undefined && (
-                    <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+                    <div className="mb-4 p-3 bg-primary-light/10 rounded-lg">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-blue-900">المتوسط العام</span>
-                        <span className="text-lg font-bold text-blue-900">{quiz.averageScore.toFixed(1)}%</span>
+                        <span className="text-sm font-medium text-primary-dark">المتوسط العام</span>
+                        <span className="text-lg font-bold text-primary-dark">{quiz.averageScore?.toFixed(1)}%</span>
                       </div>
                       
                       {quiz.failCount !== undefined && (
                         <div className="flex items-center justify-between mt-1">
-                          <span className="text-xs text-blue-700">عدد الإخفاقات</span>
-                          <span className="text-sm font-medium text-blue-700">{quiz.failCount}</span>
+                          <span className="text-xs text-primary-dark">عدد الإخفاقات</span>
+                          <span className="text-sm font-medium text-primary-dark">{quiz.failCount}</span>
                         </div>
                       )}
                     </div>
@@ -522,7 +525,7 @@ export default function ExamsPage() {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-blue-700">المتوسط العام:</span>
-                    <span className="font-bold text-blue-900 mr-2">{selectedQuiz.averageScore.toFixed(1)}%</span>
+                    <span className="font-bold text-blue-900 mr-2">{selectedQuiz.averageScore?.toFixed(1)}%</span>
                   </div>
                   {selectedQuiz.failCount !== undefined && (
                     <div>
@@ -591,6 +594,18 @@ export default function ExamsPage() {
           </div>
         </div>
       </Modal>
+
+      {/* Create Quiz Modal */}
+      <AddQuizModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        refetch={() => {
+          queryClient.invalidateQueries({ queryKey: ['quizzes'] });
+        }}
+        lessons={[]}
+        courseId={''}
+        quiz={null as any}
+      />
     </div>
   );
 } 

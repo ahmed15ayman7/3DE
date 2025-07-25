@@ -371,7 +371,7 @@ export const courseApi = {
     getByStudentId: (studentId: string): Promise<{ success: boolean, data: (Course & { instructors: (Instructor & { user: User })[] ,lessons: (Lesson & { files: FileModel[], quizzes: Quiz[] })[] })[] }> => api.get(`/courses/by-student/${studentId}`),
     getByInstructorId: (instructorId: string) => api.get(`/courses/by-instructor/${instructorId}`),
     getByAcademyId: (academyId: string) => api.get(`/courses/by-academy/${academyId}`),
-    updateEnrollment: (courseId: string, enrollmentId: string, data: Partial<Enrollment>) => api.patch(`/courses/${courseId}/enrollments/${enrollmentId}`, data),
+    updateEnrollment: (courseId: string, enrollmentId: string, data: Partial<Enrollment>) => api.put(`/courses/${courseId}/enrollments/${enrollmentId}`, data),
 };
 
 // Lesson APIs
@@ -401,6 +401,7 @@ export const lessonApi = {
 // Quiz APIs
 export const quizApi = {
     getByLesson: (lessonId: string) => api.get(`/quizzes/lesson/${lessonId}`),
+    getAll: () => api.get(`/quizzes`),
     getById: (id: string) => api.get(`/quizzes/${id}`),
     create: (data: Partial<Quiz>) => api.post('/quizzes', data),
     update: (id: string, data: Partial<Quiz>) => api.put(`/quizzes/${id}`, data),
@@ -648,7 +649,7 @@ export const enrollmentApi = {
     update: (id: string, data: {
         progress?: number;
         status?: string;
-    }) => api.patch(`/enrollments/${id}`, data),
+    }) => api.put(`/enrollments/${id}`, data),
     delete: (id: string) => api.delete(`/enrollments/${id}`),
 };
 

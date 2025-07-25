@@ -48,7 +48,7 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div style={style} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
+    <div style={{...style, backgroundColor: 'rgba(0, 0, 0, 0.5)'}} className="fixed inset-0 z-50 flex items-center justify-center p-4  overflow-y-auto">
       <div
         style={style}
         className={`bg-white rounded-lg shadow-xl ${sizeClasses[size]} w-full transition-all duration-300 ${className}`}

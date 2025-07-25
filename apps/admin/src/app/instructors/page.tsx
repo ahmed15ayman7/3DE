@@ -18,6 +18,7 @@ import {
 import { instructorApi } from '@3de/apis';
 import InstructorCard from '../../components/InstructorCard';
 import { Button, Input } from '@3de/ui';
+import AddInstructorModal from '../../components/dialogs/AddInstructor';
 
 export default function InstructorsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,9 +27,9 @@ export default function InstructorsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [page, setPage] = useState(0);
   const limit = 12;
-
+  const [showAddInstructorModal, setShowAddInstructorModal] = useState(false);
   // Fetch instructors data
-  const { data: instructorsData, isLoading, error } = useQuery({
+  const { data: instructorsData, isLoading, error, refetch } = useQuery({
     queryKey: ['instructors', page, limit, searchTerm],
     queryFn: () => instructorApi.getAll(page, limit, searchTerm),
   });
@@ -133,7 +134,7 @@ export default function InstructorsPage() {
           </p>
         </div>
         
-        <Button className="bg-gradient-to-r from-primary-main to-primary-dark text-white">
+        <Button className="bg-gradient-to-r from-primary-main to-primary-dark text-white" onClick={() => setShowAddInstructorModal(true)}>
           <Plus className="w-5 h-5 ml-2" />
           إضافة محاضر جديد
         </Button>
@@ -299,6 +300,11 @@ export default function InstructorsPage() {
           </Button>
         </motion.div>
       )}
+      <AddInstructorModal
+        isOpen={showAddInstructorModal}
+        onClose={() => setShowAddInstructorModal(false)}
+        refetch={() => refetch()}
+      />
     </div>
   );
 } 

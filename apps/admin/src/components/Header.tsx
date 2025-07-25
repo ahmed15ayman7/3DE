@@ -39,8 +39,8 @@ export default function Header({ onMenuClick, isMobile, isCollapsed }: HeaderPro
             </button>
           )}
           <div>
-            <h1 className="text-xl font-bold text-gray-800">لوحة التحكم الإدارية</h1>
-            <p className="text-sm text-gray-500">أكاديمية 3DE التعليمية</p>
+            <h1 className="text-xl font-bold text-gray-800 max-sm:hidden">لوحة التحكم الإدارية</h1>
+            <p className="text-sm text-gray-500 max-sm:hidden">أكاديمية 3DE التعليمية</p>
           </div>
         </div>
 

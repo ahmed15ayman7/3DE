@@ -154,7 +154,7 @@ export default function EnrollmentsPage() {
       'البريد الإلكتروني',
       'الكورس',
       'الحالة',
-      'التقدم',
+      // 'التقدم',
       'تاريخ التسجيل',
       'آخر تحديث'
     ];
@@ -164,7 +164,7 @@ export default function EnrollmentsPage() {
       enrollment.user?.email || '',
       enrollment.course?.title || '',
       getStatusText(enrollment.status),
-      `${Math.round(enrollment.progress || 0)}%`,
+      // `${Math.round(enrollment.progress || 0)}%`,
       new Date(enrollment.createdAt).toLocaleDateString('ar-EG'),
       new Date(enrollment.updatedAt).toLocaleDateString('ar-EG')
     ]);
@@ -423,13 +423,12 @@ export default function EnrollmentsPage() {
                   
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {/* View details */}}
+                      {/* <button
                         className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded"
                         title="عرض التفاصيل"
                       >
                         <Eye className="w-4 h-4" />
-                      </button>
+                      </button> */}
                       
                       <select
                         value={enrollment.status}
