@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AuthProvider } from '@3de/auth'
 import LayoutDash from './layoutDash'
-
+import "./globals.css";
 export default function RootProvider({
   children,
 }: {

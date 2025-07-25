@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import './globals.css'
 import RootProvider from './providers'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'لوحة تحكم المحاضر - أكاديمية 3DE',
