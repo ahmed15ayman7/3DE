@@ -8,6 +8,7 @@ import { AuthProvider } from '@3de/auth'
 import { Toaster } from 'sonner'
 import LayoutDash from './layoutDash'
 import "./globals.css";
+import VerfyRole from '../components/verfyRole';
 export default function RootProvider({
   children,
 }: {
@@ -50,7 +51,9 @@ export default function RootProvider({
           transition={{ duration: 0.3 }}
           >
             <LayoutDash>
-              {children}
+              <VerfyRole>
+                {children}
+              </VerfyRole>
         <Toaster />
             </LayoutDash>
         </motion.div>

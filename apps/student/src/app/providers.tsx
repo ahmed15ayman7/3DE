@@ -6,6 +6,7 @@ import { AuthProvider } from '@3de/auth';
 import { RouteLoader } from '@3de/ui';
 import { Suspense, useEffect, useState } from 'react';
 import usePersistScreenshotBlackout from '../hooks/usePersistScreenshotBlackout';
+import VerfyRole from '../components/verfyRole';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   usePersistScreenshotBlackout();
@@ -59,7 +60,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
         <Suspense fallback={<RouteLoader showText loadingText="طريق النجاح يبدأ بخطوة... ويستمر بالصبر" size="md" />}>
       <AuthProvider>
-        {children}
+        <VerfyRole>
+          {children}
+        </VerfyRole>
           
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </AuthProvider>

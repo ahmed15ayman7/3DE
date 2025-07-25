@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import { Toaster } from '@3de/ui';
+import VerfyRole from "../components/verfyRole";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -68,6 +69,7 @@ export default function RootLayout({
       >
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
+            <VerfyRole>
             <div className="min-h-screen">
               {/* Sidebar */}
               <Sidebar
@@ -96,7 +98,7 @@ export default function RootLayout({
                 }`}
               >
                 <div className="p-6">
-                  {children}
+                    {children}
                 </div>
               </main>
             </div>
@@ -108,6 +110,7 @@ export default function RootLayout({
             {process.env.NODE_ENV === 'development' && (
               <ReactQueryDevtools initialIsOpen={false} />
             )}
+            </VerfyRole>
           </AuthProvider>
         </QueryClientProvider>
       </body>
