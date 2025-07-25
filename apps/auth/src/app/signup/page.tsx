@@ -19,7 +19,7 @@ export default function SignUpPage() {
           window.location.href = '/student';
           break;
         case 'INSTRUCTOR':
-          window.location.href = '/instructor';
+          window.location.href = '/ins';
           break;
         case 'ADMIN':
           window.location.href = '/admin';
