@@ -46,8 +46,8 @@ export default function CoursesPage() {
     return matchesSearch && matchesCategory;
   });
 
-  const enrolledCourses = filteredCourses.filter((course: Course) => course.enrollments?.length && course.enrollments?.length > 0) || [];
-  const availableCourses = filteredCourses.filter((course: Course) => course.enrollments?.length === 0) || [];
+  const enrolledCourses = filteredCourses.filter((course: Course) => course.enrollments?.length && course.enrollments?.length > 0 && course.enrollments?.some(e => e.user?.id === user?.id)) || [];
+  const availableCourses = filteredCourses.filter((course: Course) => course.enrollments?.length === 0 || !course.enrollments?.some(e => e.user?.id === user?.id)) || [];
 
   return (
     <Layout>

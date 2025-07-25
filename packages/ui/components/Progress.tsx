@@ -61,8 +61,7 @@ export const Progress: React.FC<ProgressProps> = ({
   onChange,
   className = ''
 }) => {
-  const [internalValue, setInternalValue] = useState(value);
-  const percentage = Math.min(Math.max((internalValue / max) * 100, 0), 100);
+  const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
   const variantClasses = getVariantClasses(variant);
   const sizeClasses = getSizeClasses(size);
   const colorClasses = color ? `bg-[${color}]` : '';
@@ -76,11 +75,6 @@ export const Progress: React.FC<ProgressProps> = ({
   ].filter(Boolean).join(' ');
 
   const label = `${Math.round(percentage)}%`;
-
-  const handleChange = (value: number) => {
-    setInternalValue(value);
-    onChange?.(value);
-  };
 
   return (
     <div className={`w-full ${className}`}>
@@ -96,7 +90,7 @@ export const Progress: React.FC<ProgressProps> = ({
           className={`${progressBarClasses} rounded-full`}
           style={{ width: `${percentage}%` }}
           role="progressbar"
-          aria-valuenow={internalValue}
+          aria-valuenow={value}
           aria-valuemin={0}
           aria-valuemax={max}
         >

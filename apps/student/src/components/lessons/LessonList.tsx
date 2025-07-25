@@ -32,7 +32,7 @@ export default function LessonList({
   };
 
   const isLessonCompleted = (lesson: Lesson) => {
-    return lesson?.WatchedLesson?.[0]?.progress === 100;
+    return lesson?.WatchedLesson?.some(watched=>watched.progress === 100 && watched.userId===user?.id);
   };
 
   const isLessonLocked = (lesson: Lesson, index: number) => {
@@ -108,12 +108,12 @@ export default function LessonList({
                 <div className="flex items-center gap-3">
                   <div className="w-20">
                     <Progress 
-                      value={lesson.WatchedLesson?.[0]?.progress || 0} 
+                      value={lesson.WatchedLesson?.find(watched=>watched.userId===user?.id)?.progress || 0} 
                       className="h-1"
                     />
                   </div>
                   <span className="text-xs text-gray-500 min-w-[40px]">
-                    {Math.round(lesson.WatchedLesson?.[0]?.progress || 0)}%
+                    {Math.round(lesson.WatchedLesson?.find(watched=>watched.userId===user?.id)?.progress || 0)}%
                   </span>
                   
                   {/* Expand Button */}
@@ -146,7 +146,7 @@ export default function LessonList({
                   >
                     <div className="space-y-2">
                       {lesson.files.map((file,index) => {
-                        const progress = (lesson.WatchedLesson?.[0]?.progress||0)/(index+1);
+                        const progress = (lesson.WatchedLesson?.find(watched=>watched.userId===user?.id)?.progress||0)/(index+1);
                         console.log("progress",progress);
                         return (
                         <div
