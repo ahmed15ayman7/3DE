@@ -30,7 +30,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#3B82F6" />
       </head>
-      <body className="h-full bg-gray-50 text-gray-900 font-arabic antialiased">
+      <body className="h-full bg-gray-50 text-gray-900  antialiased">
         <RootProvider>
           {children}
         </RootProvider>
