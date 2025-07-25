@@ -134,7 +134,7 @@ export default function ImageViewer({ src, title, onComplete }: ImageViewerProps
         <div 
           className={`overflow-auto bg-gray-100 ${
             isFullscreen 
-              ? 'fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center' 
+              ? 'fixed inset-0 z-50 bg-black/90 flex items-center justify-center' 
               : 'h-96'
           }`}
           onClick={isFullscreen ? toggleFullscreen : undefined}
@@ -168,7 +168,7 @@ export default function ImageViewer({ src, title, onComplete }: ImageViewerProps
       {isFullscreen && (
         <button
           onClick={toggleFullscreen}
-          className="fixed top-4 right-4 z-50 w-10 h-10 bg-black bg-opacity-50 text-white rounded-full flex items-center justify-center hover:bg-opacity-70 transition-all"
+          className="fixed top-4 right-4 z-50 w-10 h-10 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-opacity-70 transition-all"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
