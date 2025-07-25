@@ -24,6 +24,7 @@ import { Card, Button, Badge, Avatar, Dropdown, Input, Skeleton } from '@3de/ui'
 import { courseApi, instructorApi } from '@3de/apis'
 import { Course, Instructor } from '@3de/interfaces'
 import { useAuth } from '@3de/auth'
+import AddCourse from '../../components/dialogs/AddCourse'
 
 interface CourseCardProps {
   course: Course
@@ -179,9 +180,9 @@ const CourseCard = ({ course, onEdit, onDelete }: CourseCardProps) => {
                 عرض الكورس
               </Button>
             </Link>
-            <Button variant="outline" size="sm" onClick={() => onEdit(course)}>
+            {/* <Button variant="outline" size="sm" onClick={() => onEdit(course)}>
               <Edit className="h-4 w-4" />
-            </Button>
+            </Button> */}
           </div>
         </div>
       </Card>
@@ -249,10 +250,10 @@ const CourseListItem = ({ course, onEdit, onDelete }: CourseCardProps) => (
               عرض
             </Button>
           </Link>
-          <Button variant="outline" size="sm" onClick={() => onEdit(course)}>
+          {/* <Button variant="outline" size="sm" onClick={() => onEdit(course)}>
             <Edit className="h-4 w-4" />
-          </Button>
-          <Dropdown
+          </Button> */}
+          {/* <Dropdown
             trigger={
               <Button variant="ghost" size="sm">
                 <MoreVertical className="h-4 w-4" />
@@ -267,7 +268,7 @@ const CourseListItem = ({ course, onEdit, onDelete }: CourseCardProps) => (
               },
             ]}
             position="bottom-left"
-          />
+          /> */}
         </div>
       </div>
     </Card>
@@ -280,7 +281,7 @@ export default function CoursesPage() {
   const [selectedStatus, setSelectedStatus] = useState('all')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const { user } = useAuth()
-
+  const [showCreateCourseModal, setShowCreateCourseModal] = useState(false)
   const { data: courses,refetch } = useQuery({
     queryKey: ['courses'],
     queryFn: () => courseApi.getByInstructorId(user?.id as string),
@@ -316,7 +317,7 @@ export default function CoursesPage() {
           </p>
         </div>
         
-        <Button variant="primary">
+        <Button variant="primary" onClick={() => setShowCreateCourseModal(true)}>
           <Plus className="h-5 w-5 ml-2" />
           كورس جديد
         </Button>
@@ -461,6 +462,7 @@ export default function CoursesPage() {
           </Button>
         </Card>
       )}
+      {showCreateCourseModal && <AddCourse isOpen={showCreateCourseModal} onClose={() => setShowCreateCourseModal(false)} refetch={refetch} instructorId={user?.id as string} />}
     </div>
   )
 } 

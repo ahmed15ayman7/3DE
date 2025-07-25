@@ -1,49 +1,39 @@
 'use client'
 
 import { useState, useEffect, use } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useParams } from 'next/navigation'
 import {
   ArrowRight,
   Users,
   BookOpen,
   Clock,
-  Play,
-  FileText,
-  Image,
-  Music,
-  Video,
   Download,
-  Eye,
-  EyeOff,
-  Lock,
-  Unlock,
   Plus,
   Settings,
-  MoreVertical,
-  ChevronDown,
-  ChevronRight,
-  Calendar,
-  Award,
-  TrendingUp,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { Card, Button, Badge, Avatar, Progress, Tabs, Dropdown } from '@3de/ui'
-import { courseApi, lessonApi, fileApi } from '@3de/apis'
-import { Course, Lesson, FileType } from '@3de/interfaces'
+import { courseApi } from '@3de/apis'
+import { Course, User } from '@3de/interfaces'
 import LessonList from '../../../components/LessonList'
 import LessonFileViewer from '../../../components/LessonFileViewer'
+import AddLessonModal from '../../../components/dialogs/AddLessonModal'
+import AddCourse from '../../../components/dialogs/AddCourse'
+import { useAuth } from '@3de/auth'
 let getCourse=async(id:string):Promise<Course> =>{
   let course=await courseApi.getById(id)
   return course.data
 }
 export default function CourseDetailsPage({params}:{params: Promise<{id: string}>}) {
   const courseId = use(params).id
-  
+  const [showCreateLessonModal, setShowCreateLessonModal] = useState(false)
+  const [showEditLessonModal, setShowEditLessonModal] = useState(false)
+
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<any>(null)
   const [activeTab, setActiveTab] = useState('lessons')
+  const [showUpdateCourseModal, setShowUpdateCourseModal] = useState(false)
+  const { user } = useAuth()
   let {data:course,refetch}=useQuery({
     queryKey: ['course',courseId],
     queryFn: () => getCourse(courseId),
@@ -54,15 +44,18 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
       id: 'lessons',
       label: 'الدروس والمحتوى',
       content: (
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-[calc(100vh-300px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-auto">
           {/* Lessons List - 40% */}
           <div className="lg:col-span-2">
             <LessonList
+              students={course?.enrollments?.filter(e => e.status === 'ACTIVE')?.map(e => e.user) as User[] || []}
               lessons={course?.lessons || []}
               selectedLesson={selectedLesson}
               onLessonSelect={setSelectedLesson}
               onFileSelect={setSelectedFile}
-            />
+              setAddLessonModalOpen={setShowCreateLessonModal}
+              setIsEditLessonModalOpen={setShowEditLessonModal}
+              />
           </div>
           
           {/* File Viewer - 60% */}
@@ -228,7 +221,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
               className="w-full h-full object-cover"
             />
           )}
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end">
+          <div className="absolute inset-0 bg-black/40 flex items-end">
             <div className="p-6 text-white">
               <h1 className="text-3xl font-bold mb-2">{course?.title}</h1>
               <p className="text-white/90 mb-4">{course?.description}</p>
@@ -273,7 +266,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
 
             <div className="flex items-center gap-2 gap-reverse">
               <Badge variant="success">{course?.level}</Badge>
-              <Button variant="primary">
+              <Button variant="primary" onClick={() => setShowCreateLessonModal(true)}>
                 <Plus className="h-4 w-4 ml-2" />
                 إضافة درس جديد
               </Button>
@@ -288,7 +281,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
                     id: 'edit',
                     label: 'تعديل الكورس',
                     icon: <Settings className="h-4 w-4" />,
-                    onClick: () => {},
+                    onClick: () => {setShowUpdateCourseModal(true)},
                   },
                   {
                     id: 'export',
@@ -325,6 +318,8 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
           fullWidth
         />
       </Card>
-    </div>
+      {(showCreateLessonModal || showEditLessonModal) && <AddLessonModal isOpen={showCreateLessonModal || showEditLessonModal} onClose={() => {setShowCreateLessonModal(false);setShowEditLessonModal(false)}} refetch={refetch} courseId={courseId} lesson={course?.lessons?.find(l => l.id === selectedLesson) || undefined} isEdit={showEditLessonModal} />}
+      {showUpdateCourseModal && <AddCourse isOpen={showUpdateCourseModal} onClose={() => setShowUpdateCourseModal(false)} refetch={refetch} instructorId={user?.id as string} course={course} />}
+      </div>
   )
 } 

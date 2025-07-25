@@ -22,17 +22,21 @@ import {
   Archive,
   Calendar,
   BookOpen,
+  Pencil,
 } from 'lucide-react'
 import { Card, Button, Badge, Progress, Tooltip } from '@3de/ui'
-import { FileType,Lesson ,File as LessonFile } from '@3de/interfaces'
+import { FileType,Lesson ,File as LessonFile, User } from '@3de/interfaces'
 
 
 
 interface LessonListProps {
   lessons: Lesson[]
   selectedLesson: string | null
+  students: User[] | undefined
   onLessonSelect: (lessonId: string) => void
   onFileSelect: (file: LessonFile) => void
+  setAddLessonModalOpen: (open: boolean) => void
+  setIsEditLessonModalOpen: (open: boolean) => void
 }
 
 const getFileIcon = (type: FileType) => {
@@ -70,13 +74,13 @@ const getFileTypeColor = (type: FileType) => {
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'COMPLETED':
-      return 'success'
+      return 'bg-green-500'
     case 'IN_PROGRESS':
-      return 'warning'
+      return 'bg-yellow-500'
     case 'NOT_STARTED':
-      return 'secondary'
+      return 'bg-gray-500'
     default:
-      return 'primary'
+      return 'bg-gray-500'
   }
 }
 
@@ -96,15 +100,19 @@ const getStatusText = (status: string) => {
 const LessonItem = ({
   lesson,
   isSelected,
+  students,
   isExpanded,
   onToggle,
   onFileSelect,
+  setIsEditLessonModalOpen,
 }: {
   lesson: Lesson
   isSelected: boolean
+  students: User[]|undefined
   isExpanded: boolean
   onToggle: () => void
   onFileSelect: (file: LessonFile) => void
+  setIsEditLessonModalOpen: (open: boolean) => void
 }) => {
   const [isLocked, setIsLocked] = useState(false)
 
@@ -146,14 +154,14 @@ const LessonItem = ({
           </div>
 
           <div className="flex items-center gap-2 gap-reverse">
-            <Badge 
-              variant={getStatusColor(lesson.status)} 
-              size="sm"
-              className={isSelected ? 'bg-white/20 text-white' : ''}
-            >
-              {getStatusText(lesson.status)}
-            </Badge>
-            
+            <Tooltip content={getStatusText(lesson.status)}>
+            <div 
+              className={`h-4 w-4 rounded-full ${getStatusColor(lesson.status)}`}
+              >
+               <></>
+              </div>
+            </Tooltip>
+            <div className="flex items-center gap-2 gap-reverse">
             <Tooltip content={isLocked ? 'فتح الدرس' : 'قفل الدرس'}>
               <button
                 onClick={(e) => {
@@ -173,6 +181,15 @@ const LessonItem = ({
                 )}
               </button>
             </Tooltip>
+            <Tooltip content="تعديل الدرس">
+              <button className="p-1 rounded transition-colors cursor-pointer" onClick={(e)=>{
+                e.stopPropagation()
+                setIsEditLessonModalOpen(true)
+              }}>
+                <Pencil className="h-4 w-4" />
+              </button>
+                </Tooltip>
+          </div>
           </div>
         </div>
 
@@ -187,7 +204,7 @@ const LessonItem = ({
             <span className={`text-xs font-medium ${
               isSelected ? 'text-white' : 'text-gray-900'
             }`}>
-              {lesson.progress}%
+              {((lesson.LessonWhiteList?.length || 0)/(students?.length || 1))*100}%
             </span>
           </div>
           <div className={`w-full rounded-full h-1.5 ${
@@ -197,7 +214,7 @@ const LessonItem = ({
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 isSelected ? 'bg-white' : 'bg-primary-main'
               }`}
-              style={{ width: `${lesson.progress}%` }}
+              style={{ width: `${((lesson.LessonWhiteList?.length || 0)/(students?.length || 1))*100}%` }}
             />
           </div>
         </div>
@@ -284,8 +301,11 @@ const LessonItem = ({
 export default function LessonList({
   lessons,
   selectedLesson,
+  students,
   onLessonSelect,
   onFileSelect,
+  setAddLessonModalOpen,
+  setIsEditLessonModalOpen,
 }: LessonListProps) {
   const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set())
 
@@ -315,7 +335,9 @@ export default function LessonList({
           <h2 className="text-lg font-semibold text-gray-900">
             قائمة الدروس
           </h2>
-          <Button variant="primary" size="sm">
+          <Button variant="primary" size="sm" onClick={()=>{
+            setAddLessonModalOpen(true)
+          }}>
             إضافة درس
           </Button>
         </div>
@@ -359,10 +381,12 @@ export default function LessonList({
           <LessonItem
             key={lesson.id}
             lesson={lesson}
+            students={students}
             isSelected={selectedLesson === lesson.id}
             isExpanded={expandedLessons.has(lesson.id)}
             onToggle={() => toggleLesson(lesson.id)}
             onFileSelect={onFileSelect}
+            setIsEditLessonModalOpen={setIsEditLessonModalOpen}
           />
         ))}
 

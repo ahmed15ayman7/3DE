@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AuthProvider } from '@3de/auth'
+import { Toaster } from 'sonner'
 import LayoutDash from './layoutDash'
 import "./globals.css";
 export default function RootProvider({
@@ -42,7 +43,6 @@ export default function RootProvider({
     <QueryClientProvider client={queryClient}>
         <AuthProvider>
       <AnimatePresence mode="wait">
-
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -51,6 +51,7 @@ export default function RootProvider({
           >
             <LayoutDash>
               {children}
+        <Toaster />
             </LayoutDash>
         </motion.div>
       </AnimatePresence>

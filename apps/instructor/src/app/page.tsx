@@ -35,6 +35,7 @@ import { Card, Button, Badge, Avatar, Skeleton, toast } from '@3de/ui'
 import { instructorApi, courseApi, userApi } from '@3de/apis'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@3de/auth'
+import AddCourse from '../components/dialogs/AddCourse'
 
 const StatCard = ({ title, value, icon: Icon, trend, trendValue, color }: any) => (
   <motion.div
@@ -126,9 +127,9 @@ export default function DashboardPage() {
   const [timeRange, setTimeRange] = useState('week')
   const router = useRouter()
   const { user } = useAuth()
-
+  const [showCreateCourseModal, setShowCreateCourseModal] = useState(false)
   // جلب بيانات dashboard من API
-  const { data: dashboardData, isLoading, error } = useQuery({
+  const { data: dashboardData, isLoading, error,refetch } = useQuery({
     queryKey: ['instructor-dashboard', user?.id],
     queryFn: () => instructorApi.getDashboardData(user?.id as string),
     enabled: !!user?.id,
@@ -211,21 +212,21 @@ export default function DashboardPage() {
       description: 'إنشاء كورس تعليمي جديد',
       icon: Plus,
       color: 'bg-primary-main',
-      onClick: () => console.log('New course'),
+      onClick: () =>setShowCreateCourseModal(true),
     },
     {
       title: 'اختبار جديد',
       description: 'إضافة اختبار لأحد الكورسات',
       icon: ClipboardList,
       color: 'bg-secondary-main',
-      onClick: () => console.log('New quiz'),
+      onClick: () => router.push('/quizzes/new'),
     },
     {
-      title: 'إضافة درس',
-      description: 'إنشاء درس تعليمي جديد',
-      icon: BookOpen,
-      color: 'bg-accent-main',
-      onClick: () => console.log('New lesson'),
+      title: 'طلابي',
+      description: 'عرض طلابي',
+      icon: Users,
+      color: 'bg-success-main',
+      onClick: () => router.push('/students'),
     },
     {
       title: 'التقارير',
@@ -305,7 +306,7 @@ export default function DashboardPage() {
               icon={ClipboardList}
               trend="up"
               trendValue={`${statistics.activeQuizzes} اختبار نشط`}
-              color="bg-accent-main"
+              color="bg-success-main"
             />
             <StatCard
               title="معدل الإنجاز"
@@ -523,6 +524,7 @@ export default function DashboardPage() {
           )}
         </Card>
       </div>
-    </div>
+     {showCreateCourseModal && <AddCourse isOpen={showCreateCourseModal} onClose={() => setShowCreateCourseModal(false)} refetch={refetch} instructorId={user?.id as string} />}
+      </div>
   )
 } 

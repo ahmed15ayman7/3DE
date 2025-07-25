@@ -97,7 +97,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         <div
           ref={tooltipRef}
           className={`
-            absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg
+            absolute z-50 px-3 py-2 text-sm text-white bg-secondary-main rounded-lg shadow-lg
             ${positionClasses}
             max-w-xs
             animate-in fade-in-0 zoom-in-95
