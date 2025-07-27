@@ -24,6 +24,7 @@ import {
 import { enrollmentApi, userApi, courseApi } from '@3de/apis';
 import { Button, Input, Modal, toast } from '@3de/ui';
 import { Enrollment, User, Course } from '@3de/interfaces';
+import AddEnrollmentModal from '../../components/dialogs/AddEnrollmentModal';
 
 export default function EnrollmentsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,6 +33,7 @@ export default function EnrollmentsPage() {
   const [page, setPage] = useState(1);
   const [selectedEnrollment, setSelectedEnrollment] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showAddEnrollmentModal, setShowAddEnrollmentModal] = useState(false);
   const limit = 20;
 
   const queryClient = useQueryClient();
@@ -240,7 +242,7 @@ export default function EnrollmentsPage() {
             تصدير Excel
           </Button>
           
-          <Button className="bg-gradient-to-r from-primary-main to-primary-dark text-white">
+          <Button onClick={() => setShowAddEnrollmentModal(true)} className="bg-gradient-to-r from-primary-main to-primary-dark text-white">
             <Plus className="w-5 h-5 ml-2" />
             اشتراك جديد
           </Button>
@@ -536,6 +538,12 @@ export default function EnrollmentsPage() {
           </div>
         </div>
       </Modal>
+
+     {showAddEnrollmentModal && <AddEnrollmentModal
+        isOpen={showAddEnrollmentModal}
+        onClose={() => setShowAddEnrollmentModal(false)}
+        refetch={() => queryClient.invalidateQueries({ queryKey: ['enrollments'] })}
+      />}
     </div>
   );
 } 
