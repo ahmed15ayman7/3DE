@@ -21,9 +21,6 @@ export default function SignInPage() {
         case 'INSTRUCTOR':
           window.location.href = '/ins';
           break;
-        case 'ADMIN':
-          window.location.href = '/admin';
-          break;
         case 'ACADEMY':
           window.location.href = '/academy';
           break;
