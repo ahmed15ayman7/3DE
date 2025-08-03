@@ -337,6 +337,11 @@ export interface Quiz {
   endDate?: Date;
   upComing: boolean;
   isCompleted: boolean;
+  maxAttempts?: number;
+  showResultsImmediately: boolean;
+  shuffleQuestions: boolean;
+  shuffleAnswers: boolean;
+  allowReview: boolean;
   createdAt: Date;
   updatedAt: Date;
   courseId: string;
@@ -350,6 +355,7 @@ export interface Question {
   type: string;
   options: Option[] | undefined;
   isMultiple: boolean;
+  explanation?: string;
   points: number;
   isAnswered: boolean;
   quizId: string;

@@ -60,6 +60,31 @@ export class UpdateQuizDto {
   @Column()
   isCompleted: boolean;
 
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: maxAttempts, Type: number
+  @Column()
+  maxAttempts?: number;
+
+  @ApiProperty({ type: "boolean" })
+  // Field: showResultsImmediately, Type: boolean
+  @Column()
+  showResultsImmediately: boolean;
+
+  @ApiProperty({ type: "boolean" })
+  // Field: shuffleQuestions, Type: boolean
+  @Column()
+  shuffleQuestions: boolean;
+
+  @ApiProperty({ type: "boolean" })
+  // Field: shuffleAnswers, Type: boolean
+  @Column()
+  shuffleAnswers: boolean;
+
+  @ApiProperty({ type: "boolean" })
+  // Field: allowReview, Type: boolean
+  @Column()
+  allowReview: boolean;
+
   @ApiProperty({ type: "string", format: "date-time" })
   // Field: createdAt, Type: Date
   @Column()

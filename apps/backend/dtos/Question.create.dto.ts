@@ -25,6 +25,11 @@ export class CreateQuestionDto {
   @Column()
   isMultiple: boolean;
 
+  @ApiProperty({ type: "string" })
+  // Field: explanation, Type: string
+  @Column()
+  explanation?: string;
+
   @ApiProperty({ type: "number" })
   // Field: points, Type: number
   @Column()

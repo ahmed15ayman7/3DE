@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import {
   ArrowRight,
   ArrowLeft,
@@ -26,9 +26,9 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Card, Button, Input, Textarea, Select, Badge, Tabs, Switch } from '@3de/ui'
-import QuizForm from '../../../components/QuizForm'
-import QuestionCard from '../../../components/QuestionCard'
-import { courseApi, lessonApi } from '@3de/apis'
+import QuizForm from '../../../../components/QuizForm'
+import QuestionCard from '../../../../components/QuestionCard'
+import { courseApi, lessonApi, quizApi } from '@3de/apis'
 import { useQuery } from '@tanstack/react-query'
 
 // Validation schema
@@ -45,12 +45,14 @@ const quizSchema = z.object({
   shuffleAnswers: z.boolean(),
   allowReview: z.boolean(),
   questions: z.array(z.object({
+    id: z.string().optional(),
     text: z.string().min(1, 'نص السؤال مطلوب'),
     type: z.enum(['MULTIPLE_CHOICE', 'TRUE_FALSE', 'ESSAY', 'FILL_BLANK']),
     points: z.number().min(1, 'النقاط مطلوبة'),
     image: z.string().optional(),
     explanation: z.string().optional(),
     options: z.array(z.object({
+      id: z.string().optional(),
       text: z.string().min(1, 'نص الخيار مطلوب'),
       isCorrect: z.boolean(),
     })).min(2, 'يجب إضافة خيارين على الأقل'),
@@ -73,8 +75,10 @@ const QUESTION_TYPES = [
   { value: 'FILL_BLANK', label: 'اكمل الفراغ', icon: FileText },
 ]
 
-export default function NewQuizPage() {
+export default function EditQuizPage() {
   const router = useRouter()
+  const params = useParams()
+  const quizId = params.id as string
   const [currentStep, setCurrentStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -85,6 +89,7 @@ export default function NewQuizPage() {
     watch,
     setValue,
     getValues,
+    reset,
     formState: { errors },
     trigger,
   } = useForm<QuizFormData>({
@@ -110,26 +115,63 @@ export default function NewQuizPage() {
     name: 'questions',
   })
 
-  const watchedQuestions = watch('questions')
-  const totalPoints = watchedQuestions.reduce((sum, q) => sum + (q.points || 0), 0)
-  let {data: courses} = useQuery({
+  // Fetch quiz data
+  const { data: quiz, isLoading: isLoadingQuiz } = useQuery({
+    queryKey: ['quiz', quizId],
+    queryFn: () => quizApi.getById(quizId),
+    enabled: !!quizId,
+  })
+
+  // Fetch courses and lessons
+  const { data: courses } = useQuery({
     queryKey: ['courses'],
     queryFn: () => courseApi.getAll(),
   })
-  let {data: lessons} = useQuery({
+
+  const { data: lessons } = useQuery({
     queryKey: ['lessons'],
-    queryFn: () => lessonApi.getAll(0,10,''),
+    queryFn: () => lessonApi.getAll(0, 10, ''),
   })
 
+  // Load quiz data into form when available
+  useEffect(() => {
+    if (quiz?.data) {
+      const quizData = quiz.data
+      reset({
+        title: quizData.title,
+        description: quizData.description || '',
+        courseId: quizData.courseId,
+        lessonId: quizData.lessonId || '',
+        timeLimit: quizData.timeLimit || 30,
+        passingScore: quizData.passingScore || 70,
+        maxAttempts: quizData.maxAttempts || 3,
+        showResultsImmediately: quizData.showResultsImmediately ?? true,
+        shuffleQuestions: quizData.shuffleQuestions ?? false,
+        shuffleAnswers: quizData.shuffleAnswers ?? false,
+        allowReview: quizData.allowReview ?? true,
+        questions: quizData.questions?.map(q => ({
+          id: q.id,
+          text: q.text,
+          type: q.type,
+          points: q.points,
+          image: q.image || '',
+          explanation: q.explanation || '',
+          options: q.options?.map(opt => ({
+            id: opt.id,
+            text: opt.text,
+            isCorrect: opt.isCorrect,
+          })) || [],
+        })) || [],
+      })
+    }
+  }, [quiz?.data, reset])
 
+  const watchedQuestions = watch('questions')
+  const totalPoints = watchedQuestions.reduce((sum, q) => sum + (q.points || 0), 0)
 
-  const handleNext = async (e?: React.MouseEvent<HTMLButtonElement>) => {
-    e?.preventDefault()
+  const handleNext = async () => {
     const stepFields = getStepFields(currentStep)
-    console.log(stepFields)
-    console.log(stepFields.map(field => getValues(field)))
     const isValid = await trigger(stepFields)
-    console.log(isValid)
     
     if (isValid && currentStep < QUIZ_STEPS.length - 1) {
       setCurrentStep(currentStep + 1)
@@ -157,14 +199,15 @@ export default function NewQuizPage() {
 
   const addNewQuestion = () => {
     const newQuestion = {
+      id: `temp-${Date.now()}`,
       text: '',
       type: 'MULTIPLE_CHOICE' as const,
       points: 1,
       image: '',
       explanation: '',
       options: [
-        { text: '', isCorrect: true },
-        {  text: '', isCorrect: false },
+        { id: `opt-1-${Date.now()}`, text: '', isCorrect: true },
+        { id: `opt-2-${Date.now()}`, text: '', isCorrect: false },
       ],
     }
     addQuestion(newQuestion)
@@ -173,19 +216,26 @@ export default function NewQuizPage() {
   const onSubmit = async (data: QuizFormData) => {
     setIsSubmitting(true)
     try {
-      console.log('Quiz data:', data)
-      // Here you would call the API to create the quiz
-      // await quizApi.create(data)
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      console.log('Updated quiz data:', data)
+      await quizApi.update(quizId, data)
       
       router.push('/quizzes')
     } catch (error) {
-      console.error('Error creating quiz:', error)
+      console.error('Error updating quiz:', error)
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (isLoadingQuiz) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-main mx-auto mb-4"></div>
+          <p className="text-gray-600">جاري تحميل بيانات الاختبار...</p>
+        </div>
+      </div>
+    )
   }
 
   const renderStepContent = () => {
@@ -222,7 +272,7 @@ export default function NewQuizPage() {
                   الكورس *
                 </label>
                 <Select
-                  options={courses?.data.map((course) => ({ value: course.id, label: course.title }))||[]}
+                  options={courses?.data.map((course) => ({ value: course.id, label: course.title })) || []}
                   {...register('courseId')}
                   error={errors.courseId?.message}
                 />
@@ -233,7 +283,7 @@ export default function NewQuizPage() {
                   الدرس (اختياري)
                 </label>
                 <Select
-                  options={lessons?.data.map((lesson) => ({ value: lesson.id, label: lesson.title }))||[]}
+                  options={lessons?.data.map((lesson) => ({ value: lesson.id, label: lesson.title })) || []}
                   {...register('lessonId')}
                 />
               </div>
@@ -422,7 +472,7 @@ export default function NewQuizPage() {
                 مراجعة الاختبار
               </h3>
               <p className="text-gray-600">
-                تأكد من صحة جميع المعلومات قبل حفظ الاختبار
+                تأكد من صحة جميع المعلومات قبل حفظ التعديلات
               </p>
             </div>
 
@@ -539,9 +589,9 @@ export default function NewQuizPage() {
           العودة
         </Button>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">إنشاء اختبار جديد</h1>
+          <h1 className="text-2xl font-bold text-gray-900">تعديل الاختبار</h1>
           <p className="text-gray-600">
-            اتبع الخطوات لإنشاء اختبار تعليمي شامل
+            تعديل بيانات الاختبار والأسئلة
           </p>
         </div>
       </div>
@@ -639,7 +689,7 @@ export default function NewQuizPage() {
                   loading={isSubmitting}
                 >
                   <Save className="h-4 w-4 ml-2" />
-                  حفظ الاختبار
+                  حفظ التعديلات
                 </Button>
               )}
             </div>

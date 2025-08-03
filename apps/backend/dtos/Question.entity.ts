@@ -37,6 +37,11 @@ export class QuestionEntity {
   @Column()
   isMultiple: boolean;
 
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: explanation, Type: string
+  @Column()
+  explanation?: string;
+
   @ApiProperty({ type: "number" })
   // Field: points, Type: number
   @Column()

@@ -70,3 +70,4 @@ export { default as TestSpaces } from './components/testSpaces';
 // Toaster Components
 export { Toaster, toast } from './components/toaster';
 export { Autocomplete } from './components/Autocomplete';
+export { UploadImage } from './components/uploadImage';

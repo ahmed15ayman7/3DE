@@ -384,46 +384,53 @@ enum EnrollmentStatus {
 
 // Assessment and Quizzes
 model Quiz {
-  id           String       @id @default(cuid())
-  title        String
-  description  String?
-  lessonId     String
-  lesson       Lesson       @relation(fields: [lessonId], references: [id])
-  questions    Question[]
-  submissions  Submission[]
-  timeLimit    Int?
-  passingScore Int?
-  failCount    Int?
-  averageScore Float?
-  startDate    DateTime?
-  endDate      DateTime?
-  upComing     Boolean      @default(false)
-  isCompleted  Boolean      @default(false)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id                     String       @id @default(cuid())
+  title                  String
+  description            String?
+  lessonId               String
+  lesson                 Lesson       @relation(fields: [lessonId], references: [id])
+  questions              Question[]
+  submissions            Submission[]
+  timeLimit              Int?
+  passingScore           Int?
+  failCount              Int?
+  averageScore           Float?
+  startDate              DateTime?
+  endDate                DateTime?
+  upComing               Boolean      @default(false)
+  isCompleted            Boolean      @default(false)
+  maxAttempts            Int?
+  showResultsImmediately Boolean      @default(false)
+  shuffleQuestions       Boolean      @default(false)
+  shuffleAnswers         Boolean      @default(false)
+  allowReview            Boolean      @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id])
 }
 
 model Question {
-  id         String   @id @default(cuid())
-  text       String
-  image      String?
-  type       String
-  options    Option[]
-  isMultiple Boolean  @default(false)
-  points     Int
-  isAnswered Boolean  @default(false)
-  quizId     String
-  quiz       Quiz     @relation(fields: [quizId], references: [id])
-  createdAt  DateTime @default(now())
+  id          String   @id @default(cuid())
+  text        String
+  image       String?
+  type        String
+  options     Option[]
+  isMultiple  Boolean  @default(false)
+  explanation String?
+  points      Int
+  isAnswered  Boolean  @default(false)
+  quizId      String
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
 }
 
 model Option {
   id         String   @id @default(cuid())
   questionId String
-  question   Question @relation(fields: [questionId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   text       String
   isCorrect  Boolean  @default(false)
   createdAt  DateTime @default(now())

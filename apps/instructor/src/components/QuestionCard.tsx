@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Trash2,
@@ -15,7 +15,7 @@ import {
   Image as ImageIcon,
   HelpCircle,
 } from 'lucide-react'
-import { Card, Button, Input, Textarea, Select, Badge, Switch } from '@3de/ui'
+import { Card, Button, Input, Textarea, Select, Badge, Switch, UploadImage } from '@3de/ui'
 
 interface QuestionOption {
   id?: string
@@ -58,8 +58,10 @@ export default function QuestionCard({
   errors 
 }: QuestionCardProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [updateQuestion2, setUpdateQuestion2] = useState<Partial<Question>>(question)
   const [imagePreview, setImagePreview] = useState(question.image || '')
-
+  const inputRef = useRef<HTMLInputElement>(null)
   const updateQuestion = (updates: Partial<Question>) => {
     onUpdate({ ...question, ...updates })
   }
@@ -72,7 +74,6 @@ export default function QuestionCard({
 
   const addOption = () => {
     const newOption: QuestionOption = {
-      id: `opt-${Date.now()}`,
       text: '',
       isCorrect: false,
     }
@@ -94,18 +95,6 @@ export default function QuestionCard({
     updateQuestion({ options: newOptions })
   }
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string
-        setImagePreview(imageUrl)
-        updateQuestion({ image: imageUrl })
-      }
-      reader.readAsDataURL(file)
-    }
-  }
 
   const renderQuestionTypeSpecificFields = () => {
     switch (question.type) {
@@ -130,7 +119,7 @@ export default function QuestionCard({
             <div className="space-y-2">
               {question.options.map((option, optionIndex) => (
                 <motion.div
-                  key={option.id || optionIndex}
+                  key={optionIndex}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="flex items-center gap-3 gap-reverse p-3 border rounded-lg"
@@ -145,8 +134,9 @@ export default function QuestionCard({
                   
                   <div className="flex-1">
                     <Input
-                      value={option.text}
-                      onChange={(e) => updateOption(optionIndex, { text: e.target.value })}
+                      value={updateQuestion2.options?.[optionIndex]?.text ?? option.text}
+                      onChange={(e) => setUpdateQuestion2({ options: question.options.map((option, index) => index === optionIndex ? { ...option, text: e.target.value } : option) })}
+                      onBlur={() => updateQuestion({ ...updateQuestion2 })}
                       placeholder={`الخيار ${optionIndex + 1}`}
                       error={errors?.options?.[optionIndex]?.text?.message}
                     />
@@ -216,8 +206,9 @@ export default function QuestionCard({
               معايير التقييم (اختياري)
             </label>
             <Textarea
-              value={question.explanation || ''}
-              onChange={(e) => updateQuestion({ explanation: e.target.value })}
+              value={updateQuestion2.explanation || question.explanation || ''}
+              onChange={(e) => setUpdateQuestion2({ explanation: e.target.value })}
+              onBlur={() => updateQuestion({ ...updateQuestion2 })}
               placeholder="أدخل معايير التقييم أو النقاط المهمة التي يجب تغطيتها في الإجابة"
               rows={3}
             />
@@ -238,8 +229,9 @@ export default function QuestionCard({
               {question.options.map((option, optionIndex) => (
                 <div key={option.id || optionIndex} className="flex items-center gap-3 gap-reverse">
                   <Input
-                    value={option.text}
-                    onChange={(e) => updateOption(optionIndex, { text: e.target.value })}
+                    value={updateQuestion2.options?.[optionIndex]?.text || option.text}
+                    onChange={(e) => setUpdateQuestion2({ options: question.options.map((option, index) => index === optionIndex ? { ...option, text: e.target.value } : option) })}
+                    onBlur={() => updateQuestion({ ...updateQuestion2 })}
                     placeholder={`إجابة مقبولة ${optionIndex + 1}`}
                   />
                   {question.options.length > 1 && (
@@ -366,11 +358,11 @@ export default function QuestionCard({
                       } else if (newType === 'ESSAY') {
                         newOptions = []
                       } else if (newType === 'FILL_BLANK') {
-                        newOptions = [{ id: 'answer-1', text: '', isCorrect: true }]
+                        newOptions = [{text: '', isCorrect: true }]
                       } else if (newType === 'MULTIPLE_CHOICE' && question.options.length < 2) {
                         newOptions = [
-                          { id: 'opt-1', text: '', isCorrect: true },
-                          { id: 'opt-2', text: '', isCorrect: false },
+                          {  text: '', isCorrect: true },
+                          { text: '', isCorrect: false },
                         ]
                       }
                       
@@ -387,9 +379,10 @@ export default function QuestionCard({
                     type="number"
                     min="1"
                     max="100"
-                    value={question.points}
-                    onChange={(e) => updateQuestion({ points: parseInt(e.target.value) || 1 })}
+                    value={updateQuestion2.points || question.points}
+                    onChange={(e) => setUpdateQuestion2({ points: parseInt(e.target.value) || 1 })}
                     error={errors?.points?.message}
+                    onBlur={() => updateQuestion({ ...updateQuestion2 })}
                   />
                 </div>
               </div>
@@ -400,8 +393,9 @@ export default function QuestionCard({
                   نص السؤال *
                 </label>
                 <Textarea
-                  value={question.text}
-                  onChange={(e) => updateQuestion({ text: e.target.value })}
+                  value={updateQuestion2.text ?? question.text}
+                  onChange={(e) => setUpdateQuestion2({ text: e.target.value })}
+                  onBlur={() => updateQuestion({ ...updateQuestion2 })}
                   placeholder="أدخل نص السؤال..."
                   rows={3}
                   error={errors?.text?.message}
@@ -445,12 +439,7 @@ export default function QuestionCard({
                         PNG, JPG أو JPEG
                       </p>
                     </div>
-                    <input
-                      type="file"
-                      className="hidden"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                    />
+                    <UploadImage image={imagePreview} setImage={setImagePreview} inputRef={inputRef} className='hidden' isUploading={isUploading} setIsUploading={setIsUploading} />
                   </label>
                 )}
               </div>
@@ -465,8 +454,9 @@ export default function QuestionCard({
                     شرح الإجابة (اختياري)
                   </label>
                   <Textarea
-                    value={question.explanation || ''}
-                    onChange={(e) => updateQuestion({ explanation: e.target.value })}
+                    value={updateQuestion2.explanation || question.explanation || ''}
+                    onChange={(e) => setUpdateQuestion2({ explanation: e.target.value })}
+                    onBlur={() => updateQuestion({ ...updateQuestion2 })}
                     placeholder="شرح يظهر للطلاب بعد الإجابة على السؤال"
                     rows={2}
                   />

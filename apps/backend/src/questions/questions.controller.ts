@@ -16,7 +16,7 @@ export class QuestionsController {
 
     @Post()
     create(@Body() createQuestionDto: CreateQuestionDto, @Query('quizId') quizId: string) {
-        return this.questionsService.create({ ...createQuestionDto, options: [] }, quizId);
+        return this.questionsService.create({ ...createQuestionDto as CreateQuestionDto & { options: CreateOptionDto[] } }, quizId);
     }
 
     @Get()

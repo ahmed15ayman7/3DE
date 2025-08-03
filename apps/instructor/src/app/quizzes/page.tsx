@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import {
   Plus,
   Search,
@@ -45,7 +46,7 @@ const QuizCard = ({ quiz, onEdit, onDelete, onViewResults }: QuizCardProps) => {
       id: 'view',
       label: 'عرض التفاصيل',
       icon: <Eye className="h-4 w-4" />,
-      onClick: () => {},
+      onClick: () => onViewResults(quiz),
     },
     {
       id: 'results',
@@ -168,19 +169,19 @@ const QuizCard = ({ quiz, onEdit, onDelete, onViewResults }: QuizCardProps) => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-2 gap-reverse">
-            <Button variant="primary" size="sm" className="flex-1">
-              <Eye className="h-4 w-4 ml-2" />
-              عرض الاختبار
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => onViewResults(quiz)}>
-              <BarChart3 className="h-4 w-4 ml-2" />
-              النتائج
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => onEdit(quiz)}>
-              <Edit className="h-4 w-4" />
-            </Button>
-          </div>
+                      <div className="flex gap-2 gap-reverse">
+              <Button variant="primary" size="sm" className="flex-1" onClick={() => onViewResults(quiz)}>
+                <Eye className="h-4 w-4 ml-2" />
+                عرض الاختبار
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => onViewResults(quiz)}>
+                <BarChart3 className="h-4 w-4 ml-2" />
+                النتائج
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => onEdit(quiz)}>
+                <Edit className="h-4 w-4" />
+              </Button>
+            </div>
 
           {/* Course Info */}
           {quiz.course && (
@@ -242,7 +243,7 @@ const QuizListItem = ({ quiz, onEdit, onDelete, onViewResults }: QuizCardProps) 
 
         {/* Actions */}
         <div className="flex items-center gap-2 gap-reverse">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => onViewResults(quiz)}>
             <Eye className="h-4 w-4 ml-2" />
             عرض
           </Button>
@@ -275,10 +276,11 @@ const QuizListItem = ({ quiz, onEdit, onDelete, onViewResults }: QuizCardProps) 
   </motion.div>
 )
 let getQuizzes=async(userId:string)=>{
-  let response=await quizApi.getByStudent(userId)
+  let response=await quizApi.getByInstructor(userId)
   return response.data
 }
 export default function QuizzesPage() {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCourse, setSelectedCourse] = useState('all')
   const [selectedStatus, setSelectedStatus] = useState('all')
@@ -296,15 +298,24 @@ export default function QuizzesPage() {
   })
 
   const handleEditQuiz = (quiz: Quiz) => {
-    console.log('Edit quiz:', quiz.id)
+    router.push(`/quizzes/${quiz.id}/edit`)
   }
 
-  const handleDeleteQuiz = (quiz: Quiz) => {
-    console.log('Delete quiz:', quiz.id)
+  const handleDeleteQuiz = async (quiz: Quiz) => {
+    if (confirm('هل أنت متأكد من حذف هذا الاختبار؟')) {
+      try {
+        await quizApi.delete(quiz.id)
+        // Refresh the quizzes list
+        window.location.reload()
+      } catch (error) {
+        console.error('Error deleting quiz:', error)
+        alert('حدث خطأ أثناء حذف الاختبار')
+      }
+    }
   }
 
   const handleViewResults = (quiz: Quiz) => {
-    console.log('View results:', quiz.id)
+    router.push(`/quizzes/${quiz.id}`)
   }
 
   const totalSubmissions = quizzes?.data?.reduce((acc:number, quiz:Quiz) => acc + (quiz.submissions?.length || 0), 0)

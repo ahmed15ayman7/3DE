@@ -30484,6 +30484,7 @@ export namespace Prisma {
     passingScore: number | null
     failCount: number | null
     averageScore: number | null
+    maxAttempts: number | null
   }
 
   export type QuizSumAggregateOutputType = {
@@ -30491,6 +30492,7 @@ export namespace Prisma {
     passingScore: number | null
     failCount: number | null
     averageScore: number | null
+    maxAttempts: number | null
   }
 
   export type QuizMinAggregateOutputType = {
@@ -30506,6 +30508,11 @@ export namespace Prisma {
     endDate: Date | null
     upComing: boolean | null
     isCompleted: boolean | null
+    maxAttempts: number | null
+    showResultsImmediately: boolean | null
+    shuffleQuestions: boolean | null
+    shuffleAnswers: boolean | null
+    allowReview: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
@@ -30524,6 +30531,11 @@ export namespace Prisma {
     endDate: Date | null
     upComing: boolean | null
     isCompleted: boolean | null
+    maxAttempts: number | null
+    showResultsImmediately: boolean | null
+    shuffleQuestions: boolean | null
+    shuffleAnswers: boolean | null
+    allowReview: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
@@ -30542,6 +30554,11 @@ export namespace Prisma {
     endDate: number
     upComing: number
     isCompleted: number
+    maxAttempts: number
+    showResultsImmediately: number
+    shuffleQuestions: number
+    shuffleAnswers: number
+    allowReview: number
     createdAt: number
     updatedAt: number
     courseId: number
@@ -30554,6 +30571,7 @@ export namespace Prisma {
     passingScore?: true
     failCount?: true
     averageScore?: true
+    maxAttempts?: true
   }
 
   export type QuizSumAggregateInputType = {
@@ -30561,6 +30579,7 @@ export namespace Prisma {
     passingScore?: true
     failCount?: true
     averageScore?: true
+    maxAttempts?: true
   }
 
   export type QuizMinAggregateInputType = {
@@ -30576,6 +30595,11 @@ export namespace Prisma {
     endDate?: true
     upComing?: true
     isCompleted?: true
+    maxAttempts?: true
+    showResultsImmediately?: true
+    shuffleQuestions?: true
+    shuffleAnswers?: true
+    allowReview?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
@@ -30594,6 +30618,11 @@ export namespace Prisma {
     endDate?: true
     upComing?: true
     isCompleted?: true
+    maxAttempts?: true
+    showResultsImmediately?: true
+    shuffleQuestions?: true
+    shuffleAnswers?: true
+    allowReview?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
@@ -30612,6 +30641,11 @@ export namespace Prisma {
     endDate?: true
     upComing?: true
     isCompleted?: true
+    maxAttempts?: true
+    showResultsImmediately?: true
+    shuffleQuestions?: true
+    shuffleAnswers?: true
+    allowReview?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
@@ -30717,6 +30751,11 @@ export namespace Prisma {
     endDate: Date | null
     upComing: boolean
     isCompleted: boolean
+    maxAttempts: number | null
+    showResultsImmediately: boolean
+    shuffleQuestions: boolean
+    shuffleAnswers: boolean
+    allowReview: boolean
     createdAt: Date
     updatedAt: Date
     courseId: string
@@ -30754,6 +30793,11 @@ export namespace Prisma {
     endDate?: boolean
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: boolean
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
@@ -30777,6 +30821,11 @@ export namespace Prisma {
     endDate?: boolean
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: boolean
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
@@ -30797,6 +30846,11 @@ export namespace Prisma {
     endDate?: boolean
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: boolean
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
@@ -30817,12 +30871,17 @@ export namespace Prisma {
     endDate?: boolean
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: boolean
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
   }
 
-  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "lessonId" | "timeLimit" | "passingScore" | "failCount" | "averageScore" | "startDate" | "endDate" | "upComing" | "isCompleted" | "createdAt" | "updatedAt" | "courseId", ExtArgs["result"]["quiz"]>
+  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "lessonId" | "timeLimit" | "passingScore" | "failCount" | "averageScore" | "startDate" | "endDate" | "upComing" | "isCompleted" | "maxAttempts" | "showResultsImmediately" | "shuffleQuestions" | "shuffleAnswers" | "allowReview" | "createdAt" | "updatedAt" | "courseId", ExtArgs["result"]["quiz"]>
   export type QuizInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
     questions?: boolean | Quiz$questionsArgs<ExtArgs>
@@ -30860,6 +30919,11 @@ export namespace Prisma {
       endDate: Date | null
       upComing: boolean
       isCompleted: boolean
+      maxAttempts: number | null
+      showResultsImmediately: boolean
+      shuffleQuestions: boolean
+      shuffleAnswers: boolean
+      allowReview: boolean
       createdAt: Date
       updatedAt: Date
       courseId: string
@@ -31302,6 +31366,11 @@ export namespace Prisma {
     readonly endDate: FieldRef<"Quiz", 'DateTime'>
     readonly upComing: FieldRef<"Quiz", 'Boolean'>
     readonly isCompleted: FieldRef<"Quiz", 'Boolean'>
+    readonly maxAttempts: FieldRef<"Quiz", 'Int'>
+    readonly showResultsImmediately: FieldRef<"Quiz", 'Boolean'>
+    readonly shuffleQuestions: FieldRef<"Quiz", 'Boolean'>
+    readonly shuffleAnswers: FieldRef<"Quiz", 'Boolean'>
+    readonly allowReview: FieldRef<"Quiz", 'Boolean'>
     readonly createdAt: FieldRef<"Quiz", 'DateTime'>
     readonly updatedAt: FieldRef<"Quiz", 'DateTime'>
     readonly courseId: FieldRef<"Quiz", 'String'>
@@ -31793,6 +31862,7 @@ export namespace Prisma {
     image: string | null
     type: string | null
     isMultiple: boolean | null
+    explanation: string | null
     points: number | null
     isAnswered: boolean | null
     quizId: string | null
@@ -31805,6 +31875,7 @@ export namespace Prisma {
     image: string | null
     type: string | null
     isMultiple: boolean | null
+    explanation: string | null
     points: number | null
     isAnswered: boolean | null
     quizId: string | null
@@ -31817,6 +31888,7 @@ export namespace Prisma {
     image: number
     type: number
     isMultiple: number
+    explanation: number
     points: number
     isAnswered: number
     quizId: number
@@ -31839,6 +31911,7 @@ export namespace Prisma {
     image?: true
     type?: true
     isMultiple?: true
+    explanation?: true
     points?: true
     isAnswered?: true
     quizId?: true
@@ -31851,6 +31924,7 @@ export namespace Prisma {
     image?: true
     type?: true
     isMultiple?: true
+    explanation?: true
     points?: true
     isAnswered?: true
     quizId?: true
@@ -31863,6 +31937,7 @@ export namespace Prisma {
     image?: true
     type?: true
     isMultiple?: true
+    explanation?: true
     points?: true
     isAnswered?: true
     quizId?: true
@@ -31962,6 +32037,7 @@ export namespace Prisma {
     image: string | null
     type: string
     isMultiple: boolean
+    explanation: string | null
     points: number
     isAnswered: boolean
     quizId: string
@@ -31993,6 +32069,7 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     isMultiple?: boolean
+    explanation?: boolean
     points?: boolean
     isAnswered?: boolean
     quizId?: boolean
@@ -32008,6 +32085,7 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     isMultiple?: boolean
+    explanation?: boolean
     points?: boolean
     isAnswered?: boolean
     quizId?: boolean
@@ -32021,6 +32099,7 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     isMultiple?: boolean
+    explanation?: boolean
     points?: boolean
     isAnswered?: boolean
     quizId?: boolean
@@ -32034,13 +32113,14 @@ export namespace Prisma {
     image?: boolean
     type?: boolean
     isMultiple?: boolean
+    explanation?: boolean
     points?: boolean
     isAnswered?: boolean
     quizId?: boolean
     createdAt?: boolean
   }
 
-  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "text" | "image" | "type" | "isMultiple" | "points" | "isAnswered" | "quizId" | "createdAt", ExtArgs["result"]["question"]>
+  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "text" | "image" | "type" | "isMultiple" | "explanation" | "points" | "isAnswered" | "quizId" | "createdAt", ExtArgs["result"]["question"]>
   export type QuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     options?: boolean | Question$optionsArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
@@ -32065,6 +32145,7 @@ export namespace Prisma {
       image: string | null
       type: string
       isMultiple: boolean
+      explanation: string | null
       points: number
       isAnswered: boolean
       quizId: string
@@ -32499,6 +32580,7 @@ export namespace Prisma {
     readonly image: FieldRef<"Question", 'String'>
     readonly type: FieldRef<"Question", 'String'>
     readonly isMultiple: FieldRef<"Question", 'Boolean'>
+    readonly explanation: FieldRef<"Question", 'String'>
     readonly points: FieldRef<"Question", 'Int'>
     readonly isAnswered: FieldRef<"Question", 'Boolean'>
     readonly quizId: FieldRef<"Question", 'String'>
@@ -102081,6 +102163,11 @@ export namespace Prisma {
     endDate: 'endDate',
     upComing: 'upComing',
     isCompleted: 'isCompleted',
+    maxAttempts: 'maxAttempts',
+    showResultsImmediately: 'showResultsImmediately',
+    shuffleQuestions: 'shuffleQuestions',
+    shuffleAnswers: 'shuffleAnswers',
+    allowReview: 'allowReview',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     courseId: 'courseId'
@@ -102095,6 +102182,7 @@ export namespace Prisma {
     image: 'image',
     type: 'type',
     isMultiple: 'isMultiple',
+    explanation: 'explanation',
     points: 'points',
     isAnswered: 'isAnswered',
     quizId: 'quizId',
@@ -104793,6 +104881,11 @@ export namespace Prisma {
     endDate?: DateTimeNullableFilter<"Quiz"> | Date | string | null
     upComing?: BoolFilter<"Quiz"> | boolean
     isCompleted?: BoolFilter<"Quiz"> | boolean
+    maxAttempts?: IntNullableFilter<"Quiz"> | number | null
+    showResultsImmediately?: BoolFilter<"Quiz"> | boolean
+    shuffleQuestions?: BoolFilter<"Quiz"> | boolean
+    shuffleAnswers?: BoolFilter<"Quiz"> | boolean
+    allowReview?: BoolFilter<"Quiz"> | boolean
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeFilter<"Quiz"> | Date | string
     courseId?: StringFilter<"Quiz"> | string
@@ -104815,6 +104908,11 @@ export namespace Prisma {
     endDate?: SortOrderInput | SortOrder
     upComing?: SortOrder
     isCompleted?: SortOrder
+    maxAttempts?: SortOrderInput | SortOrder
+    showResultsImmediately?: SortOrder
+    shuffleQuestions?: SortOrder
+    shuffleAnswers?: SortOrder
+    allowReview?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
@@ -104840,6 +104938,11 @@ export namespace Prisma {
     endDate?: DateTimeNullableFilter<"Quiz"> | Date | string | null
     upComing?: BoolFilter<"Quiz"> | boolean
     isCompleted?: BoolFilter<"Quiz"> | boolean
+    maxAttempts?: IntNullableFilter<"Quiz"> | number | null
+    showResultsImmediately?: BoolFilter<"Quiz"> | boolean
+    shuffleQuestions?: BoolFilter<"Quiz"> | boolean
+    shuffleAnswers?: BoolFilter<"Quiz"> | boolean
+    allowReview?: BoolFilter<"Quiz"> | boolean
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeFilter<"Quiz"> | Date | string
     courseId?: StringFilter<"Quiz"> | string
@@ -104862,6 +104965,11 @@ export namespace Prisma {
     endDate?: SortOrderInput | SortOrder
     upComing?: SortOrder
     isCompleted?: SortOrder
+    maxAttempts?: SortOrderInput | SortOrder
+    showResultsImmediately?: SortOrder
+    shuffleQuestions?: SortOrder
+    shuffleAnswers?: SortOrder
+    allowReview?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
@@ -104888,6 +104996,11 @@ export namespace Prisma {
     endDate?: DateTimeNullableWithAggregatesFilter<"Quiz"> | Date | string | null
     upComing?: BoolWithAggregatesFilter<"Quiz"> | boolean
     isCompleted?: BoolWithAggregatesFilter<"Quiz"> | boolean
+    maxAttempts?: IntNullableWithAggregatesFilter<"Quiz"> | number | null
+    showResultsImmediately?: BoolWithAggregatesFilter<"Quiz"> | boolean
+    shuffleQuestions?: BoolWithAggregatesFilter<"Quiz"> | boolean
+    shuffleAnswers?: BoolWithAggregatesFilter<"Quiz"> | boolean
+    allowReview?: BoolWithAggregatesFilter<"Quiz"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
     courseId?: StringWithAggregatesFilter<"Quiz"> | string
@@ -104902,6 +105015,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Question"> | string | null
     type?: StringFilter<"Question"> | string
     isMultiple?: BoolFilter<"Question"> | boolean
+    explanation?: StringNullableFilter<"Question"> | string | null
     points?: IntFilter<"Question"> | number
     isAnswered?: BoolFilter<"Question"> | boolean
     quizId?: StringFilter<"Question"> | string
@@ -104916,6 +105030,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     type?: SortOrder
     isMultiple?: SortOrder
+    explanation?: SortOrderInput | SortOrder
     points?: SortOrder
     isAnswered?: SortOrder
     quizId?: SortOrder
@@ -104933,6 +105048,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Question"> | string | null
     type?: StringFilter<"Question"> | string
     isMultiple?: BoolFilter<"Question"> | boolean
+    explanation?: StringNullableFilter<"Question"> | string | null
     points?: IntFilter<"Question"> | number
     isAnswered?: BoolFilter<"Question"> | boolean
     quizId?: StringFilter<"Question"> | string
@@ -104947,6 +105063,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     type?: SortOrder
     isMultiple?: SortOrder
+    explanation?: SortOrderInput | SortOrder
     points?: SortOrder
     isAnswered?: SortOrder
     quizId?: SortOrder
@@ -104967,6 +105084,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"Question"> | string | null
     type?: StringWithAggregatesFilter<"Question"> | string
     isMultiple?: BoolWithAggregatesFilter<"Question"> | boolean
+    explanation?: StringNullableWithAggregatesFilter<"Question"> | string | null
     points?: IntWithAggregatesFilter<"Question"> | number
     isAnswered?: BoolWithAggregatesFilter<"Question"> | boolean
     quizId?: StringWithAggregatesFilter<"Question"> | string
@@ -111154,6 +111272,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     lesson: LessonCreateNestedOneWithoutQuizzesInput
@@ -111175,6 +111298,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -111194,6 +111322,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutQuizzesNestedInput
@@ -111215,6 +111348,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -111235,6 +111373,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -111252,6 +111395,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -111269,6 +111417,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -111280,6 +111433,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     createdAt?: Date | string
@@ -111293,6 +111447,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     quizId: string
@@ -111306,6 +111461,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -111319,6 +111475,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     quizId?: StringFieldUpdateOperationsInput | string
@@ -111332,6 +111489,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     quizId: string
@@ -111344,6 +111502,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -111355,6 +111514,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     quizId?: StringFieldUpdateOperationsInput | string
@@ -117910,6 +118070,11 @@ export namespace Prisma {
     endDate?: SortOrder
     upComing?: SortOrder
     isCompleted?: SortOrder
+    maxAttempts?: SortOrder
+    showResultsImmediately?: SortOrder
+    shuffleQuestions?: SortOrder
+    shuffleAnswers?: SortOrder
+    allowReview?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
@@ -117920,6 +118085,7 @@ export namespace Prisma {
     passingScore?: SortOrder
     failCount?: SortOrder
     averageScore?: SortOrder
+    maxAttempts?: SortOrder
   }
 
   export type QuizMaxOrderByAggregateInput = {
@@ -117935,6 +118101,11 @@ export namespace Prisma {
     endDate?: SortOrder
     upComing?: SortOrder
     isCompleted?: SortOrder
+    maxAttempts?: SortOrder
+    showResultsImmediately?: SortOrder
+    shuffleQuestions?: SortOrder
+    shuffleAnswers?: SortOrder
+    allowReview?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
@@ -117953,6 +118124,11 @@ export namespace Prisma {
     endDate?: SortOrder
     upComing?: SortOrder
     isCompleted?: SortOrder
+    maxAttempts?: SortOrder
+    showResultsImmediately?: SortOrder
+    shuffleQuestions?: SortOrder
+    shuffleAnswers?: SortOrder
+    allowReview?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
@@ -117963,6 +118139,7 @@ export namespace Prisma {
     passingScore?: SortOrder
     failCount?: SortOrder
     averageScore?: SortOrder
+    maxAttempts?: SortOrder
   }
 
   export type OptionListRelationFilter = {
@@ -117986,6 +118163,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     isMultiple?: SortOrder
+    explanation?: SortOrder
     points?: SortOrder
     isAnswered?: SortOrder
     quizId?: SortOrder
@@ -118002,6 +118180,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     isMultiple?: SortOrder
+    explanation?: SortOrder
     points?: SortOrder
     isAnswered?: SortOrder
     quizId?: SortOrder
@@ -118014,6 +118193,7 @@ export namespace Prisma {
     image?: SortOrder
     type?: SortOrder
     isMultiple?: SortOrder
+    explanation?: SortOrder
     points?: SortOrder
     isAnswered?: SortOrder
     quizId?: SortOrder
@@ -134423,6 +134603,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     lesson: LessonCreateNestedOneWithoutQuizzesInput
@@ -134443,6 +134628,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionUncheckedCreateNestedManyWithoutQuizInput
@@ -134836,6 +135026,11 @@ export namespace Prisma {
     endDate?: DateTimeNullableFilter<"Quiz"> | Date | string | null
     upComing?: BoolFilter<"Quiz"> | boolean
     isCompleted?: BoolFilter<"Quiz"> | boolean
+    maxAttempts?: IntNullableFilter<"Quiz"> | number | null
+    showResultsImmediately?: BoolFilter<"Quiz"> | boolean
+    shuffleQuestions?: BoolFilter<"Quiz"> | boolean
+    shuffleAnswers?: BoolFilter<"Quiz"> | boolean
+    allowReview?: BoolFilter<"Quiz"> | boolean
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeFilter<"Quiz"> | Date | string
     courseId?: StringFilter<"Quiz"> | string
@@ -135736,6 +135931,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionCreateNestedManyWithoutQuizInput
@@ -135755,6 +135955,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -137988,6 +138193,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     createdAt?: Date | string
@@ -138000,6 +138206,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     createdAt?: Date | string
@@ -138175,6 +138382,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Question"> | string | null
     type?: StringFilter<"Question"> | string
     isMultiple?: BoolFilter<"Question"> | boolean
+    explanation?: StringNullableFilter<"Question"> | string | null
     points?: IntFilter<"Question"> | number
     isAnswered?: BoolFilter<"Question"> | boolean
     quizId?: StringFilter<"Question"> | string
@@ -138296,6 +138504,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     lesson: LessonCreateNestedOneWithoutQuizzesInput
@@ -138316,6 +138529,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -138378,6 +138596,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutQuizzesNestedInput
@@ -138398,6 +138621,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -138410,6 +138638,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     createdAt?: Date | string
@@ -138422,6 +138651,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     quizId: string
@@ -138450,6 +138680,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -138462,6 +138693,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     quizId?: StringFieldUpdateOperationsInput | string
@@ -138599,6 +138831,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     lesson: LessonCreateNestedOneWithoutQuizzesInput
@@ -138619,6 +138856,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -138778,6 +139020,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutQuizzesNestedInput
@@ -138798,6 +139045,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -157063,6 +157315,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -157220,6 +157477,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutQuizzesNestedInput
@@ -157240,6 +157502,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUncheckedUpdateManyWithoutQuizNestedInput
@@ -157259,6 +157526,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -157814,6 +158086,11 @@ export namespace Prisma {
     endDate?: Date | string | null
     upComing?: boolean
     isCompleted?: boolean
+    maxAttempts?: number | null
+    showResultsImmediately?: boolean
+    shuffleQuestions?: boolean
+    shuffleAnswers?: boolean
+    allowReview?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -157904,6 +158181,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUpdateManyWithoutQuizNestedInput
@@ -157923,6 +158205,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -157942,6 +158229,11 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     upComing?: BoolFieldUpdateOperationsInput | boolean
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
+    showResultsImmediately?: BoolFieldUpdateOperationsInput | boolean
+    shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
+    shuffleAnswers?: BoolFieldUpdateOperationsInput | boolean
+    allowReview?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -158271,6 +158563,7 @@ export namespace Prisma {
     image?: string | null
     type: string
     isMultiple?: boolean
+    explanation?: string | null
     points: number
     isAnswered?: boolean
     createdAt?: Date | string
@@ -158294,6 +158587,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158306,6 +158600,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158318,6 +158613,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
     isAnswered?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
