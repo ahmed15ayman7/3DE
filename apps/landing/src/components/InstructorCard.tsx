@@ -154,13 +154,13 @@ export default function InstructorCard({
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-            <div className="text-center">
+            {/* <div className="text-center">
               <div className="flex items-center justify-center gap-1 gap-reverse text-text-secondary">
                 <Users size={14} />
                 <span>{totalStudents}</span>
               </div>
               <p className="text-xs text-text-secondary mt-1">طالب</p>
-            </div>
+            </div> */}
             <div className="text-center">
               <div className="flex items-center justify-center gap-1 gap-reverse text-text-secondary">
                 <BookOpen size={14} />

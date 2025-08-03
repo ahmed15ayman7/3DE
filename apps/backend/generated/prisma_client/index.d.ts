@@ -84,6 +84,11 @@ export type WatchedLesson = $Result.DefaultSelection<Prisma.$WatchedLessonPayloa
  */
 export type File = $Result.DefaultSelection<Prisma.$FilePayload>
 /**
+ * Model EnrollmentCode
+ * 
+ */
+export type EnrollmentCode = $Result.DefaultSelection<Prisma.$EnrollmentCodePayload>
+/**
  * Model Enrollment
  * 
  */
@@ -917,6 +922,16 @@ export class PrismaClient<
     * ```
     */
   get file(): Prisma.FileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.enrollmentCode`: Exposes CRUD operations for the **EnrollmentCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EnrollmentCodes
+    * const enrollmentCodes = await prisma.enrollmentCode.findMany()
+    * ```
+    */
+  get enrollmentCode(): Prisma.EnrollmentCodeDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.enrollment`: Exposes CRUD operations for the **Enrollment** model.
@@ -2001,6 +2016,7 @@ export namespace Prisma {
     Lesson: 'Lesson',
     WatchedLesson: 'WatchedLesson',
     File: 'File',
+    EnrollmentCode: 'EnrollmentCode',
     Enrollment: 'Enrollment',
     Quiz: 'Quiz',
     Question: 'Question',
@@ -2082,7 +2098,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "loginHistory" | "twoFactor" | "profile" | "userAcademyCEO" | "academy" | "instructor" | "course" | "path" | "milestone" | "lessonWhiteList" | "lesson" | "watchedLesson" | "file" | "enrollment" | "quiz" | "question" | "option" | "submission" | "achievement" | "notification" | "notificationSettings" | "message" | "post" | "like" | "comment" | "group" | "admin" | "channel" | "owner" | "bookmark" | "event" | "attendance" | "payment" | "report" | "badge" | "certificate" | "community" | "discussion" | "liveRoom" | "accountingEntry" | "invoice" | "salaryPayment" | "publicRelationsRecord" | "pRResponse" | "meeting" | "meetingParticipant" | "permission" | "adminRole" | "adminAssignment" | "legalCase" | "installment" | "expense" | "branch" | "branchFinance" | "aboutSection" | "newsEvent" | "successStory" | "testimonial" | "contactMessage" | "fAQ" | "blogPost" | "partnership" | "cSRProject" | "crisisCommunication" | "mediaAlert" | "partnershipAgreement" | "secretariatDashboard" | "traineeManagement" | "trainingSchedule" | "quickActionLink" | "paymentLogBySecretary" | "internalMessage" | "secretaryFiles" | "employeeAttendanceLog" | "contactUs" | "support"
+      modelProps: "user" | "loginHistory" | "twoFactor" | "profile" | "userAcademyCEO" | "academy" | "instructor" | "course" | "path" | "milestone" | "lessonWhiteList" | "lesson" | "watchedLesson" | "file" | "enrollmentCode" | "enrollment" | "quiz" | "question" | "option" | "submission" | "achievement" | "notification" | "notificationSettings" | "message" | "post" | "like" | "comment" | "group" | "admin" | "channel" | "owner" | "bookmark" | "event" | "attendance" | "payment" | "report" | "badge" | "certificate" | "community" | "discussion" | "liveRoom" | "accountingEntry" | "invoice" | "salaryPayment" | "publicRelationsRecord" | "pRResponse" | "meeting" | "meetingParticipant" | "permission" | "adminRole" | "adminAssignment" | "legalCase" | "installment" | "expense" | "branch" | "branchFinance" | "aboutSection" | "newsEvent" | "successStory" | "testimonial" | "contactMessage" | "fAQ" | "blogPost" | "partnership" | "cSRProject" | "crisisCommunication" | "mediaAlert" | "partnershipAgreement" | "secretariatDashboard" | "traineeManagement" | "trainingSchedule" | "quickActionLink" | "paymentLogBySecretary" | "internalMessage" | "secretaryFiles" | "employeeAttendanceLog" | "contactUs" | "support"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3119,6 +3135,80 @@ export namespace Prisma {
           count: {
             args: Prisma.FileCountArgs<ExtArgs>
             result: $Utils.Optional<FileCountAggregateOutputType> | number
+          }
+        }
+      }
+      EnrollmentCode: {
+        payload: Prisma.$EnrollmentCodePayload<ExtArgs>
+        fields: Prisma.EnrollmentCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EnrollmentCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EnrollmentCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>
+          }
+          findFirst: {
+            args: Prisma.EnrollmentCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EnrollmentCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>
+          }
+          findMany: {
+            args: Prisma.EnrollmentCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>[]
+          }
+          create: {
+            args: Prisma.EnrollmentCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>
+          }
+          createMany: {
+            args: Prisma.EnrollmentCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EnrollmentCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>[]
+          }
+          delete: {
+            args: Prisma.EnrollmentCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>
+          }
+          update: {
+            args: Prisma.EnrollmentCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.EnrollmentCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EnrollmentCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EnrollmentCodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>[]
+          }
+          upsert: {
+            args: Prisma.EnrollmentCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnrollmentCodePayload>
+          }
+          aggregate: {
+            args: Prisma.EnrollmentCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEnrollmentCode>
+          }
+          groupBy: {
+            args: Prisma.EnrollmentCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EnrollmentCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EnrollmentCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<EnrollmentCodeCountAggregateOutputType> | number
           }
         }
       }
@@ -7882,6 +7972,7 @@ export namespace Prisma {
     lesson?: LessonOmit
     watchedLesson?: WatchedLessonOmit
     file?: FileOmit
+    enrollmentCode?: EnrollmentCodeOmit
     enrollment?: EnrollmentOmit
     quiz?: QuizOmit
     question?: QuestionOmit
@@ -8075,6 +8166,7 @@ export namespace Prisma {
     LessonWhiteList: number
     WatchedLesson: number
     Like: number
+    EnrollmentCode: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8114,6 +8206,7 @@ export namespace Prisma {
     LessonWhiteList?: boolean | UserCountOutputTypeCountLessonWhiteListArgs
     WatchedLesson?: boolean | UserCountOutputTypeCountWatchedLessonArgs
     Like?: boolean | UserCountOutputTypeCountLikeArgs
+    EnrollmentCode?: boolean | UserCountOutputTypeCountEnrollmentCodeArgs
   }
 
   // Custom InputTypes
@@ -8379,6 +8472,13 @@ export namespace Prisma {
     where?: LikeWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountEnrollmentCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EnrollmentCodeWhereInput
+  }
+
 
   /**
    * Count Type AcademyCountOutputType
@@ -8564,6 +8664,7 @@ export namespace Prisma {
     Testimonial: number
     trainingSchedules: number
     Certificate: number
+    EnrollmentCode: number
   }
 
   export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8576,6 +8677,7 @@ export namespace Prisma {
     Testimonial?: boolean | CourseCountOutputTypeCountTestimonialArgs
     trainingSchedules?: boolean | CourseCountOutputTypeCountTrainingSchedulesArgs
     Certificate?: boolean | CourseCountOutputTypeCountCertificateArgs
+    EnrollmentCode?: boolean | CourseCountOutputTypeCountEnrollmentCodeArgs
   }
 
   // Custom InputTypes
@@ -8650,6 +8752,13 @@ export namespace Prisma {
    */
   export type CourseCountOutputTypeCountCertificateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CertificateWhereInput
+  }
+
+  /**
+   * CourseCountOutputType without action
+   */
+  export type CourseCountOutputTypeCountEnrollmentCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EnrollmentCodeWhereInput
   }
 
 
@@ -9093,6 +9202,7 @@ export namespace Prisma {
     employeeAttendanceLogs: number
     sentMessages: number
     receivedMessages: number
+    EnrollmentCode: number
   }
 
   export type AdminCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9117,6 +9227,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: boolean | AdminCountOutputTypeCountEmployeeAttendanceLogsArgs
     sentMessages?: boolean | AdminCountOutputTypeCountSentMessagesArgs
     receivedMessages?: boolean | AdminCountOutputTypeCountReceivedMessagesArgs
+    EnrollmentCode?: boolean | AdminCountOutputTypeCountEnrollmentCodeArgs
   }
 
   // Custom InputTypes
@@ -9275,6 +9386,13 @@ export namespace Prisma {
    */
   export type AdminCountOutputTypeCountReceivedMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InternalMessageWhereInput
+  }
+
+  /**
+   * AdminCountOutputType without action
+   */
+  export type AdminCountOutputTypeCountEnrollmentCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EnrollmentCodeWhereInput
   }
 
 
@@ -10348,6 +10466,7 @@ export namespace Prisma {
     LessonWhiteList?: boolean | User$LessonWhiteListArgs<ExtArgs>
     WatchedLesson?: boolean | User$WatchedLessonArgs<ExtArgs>
     Like?: boolean | User$LikeArgs<ExtArgs>
+    EnrollmentCode?: boolean | User$EnrollmentCodeArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -10453,6 +10572,7 @@ export namespace Prisma {
     LessonWhiteList?: boolean | User$LessonWhiteListArgs<ExtArgs>
     WatchedLesson?: boolean | User$WatchedLessonArgs<ExtArgs>
     Like?: boolean | User$LikeArgs<ExtArgs>
+    EnrollmentCode?: boolean | User$EnrollmentCodeArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10503,6 +10623,7 @@ export namespace Prisma {
       LessonWhiteList: Prisma.$LessonWhiteListPayload<ExtArgs>[]
       WatchedLesson: Prisma.$WatchedLessonPayload<ExtArgs>[]
       Like: Prisma.$LikePayload<ExtArgs>[]
+      EnrollmentCode: Prisma.$EnrollmentCodePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10954,6 +11075,7 @@ export namespace Prisma {
     LessonWhiteList<T extends User$LessonWhiteListArgs<ExtArgs> = {}>(args?: Subset<T, User$LessonWhiteListArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonWhiteListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     WatchedLesson<T extends User$WatchedLessonArgs<ExtArgs> = {}>(args?: Subset<T, User$WatchedLessonArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchedLessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Like<T extends User$LikeArgs<ExtArgs> = {}>(args?: Subset<T, User$LikeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    EnrollmentCode<T extends User$EnrollmentCodeArgs<ExtArgs> = {}>(args?: Subset<T, User$EnrollmentCodeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12295,6 +12417,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
+  }
+
+  /**
+   * User.EnrollmentCode
+   */
+  export type User$EnrollmentCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    where?: EnrollmentCodeWhereInput
+    orderBy?: EnrollmentCodeOrderByWithRelationInput | EnrollmentCodeOrderByWithRelationInput[]
+    cursor?: EnrollmentCodeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EnrollmentCodeScalarFieldEnum | EnrollmentCodeScalarFieldEnum[]
   }
 
   /**
@@ -19565,6 +19711,7 @@ export namespace Prisma {
     Testimonial?: boolean | Course$TestimonialArgs<ExtArgs>
     trainingSchedules?: boolean | Course$trainingSchedulesArgs<ExtArgs>
     Certificate?: boolean | Course$CertificateArgs<ExtArgs>
+    EnrollmentCode?: boolean | Course$EnrollmentCodeArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
@@ -19630,6 +19777,7 @@ export namespace Prisma {
     Testimonial?: boolean | Course$TestimonialArgs<ExtArgs>
     trainingSchedules?: boolean | Course$trainingSchedulesArgs<ExtArgs>
     Certificate?: boolean | Course$CertificateArgs<ExtArgs>
+    EnrollmentCode?: boolean | Course$EnrollmentCodeArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19652,6 +19800,7 @@ export namespace Prisma {
       Testimonial: Prisma.$TestimonialPayload<ExtArgs>[]
       trainingSchedules: Prisma.$TrainingSchedulePayload<ExtArgs>[]
       Certificate: Prisma.$CertificatePayload<ExtArgs>[]
+      EnrollmentCode: Prisma.$EnrollmentCodePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20071,6 +20220,7 @@ export namespace Prisma {
     Testimonial<T extends Course$TestimonialArgs<ExtArgs> = {}>(args?: Subset<T, Course$TestimonialArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestimonialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     trainingSchedules<T extends Course$trainingSchedulesArgs<ExtArgs> = {}>(args?: Subset<T, Course$trainingSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrainingSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Certificate<T extends Course$CertificateArgs<ExtArgs> = {}>(args?: Subset<T, Course$CertificateArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertificatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    EnrollmentCode<T extends Course$EnrollmentCodeArgs<ExtArgs> = {}>(args?: Subset<T, Course$EnrollmentCodeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20741,6 +20891,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CertificateScalarFieldEnum | CertificateScalarFieldEnum[]
+  }
+
+  /**
+   * Course.EnrollmentCode
+   */
+  export type Course$EnrollmentCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    where?: EnrollmentCodeWhereInput
+    orderBy?: EnrollmentCodeOrderByWithRelationInput | EnrollmentCodeOrderByWithRelationInput[]
+    cursor?: EnrollmentCodeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EnrollmentCodeScalarFieldEnum | EnrollmentCodeScalarFieldEnum[]
   }
 
   /**
@@ -28002,6 +28176,1138 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: FileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EnrollmentCode
+   */
+
+  export type AggregateEnrollmentCode = {
+    _count: EnrollmentCodeCountAggregateOutputType | null
+    _min: EnrollmentCodeMinAggregateOutputType | null
+    _max: EnrollmentCodeMaxAggregateOutputType | null
+  }
+
+  export type EnrollmentCodeMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    courseId: string | null
+    isUsed: boolean | null
+    usedById: string | null
+    createdById: string | null
+    createdAt: Date | null
+    usedAt: Date | null
+  }
+
+  export type EnrollmentCodeMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    courseId: string | null
+    isUsed: boolean | null
+    usedById: string | null
+    createdById: string | null
+    createdAt: Date | null
+    usedAt: Date | null
+  }
+
+  export type EnrollmentCodeCountAggregateOutputType = {
+    id: number
+    code: number
+    courseId: number
+    isUsed: number
+    usedById: number
+    createdById: number
+    createdAt: number
+    usedAt: number
+    _all: number
+  }
+
+
+  export type EnrollmentCodeMinAggregateInputType = {
+    id?: true
+    code?: true
+    courseId?: true
+    isUsed?: true
+    usedById?: true
+    createdById?: true
+    createdAt?: true
+    usedAt?: true
+  }
+
+  export type EnrollmentCodeMaxAggregateInputType = {
+    id?: true
+    code?: true
+    courseId?: true
+    isUsed?: true
+    usedById?: true
+    createdById?: true
+    createdAt?: true
+    usedAt?: true
+  }
+
+  export type EnrollmentCodeCountAggregateInputType = {
+    id?: true
+    code?: true
+    courseId?: true
+    isUsed?: true
+    usedById?: true
+    createdById?: true
+    createdAt?: true
+    usedAt?: true
+    _all?: true
+  }
+
+  export type EnrollmentCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EnrollmentCode to aggregate.
+     */
+    where?: EnrollmentCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnrollmentCodes to fetch.
+     */
+    orderBy?: EnrollmentCodeOrderByWithRelationInput | EnrollmentCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EnrollmentCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnrollmentCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnrollmentCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EnrollmentCodes
+    **/
+    _count?: true | EnrollmentCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EnrollmentCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EnrollmentCodeMaxAggregateInputType
+  }
+
+  export type GetEnrollmentCodeAggregateType<T extends EnrollmentCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateEnrollmentCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEnrollmentCode[P]>
+      : GetScalarType<T[P], AggregateEnrollmentCode[P]>
+  }
+
+
+
+
+  export type EnrollmentCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EnrollmentCodeWhereInput
+    orderBy?: EnrollmentCodeOrderByWithAggregationInput | EnrollmentCodeOrderByWithAggregationInput[]
+    by: EnrollmentCodeScalarFieldEnum[] | EnrollmentCodeScalarFieldEnum
+    having?: EnrollmentCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EnrollmentCodeCountAggregateInputType | true
+    _min?: EnrollmentCodeMinAggregateInputType
+    _max?: EnrollmentCodeMaxAggregateInputType
+  }
+
+  export type EnrollmentCodeGroupByOutputType = {
+    id: string
+    code: string
+    courseId: string
+    isUsed: boolean
+    usedById: string | null
+    createdById: string
+    createdAt: Date
+    usedAt: Date | null
+    _count: EnrollmentCodeCountAggregateOutputType | null
+    _min: EnrollmentCodeMinAggregateOutputType | null
+    _max: EnrollmentCodeMaxAggregateOutputType | null
+  }
+
+  type GetEnrollmentCodeGroupByPayload<T extends EnrollmentCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EnrollmentCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EnrollmentCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EnrollmentCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], EnrollmentCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EnrollmentCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    courseId?: boolean
+    isUsed?: boolean
+    usedById?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    usedBy?: boolean | EnrollmentCode$usedByArgs<ExtArgs>
+    createdBy?: boolean | AdminDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["enrollmentCode"]>
+
+  export type EnrollmentCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    courseId?: boolean
+    isUsed?: boolean
+    usedById?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    usedBy?: boolean | EnrollmentCode$usedByArgs<ExtArgs>
+    createdBy?: boolean | AdminDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["enrollmentCode"]>
+
+  export type EnrollmentCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    courseId?: boolean
+    isUsed?: boolean
+    usedById?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    usedBy?: boolean | EnrollmentCode$usedByArgs<ExtArgs>
+    createdBy?: boolean | AdminDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["enrollmentCode"]>
+
+  export type EnrollmentCodeSelectScalar = {
+    id?: boolean
+    code?: boolean
+    courseId?: boolean
+    isUsed?: boolean
+    usedById?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+  }
+
+  export type EnrollmentCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "courseId" | "isUsed" | "usedById" | "createdById" | "createdAt" | "usedAt", ExtArgs["result"]["enrollmentCode"]>
+  export type EnrollmentCodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    usedBy?: boolean | EnrollmentCode$usedByArgs<ExtArgs>
+    createdBy?: boolean | AdminDefaultArgs<ExtArgs>
+  }
+  export type EnrollmentCodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    usedBy?: boolean | EnrollmentCode$usedByArgs<ExtArgs>
+    createdBy?: boolean | AdminDefaultArgs<ExtArgs>
+  }
+  export type EnrollmentCodeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+    usedBy?: boolean | EnrollmentCode$usedByArgs<ExtArgs>
+    createdBy?: boolean | AdminDefaultArgs<ExtArgs>
+  }
+
+  export type $EnrollmentCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EnrollmentCode"
+    objects: {
+      course: Prisma.$CoursePayload<ExtArgs>
+      usedBy: Prisma.$UserPayload<ExtArgs> | null
+      createdBy: Prisma.$AdminPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      courseId: string
+      isUsed: boolean
+      usedById: string | null
+      createdById: string
+      createdAt: Date
+      usedAt: Date | null
+    }, ExtArgs["result"]["enrollmentCode"]>
+    composites: {}
+  }
+
+  type EnrollmentCodeGetPayload<S extends boolean | null | undefined | EnrollmentCodeDefaultArgs> = $Result.GetResult<Prisma.$EnrollmentCodePayload, S>
+
+  type EnrollmentCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EnrollmentCodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EnrollmentCodeCountAggregateInputType | true
+    }
+
+  export interface EnrollmentCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EnrollmentCode'], meta: { name: 'EnrollmentCode' } }
+    /**
+     * Find zero or one EnrollmentCode that matches the filter.
+     * @param {EnrollmentCodeFindUniqueArgs} args - Arguments to find a EnrollmentCode
+     * @example
+     * // Get one EnrollmentCode
+     * const enrollmentCode = await prisma.enrollmentCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EnrollmentCodeFindUniqueArgs>(args: SelectSubset<T, EnrollmentCodeFindUniqueArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EnrollmentCode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EnrollmentCodeFindUniqueOrThrowArgs} args - Arguments to find a EnrollmentCode
+     * @example
+     * // Get one EnrollmentCode
+     * const enrollmentCode = await prisma.enrollmentCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EnrollmentCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, EnrollmentCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EnrollmentCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnrollmentCodeFindFirstArgs} args - Arguments to find a EnrollmentCode
+     * @example
+     * // Get one EnrollmentCode
+     * const enrollmentCode = await prisma.enrollmentCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EnrollmentCodeFindFirstArgs>(args?: SelectSubset<T, EnrollmentCodeFindFirstArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EnrollmentCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnrollmentCodeFindFirstOrThrowArgs} args - Arguments to find a EnrollmentCode
+     * @example
+     * // Get one EnrollmentCode
+     * const enrollmentCode = await prisma.enrollmentCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EnrollmentCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, EnrollmentCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EnrollmentCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnrollmentCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EnrollmentCodes
+     * const enrollmentCodes = await prisma.enrollmentCode.findMany()
+     * 
+     * // Get first 10 EnrollmentCodes
+     * const enrollmentCodes = await prisma.enrollmentCode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const enrollmentCodeWithIdOnly = await prisma.enrollmentCode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EnrollmentCodeFindManyArgs>(args?: SelectSubset<T, EnrollmentCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EnrollmentCode.
+     * @param {EnrollmentCodeCreateArgs} args - Arguments to create a EnrollmentCode.
+     * @example
+     * // Create one EnrollmentCode
+     * const EnrollmentCode = await prisma.enrollmentCode.create({
+     *   data: {
+     *     // ... data to create a EnrollmentCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends EnrollmentCodeCreateArgs>(args: SelectSubset<T, EnrollmentCodeCreateArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EnrollmentCodes.
+     * @param {EnrollmentCodeCreateManyArgs} args - Arguments to create many EnrollmentCodes.
+     * @example
+     * // Create many EnrollmentCodes
+     * const enrollmentCode = await prisma.enrollmentCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EnrollmentCodeCreateManyArgs>(args?: SelectSubset<T, EnrollmentCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EnrollmentCodes and returns the data saved in the database.
+     * @param {EnrollmentCodeCreateManyAndReturnArgs} args - Arguments to create many EnrollmentCodes.
+     * @example
+     * // Create many EnrollmentCodes
+     * const enrollmentCode = await prisma.enrollmentCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EnrollmentCodes and only return the `id`
+     * const enrollmentCodeWithIdOnly = await prisma.enrollmentCode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EnrollmentCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, EnrollmentCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EnrollmentCode.
+     * @param {EnrollmentCodeDeleteArgs} args - Arguments to delete one EnrollmentCode.
+     * @example
+     * // Delete one EnrollmentCode
+     * const EnrollmentCode = await prisma.enrollmentCode.delete({
+     *   where: {
+     *     // ... filter to delete one EnrollmentCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EnrollmentCodeDeleteArgs>(args: SelectSubset<T, EnrollmentCodeDeleteArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EnrollmentCode.
+     * @param {EnrollmentCodeUpdateArgs} args - Arguments to update one EnrollmentCode.
+     * @example
+     * // Update one EnrollmentCode
+     * const enrollmentCode = await prisma.enrollmentCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EnrollmentCodeUpdateArgs>(args: SelectSubset<T, EnrollmentCodeUpdateArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EnrollmentCodes.
+     * @param {EnrollmentCodeDeleteManyArgs} args - Arguments to filter EnrollmentCodes to delete.
+     * @example
+     * // Delete a few EnrollmentCodes
+     * const { count } = await prisma.enrollmentCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EnrollmentCodeDeleteManyArgs>(args?: SelectSubset<T, EnrollmentCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EnrollmentCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnrollmentCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EnrollmentCodes
+     * const enrollmentCode = await prisma.enrollmentCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EnrollmentCodeUpdateManyArgs>(args: SelectSubset<T, EnrollmentCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EnrollmentCodes and returns the data updated in the database.
+     * @param {EnrollmentCodeUpdateManyAndReturnArgs} args - Arguments to update many EnrollmentCodes.
+     * @example
+     * // Update many EnrollmentCodes
+     * const enrollmentCode = await prisma.enrollmentCode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EnrollmentCodes and only return the `id`
+     * const enrollmentCodeWithIdOnly = await prisma.enrollmentCode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EnrollmentCodeUpdateManyAndReturnArgs>(args: SelectSubset<T, EnrollmentCodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EnrollmentCode.
+     * @param {EnrollmentCodeUpsertArgs} args - Arguments to update or create a EnrollmentCode.
+     * @example
+     * // Update or create a EnrollmentCode
+     * const enrollmentCode = await prisma.enrollmentCode.upsert({
+     *   create: {
+     *     // ... data to create a EnrollmentCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EnrollmentCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EnrollmentCodeUpsertArgs>(args: SelectSubset<T, EnrollmentCodeUpsertArgs<ExtArgs>>): Prisma__EnrollmentCodeClient<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EnrollmentCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnrollmentCodeCountArgs} args - Arguments to filter EnrollmentCodes to count.
+     * @example
+     * // Count the number of EnrollmentCodes
+     * const count = await prisma.enrollmentCode.count({
+     *   where: {
+     *     // ... the filter for the EnrollmentCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends EnrollmentCodeCountArgs>(
+      args?: Subset<T, EnrollmentCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EnrollmentCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EnrollmentCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnrollmentCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EnrollmentCodeAggregateArgs>(args: Subset<T, EnrollmentCodeAggregateArgs>): Prisma.PrismaPromise<GetEnrollmentCodeAggregateType<T>>
+
+    /**
+     * Group by EnrollmentCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnrollmentCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EnrollmentCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EnrollmentCodeGroupByArgs['orderBy'] }
+        : { orderBy?: EnrollmentCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EnrollmentCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEnrollmentCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EnrollmentCode model
+   */
+  readonly fields: EnrollmentCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EnrollmentCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EnrollmentCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usedBy<T extends EnrollmentCode$usedByArgs<ExtArgs> = {}>(args?: Subset<T, EnrollmentCode$usedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    createdBy<T extends AdminDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AdminDefaultArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EnrollmentCode model
+   */
+  interface EnrollmentCodeFieldRefs {
+    readonly id: FieldRef<"EnrollmentCode", 'String'>
+    readonly code: FieldRef<"EnrollmentCode", 'String'>
+    readonly courseId: FieldRef<"EnrollmentCode", 'String'>
+    readonly isUsed: FieldRef<"EnrollmentCode", 'Boolean'>
+    readonly usedById: FieldRef<"EnrollmentCode", 'String'>
+    readonly createdById: FieldRef<"EnrollmentCode", 'String'>
+    readonly createdAt: FieldRef<"EnrollmentCode", 'DateTime'>
+    readonly usedAt: FieldRef<"EnrollmentCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EnrollmentCode findUnique
+   */
+  export type EnrollmentCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which EnrollmentCode to fetch.
+     */
+    where: EnrollmentCodeWhereUniqueInput
+  }
+
+  /**
+   * EnrollmentCode findUniqueOrThrow
+   */
+  export type EnrollmentCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which EnrollmentCode to fetch.
+     */
+    where: EnrollmentCodeWhereUniqueInput
+  }
+
+  /**
+   * EnrollmentCode findFirst
+   */
+  export type EnrollmentCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which EnrollmentCode to fetch.
+     */
+    where?: EnrollmentCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnrollmentCodes to fetch.
+     */
+    orderBy?: EnrollmentCodeOrderByWithRelationInput | EnrollmentCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EnrollmentCodes.
+     */
+    cursor?: EnrollmentCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnrollmentCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnrollmentCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EnrollmentCodes.
+     */
+    distinct?: EnrollmentCodeScalarFieldEnum | EnrollmentCodeScalarFieldEnum[]
+  }
+
+  /**
+   * EnrollmentCode findFirstOrThrow
+   */
+  export type EnrollmentCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which EnrollmentCode to fetch.
+     */
+    where?: EnrollmentCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnrollmentCodes to fetch.
+     */
+    orderBy?: EnrollmentCodeOrderByWithRelationInput | EnrollmentCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EnrollmentCodes.
+     */
+    cursor?: EnrollmentCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnrollmentCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnrollmentCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EnrollmentCodes.
+     */
+    distinct?: EnrollmentCodeScalarFieldEnum | EnrollmentCodeScalarFieldEnum[]
+  }
+
+  /**
+   * EnrollmentCode findMany
+   */
+  export type EnrollmentCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which EnrollmentCodes to fetch.
+     */
+    where?: EnrollmentCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnrollmentCodes to fetch.
+     */
+    orderBy?: EnrollmentCodeOrderByWithRelationInput | EnrollmentCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EnrollmentCodes.
+     */
+    cursor?: EnrollmentCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnrollmentCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnrollmentCodes.
+     */
+    skip?: number
+    distinct?: EnrollmentCodeScalarFieldEnum | EnrollmentCodeScalarFieldEnum[]
+  }
+
+  /**
+   * EnrollmentCode create
+   */
+  export type EnrollmentCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EnrollmentCode.
+     */
+    data: XOR<EnrollmentCodeCreateInput, EnrollmentCodeUncheckedCreateInput>
+  }
+
+  /**
+   * EnrollmentCode createMany
+   */
+  export type EnrollmentCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EnrollmentCodes.
+     */
+    data: EnrollmentCodeCreateManyInput | EnrollmentCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EnrollmentCode createManyAndReturn
+   */
+  export type EnrollmentCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many EnrollmentCodes.
+     */
+    data: EnrollmentCodeCreateManyInput | EnrollmentCodeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EnrollmentCode update
+   */
+  export type EnrollmentCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EnrollmentCode.
+     */
+    data: XOR<EnrollmentCodeUpdateInput, EnrollmentCodeUncheckedUpdateInput>
+    /**
+     * Choose, which EnrollmentCode to update.
+     */
+    where: EnrollmentCodeWhereUniqueInput
+  }
+
+  /**
+   * EnrollmentCode updateMany
+   */
+  export type EnrollmentCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EnrollmentCodes.
+     */
+    data: XOR<EnrollmentCodeUpdateManyMutationInput, EnrollmentCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which EnrollmentCodes to update
+     */
+    where?: EnrollmentCodeWhereInput
+    /**
+     * Limit how many EnrollmentCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EnrollmentCode updateManyAndReturn
+   */
+  export type EnrollmentCodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * The data used to update EnrollmentCodes.
+     */
+    data: XOR<EnrollmentCodeUpdateManyMutationInput, EnrollmentCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which EnrollmentCodes to update
+     */
+    where?: EnrollmentCodeWhereInput
+    /**
+     * Limit how many EnrollmentCodes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EnrollmentCode upsert
+   */
+  export type EnrollmentCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EnrollmentCode to update in case it exists.
+     */
+    where: EnrollmentCodeWhereUniqueInput
+    /**
+     * In case the EnrollmentCode found by the `where` argument doesn't exist, create a new EnrollmentCode with this data.
+     */
+    create: XOR<EnrollmentCodeCreateInput, EnrollmentCodeUncheckedCreateInput>
+    /**
+     * In case the EnrollmentCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EnrollmentCodeUpdateInput, EnrollmentCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * EnrollmentCode delete
+   */
+  export type EnrollmentCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    /**
+     * Filter which EnrollmentCode to delete.
+     */
+    where: EnrollmentCodeWhereUniqueInput
+  }
+
+  /**
+   * EnrollmentCode deleteMany
+   */
+  export type EnrollmentCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EnrollmentCodes to delete
+     */
+    where?: EnrollmentCodeWhereInput
+    /**
+     * Limit how many EnrollmentCodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EnrollmentCode.usedBy
+   */
+  export type EnrollmentCode$usedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * EnrollmentCode without action
+   */
+  export type EnrollmentCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
   }
 
 
@@ -43058,6 +44364,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: boolean | Admin$employeeAttendanceLogsArgs<ExtArgs>
     sentMessages?: boolean | Admin$sentMessagesArgs<ExtArgs>
     receivedMessages?: boolean | Admin$receivedMessagesArgs<ExtArgs>
+    EnrollmentCode?: boolean | Admin$EnrollmentCodeArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["admin"]>
 
@@ -43105,6 +44412,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: boolean | Admin$employeeAttendanceLogsArgs<ExtArgs>
     sentMessages?: boolean | Admin$sentMessagesArgs<ExtArgs>
     receivedMessages?: boolean | Admin$receivedMessagesArgs<ExtArgs>
+    EnrollmentCode?: boolean | Admin$EnrollmentCodeArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AdminIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -43139,6 +44447,7 @@ export namespace Prisma {
       employeeAttendanceLogs: Prisma.$EmployeeAttendanceLogPayload<ExtArgs>[]
       sentMessages: Prisma.$InternalMessagePayload<ExtArgs>[]
       receivedMessages: Prisma.$InternalMessagePayload<ExtArgs>[]
+      EnrollmentCode: Prisma.$EnrollmentCodePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -43560,6 +44869,7 @@ export namespace Prisma {
     employeeAttendanceLogs<T extends Admin$employeeAttendanceLogsArgs<ExtArgs> = {}>(args?: Subset<T, Admin$employeeAttendanceLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeAttendanceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentMessages<T extends Admin$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, Admin$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InternalMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     receivedMessages<T extends Admin$receivedMessagesArgs<ExtArgs> = {}>(args?: Subset<T, Admin$receivedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InternalMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    EnrollmentCode<T extends Admin$EnrollmentCodeArgs<ExtArgs> = {}>(args?: Subset<T, Admin$EnrollmentCodeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -44489,6 +45799,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InternalMessageScalarFieldEnum | InternalMessageScalarFieldEnum[]
+  }
+
+  /**
+   * Admin.EnrollmentCode
+   */
+  export type Admin$EnrollmentCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnrollmentCode
+     */
+    select?: EnrollmentCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnrollmentCode
+     */
+    omit?: EnrollmentCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnrollmentCodeInclude<ExtArgs> | null
+    where?: EnrollmentCodeWhereInput
+    orderBy?: EnrollmentCodeOrderByWithRelationInput | EnrollmentCodeOrderByWithRelationInput[]
+    cursor?: EnrollmentCodeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EnrollmentCodeScalarFieldEnum | EnrollmentCodeScalarFieldEnum[]
   }
 
   /**
@@ -100707,6 +102041,20 @@ export namespace Prisma {
   export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
 
 
+  export const EnrollmentCodeScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    courseId: 'courseId',
+    isUsed: 'isUsed',
+    usedById: 'usedById',
+    createdById: 'createdById',
+    createdAt: 'createdAt',
+    usedAt: 'usedAt'
+  };
+
+  export type EnrollmentCodeScalarFieldEnum = (typeof EnrollmentCodeScalarFieldEnum)[keyof typeof EnrollmentCodeScalarFieldEnum]
+
+
   export const EnrollmentScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -102040,6 +103388,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListListRelationFilter
     WatchedLesson?: WatchedLessonListRelationFilter
     Like?: LikeListRelationFilter
+    EnrollmentCode?: EnrollmentCodeListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -102098,6 +103447,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListOrderByRelationAggregateInput
     WatchedLesson?: WatchedLessonOrderByRelationAggregateInput
     Like?: LikeOrderByRelationAggregateInput
+    EnrollmentCode?: EnrollmentCodeOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -102159,6 +103509,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListListRelationFilter
     WatchedLesson?: WatchedLessonListRelationFilter
     Like?: LikeListRelationFilter
+    EnrollmentCode?: EnrollmentCodeListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -102683,6 +104034,7 @@ export namespace Prisma {
     Testimonial?: TestimonialListRelationFilter
     trainingSchedules?: TrainingScheduleListRelationFilter
     Certificate?: CertificateListRelationFilter
+    EnrollmentCode?: EnrollmentCodeListRelationFilter
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -102709,6 +104061,7 @@ export namespace Prisma {
     Testimonial?: TestimonialOrderByRelationAggregateInput
     trainingSchedules?: TrainingScheduleOrderByRelationAggregateInput
     Certificate?: CertificateOrderByRelationAggregateInput
+    EnrollmentCode?: EnrollmentCodeOrderByRelationAggregateInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -102738,6 +104091,7 @@ export namespace Prisma {
     Testimonial?: TestimonialListRelationFilter
     trainingSchedules?: TrainingScheduleListRelationFilter
     Certificate?: CertificateListRelationFilter
+    EnrollmentCode?: EnrollmentCodeListRelationFilter
   }, "id">
 
   export type CourseOrderByWithAggregationInput = {
@@ -103272,6 +104626,82 @@ export namespace Prisma {
     adminRoleId?: StringNullableWithAggregatesFilter<"File"> | string | null
     legalCaseId?: StringNullableWithAggregatesFilter<"File"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"File"> | Date | string
+  }
+
+  export type EnrollmentCodeWhereInput = {
+    AND?: EnrollmentCodeWhereInput | EnrollmentCodeWhereInput[]
+    OR?: EnrollmentCodeWhereInput[]
+    NOT?: EnrollmentCodeWhereInput | EnrollmentCodeWhereInput[]
+    id?: StringFilter<"EnrollmentCode"> | string
+    code?: StringFilter<"EnrollmentCode"> | string
+    courseId?: StringFilter<"EnrollmentCode"> | string
+    isUsed?: BoolFilter<"EnrollmentCode"> | boolean
+    usedById?: StringNullableFilter<"EnrollmentCode"> | string | null
+    createdById?: StringFilter<"EnrollmentCode"> | string
+    createdAt?: DateTimeFilter<"EnrollmentCode"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EnrollmentCode"> | Date | string | null
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    usedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    createdBy?: XOR<AdminScalarRelationFilter, AdminWhereInput>
+  }
+
+  export type EnrollmentCodeOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    courseId?: SortOrder
+    isUsed?: SortOrder
+    usedById?: SortOrderInput | SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    course?: CourseOrderByWithRelationInput
+    usedBy?: UserOrderByWithRelationInput
+    createdBy?: AdminOrderByWithRelationInput
+  }
+
+  export type EnrollmentCodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: EnrollmentCodeWhereInput | EnrollmentCodeWhereInput[]
+    OR?: EnrollmentCodeWhereInput[]
+    NOT?: EnrollmentCodeWhereInput | EnrollmentCodeWhereInput[]
+    courseId?: StringFilter<"EnrollmentCode"> | string
+    isUsed?: BoolFilter<"EnrollmentCode"> | boolean
+    usedById?: StringNullableFilter<"EnrollmentCode"> | string | null
+    createdById?: StringFilter<"EnrollmentCode"> | string
+    createdAt?: DateTimeFilter<"EnrollmentCode"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EnrollmentCode"> | Date | string | null
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    usedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    createdBy?: XOR<AdminScalarRelationFilter, AdminWhereInput>
+  }, "id" | "code">
+
+  export type EnrollmentCodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    courseId?: SortOrder
+    isUsed?: SortOrder
+    usedById?: SortOrderInput | SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    _count?: EnrollmentCodeCountOrderByAggregateInput
+    _max?: EnrollmentCodeMaxOrderByAggregateInput
+    _min?: EnrollmentCodeMinOrderByAggregateInput
+  }
+
+  export type EnrollmentCodeScalarWhereWithAggregatesInput = {
+    AND?: EnrollmentCodeScalarWhereWithAggregatesInput | EnrollmentCodeScalarWhereWithAggregatesInput[]
+    OR?: EnrollmentCodeScalarWhereWithAggregatesInput[]
+    NOT?: EnrollmentCodeScalarWhereWithAggregatesInput | EnrollmentCodeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EnrollmentCode"> | string
+    code?: StringWithAggregatesFilter<"EnrollmentCode"> | string
+    courseId?: StringWithAggregatesFilter<"EnrollmentCode"> | string
+    isUsed?: BoolWithAggregatesFilter<"EnrollmentCode"> | boolean
+    usedById?: StringNullableWithAggregatesFilter<"EnrollmentCode"> | string | null
+    createdById?: StringWithAggregatesFilter<"EnrollmentCode"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"EnrollmentCode"> | Date | string
+    usedAt?: DateTimeNullableWithAggregatesFilter<"EnrollmentCode"> | Date | string | null
   }
 
   export type EnrollmentWhereInput = {
@@ -104273,6 +105703,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogListRelationFilter
     sentMessages?: InternalMessageListRelationFilter
     receivedMessages?: InternalMessageListRelationFilter
+    EnrollmentCode?: EnrollmentCodeListRelationFilter
   }
 
   export type AdminOrderByWithRelationInput = {
@@ -104301,6 +105732,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogOrderByRelationAggregateInput
     sentMessages?: InternalMessageOrderByRelationAggregateInput
     receivedMessages?: InternalMessageOrderByRelationAggregateInput
+    EnrollmentCode?: EnrollmentCodeOrderByRelationAggregateInput
   }
 
   export type AdminWhereUniqueInput = Prisma.AtLeast<{
@@ -104332,6 +105764,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogListRelationFilter
     sentMessages?: InternalMessageListRelationFilter
     receivedMessages?: InternalMessageListRelationFilter
+    EnrollmentCode?: EnrollmentCodeListRelationFilter
   }, "id">
 
   export type AdminOrderByWithAggregationInput = {
@@ -108178,6 +109611,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -108235,6 +109669,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUpdateInput = {
@@ -108292,6 +109727,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -108349,6 +109785,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -108916,6 +110353,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -108941,6 +110379,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUpdateInput = {
@@ -108966,6 +110405,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -108991,6 +110431,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseCreateManyInput = {
@@ -109553,6 +110994,80 @@ export namespace Prisma {
     adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EnrollmentCodeCreateInput = {
+    id?: string
+    code: string
+    isUsed?: boolean
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+    course: CourseCreateNestedOneWithoutEnrollmentCodeInput
+    usedBy?: UserCreateNestedOneWithoutEnrollmentCodeInput
+    createdBy: AdminCreateNestedOneWithoutEnrollmentCodeInput
+  }
+
+  export type EnrollmentCodeUncheckedCreateInput = {
+    id?: string
+    code: string
+    courseId: string
+    isUsed?: boolean
+    usedById?: string | null
+    createdById: string
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type EnrollmentCodeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    course?: CourseUpdateOneRequiredWithoutEnrollmentCodeNestedInput
+    usedBy?: UserUpdateOneWithoutEnrollmentCodeNestedInput
+    createdBy?: AdminUpdateOneRequiredWithoutEnrollmentCodeNestedInput
+  }
+
+  export type EnrollmentCodeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EnrollmentCodeCreateManyInput = {
+    id?: string
+    code: string
+    courseId: string
+    isUsed?: boolean
+    usedById?: string | null
+    createdById: string
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type EnrollmentCodeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EnrollmentCodeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EnrollmentCreateInput = {
@@ -110599,6 +112114,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateInput = {
@@ -110626,6 +112142,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUpdateInput = {
@@ -110653,6 +112170,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateInput = {
@@ -110680,6 +112198,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminCreateManyInput = {
@@ -115026,6 +116545,12 @@ export namespace Prisma {
     none?: LikeWhereInput
   }
 
+  export type EnrollmentCodeListRelationFilter = {
+    every?: EnrollmentCodeWhereInput
+    some?: EnrollmentCodeWhereInput
+    none?: EnrollmentCodeWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -115172,6 +116697,10 @@ export namespace Prisma {
   }
 
   export type LikeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EnrollmentCodeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -116260,6 +117789,49 @@ export namespace Prisma {
     _max?: NestedEnumFileTypeFilter<$PrismaModel>
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type AdminScalarRelationFilter = {
+    is?: AdminWhereInput
+    isNot?: AdminWhereInput
+  }
+
+  export type EnrollmentCodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    courseId?: SortOrder
+    isUsed?: SortOrder
+    usedById?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrder
+  }
+
+  export type EnrollmentCodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    courseId?: SortOrder
+    isUsed?: SortOrder
+    usedById?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrder
+  }
+
+  export type EnrollmentCodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    courseId?: SortOrder
+    isUsed?: SortOrder
+    usedById?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrder
+  }
+
   export type EnumEnrollmentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.EnrollmentStatus | EnumEnrollmentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.EnrollmentStatus[] | ListEnumEnrollmentStatusFieldRefInput<$PrismaModel>
@@ -116858,11 +118430,6 @@ export namespace Prisma {
     content?: SortOrder
     authorId?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type AdminScalarRelationFilter = {
-    is?: AdminWhereInput
-    isNot?: AdminWhereInput
   }
 
   export type GroupCountOrderByAggregateInput = {
@@ -117993,11 +119560,6 @@ export namespace Prisma {
     in?: $Enums.LegalCaseStatus[] | ListEnumLegalCaseStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.LegalCaseStatus[] | ListEnumLegalCaseStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumLegalCaseStatusFilter<$PrismaModel> | $Enums.LegalCaseStatus
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
   }
 
   export type LegalCaseCountOrderByAggregateInput = {
@@ -119348,6 +120910,13 @@ export namespace Prisma {
     connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
   }
 
+  export type EnrollmentCodeCreateNestedManyWithoutUsedByInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutUsedByInput, EnrollmentCodeUncheckedCreateWithoutUsedByInput> | EnrollmentCodeCreateWithoutUsedByInput[] | EnrollmentCodeUncheckedCreateWithoutUsedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutUsedByInput | EnrollmentCodeCreateOrConnectWithoutUsedByInput[]
+    createMany?: EnrollmentCodeCreateManyUsedByInputEnvelope
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+  }
+
   export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
@@ -119597,6 +121166,13 @@ export namespace Prisma {
     connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[]
     createMany?: LikeCreateManyUserInputEnvelope
     connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+  }
+
+  export type EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutUsedByInput, EnrollmentCodeUncheckedCreateWithoutUsedByInput> | EnrollmentCodeCreateWithoutUsedByInput[] | EnrollmentCodeUncheckedCreateWithoutUsedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutUsedByInput | EnrollmentCodeCreateOrConnectWithoutUsedByInput[]
+    createMany?: EnrollmentCodeCreateManyUsedByInputEnvelope
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -120152,6 +121728,20 @@ export namespace Prisma {
     deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
   }
 
+  export type EnrollmentCodeUpdateManyWithoutUsedByNestedInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutUsedByInput, EnrollmentCodeUncheckedCreateWithoutUsedByInput> | EnrollmentCodeCreateWithoutUsedByInput[] | EnrollmentCodeUncheckedCreateWithoutUsedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutUsedByInput | EnrollmentCodeCreateOrConnectWithoutUsedByInput[]
+    upsert?: EnrollmentCodeUpsertWithWhereUniqueWithoutUsedByInput | EnrollmentCodeUpsertWithWhereUniqueWithoutUsedByInput[]
+    createMany?: EnrollmentCodeCreateManyUsedByInputEnvelope
+    set?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    disconnect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    delete?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    update?: EnrollmentCodeUpdateWithWhereUniqueWithoutUsedByInput | EnrollmentCodeUpdateWithWhereUniqueWithoutUsedByInput[]
+    updateMany?: EnrollmentCodeUpdateManyWithWhereWithoutUsedByInput | EnrollmentCodeUpdateManyWithWhereWithoutUsedByInput[]
+    deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
+  }
+
   export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
@@ -120657,6 +122247,20 @@ export namespace Prisma {
     update?: LikeUpdateWithWhereUniqueWithoutUserInput | LikeUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: LikeUpdateManyWithWhereWithoutUserInput | LikeUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
+  }
+
+  export type EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutUsedByInput, EnrollmentCodeUncheckedCreateWithoutUsedByInput> | EnrollmentCodeCreateWithoutUsedByInput[] | EnrollmentCodeUncheckedCreateWithoutUsedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutUsedByInput | EnrollmentCodeCreateOrConnectWithoutUsedByInput[]
+    upsert?: EnrollmentCodeUpsertWithWhereUniqueWithoutUsedByInput | EnrollmentCodeUpsertWithWhereUniqueWithoutUsedByInput[]
+    createMany?: EnrollmentCodeCreateManyUsedByInputEnvelope
+    set?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    disconnect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    delete?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    update?: EnrollmentCodeUpdateWithWhereUniqueWithoutUsedByInput | EnrollmentCodeUpdateWithWhereUniqueWithoutUsedByInput[]
+    updateMany?: EnrollmentCodeUpdateManyWithWhereWithoutUsedByInput | EnrollmentCodeUpdateManyWithWhereWithoutUsedByInput[]
+    deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutLoginHistoryInput = {
@@ -121419,6 +123023,13 @@ export namespace Prisma {
     connect?: CertificateWhereUniqueInput | CertificateWhereUniqueInput[]
   }
 
+  export type EnrollmentCodeCreateNestedManyWithoutCourseInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCourseInput, EnrollmentCodeUncheckedCreateWithoutCourseInput> | EnrollmentCodeCreateWithoutCourseInput[] | EnrollmentCodeUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCourseInput | EnrollmentCodeCreateOrConnectWithoutCourseInput[]
+    createMany?: EnrollmentCodeCreateManyCourseInputEnvelope
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+  }
+
   export type LessonUncheckedCreateNestedManyWithoutCourseInput = {
     create?: XOR<LessonCreateWithoutCourseInput, LessonUncheckedCreateWithoutCourseInput> | LessonCreateWithoutCourseInput[] | LessonUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: LessonCreateOrConnectWithoutCourseInput | LessonCreateOrConnectWithoutCourseInput[]
@@ -121478,6 +123089,13 @@ export namespace Prisma {
     connectOrCreate?: CertificateCreateOrConnectWithoutCourseInput | CertificateCreateOrConnectWithoutCourseInput[]
     createMany?: CertificateCreateManyCourseInputEnvelope
     connect?: CertificateWhereUniqueInput | CertificateWhereUniqueInput[]
+  }
+
+  export type EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCourseInput, EnrollmentCodeUncheckedCreateWithoutCourseInput> | EnrollmentCodeCreateWithoutCourseInput[] | EnrollmentCodeUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCourseInput | EnrollmentCodeCreateOrConnectWithoutCourseInput[]
+    createMany?: EnrollmentCodeCreateManyCourseInputEnvelope
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -121630,6 +123248,20 @@ export namespace Prisma {
     deleteMany?: CertificateScalarWhereInput | CertificateScalarWhereInput[]
   }
 
+  export type EnrollmentCodeUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCourseInput, EnrollmentCodeUncheckedCreateWithoutCourseInput> | EnrollmentCodeCreateWithoutCourseInput[] | EnrollmentCodeUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCourseInput | EnrollmentCodeCreateOrConnectWithoutCourseInput[]
+    upsert?: EnrollmentCodeUpsertWithWhereUniqueWithoutCourseInput | EnrollmentCodeUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: EnrollmentCodeCreateManyCourseInputEnvelope
+    set?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    disconnect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    delete?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    update?: EnrollmentCodeUpdateWithWhereUniqueWithoutCourseInput | EnrollmentCodeUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: EnrollmentCodeUpdateManyWithWhereWithoutCourseInput | EnrollmentCodeUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
+  }
+
   export type LessonUncheckedUpdateManyWithoutCourseNestedInput = {
     create?: XOR<LessonCreateWithoutCourseInput, LessonUncheckedCreateWithoutCourseInput> | LessonCreateWithoutCourseInput[] | LessonUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: LessonCreateOrConnectWithoutCourseInput | LessonCreateOrConnectWithoutCourseInput[]
@@ -121752,6 +123384,20 @@ export namespace Prisma {
     update?: CertificateUpdateWithWhereUniqueWithoutCourseInput | CertificateUpdateWithWhereUniqueWithoutCourseInput[]
     updateMany?: CertificateUpdateManyWithWhereWithoutCourseInput | CertificateUpdateManyWithWhereWithoutCourseInput[]
     deleteMany?: CertificateScalarWhereInput | CertificateScalarWhereInput[]
+  }
+
+  export type EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCourseInput, EnrollmentCodeUncheckedCreateWithoutCourseInput> | EnrollmentCodeCreateWithoutCourseInput[] | EnrollmentCodeUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCourseInput | EnrollmentCodeCreateOrConnectWithoutCourseInput[]
+    upsert?: EnrollmentCodeUpsertWithWhereUniqueWithoutCourseInput | EnrollmentCodeUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: EnrollmentCodeCreateManyCourseInputEnvelope
+    set?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    disconnect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    delete?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    update?: EnrollmentCodeUpdateWithWhereUniqueWithoutCourseInput | EnrollmentCodeUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: EnrollmentCodeUpdateManyWithWhereWithoutCourseInput | EnrollmentCodeUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
   }
 
   export type MilestoneCreateNestedManyWithoutPathInput = {
@@ -122398,6 +124044,50 @@ export namespace Prisma {
     update?: TraineeManagementUpdateWithWhereUniqueWithoutDocumentsInput | TraineeManagementUpdateWithWhereUniqueWithoutDocumentsInput[]
     updateMany?: TraineeManagementUpdateManyWithWhereWithoutDocumentsInput | TraineeManagementUpdateManyWithWhereWithoutDocumentsInput[]
     deleteMany?: TraineeManagementScalarWhereInput | TraineeManagementScalarWhereInput[]
+  }
+
+  export type CourseCreateNestedOneWithoutEnrollmentCodeInput = {
+    create?: XOR<CourseCreateWithoutEnrollmentCodeInput, CourseUncheckedCreateWithoutEnrollmentCodeInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutEnrollmentCodeInput
+    connect?: CourseWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutEnrollmentCodeInput = {
+    create?: XOR<UserCreateWithoutEnrollmentCodeInput, UserUncheckedCreateWithoutEnrollmentCodeInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEnrollmentCodeInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AdminCreateNestedOneWithoutEnrollmentCodeInput = {
+    create?: XOR<AdminCreateWithoutEnrollmentCodeInput, AdminUncheckedCreateWithoutEnrollmentCodeInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutEnrollmentCodeInput
+    connect?: AdminWhereUniqueInput
+  }
+
+  export type CourseUpdateOneRequiredWithoutEnrollmentCodeNestedInput = {
+    create?: XOR<CourseCreateWithoutEnrollmentCodeInput, CourseUncheckedCreateWithoutEnrollmentCodeInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutEnrollmentCodeInput
+    upsert?: CourseUpsertWithoutEnrollmentCodeInput
+    connect?: CourseWhereUniqueInput
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutEnrollmentCodeInput, CourseUpdateWithoutEnrollmentCodeInput>, CourseUncheckedUpdateWithoutEnrollmentCodeInput>
+  }
+
+  export type UserUpdateOneWithoutEnrollmentCodeNestedInput = {
+    create?: XOR<UserCreateWithoutEnrollmentCodeInput, UserUncheckedCreateWithoutEnrollmentCodeInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEnrollmentCodeInput
+    upsert?: UserUpsertWithoutEnrollmentCodeInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEnrollmentCodeInput, UserUpdateWithoutEnrollmentCodeInput>, UserUncheckedUpdateWithoutEnrollmentCodeInput>
+  }
+
+  export type AdminUpdateOneRequiredWithoutEnrollmentCodeNestedInput = {
+    create?: XOR<AdminCreateWithoutEnrollmentCodeInput, AdminUncheckedCreateWithoutEnrollmentCodeInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutEnrollmentCodeInput
+    upsert?: AdminUpsertWithoutEnrollmentCodeInput
+    connect?: AdminWhereUniqueInput
+    update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutEnrollmentCodeInput, AdminUpdateWithoutEnrollmentCodeInput>, AdminUncheckedUpdateWithoutEnrollmentCodeInput>
   }
 
   export type UserCreateNestedOneWithoutEnrollmentsInput = {
@@ -123379,6 +125069,13 @@ export namespace Prisma {
     connect?: InternalMessageWhereUniqueInput | InternalMessageWhereUniqueInput[]
   }
 
+  export type EnrollmentCodeCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCreatedByInput, EnrollmentCodeUncheckedCreateWithoutCreatedByInput> | EnrollmentCodeCreateWithoutCreatedByInput[] | EnrollmentCodeUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCreatedByInput | EnrollmentCodeCreateOrConnectWithoutCreatedByInput[]
+    createMany?: EnrollmentCodeCreateManyCreatedByInputEnvelope
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+  }
+
   export type GroupUncheckedCreateNestedManyWithoutAdminInput = {
     create?: XOR<GroupCreateWithoutAdminInput, GroupUncheckedCreateWithoutAdminInput> | GroupCreateWithoutAdminInput[] | GroupUncheckedCreateWithoutAdminInput[]
     connectOrCreate?: GroupCreateOrConnectWithoutAdminInput | GroupCreateOrConnectWithoutAdminInput[]
@@ -123523,6 +125220,13 @@ export namespace Prisma {
     create?: XOR<InternalMessageCreateWithoutRecipientsInput, InternalMessageUncheckedCreateWithoutRecipientsInput> | InternalMessageCreateWithoutRecipientsInput[] | InternalMessageUncheckedCreateWithoutRecipientsInput[]
     connectOrCreate?: InternalMessageCreateOrConnectWithoutRecipientsInput | InternalMessageCreateOrConnectWithoutRecipientsInput[]
     connect?: InternalMessageWhereUniqueInput | InternalMessageWhereUniqueInput[]
+  }
+
+  export type EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCreatedByInput, EnrollmentCodeUncheckedCreateWithoutCreatedByInput> | EnrollmentCodeCreateWithoutCreatedByInput[] | EnrollmentCodeUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCreatedByInput | EnrollmentCodeCreateOrConnectWithoutCreatedByInput[]
+    createMany?: EnrollmentCodeCreateManyCreatedByInputEnvelope
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutAdminNestedInput = {
@@ -123826,6 +125530,20 @@ export namespace Prisma {
     deleteMany?: InternalMessageScalarWhereInput | InternalMessageScalarWhereInput[]
   }
 
+  export type EnrollmentCodeUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCreatedByInput, EnrollmentCodeUncheckedCreateWithoutCreatedByInput> | EnrollmentCodeCreateWithoutCreatedByInput[] | EnrollmentCodeUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCreatedByInput | EnrollmentCodeCreateOrConnectWithoutCreatedByInput[]
+    upsert?: EnrollmentCodeUpsertWithWhereUniqueWithoutCreatedByInput | EnrollmentCodeUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: EnrollmentCodeCreateManyCreatedByInputEnvelope
+    set?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    disconnect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    delete?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    update?: EnrollmentCodeUpdateWithWhereUniqueWithoutCreatedByInput | EnrollmentCodeUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: EnrollmentCodeUpdateManyWithWhereWithoutCreatedByInput | EnrollmentCodeUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
+  }
+
   export type GroupUncheckedUpdateManyWithoutAdminNestedInput = {
     create?: XOR<GroupCreateWithoutAdminInput, GroupUncheckedCreateWithoutAdminInput> | GroupCreateWithoutAdminInput[] | GroupUncheckedCreateWithoutAdminInput[]
     connectOrCreate?: GroupCreateOrConnectWithoutAdminInput | GroupCreateOrConnectWithoutAdminInput[]
@@ -124117,6 +125835,20 @@ export namespace Prisma {
     update?: InternalMessageUpdateWithWhereUniqueWithoutRecipientsInput | InternalMessageUpdateWithWhereUniqueWithoutRecipientsInput[]
     updateMany?: InternalMessageUpdateManyWithWhereWithoutRecipientsInput | InternalMessageUpdateManyWithWhereWithoutRecipientsInput[]
     deleteMany?: InternalMessageScalarWhereInput | InternalMessageScalarWhereInput[]
+  }
+
+  export type EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<EnrollmentCodeCreateWithoutCreatedByInput, EnrollmentCodeUncheckedCreateWithoutCreatedByInput> | EnrollmentCodeCreateWithoutCreatedByInput[] | EnrollmentCodeUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutCreatedByInput | EnrollmentCodeCreateOrConnectWithoutCreatedByInput[]
+    upsert?: EnrollmentCodeUpsertWithWhereUniqueWithoutCreatedByInput | EnrollmentCodeUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: EnrollmentCodeCreateManyCreatedByInputEnvelope
+    set?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    disconnect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    delete?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+    update?: EnrollmentCodeUpdateWithWhereUniqueWithoutCreatedByInput | EnrollmentCodeUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: EnrollmentCodeUpdateManyWithWhereWithoutCreatedByInput | EnrollmentCodeUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
   }
 
   export type UserCreateNestedManyWithoutChannelsInput = {
@@ -128167,6 +129899,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutUserInput = {
@@ -128193,6 +129926,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutUserInput = {
@@ -128875,6 +130609,36 @@ export namespace Prisma {
 
   export type LikeCreateManyUserInputEnvelope = {
     data: LikeCreateManyUserInput | LikeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EnrollmentCodeCreateWithoutUsedByInput = {
+    id?: string
+    code: string
+    isUsed?: boolean
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+    course: CourseCreateNestedOneWithoutEnrollmentCodeInput
+    createdBy: AdminCreateNestedOneWithoutEnrollmentCodeInput
+  }
+
+  export type EnrollmentCodeUncheckedCreateWithoutUsedByInput = {
+    id?: string
+    code: string
+    courseId: string
+    isUsed?: boolean
+    createdById: string
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type EnrollmentCodeCreateOrConnectWithoutUsedByInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    create: XOR<EnrollmentCodeCreateWithoutUsedByInput, EnrollmentCodeUncheckedCreateWithoutUsedByInput>
+  }
+
+  export type EnrollmentCodeCreateManyUsedByInputEnvelope = {
+    data: EnrollmentCodeCreateManyUsedByInput | EnrollmentCodeCreateManyUsedByInput[]
     skipDuplicates?: boolean
   }
 
@@ -130037,6 +131801,36 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Like"> | Date | string
   }
 
+  export type EnrollmentCodeUpsertWithWhereUniqueWithoutUsedByInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    update: XOR<EnrollmentCodeUpdateWithoutUsedByInput, EnrollmentCodeUncheckedUpdateWithoutUsedByInput>
+    create: XOR<EnrollmentCodeCreateWithoutUsedByInput, EnrollmentCodeUncheckedCreateWithoutUsedByInput>
+  }
+
+  export type EnrollmentCodeUpdateWithWhereUniqueWithoutUsedByInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    data: XOR<EnrollmentCodeUpdateWithoutUsedByInput, EnrollmentCodeUncheckedUpdateWithoutUsedByInput>
+  }
+
+  export type EnrollmentCodeUpdateManyWithWhereWithoutUsedByInput = {
+    where: EnrollmentCodeScalarWhereInput
+    data: XOR<EnrollmentCodeUpdateManyMutationInput, EnrollmentCodeUncheckedUpdateManyWithoutUsedByInput>
+  }
+
+  export type EnrollmentCodeScalarWhereInput = {
+    AND?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
+    OR?: EnrollmentCodeScalarWhereInput[]
+    NOT?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
+    id?: StringFilter<"EnrollmentCode"> | string
+    code?: StringFilter<"EnrollmentCode"> | string
+    courseId?: StringFilter<"EnrollmentCode"> | string
+    isUsed?: BoolFilter<"EnrollmentCode"> | boolean
+    usedById?: StringNullableFilter<"EnrollmentCode"> | string | null
+    createdById?: StringFilter<"EnrollmentCode"> | string
+    createdAt?: DateTimeFilter<"EnrollmentCode"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EnrollmentCode"> | Date | string | null
+  }
+
   export type UserCreateWithoutLoginHistoryInput = {
     id?: string
     email: string
@@ -130091,6 +131885,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutLoginHistoryInput = {
@@ -130147,6 +131942,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutLoginHistoryInput = {
@@ -130219,6 +132015,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLoginHistoryInput = {
@@ -130275,6 +132072,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateWithoutTwoFactorInput = {
@@ -130331,6 +132129,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutTwoFactorInput = {
@@ -130387,6 +132186,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutTwoFactorInput = {
@@ -130459,6 +132259,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTwoFactorInput = {
@@ -130515,6 +132316,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateWithoutProfileInput = {
@@ -130571,6 +132373,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -130627,6 +132430,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -130699,6 +132503,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -130755,6 +132560,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateWithoutUserAcademyCEOInput = {
@@ -130811,6 +132617,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutUserAcademyCEOInput = {
@@ -130867,6 +132674,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutUserAcademyCEOInput = {
@@ -130988,6 +132796,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserAcademyCEOInput = {
@@ -131044,6 +132853,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type AcademyUpsertWithoutCeosInput = {
@@ -131155,6 +132965,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutAcademyInput = {
@@ -131211,6 +133022,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutAcademyInput = {
@@ -131269,6 +133081,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutAcademyInput = {
@@ -131293,6 +133106,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutAcademyInput = {
@@ -132109,6 +133923,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutInstructorInput = {
@@ -132165,6 +133980,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutInstructorInput = {
@@ -132243,6 +134059,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutInstructorsInput = {
@@ -132267,6 +134084,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutInstructorsInput = {
@@ -132339,6 +134157,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstructorInput = {
@@ -132395,6 +134214,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type AcademyUpsertWithoutInstructorsInput = {
@@ -132867,6 +134687,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EnrollmentCodeCreateWithoutCourseInput = {
+    id?: string
+    code: string
+    isUsed?: boolean
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+    usedBy?: UserCreateNestedOneWithoutEnrollmentCodeInput
+    createdBy: AdminCreateNestedOneWithoutEnrollmentCodeInput
+  }
+
+  export type EnrollmentCodeUncheckedCreateWithoutCourseInput = {
+    id?: string
+    code: string
+    isUsed?: boolean
+    usedById?: string | null
+    createdById: string
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type EnrollmentCodeCreateOrConnectWithoutCourseInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    create: XOR<EnrollmentCodeCreateWithoutCourseInput, EnrollmentCodeUncheckedCreateWithoutCourseInput>
+  }
+
+  export type EnrollmentCodeCreateManyCourseInputEnvelope = {
+    data: EnrollmentCodeCreateManyCourseInput | EnrollmentCodeCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AcademyUpsertWithoutCoursesInput = {
     update: XOR<AcademyUpdateWithoutCoursesInput, AcademyUncheckedUpdateWithoutCoursesInput>
     create: XOR<AcademyCreateWithoutCoursesInput, AcademyUncheckedCreateWithoutCoursesInput>
@@ -133087,6 +134937,22 @@ export namespace Prisma {
     data: XOR<CertificateUpdateManyMutationInput, CertificateUncheckedUpdateManyWithoutCourseInput>
   }
 
+  export type EnrollmentCodeUpsertWithWhereUniqueWithoutCourseInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    update: XOR<EnrollmentCodeUpdateWithoutCourseInput, EnrollmentCodeUncheckedUpdateWithoutCourseInput>
+    create: XOR<EnrollmentCodeCreateWithoutCourseInput, EnrollmentCodeUncheckedCreateWithoutCourseInput>
+  }
+
+  export type EnrollmentCodeUpdateWithWhereUniqueWithoutCourseInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    data: XOR<EnrollmentCodeUpdateWithoutCourseInput, EnrollmentCodeUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type EnrollmentCodeUpdateManyWithWhereWithoutCourseInput = {
+    where: EnrollmentCodeScalarWhereInput
+    data: XOR<EnrollmentCodeUpdateManyMutationInput, EnrollmentCodeUncheckedUpdateManyWithoutCourseInput>
+  }
+
   export type MilestoneCreateWithoutPathInput = {
     id?: string
     title: string
@@ -133135,6 +135001,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutPathInput = {
@@ -133159,6 +135026,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutPathInput = {
@@ -133220,6 +135088,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutPathInput = {
@@ -133276,6 +135145,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutPathInput = {
@@ -133520,6 +135390,7 @@ export namespace Prisma {
     Comment?: CommentCreateNestedManyWithoutAuthorInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutLessonWhiteListInput = {
@@ -133576,6 +135447,7 @@ export namespace Prisma {
     Comment?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutLessonWhiteListInput = {
@@ -133693,6 +135565,7 @@ export namespace Prisma {
     Comment?: CommentUpdateManyWithoutAuthorNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonWhiteListInput = {
@@ -133749,6 +135622,7 @@ export namespace Prisma {
     Comment?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type CourseCreateWithoutLessonsInput = {
@@ -133773,6 +135647,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutLessonsInput = {
@@ -133797,6 +135672,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutLessonsInput = {
@@ -133950,6 +135826,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutLessonInput = {
@@ -134006,6 +135883,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutLessonInput = {
@@ -134124,6 +136002,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutLessonsInput = {
@@ -134148,6 +136027,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type FileUpsertWithWhereUniqueWithoutLessonInput = {
@@ -134358,6 +136238,7 @@ export namespace Prisma {
     Comment?: CommentCreateNestedManyWithoutAuthorInput
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutWatchedLessonInput = {
@@ -134414,6 +136295,7 @@ export namespace Prisma {
     Comment?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutWatchedLessonInput = {
@@ -134531,6 +136413,7 @@ export namespace Prisma {
     Comment?: CommentUpdateManyWithoutAuthorNestedInput
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWatchedLessonInput = {
@@ -134587,6 +136470,7 @@ export namespace Prisma {
     Comment?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type LessonCreateWithoutFilesInput = {
@@ -135169,6 +137053,490 @@ export namespace Prisma {
     data: XOR<TraineeManagementUpdateManyMutationInput, TraineeManagementUncheckedUpdateManyWithoutDocumentsInput>
   }
 
+  export type CourseCreateWithoutEnrollmentCodeInput = {
+    id?: string
+    title: string
+    description: string
+    image?: string | null
+    startDate?: Date | string | null
+    level: string
+    duration?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.CourseStatus
+    progress?: number
+    price?: number | null
+    academy?: AcademyCreateNestedOneWithoutCoursesInput
+    lessons?: LessonCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
+    quizzes?: QuizCreateNestedManyWithoutCourseInput
+    instructors?: InstructorCreateNestedManyWithoutCoursesInput
+    liveRoom?: LiveRoomCreateNestedManyWithoutCourseInput
+    Path?: PathCreateNestedManyWithoutCoursesInput
+    Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
+    trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
+    Certificate?: CertificateCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutEnrollmentCodeInput = {
+    id?: string
+    title: string
+    description: string
+    academyId?: string | null
+    image?: string | null
+    startDate?: Date | string | null
+    level: string
+    duration?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: $Enums.CourseStatus
+    progress?: number
+    price?: number | null
+    lessons?: LessonUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    quizzes?: QuizUncheckedCreateNestedManyWithoutCourseInput
+    instructors?: InstructorUncheckedCreateNestedManyWithoutCoursesInput
+    liveRoom?: LiveRoomUncheckedCreateNestedManyWithoutCourseInput
+    Path?: PathUncheckedCreateNestedManyWithoutCoursesInput
+    Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
+    trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
+    Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutEnrollmentCodeInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutEnrollmentCodeInput, CourseUncheckedCreateWithoutEnrollmentCodeInput>
+  }
+
+  export type UserCreateWithoutEnrollmentCodeInput = {
+    id?: string
+    email: string
+    password: string
+    phone?: string | null
+    firstName: string
+    lastName: string
+    role?: $Enums.UserRole
+    subRole?: string | null
+    avatar?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isOnline?: boolean
+    isVerified?: boolean
+    age?: number | null
+    progress?: number | null
+    location?: string | null
+    academy?: AcademyCreateNestedOneWithoutUsersInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    enrollments?: EnrollmentCreateNestedManyWithoutUserInput
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    groups?: GroupCreateNestedManyWithoutMembersInput
+    channels?: ChannelCreateNestedManyWithoutMembersInput
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    Submission?: SubmissionCreateNestedManyWithoutUserInput
+    Attendance?: AttendanceCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    installments?: InstallmentCreateNestedManyWithoutUserInput
+    Instructor?: InstructorCreateNestedManyWithoutUserInput
+    Owner?: OwnerCreateNestedManyWithoutUserInput
+    Admin?: AdminCreateNestedManyWithoutUserInput
+    Lesson?: LessonCreateNestedManyWithoutCompletedByInput
+    Report?: ReportCreateNestedManyWithoutUserInput
+    Badge?: BadgeCreateNestedManyWithoutUserInput
+    Certificate?: CertificateCreateNestedManyWithoutUserInput
+    Community?: CommunityCreateNestedManyWithoutParticipantsInput
+    LiveRoom?: LiveRoomCreateNestedManyWithoutUserInput
+    NotificationSettings?: NotificationSettingsCreateNestedManyWithoutUserInput
+    Path?: PathCreateNestedManyWithoutPeersInput
+    LoginHistory?: LoginHistoryCreateNestedManyWithoutUserInput
+    TwoFactor?: TwoFactorCreateNestedManyWithoutUserInput
+    UserAcademyCEO?: UserAcademyCEOCreateNestedManyWithoutUserInput
+    SalaryPayment?: SalaryPaymentCreateNestedManyWithoutEmployeeInput
+    MeetingParticipant?: MeetingParticipantCreateNestedManyWithoutUserInput
+    LegalCase?: LegalCaseCreateNestedManyWithoutRelatedUserInput
+    traineeManagement?: TraineeManagementCreateNestedManyWithoutUserInput
+    trainingSchedules?: TrainingScheduleCreateNestedManyWithoutParticipantsInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutEmployeeInput
+    Comment?: CommentCreateNestedManyWithoutAuthorInput
+    LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
+    WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
+    Like?: LikeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutEnrollmentCodeInput = {
+    id?: string
+    email: string
+    password: string
+    phone?: string | null
+    firstName: string
+    lastName: string
+    role?: $Enums.UserRole
+    subRole?: string | null
+    avatar?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academyId?: string | null
+    isOnline?: boolean
+    isVerified?: boolean
+    age?: number | null
+    progress?: number | null
+    location?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    groups?: GroupUncheckedCreateNestedManyWithoutMembersInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutMembersInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    Attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    installments?: InstallmentUncheckedCreateNestedManyWithoutUserInput
+    Instructor?: InstructorUncheckedCreateNestedManyWithoutUserInput
+    Owner?: OwnerUncheckedCreateNestedManyWithoutUserInput
+    Admin?: AdminUncheckedCreateNestedManyWithoutUserInput
+    Lesson?: LessonUncheckedCreateNestedManyWithoutCompletedByInput
+    Report?: ReportUncheckedCreateNestedManyWithoutUserInput
+    Badge?: BadgeUncheckedCreateNestedManyWithoutUserInput
+    Certificate?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    Community?: CommunityUncheckedCreateNestedManyWithoutParticipantsInput
+    LiveRoom?: LiveRoomUncheckedCreateNestedManyWithoutUserInput
+    NotificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutUserInput
+    Path?: PathUncheckedCreateNestedManyWithoutPeersInput
+    LoginHistory?: LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+    TwoFactor?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    UserAcademyCEO?: UserAcademyCEOUncheckedCreateNestedManyWithoutUserInput
+    SalaryPayment?: SalaryPaymentUncheckedCreateNestedManyWithoutEmployeeInput
+    MeetingParticipant?: MeetingParticipantUncheckedCreateNestedManyWithoutUserInput
+    LegalCase?: LegalCaseUncheckedCreateNestedManyWithoutRelatedUserInput
+    traineeManagement?: TraineeManagementUncheckedCreateNestedManyWithoutUserInput
+    trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutParticipantsInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutEmployeeInput
+    Comment?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
+    WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
+    Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutEnrollmentCodeInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEnrollmentCodeInput, UserUncheckedCreateWithoutEnrollmentCodeInput>
+  }
+
+  export type AdminCreateWithoutEnrollmentCodeInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAdminInput
+    Group?: GroupCreateNestedManyWithoutAdminInput
+    accountingEntries?: AccountingEntryCreateNestedManyWithoutCreatedByAdminInput
+    prRecords?: PublicRelationsRecordCreateNestedManyWithoutHandledByAdminInput
+    prResponses?: PRResponseCreateNestedManyWithoutRespondedByAdminInput
+    meetings?: MeetingCreateNestedManyWithoutCreatedByAdminInput
+    assignments?: AdminAssignmentCreateNestedManyWithoutAdminInput
+    legalCases?: LegalCaseCreateNestedManyWithoutAssignedLawyerInput
+    expenses?: ExpenseCreateNestedManyWithoutCreatedByAdminInput
+    AdminRole?: AdminRoleCreateNestedManyWithoutAdminInput
+    AboutSection?: AboutSectionCreateNestedManyWithoutCreatedByInput
+    NewsEvent?: NewsEventCreateNestedManyWithoutCreatedByInput
+    SuccessStory?: SuccessStoryCreateNestedManyWithoutCreatedByInput
+    ContactMessage?: ContactMessageCreateNestedManyWithoutRespondedByInput
+    BlogPost?: BlogPostCreateNestedManyWithoutAuthorInput
+    CSRProject?: CSRProjectCreateNestedManyWithoutAssignedTeamInput
+    CrisisCommunication?: CrisisCommunicationCreateNestedManyWithoutHandledByInput
+    paymentLogs?: PaymentLogBySecretaryCreateNestedManyWithoutSecretaryInput
+    secretaryFiles?: SecretaryFilesCreateNestedManyWithoutSecretaryInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
+    sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
+    receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+  }
+
+  export type AdminUncheckedCreateWithoutEnrollmentCodeInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    Group?: GroupUncheckedCreateNestedManyWithoutAdminInput
+    accountingEntries?: AccountingEntryUncheckedCreateNestedManyWithoutCreatedByAdminInput
+    prRecords?: PublicRelationsRecordUncheckedCreateNestedManyWithoutHandledByAdminInput
+    prResponses?: PRResponseUncheckedCreateNestedManyWithoutRespondedByAdminInput
+    meetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByAdminInput
+    assignments?: AdminAssignmentUncheckedCreateNestedManyWithoutAdminInput
+    legalCases?: LegalCaseUncheckedCreateNestedManyWithoutAssignedLawyerInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByAdminInput
+    AdminRole?: AdminRoleUncheckedCreateNestedManyWithoutAdminInput
+    AboutSection?: AboutSectionUncheckedCreateNestedManyWithoutCreatedByInput
+    NewsEvent?: NewsEventUncheckedCreateNestedManyWithoutCreatedByInput
+    SuccessStory?: SuccessStoryUncheckedCreateNestedManyWithoutCreatedByInput
+    ContactMessage?: ContactMessageUncheckedCreateNestedManyWithoutRespondedByInput
+    BlogPost?: BlogPostUncheckedCreateNestedManyWithoutAuthorInput
+    CSRProject?: CSRProjectUncheckedCreateNestedManyWithoutAssignedTeamInput
+    CrisisCommunication?: CrisisCommunicationUncheckedCreateNestedManyWithoutHandledByInput
+    paymentLogs?: PaymentLogBySecretaryUncheckedCreateNestedManyWithoutSecretaryInput
+    secretaryFiles?: SecretaryFilesUncheckedCreateNestedManyWithoutSecretaryInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
+    sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
+    receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+  }
+
+  export type AdminCreateOrConnectWithoutEnrollmentCodeInput = {
+    where: AdminWhereUniqueInput
+    create: XOR<AdminCreateWithoutEnrollmentCodeInput, AdminUncheckedCreateWithoutEnrollmentCodeInput>
+  }
+
+  export type CourseUpsertWithoutEnrollmentCodeInput = {
+    update: XOR<CourseUpdateWithoutEnrollmentCodeInput, CourseUncheckedUpdateWithoutEnrollmentCodeInput>
+    create: XOR<CourseCreateWithoutEnrollmentCodeInput, CourseUncheckedCreateWithoutEnrollmentCodeInput>
+    where?: CourseWhereInput
+  }
+
+  export type CourseUpdateToOneWithWhereWithoutEnrollmentCodeInput = {
+    where?: CourseWhereInput
+    data: XOR<CourseUpdateWithoutEnrollmentCodeInput, CourseUncheckedUpdateWithoutEnrollmentCodeInput>
+  }
+
+  export type CourseUpdateWithoutEnrollmentCodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+    progress?: FloatFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    academy?: AcademyUpdateOneWithoutCoursesNestedInput
+    lessons?: LessonUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
+    quizzes?: QuizUpdateManyWithoutCourseNestedInput
+    instructors?: InstructorUpdateManyWithoutCoursesNestedInput
+    liveRoom?: LiveRoomUpdateManyWithoutCourseNestedInput
+    Path?: PathUpdateManyWithoutCoursesNestedInput
+    Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
+    trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
+    Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutEnrollmentCodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    academyId?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+    progress?: FloatFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    lessons?: LessonUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    quizzes?: QuizUncheckedUpdateManyWithoutCourseNestedInput
+    instructors?: InstructorUncheckedUpdateManyWithoutCoursesNestedInput
+    liveRoom?: LiveRoomUncheckedUpdateManyWithoutCourseNestedInput
+    Path?: PathUncheckedUpdateManyWithoutCoursesNestedInput
+    Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
+    trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
+    Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type UserUpsertWithoutEnrollmentCodeInput = {
+    update: XOR<UserUpdateWithoutEnrollmentCodeInput, UserUncheckedUpdateWithoutEnrollmentCodeInput>
+    create: XOR<UserCreateWithoutEnrollmentCodeInput, UserUncheckedCreateWithoutEnrollmentCodeInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutEnrollmentCodeInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutEnrollmentCodeInput, UserUncheckedUpdateWithoutEnrollmentCodeInput>
+  }
+
+  export type UserUpdateWithoutEnrollmentCodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    subRole?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    progress?: NullableFloatFieldUpdateOperationsInput | number | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    academy?: AcademyUpdateOneWithoutUsersNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    groups?: GroupUpdateManyWithoutMembersNestedInput
+    channels?: ChannelUpdateManyWithoutMembersNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUpdateManyWithoutUserNestedInput
+    Attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    installments?: InstallmentUpdateManyWithoutUserNestedInput
+    Instructor?: InstructorUpdateManyWithoutUserNestedInput
+    Owner?: OwnerUpdateManyWithoutUserNestedInput
+    Admin?: AdminUpdateManyWithoutUserNestedInput
+    Lesson?: LessonUpdateManyWithoutCompletedByNestedInput
+    Report?: ReportUpdateManyWithoutUserNestedInput
+    Badge?: BadgeUpdateManyWithoutUserNestedInput
+    Certificate?: CertificateUpdateManyWithoutUserNestedInput
+    Community?: CommunityUpdateManyWithoutParticipantsNestedInput
+    LiveRoom?: LiveRoomUpdateManyWithoutUserNestedInput
+    NotificationSettings?: NotificationSettingsUpdateManyWithoutUserNestedInput
+    Path?: PathUpdateManyWithoutPeersNestedInput
+    LoginHistory?: LoginHistoryUpdateManyWithoutUserNestedInput
+    TwoFactor?: TwoFactorUpdateManyWithoutUserNestedInput
+    UserAcademyCEO?: UserAcademyCEOUpdateManyWithoutUserNestedInput
+    SalaryPayment?: SalaryPaymentUpdateManyWithoutEmployeeNestedInput
+    MeetingParticipant?: MeetingParticipantUpdateManyWithoutUserNestedInput
+    LegalCase?: LegalCaseUpdateManyWithoutRelatedUserNestedInput
+    traineeManagement?: TraineeManagementUpdateManyWithoutUserNestedInput
+    trainingSchedules?: TrainingScheduleUpdateManyWithoutParticipantsNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutEmployeeNestedInput
+    Comment?: CommentUpdateManyWithoutAuthorNestedInput
+    LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
+    WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
+    Like?: LikeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutEnrollmentCodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    subRole?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academyId?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    progress?: NullableFloatFieldUpdateOperationsInput | number | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutMembersNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutMembersNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    Attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    installments?: InstallmentUncheckedUpdateManyWithoutUserNestedInput
+    Instructor?: InstructorUncheckedUpdateManyWithoutUserNestedInput
+    Owner?: OwnerUncheckedUpdateManyWithoutUserNestedInput
+    Admin?: AdminUncheckedUpdateManyWithoutUserNestedInput
+    Lesson?: LessonUncheckedUpdateManyWithoutCompletedByNestedInput
+    Report?: ReportUncheckedUpdateManyWithoutUserNestedInput
+    Badge?: BadgeUncheckedUpdateManyWithoutUserNestedInput
+    Certificate?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    Community?: CommunityUncheckedUpdateManyWithoutParticipantsNestedInput
+    LiveRoom?: LiveRoomUncheckedUpdateManyWithoutUserNestedInput
+    NotificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutUserNestedInput
+    Path?: PathUncheckedUpdateManyWithoutPeersNestedInput
+    LoginHistory?: LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+    TwoFactor?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    UserAcademyCEO?: UserAcademyCEOUncheckedUpdateManyWithoutUserNestedInput
+    SalaryPayment?: SalaryPaymentUncheckedUpdateManyWithoutEmployeeNestedInput
+    MeetingParticipant?: MeetingParticipantUncheckedUpdateManyWithoutUserNestedInput
+    LegalCase?: LegalCaseUncheckedUpdateManyWithoutRelatedUserNestedInput
+    traineeManagement?: TraineeManagementUncheckedUpdateManyWithoutUserNestedInput
+    trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutParticipantsNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    Comment?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
+    WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
+    Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AdminUpsertWithoutEnrollmentCodeInput = {
+    update: XOR<AdminUpdateWithoutEnrollmentCodeInput, AdminUncheckedUpdateWithoutEnrollmentCodeInput>
+    create: XOR<AdminCreateWithoutEnrollmentCodeInput, AdminUncheckedCreateWithoutEnrollmentCodeInput>
+    where?: AdminWhereInput
+  }
+
+  export type AdminUpdateToOneWithWhereWithoutEnrollmentCodeInput = {
+    where?: AdminWhereInput
+    data: XOR<AdminUpdateWithoutEnrollmentCodeInput, AdminUncheckedUpdateWithoutEnrollmentCodeInput>
+  }
+
+  export type AdminUpdateWithoutEnrollmentCodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAdminNestedInput
+    Group?: GroupUpdateManyWithoutAdminNestedInput
+    accountingEntries?: AccountingEntryUpdateManyWithoutCreatedByAdminNestedInput
+    prRecords?: PublicRelationsRecordUpdateManyWithoutHandledByAdminNestedInput
+    prResponses?: PRResponseUpdateManyWithoutRespondedByAdminNestedInput
+    meetings?: MeetingUpdateManyWithoutCreatedByAdminNestedInput
+    assignments?: AdminAssignmentUpdateManyWithoutAdminNestedInput
+    legalCases?: LegalCaseUpdateManyWithoutAssignedLawyerNestedInput
+    expenses?: ExpenseUpdateManyWithoutCreatedByAdminNestedInput
+    AdminRole?: AdminRoleUpdateManyWithoutAdminNestedInput
+    AboutSection?: AboutSectionUpdateManyWithoutCreatedByNestedInput
+    NewsEvent?: NewsEventUpdateManyWithoutCreatedByNestedInput
+    SuccessStory?: SuccessStoryUpdateManyWithoutCreatedByNestedInput
+    ContactMessage?: ContactMessageUpdateManyWithoutRespondedByNestedInput
+    BlogPost?: BlogPostUpdateManyWithoutAuthorNestedInput
+    CSRProject?: CSRProjectUpdateManyWithoutAssignedTeamNestedInput
+    CrisisCommunication?: CrisisCommunicationUpdateManyWithoutHandledByNestedInput
+    paymentLogs?: PaymentLogBySecretaryUpdateManyWithoutSecretaryNestedInput
+    secretaryFiles?: SecretaryFilesUpdateManyWithoutSecretaryNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
+    sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
+    receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+  }
+
+  export type AdminUncheckedUpdateWithoutEnrollmentCodeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Group?: GroupUncheckedUpdateManyWithoutAdminNestedInput
+    accountingEntries?: AccountingEntryUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+    prRecords?: PublicRelationsRecordUncheckedUpdateManyWithoutHandledByAdminNestedInput
+    prResponses?: PRResponseUncheckedUpdateManyWithoutRespondedByAdminNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+    assignments?: AdminAssignmentUncheckedUpdateManyWithoutAdminNestedInput
+    legalCases?: LegalCaseUncheckedUpdateManyWithoutAssignedLawyerNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+    AdminRole?: AdminRoleUncheckedUpdateManyWithoutAdminNestedInput
+    AboutSection?: AboutSectionUncheckedUpdateManyWithoutCreatedByNestedInput
+    NewsEvent?: NewsEventUncheckedUpdateManyWithoutCreatedByNestedInput
+    SuccessStory?: SuccessStoryUncheckedUpdateManyWithoutCreatedByNestedInput
+    ContactMessage?: ContactMessageUncheckedUpdateManyWithoutRespondedByNestedInput
+    BlogPost?: BlogPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CSRProject?: CSRProjectUncheckedUpdateManyWithoutAssignedTeamNestedInput
+    CrisisCommunication?: CrisisCommunicationUncheckedUpdateManyWithoutHandledByNestedInput
+    paymentLogs?: PaymentLogBySecretaryUncheckedUpdateManyWithoutSecretaryNestedInput
+    secretaryFiles?: SecretaryFilesUncheckedUpdateManyWithoutSecretaryNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
+    sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
+    receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+  }
+
   export type UserCreateWithoutEnrollmentsInput = {
     id?: string
     email: string
@@ -135223,6 +137591,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -135279,6 +137648,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -135308,6 +137678,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutEnrollmentsInput = {
@@ -135332,6 +137703,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutEnrollmentsInput = {
@@ -135434,6 +137806,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -135490,6 +137863,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type CourseUpsertWithoutEnrollmentsInput = {
@@ -135525,6 +137899,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
@@ -135549,6 +137924,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type TraineeManagementUpsertWithWhereUniqueWithoutEnrollmentInput = {
@@ -135696,6 +138072,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutQuizzesInput = {
@@ -135720,6 +138097,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutQuizzesInput = {
@@ -135852,6 +138230,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutQuizzesInput = {
@@ -135876,6 +138255,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type OptionCreateWithoutQuestionInput = {
@@ -136142,6 +138522,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionInput = {
@@ -136198,6 +138579,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionInput = {
@@ -136313,6 +138695,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionInput = {
@@ -136369,6 +138752,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type QuizUpsertWithoutSubmissionsInput = {
@@ -136474,6 +138858,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -136530,6 +138915,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -136602,6 +138988,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -136658,6 +139045,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -136714,6 +139102,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -136770,6 +139159,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -136875,6 +139265,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -136931,6 +139322,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type TrainingScheduleUpsertWithoutNotificationsInput = {
@@ -137026,6 +139418,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutNotificationSettingsInput = {
@@ -137082,6 +139475,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutNotificationSettingsInput = {
@@ -137154,6 +139548,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
@@ -137210,6 +139605,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateWithoutMessagesInput = {
@@ -137266,6 +139662,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -137322,6 +139719,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -137423,6 +139821,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -137479,6 +139878,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type ChannelUpsertWithWhereUniqueWithoutMessagesInput = {
@@ -137551,6 +139951,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -137607,6 +140008,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -137852,6 +140254,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -137908,6 +140311,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type CommentUpsertWithWhereUniqueWithoutPostInput = {
@@ -138133,6 +140537,7 @@ export namespace Prisma {
     Comment?: CommentCreateNestedManyWithoutAuthorInput
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutLikeInput = {
@@ -138189,6 +140594,7 @@ export namespace Prisma {
     Comment?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutLikeInput = {
@@ -138302,6 +140708,7 @@ export namespace Prisma {
     Comment?: CommentUpdateManyWithoutAuthorNestedInput
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikeInput = {
@@ -138358,6 +140765,7 @@ export namespace Prisma {
     Comment?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type PostCreateWithoutCommentsInput = {
@@ -138449,6 +140857,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutCommentInput = {
@@ -138505,6 +140914,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutCommentInput = {
@@ -138618,6 +141028,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentInput = {
@@ -138674,6 +141085,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateWithoutGroupsInput = {
@@ -138730,6 +141142,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutGroupsInput = {
@@ -138786,6 +141199,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutGroupsInput = {
@@ -138852,6 +141266,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutGroupInput = {
@@ -138878,6 +141293,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutGroupInput = {
@@ -138991,6 +141407,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutGroupInput = {
@@ -139017,6 +141434,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CommunityUpsertWithWhereUniqueWithoutGroupsInput = {
@@ -139089,6 +141507,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutAdminInput = {
@@ -139145,6 +141564,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutAdminInput = {
@@ -139857,6 +142277,36 @@ export namespace Prisma {
     create: XOR<InternalMessageCreateWithoutRecipientsInput, InternalMessageUncheckedCreateWithoutRecipientsInput>
   }
 
+  export type EnrollmentCodeCreateWithoutCreatedByInput = {
+    id?: string
+    code: string
+    isUsed?: boolean
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+    course: CourseCreateNestedOneWithoutEnrollmentCodeInput
+    usedBy?: UserCreateNestedOneWithoutEnrollmentCodeInput
+  }
+
+  export type EnrollmentCodeUncheckedCreateWithoutCreatedByInput = {
+    id?: string
+    code: string
+    courseId: string
+    isUsed?: boolean
+    usedById?: string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type EnrollmentCodeCreateOrConnectWithoutCreatedByInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    create: XOR<EnrollmentCodeCreateWithoutCreatedByInput, EnrollmentCodeUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type EnrollmentCodeCreateManyCreatedByInputEnvelope = {
+    data: EnrollmentCodeCreateManyCreatedByInput | EnrollmentCodeCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAdminInput = {
     update: XOR<UserUpdateWithoutAdminInput, UserUncheckedUpdateWithoutAdminInput>
     create: XOR<UserCreateWithoutAdminInput, UserUncheckedCreateWithoutAdminInput>
@@ -139922,6 +142372,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminInput = {
@@ -139978,6 +142429,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type GroupUpsertWithWhereUniqueWithoutAdminInput = {
@@ -140486,6 +142938,22 @@ export namespace Prisma {
     data: XOR<InternalMessageUpdateManyMutationInput, InternalMessageUncheckedUpdateManyWithoutRecipientsInput>
   }
 
+  export type EnrollmentCodeUpsertWithWhereUniqueWithoutCreatedByInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    update: XOR<EnrollmentCodeUpdateWithoutCreatedByInput, EnrollmentCodeUncheckedUpdateWithoutCreatedByInput>
+    create: XOR<EnrollmentCodeCreateWithoutCreatedByInput, EnrollmentCodeUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type EnrollmentCodeUpdateWithWhereUniqueWithoutCreatedByInput = {
+    where: EnrollmentCodeWhereUniqueInput
+    data: XOR<EnrollmentCodeUpdateWithoutCreatedByInput, EnrollmentCodeUncheckedUpdateWithoutCreatedByInput>
+  }
+
+  export type EnrollmentCodeUpdateManyWithWhereWithoutCreatedByInput = {
+    where: EnrollmentCodeScalarWhereInput
+    data: XOR<EnrollmentCodeUpdateManyMutationInput, EnrollmentCodeUncheckedUpdateManyWithoutCreatedByInput>
+  }
+
   export type UserCreateWithoutChannelsInput = {
     id?: string
     email: string
@@ -140540,6 +143008,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutChannelsInput = {
@@ -140596,6 +143065,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutChannelsInput = {
@@ -141066,6 +143536,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutOwnerInput = {
@@ -141122,6 +143593,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutOwnerInput = {
@@ -141228,6 +143700,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnerInput = {
@@ -141284,6 +143757,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type ChannelUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -141356,6 +143830,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -141412,6 +143887,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -141484,6 +143960,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -141540,6 +144017,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type AcademyCreateWithoutEventsInput = {
@@ -141940,6 +144418,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -141996,6 +144475,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutAttendanceInput = {
@@ -142107,6 +144587,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -142163,6 +144644,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type LessonUpsertWithoutAttendanceInput = {
@@ -142264,6 +144746,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -142320,6 +144803,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -142522,6 +145006,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -142578,6 +145063,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type BranchUpsertWithoutPaymentsInput = {
@@ -142750,6 +145236,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutReportInput = {
@@ -142806,6 +145293,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutReportInput = {
@@ -143022,6 +145510,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportInput = {
@@ -143078,6 +145567,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type AccountingEntryUpsertWithoutReportsInput = {
@@ -143302,6 +145792,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutBadgeInput = {
@@ -143358,6 +145849,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutBadgeInput = {
@@ -143430,6 +145922,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBadgeInput = {
@@ -143486,6 +145979,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserCreateWithoutCertificateInput = {
@@ -143542,6 +146036,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutCertificateInput = {
@@ -143598,6 +146093,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutCertificateInput = {
@@ -143627,6 +146123,7 @@ export namespace Prisma {
     Path?: PathCreateNestedManyWithoutCoursesInput
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutCertificateInput = {
@@ -143651,6 +146148,7 @@ export namespace Prisma {
     Path?: PathUncheckedCreateNestedManyWithoutCoursesInput
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutCertificateInput = {
@@ -143723,6 +146221,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCertificateInput = {
@@ -143779,6 +146278,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type CourseUpsertWithoutCertificateInput = {
@@ -143814,6 +146314,7 @@ export namespace Prisma {
     Path?: PathUpdateManyWithoutCoursesNestedInput
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutCertificateInput = {
@@ -143838,6 +146339,7 @@ export namespace Prisma {
     Path?: PathUncheckedUpdateManyWithoutCoursesNestedInput
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type GroupCreateWithoutCommunityInput = {
@@ -143963,6 +146465,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutCommunityInput = {
@@ -144019,6 +146522,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutCommunityInput = {
@@ -144418,6 +146922,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutLiveRoomInput = {
@@ -144474,6 +146979,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutLiveRoomInput = {
@@ -144503,6 +147009,7 @@ export namespace Prisma {
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutLiveRoomInput = {
@@ -144527,6 +147034,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutLiveRoomInput = {
@@ -144628,6 +147136,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutLiveRoomInput = {
@@ -144652,6 +147161,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type AdminCreateWithoutAccountingEntriesInput = {
@@ -144678,6 +147188,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutAccountingEntriesInput = {
@@ -144704,6 +147215,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutAccountingEntriesInput = {
@@ -144919,6 +147431,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutAccountingEntriesInput = {
@@ -144945,6 +147458,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AcademyUpsertWithoutAccountingEntryInput = {
@@ -145228,6 +147742,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutSalaryPaymentInput = {
@@ -145284,6 +147799,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutSalaryPaymentInput = {
@@ -145391,6 +147907,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSalaryPaymentInput = {
@@ -145447,6 +147964,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type AccountingEntryUpsertWithoutSalaryPaymentInput = {
@@ -145514,6 +148032,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutPrRecordsInput = {
@@ -145540,6 +148059,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutPrRecordsInput = {
@@ -145809,6 +148329,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutPrRecordsInput = {
@@ -145835,6 +148356,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AcademyUpsertWithoutPublicRelationsRecordInput = {
@@ -146033,6 +148555,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutPrResponsesInput = {
@@ -146059,6 +148582,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutPrResponsesInput = {
@@ -146144,6 +148668,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutPrResponsesInput = {
@@ -146170,6 +148695,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminCreateWithoutMeetingsInput = {
@@ -146196,6 +148722,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutMeetingsInput = {
@@ -146222,6 +148749,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutMeetingsInput = {
@@ -146445,6 +148973,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutMeetingsInput = {
@@ -146471,6 +149000,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AcademyUpsertWithoutMeetingInput = {
@@ -146681,6 +149211,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutMeetingParticipantInput = {
@@ -146737,6 +149268,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutMeetingParticipantInput = {
@@ -146850,6 +149382,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMeetingParticipantInput = {
@@ -146906,6 +149439,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type AdminRoleCreateWithoutPermissionsInput = {
@@ -146981,6 +149515,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutAdminRoleInput = {
@@ -147007,6 +149542,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutAdminRoleInput = {
@@ -147242,6 +149778,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutAdminRoleInput = {
@@ -147268,6 +149805,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminAssignmentUpsertWithWhereUniqueWithoutRoleInput = {
@@ -147401,6 +149939,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutAssignmentsInput = {
@@ -147427,6 +149966,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutAssignmentsInput = {
@@ -147502,6 +150042,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutAssignmentsInput = {
@@ -147528,6 +150069,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminRoleUpsertWithoutAssignmentsInput = {
@@ -147593,6 +150135,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutLegalCasesInput = {
@@ -147619,6 +150162,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutLegalCasesInput = {
@@ -147729,6 +150273,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutLegalCaseInput = {
@@ -147785,6 +150330,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutLegalCaseInput = {
@@ -148005,6 +150551,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutLegalCasesInput = {
@@ -148031,6 +150578,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AcademyUpsertWithoutLegalCaseInput = {
@@ -148153,6 +150701,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLegalCaseInput = {
@@ -148209,6 +150758,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type FileUpsertWithWhereUniqueWithoutLegalCaseInput = {
@@ -148345,6 +150895,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutInstallmentsInput = {
@@ -148401,6 +150952,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutInstallmentsInput = {
@@ -148535,6 +151087,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstallmentsInput = {
@@ -148591,6 +151144,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type PaymentUpsertWithoutInstallmentsInput = {
@@ -148722,6 +151276,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutExpensesInput = {
@@ -148748,6 +151303,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutExpensesInput = {
@@ -148827,6 +151383,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutExpensesInput = {
@@ -148853,6 +151410,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type PaymentCreateWithoutBranchInput = {
@@ -149151,6 +151709,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutAboutSectionInput = {
@@ -149177,6 +151736,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutAboutSectionInput = {
@@ -149219,6 +151779,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutAboutSectionInput = {
@@ -149245,6 +151806,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminCreateWithoutNewsEventInput = {
@@ -149271,6 +151833,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutNewsEventInput = {
@@ -149297,6 +151860,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutNewsEventInput = {
@@ -149339,6 +151903,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutNewsEventInput = {
@@ -149365,6 +151930,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminCreateWithoutSuccessStoryInput = {
@@ -149391,6 +151957,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutSuccessStoryInput = {
@@ -149417,6 +151984,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutSuccessStoryInput = {
@@ -149459,6 +152027,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutSuccessStoryInput = {
@@ -149485,6 +152054,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CourseCreateWithoutTestimonialInput = {
@@ -149509,6 +152079,7 @@ export namespace Prisma {
     Path?: PathCreateNestedManyWithoutCoursesInput
     trainingSchedules?: TrainingScheduleCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutTestimonialInput = {
@@ -149533,6 +152104,7 @@ export namespace Prisma {
     Path?: PathUncheckedCreateNestedManyWithoutCoursesInput
     trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutTestimonialInput = {
@@ -149622,6 +152194,7 @@ export namespace Prisma {
     Path?: PathUpdateManyWithoutCoursesNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutTestimonialInput = {
@@ -149646,6 +152219,7 @@ export namespace Prisma {
     Path?: PathUncheckedUpdateManyWithoutCoursesNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type AcademyUpsertWithoutTestimonialInput = {
@@ -149727,6 +152301,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutContactMessageInput = {
@@ -149753,6 +152328,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutContactMessageInput = {
@@ -149795,6 +152371,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutContactMessageInput = {
@@ -149821,6 +152398,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminCreateWithoutBlogPostInput = {
@@ -149847,6 +152425,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutBlogPostInput = {
@@ -149873,6 +152452,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutBlogPostInput = {
@@ -149915,6 +152495,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutBlogPostInput = {
@@ -149941,6 +152522,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminCreateWithoutCSRProjectInput = {
@@ -149967,6 +152549,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutCSRProjectInput = {
@@ -149993,6 +152576,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutCSRProjectInput = {
@@ -150084,6 +152668,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutCSRProjectInput = {
@@ -150110,6 +152695,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AcademyUpsertWithWhereUniqueWithoutCsrProjectsInput = {
@@ -150165,6 +152751,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutCrisisCommunicationInput = {
@@ -150191,6 +152778,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutCrisisCommunicationInput = {
@@ -150233,6 +152821,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutCrisisCommunicationInput = {
@@ -150259,6 +152848,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AcademyCreateWithoutMediaAlertsInput = {
@@ -150523,6 +153113,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutTraineeManagementInput = {
@@ -150579,6 +153170,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutTraineeManagementInput = {
@@ -150715,6 +153307,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTraineeManagementInput = {
@@ -150771,6 +153364,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type EnrollmentUpsertWithoutTraineeManagementInput = {
@@ -150842,6 +153436,7 @@ export namespace Prisma {
     Path?: PathCreateNestedManyWithoutCoursesInput
     Testimonial?: TestimonialCreateNestedManyWithoutCourseInput
     Certificate?: CertificateCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutTrainingSchedulesInput = {
@@ -150866,6 +153461,7 @@ export namespace Prisma {
     Path?: PathUncheckedCreateNestedManyWithoutCoursesInput
     Testimonial?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
     Certificate?: CertificateUncheckedCreateNestedManyWithoutCourseInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutTrainingSchedulesInput = {
@@ -150927,6 +153523,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutTrainingSchedulesInput = {
@@ -150983,6 +153580,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutTrainingSchedulesInput = {
@@ -151059,6 +153657,7 @@ export namespace Prisma {
     Path?: PathUpdateManyWithoutCoursesNestedInput
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutTrainingSchedulesInput = {
@@ -151083,6 +153682,7 @@ export namespace Prisma {
     Path?: PathUncheckedUpdateManyWithoutCoursesNestedInput
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutTrainingSchedulesInput = {
@@ -151172,6 +153772,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutPaymentLogsInput = {
@@ -151198,6 +153799,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutPaymentLogsInput = {
@@ -151277,6 +153879,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutPaymentLogsInput = {
@@ -151303,6 +153906,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminCreateWithoutSentMessagesInput = {
@@ -151329,6 +153933,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesCreateNestedManyWithoutSecretaryInput
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutSentMessagesInput = {
@@ -151355,6 +153960,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUncheckedCreateNestedManyWithoutSecretaryInput
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutSentMessagesInput = {
@@ -151386,6 +153992,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesCreateNestedManyWithoutSecretaryInput
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutReceivedMessagesInput = {
@@ -151412,6 +154019,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUncheckedCreateNestedManyWithoutSecretaryInput
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutReceivedMessagesInput = {
@@ -151454,6 +154062,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUpdateManyWithoutSecretaryNestedInput
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutSentMessagesInput = {
@@ -151480,6 +154089,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUncheckedUpdateManyWithoutSecretaryNestedInput
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUpsertWithWhereUniqueWithoutReceivedMessagesInput = {
@@ -151561,6 +154171,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutSecretaryFilesInput = {
@@ -151587,6 +154198,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutSecretaryFilesInput = {
@@ -151674,6 +154286,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutSecretaryFilesInput = {
@@ -151700,6 +154313,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserCreateWithoutEmployeeAttendanceLogsInput = {
@@ -151756,6 +154370,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
   }
 
   export type UserUncheckedCreateWithoutEmployeeAttendanceLogsInput = {
@@ -151812,6 +154427,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
   }
 
   export type UserCreateOrConnectWithoutEmployeeAttendanceLogsInput = {
@@ -151843,6 +154459,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminUncheckedCreateWithoutEmployeeAttendanceLogsInput = {
@@ -151869,6 +154486,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUncheckedCreateNestedManyWithoutSecretaryInput
     sentMessages?: InternalMessageUncheckedCreateNestedManyWithoutSenderInput
     receivedMessages?: InternalMessageUncheckedCreateNestedManyWithoutRecipientsInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type AdminCreateOrConnectWithoutEmployeeAttendanceLogsInput = {
@@ -151941,6 +154559,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmployeeAttendanceLogsInput = {
@@ -151997,6 +154616,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type AdminUpsertWithoutEmployeeAttendanceLogsInput = {
@@ -152034,6 +154654,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutEmployeeAttendanceLogsInput = {
@@ -152060,6 +154681,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type EnrollmentCreateManyUserInput = {
@@ -152335,6 +154957,16 @@ export namespace Prisma {
     id?: string
     postId: string
     createdAt?: Date | string
+  }
+
+  export type EnrollmentCodeCreateManyUsedByInput = {
+    id?: string
+    code: string
+    courseId: string
+    isUsed?: boolean
+    createdById: string
+    createdAt?: Date | string
+    usedAt?: Date | string | null
   }
 
   export type EnrollmentUpdateWithoutUserInput = {
@@ -152788,6 +155420,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutUserInput = {
@@ -152814,6 +155447,7 @@ export namespace Prisma {
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
     receivedMessages?: InternalMessageUncheckedUpdateManyWithoutRecipientsNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateManyWithoutUserInput = {
@@ -153535,6 +156169,36 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EnrollmentCodeUpdateWithoutUsedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    course?: CourseUpdateOneRequiredWithoutEnrollmentCodeNestedInput
+    createdBy?: AdminUpdateOneRequiredWithoutEnrollmentCodeNestedInput
+  }
+
+  export type EnrollmentCodeUncheckedUpdateWithoutUsedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EnrollmentCodeUncheckedUpdateManyWithoutUsedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type UserCreateManyAcademyInput = {
     id?: string
     email: string
@@ -153737,6 +156401,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAcademyInput = {
@@ -153793,6 +156458,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutAcademyInput = {
@@ -153857,6 +156523,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutAcademyInput = {
@@ -153881,6 +156548,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutAcademyInput = {
@@ -154318,6 +156986,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutInstructorsInput = {
@@ -154342,6 +157011,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutInstructorsInput = {
@@ -154452,6 +157122,16 @@ export namespace Prisma {
     type: string
     earnedAt: Date | string
     createdAt?: Date | string
+  }
+
+  export type EnrollmentCodeCreateManyCourseInput = {
+    id?: string
+    code: string
+    isUsed?: boolean
+    usedById?: string | null
+    createdById: string
+    createdAt?: Date | string
+    usedAt?: Date | string | null
   }
 
   export type LessonUpdateWithoutCourseInput = {
@@ -154845,6 +157525,36 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EnrollmentCodeUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usedBy?: UserUpdateOneWithoutEnrollmentCodeNestedInput
+    createdBy?: AdminUpdateOneRequiredWithoutEnrollmentCodeNestedInput
+  }
+
+  export type EnrollmentCodeUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EnrollmentCodeUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type MilestoneCreateManyPathInput = {
     id?: string
     title: string
@@ -154899,6 +157609,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutPathInput = {
@@ -154923,6 +157634,7 @@ export namespace Prisma {
     Testimonial?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
     trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutCourseNestedInput
     Certificate?: CertificateUncheckedUpdateManyWithoutCourseNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutPathInput = {
@@ -154995,6 +157707,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPathInput = {
@@ -155051,6 +157764,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPathInput = {
@@ -155287,6 +158001,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonInput = {
@@ -155343,6 +158058,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutLessonInput = {
@@ -155922,6 +158638,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupsInput = {
@@ -155978,6 +158695,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutGroupsInput = {
@@ -156296,6 +159014,16 @@ export namespace Prisma {
     priority?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type EnrollmentCodeCreateManyCreatedByInput = {
+    id?: string
+    code: string
+    courseId: string
+    isUsed?: boolean
+    usedById?: string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
   }
 
   export type GroupUpdateWithoutAdminInput = {
@@ -157019,6 +159747,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EnrollmentCodeUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    course?: CourseUpdateOneRequiredWithoutEnrollmentCodeNestedInput
+    usedBy?: UserUpdateOneWithoutEnrollmentCodeNestedInput
+  }
+
+  export type EnrollmentCodeUncheckedUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EnrollmentCodeUncheckedUpdateManyWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type UserUpdateWithoutChannelsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -157073,6 +159831,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChannelsInput = {
@@ -157129,6 +159888,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutChannelsInput = {
@@ -157449,6 +160209,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityInput = {
@@ -157505,6 +160266,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCommunityInput = {
@@ -157643,6 +160405,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLiveRoomInput = {
@@ -157699,6 +160462,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutLiveRoomInput = {
@@ -159083,6 +161847,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTrainingSchedulesInput = {
@@ -159139,6 +161904,7 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutTrainingSchedulesInput = {
@@ -159224,6 +161990,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUpdateManyWithoutSecretaryNestedInput
     employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUpdateManyWithoutSenderNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -159250,6 +162017,7 @@ export namespace Prisma {
     secretaryFiles?: SecretaryFilesUncheckedUpdateManyWithoutSecretaryNestedInput
     employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutSecretaryNestedInput
     sentMessages?: InternalMessageUncheckedUpdateManyWithoutSenderNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type AdminUncheckedUpdateManyWithoutReceivedMessagesInput = {

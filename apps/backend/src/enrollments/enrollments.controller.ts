@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Query } from '@nestjs/common';
 import { EnrollmentsService } from './enrollments.service';
 import { CreateEnrollmentDto } from '../../dtos/Enrollment.create.dto';
 import { UpdateEnrollmentDto } from '../../dtos/Enrollment.update.dto';
 import { EnrollmentDto } from '../../dtos/Enrollment.dto';
 import { AuthGuard } from '../auth/auth.guard';
-import { Enrollment } from '@shared/prisma';
+import { Enrollment, EnrollmentCode } from '@shared/prisma';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UpdateEnrollmentCodeDto } from 'dtos/EnrollmentCode.update.dto';
+import { CreateEnrollmentCodeDto } from 'dtos/EnrollmentCode.create.dto';
 @ApiTags('التسجيلات')
 @Controller('enrollments')
 @ApiBearerAuth()
@@ -46,4 +48,26 @@ export class EnrollmentsController {
         return this.enrollmentsService.findByUserId(userId);
     }
 
+    @Post('code')
+    async createEnrollmentCode(@Body() createEnrollmentCodeDto: CreateEnrollmentCodeDto): Promise<EnrollmentCode> {
+        return this.enrollmentsService.createEnrollmentCode(createEnrollmentCodeDto);
+    }
+
+    @Put('code/:id')
+    async updateEnrollmentCode(
+        @Param('id') id: string,
+        @Body() updateEnrollmentCodeDto: UpdateEnrollmentCodeDto,
+    ): Promise<EnrollmentCode> {
+        return this.enrollmentsService.updateEnrollmentCode(id, updateEnrollmentCodeDto);
+    }
+
+    @Get('code')
+    async getAllEnrollmentCodes(
+        @Query('search') search: string,
+        @Query('take') take: number,
+        @Query('skip') skip: number,
+        @Query('courseId') courseId: string,
+    ): Promise<{ data: EnrollmentCode[], total: number, totalPages: number }> {
+        return this.enrollmentsService.getAllEnrollmentCodes(search, take, skip, courseId);
+    }
 } 

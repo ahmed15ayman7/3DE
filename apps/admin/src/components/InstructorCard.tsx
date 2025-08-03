@@ -76,15 +76,16 @@ export default function InstructorCard({ instructor, delay = 0 }: InstructorCard
 
         {/* Status Badge */}
         <div className="absolute top-4 left-4">
-          <span className="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-xs font-medium">
+          {/* <span className="bg-white/20 text-white px-3 py-1 rounded-full text-xs font-medium">
             {instructor.user?.isOnline ? 'متاح' : 'غير متاح'}
-          </span>
+          </span> */}
         </div>
       </div>
 
       {/* Content */}
       <div className="p-6">
         {/* Bio */}
+        <div className="flex items-center gap-2 justify-between">
         {instructor.bio && (
           <div className="mb-4">
             <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
@@ -92,6 +93,8 @@ export default function InstructorCard({ instructor, delay = 0 }: InstructorCard
             </p>
           </div>
         )}
+        {instructor.user?.isOnline ? <span className="bg-green-500 text-white h-2 w-2 rounded-full"></span> : <span className="bg-red-500 text-white h-2 w-2 rounded-full"></span>}
+        </div>
 
         {/* Contact Info */}
         <div className="space-y-2 mb-4">

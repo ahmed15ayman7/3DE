@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@3de/auth';
 import { Bell, User, Menu, LogOut, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -15,7 +16,7 @@ export default function Header({ onMenuClick, isMobile, isCollapsed }: HeaderPro
   const { user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-
+  const router = useRouter();
   const handleLogout = async () => {
     await logout();
   };
@@ -53,9 +54,9 @@ export default function Header({ onMenuClick, isMobile, isCollapsed }: HeaderPro
               className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <Bell className="w-6 h-6 text-gray-600" />
-              <span className="absolute -top-1 -left-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                3
-              </span>
+             {user?.notifications && user.notifications.length > 0 && <span className="absolute -top-1 -left-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                {user.notifications.length}
+              </span>}
             </button>
 
             <AnimatePresence>
@@ -70,24 +71,17 @@ export default function Header({ onMenuClick, isMobile, isCollapsed }: HeaderPro
                     <h3 className="font-semibold text-gray-800">الإشعارات</h3>
                   </div>
                   <div className="max-h-96 overflow-y-auto">
-                    <div className="p-4 hover:bg-gray-50 border-b border-gray-100 cursor-pointer">
-                      <p className="text-sm font-medium text-gray-800">طلب شهادة جديد</p>
-                      <p className="text-xs text-gray-500 mt-1">أحمد محمد طلب شهادة إتمام الكورس</p>
-                      <p className="text-xs text-blue-500 mt-1">منذ 5 دقائق</p>
+                    {user?.notifications && user.notifications.length > 0 && user.notifications.map((notification) => (
+                      <div className="p-4 hover:bg-gray-50 border-b border-gray-100 cursor-pointer">
+                      <p className="text-sm font-medium text-gray-800">{notification.title}</p>
+                      <p className="text-xs text-gray-500 mt-1">{notification.message}</p>
+                      <p className="text-xs text-blue-500 mt-1">{new Date(notification.createdAt).toLocaleDateString("ar-EG", { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
-                    <div className="p-4 hover:bg-gray-50 border-b border-gray-100 cursor-pointer">
-                      <p className="text-sm font-medium text-gray-800">تسجيل جديد</p>
-                      <p className="text-xs text-gray-500 mt-1">فاطمة علي انضمت إلى كورس البرمجة</p>
-                      <p className="text-xs text-blue-500 mt-1">منذ 10 دقائق</p>
-                    </div>
-                    <div className="p-4 hover:bg-gray-50 cursor-pointer">
-                      <p className="text-sm font-medium text-gray-800">اختبار مكتمل</p>
-                      <p className="text-xs text-gray-500 mt-1">سارة حسن أكملت اختبار الوحدة الأولى</p>
-                      <p className="text-xs text-blue-500 mt-1">منذ 15 دقيقة</p>
-                    </div>
+                    ))}
+                    {user?.notifications && user.notifications.length === 0 && <div className="p-4 text-center text-gray-500">لا يوجد إشعارات</div>}
                   </div>
                   <div className="p-4 border-t border-gray-100">
-                    <button className="w-full text-center text-sm text-blue-600 hover:text-blue-700 font-medium">
+                    <button onClick={() => router.push('/notifications')} className="w-full text-center text-sm text-primary-main hover:text-primary-dark font-medium cursor-pointer">
                       عرض جميع الإشعارات
                     </button>
                   </div>

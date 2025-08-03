@@ -18,6 +18,8 @@ import {
   UserX,
   ChevronLeft,
   ChevronRight,
+  KeyRound,
+  Bell,
 } from 'lucide-react';
 
 interface MenuItem {
@@ -32,12 +34,14 @@ const menuItems: MenuItem[] = [
   { title: 'المحاضرين', href: '/instructors', icon: GraduationCap },
   { title: 'الطلاب', href: '/students', icon: Users },
   { title: 'الاشتراكات', href: '/enrollments', icon: UserCheck },
-  { title: 'الشهادات', href: '/certificates', icon: Award },
+  { title: 'الأكواد', href: '/enrollment-codes', icon: KeyRound },
+  // { title: 'الشهادات', href: '/certificates', icon: Award },
   { title: 'الغيابات', href: '/absences', icon: UserX },
-  { title: 'الإنجازات', href: '/achievements', icon: Award },
-  { title: 'التقييمات', href: '/submissions', icon: FileText },
+  // { title: 'الإنجازات', href: '/achievements', icon: Award },
+  // { title: 'التقييمات', href: '/submissions', icon: FileText },
   { title: 'الاختبارات', href: '/exams', icon: Calendar },
   { title: 'التحليلات', href: '/analytics', icon: BarChart3 },
+  { title: 'الإشعارات', href: '/notifications', icon: Bell }, 
 ];
 
 interface SidebarProps {

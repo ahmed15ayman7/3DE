@@ -20,6 +20,7 @@ import { PaymentLogBySecretaryEntity } from "./PaymentLogBySecretary.entity";
 import { SecretaryFilesEntity } from "./SecretaryFiles.entity";
 import { EmployeeAttendanceLogEntity } from "./EmployeeAttendanceLog.entity";
 import { InternalMessageEntity } from "./InternalMessage.entity";
+import { EnrollmentCodeEntity } from "./EnrollmentCode.entity";
 import {
   User,
   Group,
@@ -42,6 +43,7 @@ import {
   SecretaryFiles,
   EmployeeAttendanceLog,
   InternalMessage,
+  EnrollmentCode,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -172,4 +174,9 @@ export class AdminEntity {
   // Field: receivedMessages, Type: InternalMessage[]
   @Column()
   receivedMessages: InternalMessage[];
+
+  @ApiProperty({ type: EnrollmentCodeEntity })
+  // Field: EnrollmentCode, Type: EnrollmentCode[]
+  @Column()
+  EnrollmentCode: EnrollmentCode[];
 }

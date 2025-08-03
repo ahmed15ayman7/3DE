@@ -32,6 +32,7 @@ import {
   Option,
   ContactUs,
   Support,
+  EnrollmentCode,
 } from '@3de/interfaces';
 
 // API Configuration
@@ -384,6 +385,7 @@ export const lessonApi = {
         videoUrl?: string;
         courseId: string;
     }) => api.post('/lessons', data),
+    getAll: (page: number, limit: number, search: string): Promise<{ success: boolean, data: Lesson[] }> => api.get(`/lessons?page=${page}&limit=${limit}&search=${search}`),
     update: (id: string, data: Partial<Lesson>) => api.put(`/lessons/${id}`, data),
     delete: (id: string) => api.delete(`/lessons/${id}`),
     getFiles: (lessonId: string) => api.get(`/lessons/${lessonId}/files`),
@@ -651,6 +653,9 @@ export const enrollmentApi = {
         status?: string;
     }) => api.put(`/enrollments/${id}`, data),
     delete: (id: string) => api.delete(`/enrollments/${id}`),
+    createEnrollmentCode: (data: Partial<EnrollmentCode>) => api.post('/enrollments/code', data),
+    updateEnrollmentCode: (id: string, data: Partial<EnrollmentCode>) => api.put(`/enrollments/code/${id}`, data),
+    getAllEnrollmentCodes: (search: string, take: number, skip: number, courseId: string): Promise<{ success: boolean, data: EnrollmentCode[], total: number, totalPages: number }> => api.get(`/enrollments/code?search=${search}&take=${take}&skip=${skip}&courseId=${courseId}`),
 };
 
 // Question APIs

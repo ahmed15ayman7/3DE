@@ -11,6 +11,7 @@ import {
   Testimonial,
   TrainingSchedule,
   Certificate,
+  EnrollmentCode,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";

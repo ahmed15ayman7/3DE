@@ -28,6 +28,8 @@ import { z } from 'zod'
 import { Card, Button, Input, Textarea, Select, Badge, Tabs, Switch } from '@3de/ui'
 import QuizForm from '../../../components/QuizForm'
 import QuestionCard from '../../../components/QuestionCard'
+import { courseApi, lessonApi } from '@3de/apis'
+import { useQuery } from '@tanstack/react-query'
 
 // Validation schema
 const quizSchema = z.object({
@@ -111,19 +113,16 @@ export default function NewQuizPage() {
 
   const watchedQuestions = watch('questions')
   const totalPoints = watchedQuestions.reduce((sum, q) => sum + (q.points || 0), 0)
+  let {data: courses} = useQuery({
+    queryKey: ['courses'],
+    queryFn: () => courseApi.getAll(),
+  })
+  let {data: lessons} = useQuery({
+    queryKey: ['lessons'],
+    queryFn: () => lessonApi.getAll(0,10,''),
+  })
 
-  // Mock data for courses and lessons
-  const mockCourses = [
-    { value: '1', label: 'تطوير الويب بـ React' },
-    { value: '2', label: 'JavaScript المتقدم' },
-    { value: '3', label: 'Node.js و Express' },
-  ]
 
-  const mockLessons = [
-    { value: '1', label: 'مقدمة إلى React' },
-    { value: '2', label: 'Components وProps' },
-    { value: '3', label: 'State وEvent Handling' },
-  ]
 
   const handleNext = async () => {
     const stepFields = getStepFields(currentStep)
@@ -221,7 +220,7 @@ export default function NewQuizPage() {
                   الكورس *
                 </label>
                 <Select
-                  options={mockCourses}
+                  options={courses?.data.map((course) => ({ value: course.id, label: course.title }))||[]}
                   {...register('courseId')}
                   error={errors.courseId?.message}
                 />
@@ -232,7 +231,7 @@ export default function NewQuizPage() {
                   الدرس (اختياري)
                 </label>
                 <Select
-                  options={[{ value: '', label: 'اختر درس...' }, ...mockLessons]}
+                  options={lessons?.data.map((lesson) => ({ value: lesson.id, label: lesson.title }))||[]}
                   {...register('lessonId')}
                 />
               </div>

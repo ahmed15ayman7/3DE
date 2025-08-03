@@ -123,7 +123,7 @@ const AddInstructor = ({
   };
 
   return (
-    <Modal title="إضافة محاضر" isOpen={isOpen} onClose={onClose} size="sm">
+    <Modal title="إضافة محاضر" isOpen={isOpen} onClose={onClose} size="md">
       <div className="flex flex-col py-5 items-center justify-center">
         {imageUrl && (
           <img

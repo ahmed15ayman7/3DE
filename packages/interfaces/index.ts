@@ -88,6 +88,7 @@ export interface User {
   LessonWhiteList: LessonWhiteList[] | undefined;
   WatchedLesson: WatchedLesson[] | undefined;
   Like: Like[] | undefined;
+  EnrollmentCode: EnrollmentCode[] | undefined;
 }
 
 export interface LoginHistory {
@@ -197,6 +198,7 @@ export interface Course {
   Testimonial: Testimonial[] | undefined;
   trainingSchedules: TrainingSchedule[] | undefined;
   Certificate: Certificate[] | undefined;
+  EnrollmentCode: EnrollmentCode[] | undefined;
 }
 
 export interface Path {
@@ -290,6 +292,20 @@ export interface File {
   secretaryFiles: SecretaryFiles[] | undefined;
   traineeManagement: TraineeManagement[] | undefined;
   createdAt: Date;
+}
+
+export interface EnrollmentCode {
+  id: string;
+  code: string;
+  courseId: string;
+  course: Course | undefined;
+  isUsed: boolean;
+  usedById?: string;
+  usedBy?: User | undefined;
+  createdById: string;
+  createdBy: Admin | undefined;
+  createdAt: Date;
+  usedAt?: Date;
 }
 
 export interface Enrollment {
@@ -492,6 +508,7 @@ export interface Admin {
   employeeAttendanceLogs: EmployeeAttendanceLog[] | undefined;
   sentMessages: InternalMessage[] | undefined;
   receivedMessages: InternalMessage[] | undefined;
+  EnrollmentCode: EnrollmentCode[] | undefined;
 }
 
 export interface Channel {

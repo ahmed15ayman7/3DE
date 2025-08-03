@@ -39,6 +39,7 @@ import {
   LessonWhiteList,
   WatchedLesson,
   Like,
+  EnrollmentCode,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";

@@ -9,6 +9,7 @@ import { PathEntity } from "./Path.entity";
 import { TestimonialEntity } from "./Testimonial.entity";
 import { TrainingScheduleEntity } from "./TrainingSchedule.entity";
 import { CertificateEntity } from "./Certificate.entity";
+import { EnrollmentCodeEntity } from "./EnrollmentCode.entity";
 import {
   Academy,
   Lesson,
@@ -21,6 +22,7 @@ import {
   Testimonial,
   TrainingSchedule,
   Certificate,
+  EnrollmentCode,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -141,4 +143,9 @@ export class CourseDto {
   // Field: Certificate, Type: Certificate[]
   @Column()
   Certificate: Certificate[];
+
+  @ApiProperty({ type: EnrollmentCodeEntity })
+  // Field: EnrollmentCode, Type: EnrollmentCode[]
+  @Column()
+  EnrollmentCode: EnrollmentCode[];
 }

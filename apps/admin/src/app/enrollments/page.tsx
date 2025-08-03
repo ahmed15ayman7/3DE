@@ -546,8 +546,4 @@ export default function EnrollmentsPage() {
       />}
     </div>
   );
-} 
-
-
-//curl get http://localhost:3000
-// i need stop port 3000 in vps then run this command
+}

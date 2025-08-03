@@ -43,7 +43,7 @@ export { Tabs, TabPanel, TabList, TabTrigger } from './components/Tabs';
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './components/Accordion';
 
 // Table Components
-export { Table, TableHeader, TableCell } from './components/Table';
+export { Table, TableHeader, TableCell, type TableColumn } from './components/Table';
 
 // Pagination Components
 export { Pagination, PaginationInfo, ItemsPerPage } from './components/Pagination';
@@ -69,3 +69,4 @@ export {
 export { default as TestSpaces } from './components/testSpaces';
 // Toaster Components
 export { Toaster, toast } from './components/toaster';
+export { Autocomplete } from './components/Autocomplete';

@@ -95,3 +95,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #1a6b69;
 }
+
+iframe[src*="youtube.com"] {
+  pointer-events: none; /* لو عايز تلغي التفاعل تماما */
+}

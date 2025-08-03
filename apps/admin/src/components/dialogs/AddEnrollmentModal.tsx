@@ -46,7 +46,7 @@ const AddEnrollmentModal = ({
   const onSubmit = async (dataFull: z.infer<typeof formSchema>) => {
     let toastId = toast.loading('جاري اضافة الطالب...');
     try {
-      await enrollmentApi.create({...dataFull, status: dataFull.status as EnrollmentStatus});
+      await enrollmentApi.create({userId: dataFull.studentId, courseId: dataFull.courseId, status: dataFull.status as EnrollmentStatus,progress: 0});
       onClose();
       refetch();
       toast.dismiss(toastId);

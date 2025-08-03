@@ -21,6 +21,7 @@ import {
   SecretaryFiles,
   EmployeeAttendanceLog,
   InternalMessage,
+  EnrollmentCode,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";

@@ -37,6 +37,7 @@ import { CommentEntity } from "./Comment.entity";
 import { LessonWhiteListEntity } from "./LessonWhiteList.entity";
 import { WatchedLessonEntity } from "./WatchedLesson.entity";
 import { LikeEntity } from "./Like.entity";
+import { EnrollmentCodeEntity } from "./EnrollmentCode.entity";
 import {
   UserRole,
   Academy,
@@ -77,6 +78,7 @@ import {
   LessonWhiteList,
   WatchedLesson,
   Like,
+  EnrollmentCode,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -357,4 +359,9 @@ export class UserEntity {
   // Field: Like, Type: Like[]
   @Column()
   Like: Like[];
+
+  @ApiProperty({ type: EnrollmentCodeEntity })
+  // Field: EnrollmentCode, Type: EnrollmentCode[]
+  @Column()
+  EnrollmentCode: EnrollmentCode[];
 }

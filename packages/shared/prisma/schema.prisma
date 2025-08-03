@@ -94,6 +94,8 @@ model User {
     WatchedLesson WatchedLesson[]
 
     Like Like[]
+
+    EnrollmentCode EnrollmentCode[]
 }
 
 model LoginHistory {
@@ -221,6 +223,8 @@ model Course {
     trainingSchedules TrainingSchedule[]
 
     Certificate Certificate[]
+
+    EnrollmentCode EnrollmentCode[]
 }
 
 enum CourseStatus {
@@ -340,6 +344,20 @@ enum FileType {
     IMAGE
     AUDIO
 }
+model EnrollmentCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  isUsed      Boolean  @default(false)
+  usedById    String?  
+  usedBy      User?    @relation(fields: [usedById], references: [id])
+  createdById String   
+  createdBy   Admin     @relation("CreatedCodes", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  usedAt      DateTime?
+}
+
 
 // Enrollment and Progress
 model Enrollment {
@@ -353,6 +371,7 @@ model Enrollment {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     traineeManagement TraineeManagement[]
+
 }
 enum EnrollmentStatus {
     ACTIVE
@@ -566,6 +585,8 @@ model Admin {
     employeeAttendanceLogs EmployeeAttendanceLog[]
     sentMessages        InternalMessage[] @relation("SentMessages")
     receivedMessages    InternalMessage[] @relation("ReceivedMessages")
+
+    EnrollmentCode EnrollmentCode[] @relation("CreatedCodes")
 }
 
 model Channel {

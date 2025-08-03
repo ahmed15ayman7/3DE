@@ -287,6 +287,17 @@ exports.Prisma.FileScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EnrollmentCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  courseId: 'courseId',
+  isUsed: 'isUsed',
+  usedById: 'usedById',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  usedAt: 'usedAt'
+};
+
 exports.Prisma.EnrollmentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1168,6 +1179,7 @@ exports.Prisma.ModelName = {
   Lesson: 'Lesson',
   WatchedLesson: 'WatchedLesson',
   File: 'File',
+  EnrollmentCode: 'EnrollmentCode',
   Enrollment: 'Enrollment',
   Quiz: 'Quiz',
   Question: 'Question',

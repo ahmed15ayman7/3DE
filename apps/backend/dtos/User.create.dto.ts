@@ -39,7 +39,7 @@ import {
   LessonWhiteList,
   WatchedLesson,
   Like,
-  LoginDevice,
+  EnrollmentCode,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -125,8 +125,4 @@ export class CreateUserDto {
   // Field: location, Type: string
   @Column()
   location?: string;
-  @ApiProperty({ enum: LoginDevice })
-  // Field: device, Type: string
-  @Column()
-  device?: LoginDevice;
 }

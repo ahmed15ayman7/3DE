@@ -36,6 +36,7 @@ export default function ExamsPage() {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const queryClient = useQueryClient();
 
   // Fetch quizzes data
@@ -447,7 +448,11 @@ export default function ExamsPage() {
                     </Button>
                     
                     <Button
-                      onClick={() => {/* Edit quiz */}}
+                      onClick={() => {
+                        setSelectedQuiz(quiz);
+                        setShowEditModal(true);
+                        setShowCreateModal(true);
+                      }}
                       className="bg-gray-100 hover:bg-gray-200 text-gray-700"
                     >
                       <Edit className="w-4 h-4" />
@@ -596,16 +601,17 @@ export default function ExamsPage() {
       </Modal>
 
       {/* Create Quiz Modal */}
-      <AddQuizModal
+      {showCreateModal && <AddQuizModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         refetch={() => {
           queryClient.invalidateQueries({ queryKey: ['quizzes'] });
         }}
         lessons={[]}
-        courseId={''}
-        quiz={null as any}
-      />
+        courseId={selectedQuiz?.courseId as string}
+        quiz={selectedQuiz as Quiz}
+        isEdit={showEditModal}
+      />}
     </div>
   );
 } 
