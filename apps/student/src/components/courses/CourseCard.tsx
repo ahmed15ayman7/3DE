@@ -37,8 +37,13 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
     if(enrollment.status>=200 && enrollment.status<300){
       let code = await enrollmentApi.updateEnrollmentCode(enrollmentCode,{courseId:course.id,usedById:userId,isUsed:true});
       if(code.status>=200 && code.status<300){
-      toast.success('تم الالتحاق بالكورس بنجاح',{id:toastId});
-      refetch();
+        let enrollment2 = await enrollmentApi.update(enrollment.data.id,{status:"ACTIVE"});
+        if(enrollment2.status>=200 && enrollment2.status<300){
+          toast.success('تم الالتحاق بالكورس بنجاح',{id:toastId});
+          refetch();
+        }else{
+          toast.error('حدث خطأ أثناء الالتحاق بالكورس',{id:toastId});
+        }
       }else{
         toast.error('يرجى التأكد من كود التفعيل والتاكد من عدم استخدامه من قبل',{id:toastId});
       }
