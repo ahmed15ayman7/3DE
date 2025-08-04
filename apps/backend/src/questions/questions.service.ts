@@ -10,12 +10,12 @@ import { UpdateOptionDto } from 'dtos/Option.update.dto';
 export class QuestionsService {
     constructor(private prisma: PrismaService) { }
 
-    async create(createQuestionInput: CreateQuestionDto & { options: CreateOptionDto[] }, quizId: string) {
+    async create(createQuestionInput: CreateQuestionDto & { options: CreateOptionDto[] }) {
         let quiz = await this.prisma.quiz.findUnique({
-            where: { id: quizId },
+            where: { id: createQuestionInput.quizId },
         });
         if (!quiz) {
-            throw new NotFoundException(`Quiz with ID ${quizId} not found`);
+            throw new NotFoundException(`Quiz with ID ${createQuestionInput.quizId} not found`);
         }
         return this.prisma.question.create({
             data: {
