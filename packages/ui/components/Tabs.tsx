@@ -83,13 +83,13 @@ export const Tabs: React.FC<TabsProps> = ({
   return (
     <div className={`${widthClass} ${className}`}>
       <div className={`flex ${fullWidth ? 'w-full' : ''} ${variantClasses.container}`}>
-        {items.map((item) => {
+        {items.map((item,index) => {
           const isActive = item.id === activeTab;
           const isDisabled = item.disabled;
           
           return (
             <button
-              key={item.id}
+              key={index}
               onClick={() => handleTabClick(item.id)}
               disabled={isDisabled}
               className={`

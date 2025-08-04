@@ -49,6 +49,10 @@ export class QuizzesController {
     async getByInstructor(@Param('instructorId') instructorId: string) {
         return this.quizzesService.getByInstructor(instructorId);
     }
+    @Get(":id/results")
+    async getResults(@Param('id') id: string) {
+        return this.quizzesService.getResults(id);
+    }
 
 
     // @Post(':id/submit')

@@ -122,7 +122,20 @@ export class QuizzesService {
         });
     }
 
-
+    async getResults(id: string) {
+        let quiz = await this.prisma.quiz.findUnique({
+            where: { id },
+            include: {
+                submissions: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
+        });
+        let results = quiz.submissions
+        return results;
+    }
     // async submitQuizAttempt(userId: string, quizId: string, answers: { questionId: string; answer: string }[]) {
     //     const quiz = await this.findOne(quizId);
     //     let score = 0;

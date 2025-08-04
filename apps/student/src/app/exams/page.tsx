@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { quizApi, submissionApi } from '@3de/apis';
 import Layout from '../../components/layout/Layout';
 import { CalendarExams } from '../../components/exams/CalendarExams';
 import { ExamCard } from '../../components/exams/ExamCard';
 import { TabsController } from '../../components/common/TabsController';
 import { Card, Skeleton, Alert, Button } from '@3de/ui';
-import { Calendar, BookOpen, CheckCircle, Clock } from 'lucide-react';
+import { Calendar, BookOpen, CheckCircle, Clock, BarChart3 } from 'lucide-react';
 import { Quiz, Lesson, Course, Submission } from '@3de/interfaces';
 import { useAuth } from '@3de/auth';
 import { sanitizeApiResponse } from '../../lib/utils';
@@ -21,6 +22,7 @@ const tabs = [
 ];
 
 export default function ExamsPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('calendar');
   const { user } = useAuth();
 
@@ -76,10 +78,21 @@ export default function ExamsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">الاختبارات</h1>
-          <p className="text-gray-600">
-            تتبع اختباراتك وابدأ الاختبارات المتاحة
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">الاختبارات</h1>
+              <p className="text-gray-600">
+                تتبع اختباراتك وابدأ الاختبارات المتاحة
+              </p>
+            </div>
+            <Button 
+              variant="outline" 
+              onClick={() => router.push('/exams/results')}
+            >
+              <BarChart3 className="w-4 h-4 ml-2" />
+              عرض النتائج
+            </Button>
+          </div>
         </motion.div>
 
         {/* التبويبات */}

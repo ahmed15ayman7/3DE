@@ -140,6 +140,7 @@ export default function EditQuizPage() {
   // Load quiz data into form when available
   useEffect(() => {
     if (quiz?.data) {
+      console.log(quiz.data.questions)
       const quizData = quiz.data
       reset({
         title: quizData.title,
@@ -358,6 +359,7 @@ export default function EditQuizPage() {
                   <Input
                     type="date"
                     {...register('startDate')}
+                    defaultValue={new Date(watch('startDate')||new Date()).toISOString().split('T')[0]}
                     placeholder="30/08/2025"
                     error={errors.startDate?.message}
                   />
@@ -524,7 +526,7 @@ export default function EditQuizPage() {
                 {questions.map((question, index) => (
                   <QuestionCard
                     key={index}
-                    question={question}
+                    question={{...question,id:watchedQuestions[index].id||''}}
                     index={index}
                     onUpdate={(updatedQuestion) => updateQuestion(index, updatedQuestion)}
                     onDelete={() => removeQuestion(index)}

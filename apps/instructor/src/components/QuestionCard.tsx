@@ -457,7 +457,7 @@ export default function QuestionCard({
                     شرح الإجابة (اختياري)
                   </label>
                   <Textarea
-                    value={updateQuestion2.explanation || question.explanation || ''}
+                    value={updateQuestion2.explanation ?? question.explanation ?? ''}
                     onChange={(e) => setUpdateQuestion2({ explanation: e.target.value })}
                     onBlur={() => updateQuestion({ ...updateQuestion2 })}
                     placeholder="شرح يظهر للطلاب بعد الإجابة على السؤال"

@@ -663,12 +663,12 @@ export const questionApi = {
     getByQuiz: (quizId: string) => api.get(`/questions/${quizId}/quiz`),
     getById: (id: string) => api.get(`/questions/${id}`),
     create: (data:Partial<Question & {options:Partial<Option>[]}>) => api.post('/questions', data),
-    update: (id: string, data: Partial<Question>) => api.patch(`/questions/${id}`, data),
+    update: (id: string, data: Partial<Question>) => api.put(`/questions/${id}`, data),
     delete: (id: string) => api.delete(`/questions/${id}`),
     createOption: (data: Partial<Option>) => api.post('/questions/option', data),
-    updateOption: (id: string, data: Partial<Option>) => api.patch(`/questions/option/${id}`, data),
+    updateOption: (id: string, data: Partial<Option>) => api.put(`/questions/${id}/option`, data),
     deleteOption: (id: string) => api.delete(`/questions/option/${id}`),
-    getOptionById: (optionId: string) => api.get(`/questions/option/${optionId}`),
+    getOptionById: (questionId: string, optionId: string) => api.get(`/questions/${questionId}/option/${optionId}`),
 };
 
 // Submission APIs

@@ -73,11 +73,11 @@ export default function QuizResultsPage() {
   }
 
   const totalSubmissions = quizData.submissions?.length || 0
-  const passedSubmissions = quizData.submissions?.filter(s => s.score >= (quizData.passingScore || 0)).length || 0
+  const passedSubmissions = quizData.submissions?.filter((s:any) => s.score >= (quizData.passingScore || 0)).length || 0
   const failedSubmissions = totalSubmissions - passedSubmissions
   const passRate = totalSubmissions > 0 ? (passedSubmissions / totalSubmissions) * 100 : 0
   const averageScore = quizData.averageScore || 0
-  const averageTime = quizData.submissions?.reduce((sum, s) => sum + (s.duration || 0), 0) / totalSubmissions || 0
+  const averageTime = quizData.submissions?.reduce((sum:number, s:any) => sum + (s.duration || 0), 0) / totalSubmissions || 0
 
   const getScoreColor = (score: number) => {
     if (score >= 90) return 'text-green-600'
@@ -119,7 +119,7 @@ export default function QuizResultsPage() {
         <div className="flex items-center gap-3 gap-reverse">
           <Select
             value={timeFilter}
-            onChange={(value) => setTimeFilter(value)}
+            onChange={(value:any) => setTimeFilter(value)}
             options={[
               { value: 'all', label: 'جميع الفترات' },
               { value: 'week', label: 'آخر أسبوع' },
@@ -194,19 +194,10 @@ export default function QuizResultsPage() {
       {/* Tabs */}
       <Card className="p-6">
         <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
+          defaultActiveTab={activeTab}
+          onTabChange={(tabId:string) => setActiveTab(tabId)}
           items={[
-            { value: 'overview', label: 'نظرة عامة' },
-            { value: 'detailed', label: 'نتائج مفصلة' },
-            { value: 'analytics', label: 'تحليلات' },
-            { value: 'questions', label: 'تحليل الأسئلة' },
-          ]}
-        />
-
-        <div className="mt-6">
-          {activeTab === 'overview' && (
-            <div className="space-y-6">
+            { id: 'overview', label: 'نظرة عامة', content: <div className="space-y-6">
               {/* Performance Chart */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <Card className="p-6">
@@ -272,11 +263,8 @@ export default function QuizResultsPage() {
                   </div>
                 </Card>
               </div>
-            </div>
-          )}
-
-          {activeTab === 'detailed' && (
-            <div className="space-y-4">
+            </div> },
+            { id: 'detailed', label: 'نتائج مفصلة',content: <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900">
                   نتائج الطلاب ({totalSubmissions})
@@ -297,7 +285,7 @@ export default function QuizResultsPage() {
 
               {quizData.submissions && quizData.submissions.length > 0 ? (
                 <div className="space-y-4">
-                  {quizData.submissions.map((submission) => {
+                  {quizData.submissions.map((submission:any) => {
                     const scoreBadge = getScoreBadge(submission.score)
                     return (
                       <Card key={submission.id} className="p-6">
@@ -355,11 +343,8 @@ export default function QuizResultsPage() {
                   </p>
                 </div>
               )}
-            </div>
-          )}
-
-          {activeTab === 'analytics' && (
-            <div className="space-y-6">
+            </div> },
+            { id: 'analytics', label: 'تحليلات',content: <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <Card className="p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
@@ -432,16 +417,13 @@ export default function QuizResultsPage() {
                   </div>
                 </div>
               </Card>
-            </div>
-          )}
-
-          {activeTab === 'questions' && (
-            <div className="space-y-4">
+            </div> },
+            { id: 'questions', label: 'تحليل الأسئلة',content: <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900">
                 تحليل الأسئلة ({quizData.questions?.length || 0})
               </h3>
 
-              {quizData.questions?.map((question, index) => (
+              {quizData.questions?.map((question:any, index:any) => (
                 <Card key={question.id} className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3 gap-reverse">
@@ -481,7 +463,7 @@ export default function QuizResultsPage() {
                     <div className="mt-4">
                       <h5 className="text-sm font-medium text-gray-700 mb-2">توزيع الإجابات:</h5>
                       <div className="space-y-2">
-                        {question.options.map((option, optIndex) => (
+                        {question.options.map((option:any, optIndex:any) => (
                           <div key={option.id} className="flex items-center gap-3 gap-reverse">
                             <span className={`w-4 h-4 rounded-full ${option.isCorrect ? 'bg-green-500' : 'bg-gray-300'}`}></span>
                             <span className="text-sm text-gray-700 flex-1">{option.text}</span>
@@ -505,9 +487,10 @@ export default function QuizResultsPage() {
                   </p>
                 </div>
               )}
-            </div>
-          )}
-        </div>
+            </div> },
+          ]}
+        />
+
       </Card>
     </div>
   )
