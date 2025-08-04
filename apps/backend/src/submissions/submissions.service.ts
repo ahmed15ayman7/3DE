@@ -32,6 +32,7 @@ export class SubmissionsService {
                 score: 0,
                 feedback: createSubmissionInput.feedback,
                 passed: false,
+                timeLimit: createSubmissionInput.timeLimit,
             },
             include: {
                 user: true,
@@ -48,9 +49,13 @@ export class SubmissionsService {
             },
         });
         let score = 0;
+        let passed = false;
         for (let question of submission.quiz.questions) {
-            if (question.options.some(option => option.isCorrect && submission.answers.some((answer: any) => answer.questionId === question.id && answer.optionId === option.id))) {
+            if (question.options.some(option => option.isCorrect && submission.answers.some((answer: any) => Object.keys(answer)[0] === question.id && answer[question.id] === option.id))) {
                 score += question.points;
+            }
+            if (score >= submission.quiz.passingScore) {
+                passed = true;
             }
         }
         await this.prisma.submission.update({
@@ -60,6 +65,16 @@ export class SubmissionsService {
                 passed: score >= submission.quiz.passingScore
             }
         });
+        if (!passed) {
+            await this.prisma.quiz.update({
+                where: { id: submission.quizId },
+                data: {
+                    failCount: {
+                        increment: 1
+                    }
+                }
+            });
+        }
         return submission
     }
 

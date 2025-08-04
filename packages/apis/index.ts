@@ -676,11 +676,7 @@ export const submissionApi = {
     getByQuiz: (quizId: string): Promise<{ success: boolean, data: (Submission & { user: User, quiz: Quiz & { questions: (Question & { options: Option[] })[] } })[] }> => api.get(`/submissions/quiz/${quizId}`),
     getByUser: (userId: string): Promise<{ success: boolean, data: (Submission & { user: User, quiz: Quiz & { questions: (Question & { options: Option[] })[] } })[] }> => api.get(`/submissions/user/${userId}`),
     getById: (id: string): Promise<{ success: boolean, data: Submission & { user: User, quiz: Quiz & { questions: (Question & { options: Option[] })[] } } }> => api.get(`/submissions/${id}`),
-    create: (data: {
-        userId: string;
-        quizId: string;
-        answers: any;
-    }) => api.post('/submissions', data),
+    create: (data: Partial<Submission>) => api.post('/submissions', data),
     update: (id: string, data: {
         answers?: any;
         score?: number;

@@ -53,7 +53,7 @@ export const Radio: React.FC<RadioProps> = ({
         checked={checked}
         disabled={disabled}
         onChange={handleChange}
-        className="sr-only"
+        className="sr-only hidden"
       />
       <label
         htmlFor={id}

@@ -10,12 +10,14 @@ interface QuizQuestionProps {
   question: Question;
   onAnswer: (answer: string | string[]) => void;
   currentAnswer?: string | string[];
+  index: number;
 }
 
 export default function QuizQuestion({ 
   question, 
   onAnswer, 
-  currentAnswer 
+  currentAnswer,
+  index
 }: QuizQuestionProps) {
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>(
     currentAnswer ? (Array.isArray(currentAnswer) ? currentAnswer : [currentAnswer]) : []
@@ -52,7 +54,7 @@ export default function QuizQuestion({
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">
-            السؤال {question.id}
+            السؤال {index + 1}
           </h3>
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-500">النقاط:</span>
