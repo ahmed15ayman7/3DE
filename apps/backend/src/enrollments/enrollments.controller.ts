@@ -2,7 +2,6 @@ import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Query } fro
 import { EnrollmentsService } from './enrollments.service';
 import { CreateEnrollmentDto } from '../../dtos/Enrollment.create.dto';
 import { UpdateEnrollmentDto } from '../../dtos/Enrollment.update.dto';
-import { EnrollmentDto } from '../../dtos/Enrollment.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { Enrollment, EnrollmentCode } from '@shared/prisma';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -61,7 +60,7 @@ export class EnrollmentsController {
         return this.enrollmentsService.updateEnrollmentCode(id, updateEnrollmentCodeDto);
     }
 
-    @Get('code')
+    @Get('codes/all')
     async getAllEnrollmentCodes(
         @Query('search') search: string,
         @Query('take') take: number,

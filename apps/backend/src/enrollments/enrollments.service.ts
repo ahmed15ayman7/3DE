@@ -4,6 +4,7 @@ import { CreateEnrollmentDto } from 'dtos/Enrollment.create.dto';
 import { UpdateEnrollmentDto } from 'dtos/Enrollment.update.dto';
 import { CreateEnrollmentCodeDto } from 'dtos/EnrollmentCode.create.dto';
 import { UpdateEnrollmentCodeDto } from 'dtos/EnrollmentCode.update.dto';
+import { EnrollmentCode } from '@shared/prisma';
 
 @Injectable()
 export class EnrollmentsService {
@@ -112,7 +113,7 @@ export class EnrollmentsService {
             data: data
         });
     }
-    async getAllEnrollmentCodes(search:string,take:number,skip:number,courseId:string) {
+    async getAllEnrollmentCodes(search:string,take:number,skip:number,courseId:string): Promise<{ data: EnrollmentCode[], total: number, totalPages: number }> {
         let enrollmentCodes = await this.prisma.enrollmentCode.findMany({
             where: {
                 OR: [
