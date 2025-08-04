@@ -51,7 +51,7 @@ export default function QuizPage() {
   const submitQuizMutation = useMutation({
     mutationFn: (data: { quizId: string; answers: Record<string, string | string[]> }) =>{
       console.log(data)
-     return submissionApi.create({quizId:data.quizId,userId:user?.id || "", answers:data.answers as any,timeLimit:quiz?.data?.timeLimit-timeLeft})},
+     return submissionApi.create({quizId:data.quizId,userId:user?.id || "", answers:data.answers as any,timeLimit:timeLeft})},
     onSuccess: (data) => {
       setIsSubmitted(true);
       setIsTimerRunning(false);

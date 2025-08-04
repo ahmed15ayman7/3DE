@@ -30,7 +30,7 @@ export default function QuizPage() {
 
   const submitQuizMutation = useMutation({
     mutationFn: (data: { quizId: string; answers: Record<string, string | string[]> }) =>
-      submissionApi.create({quizId:data.quizId,userId:user?.id || "", answers:data.answers}),
+      submissionApi.create({quizId:data.quizId,userId:user?.id || "", answers:data.answers as any}),
     onSuccess: (data) => {
       setIsSubmitted(true);
       // Handle success - show results or redirect
@@ -222,6 +222,7 @@ export default function QuizPage() {
               question={currentQuestion}
               onAnswer={(answer) => handleAnswer(currentQuestion.id, answer)}
               currentAnswer={answers[currentQuestion.id]}
+              index={currentQuestionIndex}
             />
           </motion.div>
         )}
