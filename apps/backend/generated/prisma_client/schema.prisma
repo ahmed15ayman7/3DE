@@ -567,7 +567,8 @@ model Group {
   admin     Admin    @relation(fields: [adminId], references: [id])
   createdAt DateTime @default(now())
 
-  Community Community[]
+  Community   Community? @relation(fields: [communityId], references: [id])
+  communityId String?
 }
 
 model Admin {

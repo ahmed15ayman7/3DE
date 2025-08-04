@@ -444,7 +444,8 @@ exports.Prisma.GroupScalarFieldEnum = {
   subject: 'subject',
   image: 'image',
   adminId: 'adminId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  communityId: 'communityId'
 };
 
 exports.Prisma.AdminScalarFieldEnum = {

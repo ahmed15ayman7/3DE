@@ -9125,13 +9125,11 @@ export namespace Prisma {
   export type GroupCountOutputType = {
     members: number
     posts: number
-    Community: number
   }
 
   export type GroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | GroupCountOutputTypeCountMembersArgs
     posts?: boolean | GroupCountOutputTypeCountPostsArgs
-    Community?: boolean | GroupCountOutputTypeCountCommunityArgs
   }
 
   // Custom InputTypes
@@ -9157,13 +9155,6 @@ export namespace Prisma {
    */
   export type GroupCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostWhereInput
-  }
-
-  /**
-   * GroupCountOutputType without action
-   */
-  export type GroupCountOutputTypeCountCommunityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommunityWhereInput
   }
 
 
@@ -43133,6 +43124,7 @@ export namespace Prisma {
     image: string | null
     adminId: string | null
     createdAt: Date | null
+    communityId: string | null
   }
 
   export type GroupMaxAggregateOutputType = {
@@ -43142,6 +43134,7 @@ export namespace Prisma {
     image: string | null
     adminId: string | null
     createdAt: Date | null
+    communityId: string | null
   }
 
   export type GroupCountAggregateOutputType = {
@@ -43151,6 +43144,7 @@ export namespace Prisma {
     image: number
     adminId: number
     createdAt: number
+    communityId: number
     _all: number
   }
 
@@ -43162,6 +43156,7 @@ export namespace Prisma {
     image?: true
     adminId?: true
     createdAt?: true
+    communityId?: true
   }
 
   export type GroupMaxAggregateInputType = {
@@ -43171,6 +43166,7 @@ export namespace Prisma {
     image?: true
     adminId?: true
     createdAt?: true
+    communityId?: true
   }
 
   export type GroupCountAggregateInputType = {
@@ -43180,6 +43176,7 @@ export namespace Prisma {
     image?: true
     adminId?: true
     createdAt?: true
+    communityId?: true
     _all?: true
   }
 
@@ -43262,6 +43259,7 @@ export namespace Prisma {
     image: string | null
     adminId: string
     createdAt: Date
+    communityId: string | null
     _count: GroupCountAggregateOutputType | null
     _min: GroupMinAggregateOutputType | null
     _max: GroupMaxAggregateOutputType | null
@@ -43288,6 +43286,7 @@ export namespace Prisma {
     image?: boolean
     adminId?: boolean
     createdAt?: boolean
+    communityId?: boolean
     members?: boolean | Group$membersArgs<ExtArgs>
     posts?: boolean | Group$postsArgs<ExtArgs>
     admin?: boolean | AdminDefaultArgs<ExtArgs>
@@ -43302,7 +43301,9 @@ export namespace Prisma {
     image?: boolean
     adminId?: boolean
     createdAt?: boolean
+    communityId?: boolean
     admin?: boolean | AdminDefaultArgs<ExtArgs>
+    Community?: boolean | Group$CommunityArgs<ExtArgs>
   }, ExtArgs["result"]["group"]>
 
   export type GroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -43312,7 +43313,9 @@ export namespace Prisma {
     image?: boolean
     adminId?: boolean
     createdAt?: boolean
+    communityId?: boolean
     admin?: boolean | AdminDefaultArgs<ExtArgs>
+    Community?: boolean | Group$CommunityArgs<ExtArgs>
   }, ExtArgs["result"]["group"]>
 
   export type GroupSelectScalar = {
@@ -43322,9 +43325,10 @@ export namespace Prisma {
     image?: boolean
     adminId?: boolean
     createdAt?: boolean
+    communityId?: boolean
   }
 
-  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subject" | "image" | "adminId" | "createdAt", ExtArgs["result"]["group"]>
+  export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subject" | "image" | "adminId" | "createdAt" | "communityId", ExtArgs["result"]["group"]>
   export type GroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Group$membersArgs<ExtArgs>
     posts?: boolean | Group$postsArgs<ExtArgs>
@@ -43334,9 +43338,11 @@ export namespace Prisma {
   }
   export type GroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | AdminDefaultArgs<ExtArgs>
+    Community?: boolean | Group$CommunityArgs<ExtArgs>
   }
   export type GroupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | AdminDefaultArgs<ExtArgs>
+    Community?: boolean | Group$CommunityArgs<ExtArgs>
   }
 
   export type $GroupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -43345,7 +43351,7 @@ export namespace Prisma {
       members: Prisma.$UserPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
       admin: Prisma.$AdminPayload<ExtArgs>
-      Community: Prisma.$CommunityPayload<ExtArgs>[]
+      Community: Prisma.$CommunityPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -43354,6 +43360,7 @@ export namespace Prisma {
       image: string | null
       adminId: string
       createdAt: Date
+      communityId: string | null
     }, ExtArgs["result"]["group"]>
     composites: {}
   }
@@ -43751,7 +43758,7 @@ export namespace Prisma {
     members<T extends Group$membersArgs<ExtArgs> = {}>(args?: Subset<T, Group$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends Group$postsArgs<ExtArgs> = {}>(args?: Subset<T, Group$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     admin<T extends AdminDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AdminDefaultArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Community<T extends Group$CommunityArgs<ExtArgs> = {}>(args?: Subset<T, Group$CommunityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Community<T extends Group$CommunityArgs<ExtArgs> = {}>(args?: Subset<T, Group$CommunityArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43787,6 +43794,7 @@ export namespace Prisma {
     readonly image: FieldRef<"Group", 'String'>
     readonly adminId: FieldRef<"Group", 'String'>
     readonly createdAt: FieldRef<"Group", 'DateTime'>
+    readonly communityId: FieldRef<"Group", 'String'>
   }
     
 
@@ -44247,11 +44255,6 @@ export namespace Prisma {
      */
     include?: CommunityInclude<ExtArgs> | null
     where?: CommunityWhereInput
-    orderBy?: CommunityOrderByWithRelationInput | CommunityOrderByWithRelationInput[]
-    cursor?: CommunityWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommunityScalarFieldEnum | CommunityScalarFieldEnum[]
   }
 
   /**
@@ -102368,7 +102371,8 @@ export namespace Prisma {
     subject: 'subject',
     image: 'image',
     adminId: 'adminId',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    communityId: 'communityId'
   };
 
   export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
@@ -105793,10 +105797,11 @@ export namespace Prisma {
     image?: StringNullableFilter<"Group"> | string | null
     adminId?: StringFilter<"Group"> | string
     createdAt?: DateTimeFilter<"Group"> | Date | string
+    communityId?: StringNullableFilter<"Group"> | string | null
     members?: UserListRelationFilter
     posts?: PostListRelationFilter
     admin?: XOR<AdminScalarRelationFilter, AdminWhereInput>
-    Community?: CommunityListRelationFilter
+    Community?: XOR<CommunityNullableScalarRelationFilter, CommunityWhereInput> | null
   }
 
   export type GroupOrderByWithRelationInput = {
@@ -105806,10 +105811,11 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
+    communityId?: SortOrderInput | SortOrder
     members?: UserOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
     admin?: AdminOrderByWithRelationInput
-    Community?: CommunityOrderByRelationAggregateInput
+    Community?: CommunityOrderByWithRelationInput
   }
 
   export type GroupWhereUniqueInput = Prisma.AtLeast<{
@@ -105822,10 +105828,11 @@ export namespace Prisma {
     image?: StringNullableFilter<"Group"> | string | null
     adminId?: StringFilter<"Group"> | string
     createdAt?: DateTimeFilter<"Group"> | Date | string
+    communityId?: StringNullableFilter<"Group"> | string | null
     members?: UserListRelationFilter
     posts?: PostListRelationFilter
     admin?: XOR<AdminScalarRelationFilter, AdminWhereInput>
-    Community?: CommunityListRelationFilter
+    Community?: XOR<CommunityNullableScalarRelationFilter, CommunityWhereInput> | null
   }, "id">
 
   export type GroupOrderByWithAggregationInput = {
@@ -105835,6 +105842,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
+    communityId?: SortOrderInput | SortOrder
     _count?: GroupCountOrderByAggregateInput
     _max?: GroupMaxOrderByAggregateInput
     _min?: GroupMinOrderByAggregateInput
@@ -105850,6 +105858,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"Group"> | string | null
     adminId?: StringWithAggregatesFilter<"Group"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
+    communityId?: StringNullableWithAggregatesFilter<"Group"> | string | null
   }
 
   export type AdminWhereInput = {
@@ -112263,7 +112272,7 @@ export namespace Prisma {
     members?: UserCreateNestedManyWithoutGroupsInput
     posts?: PostCreateNestedManyWithoutGroupInput
     admin: AdminCreateNestedOneWithoutGroupInput
-    Community?: CommunityCreateNestedManyWithoutGroupsInput
+    Community?: CommunityCreateNestedOneWithoutGroupsInput
   }
 
   export type GroupUncheckedCreateInput = {
@@ -112273,9 +112282,9 @@ export namespace Prisma {
     image?: string | null
     adminId: string
     createdAt?: Date | string
+    communityId?: string | null
     members?: UserUncheckedCreateNestedManyWithoutGroupsInput
     posts?: PostUncheckedCreateNestedManyWithoutGroupInput
-    Community?: CommunityUncheckedCreateNestedManyWithoutGroupsInput
   }
 
   export type GroupUpdateInput = {
@@ -112287,7 +112296,7 @@ export namespace Prisma {
     members?: UserUpdateManyWithoutGroupsNestedInput
     posts?: PostUpdateManyWithoutGroupNestedInput
     admin?: AdminUpdateOneRequiredWithoutGroupNestedInput
-    Community?: CommunityUpdateManyWithoutGroupsNestedInput
+    Community?: CommunityUpdateOneWithoutGroupsNestedInput
   }
 
   export type GroupUncheckedUpdateInput = {
@@ -112297,9 +112306,9 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
     members?: UserUncheckedUpdateManyWithoutGroupsNestedInput
     posts?: PostUncheckedUpdateManyWithoutGroupNestedInput
-    Community?: CommunityUncheckedUpdateManyWithoutGroupsNestedInput
   }
 
   export type GroupCreateManyInput = {
@@ -112309,6 +112318,7 @@ export namespace Prisma {
     image?: string | null
     adminId: string
     createdAt?: Date | string
+    communityId?: string | null
   }
 
   export type GroupUpdateManyMutationInput = {
@@ -112326,6 +112336,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AdminCreateInput = {
@@ -118706,6 +118717,11 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type CommunityNullableScalarRelationFilter = {
+    is?: CommunityWhereInput | null
+    isNot?: CommunityWhereInput | null
+  }
+
   export type GroupCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -118713,6 +118729,7 @@ export namespace Prisma {
     image?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
+    communityId?: SortOrder
   }
 
   export type GroupMaxOrderByAggregateInput = {
@@ -118722,6 +118739,7 @@ export namespace Prisma {
     image?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
+    communityId?: SortOrder
   }
 
   export type GroupMinOrderByAggregateInput = {
@@ -118731,6 +118749,7 @@ export namespace Prisma {
     image?: SortOrder
     adminId?: SortOrder
     createdAt?: SortOrder
+    communityId?: SortOrder
   }
 
   export type PRResponseListRelationFilter = {
@@ -125063,10 +125082,10 @@ export namespace Prisma {
     connect?: AdminWhereUniqueInput
   }
 
-  export type CommunityCreateNestedManyWithoutGroupsInput = {
-    create?: XOR<CommunityCreateWithoutGroupsInput, CommunityUncheckedCreateWithoutGroupsInput> | CommunityCreateWithoutGroupsInput[] | CommunityUncheckedCreateWithoutGroupsInput[]
-    connectOrCreate?: CommunityCreateOrConnectWithoutGroupsInput | CommunityCreateOrConnectWithoutGroupsInput[]
-    connect?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
+  export type CommunityCreateNestedOneWithoutGroupsInput = {
+    create?: XOR<CommunityCreateWithoutGroupsInput, CommunityUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutGroupsInput
+    connect?: CommunityWhereUniqueInput
   }
 
   export type UserUncheckedCreateNestedManyWithoutGroupsInput = {
@@ -125079,12 +125098,6 @@ export namespace Prisma {
     create?: XOR<PostCreateWithoutGroupInput, PostUncheckedCreateWithoutGroupInput> | PostCreateWithoutGroupInput[] | PostUncheckedCreateWithoutGroupInput[]
     connectOrCreate?: PostCreateOrConnectWithoutGroupInput | PostCreateOrConnectWithoutGroupInput[]
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-  }
-
-  export type CommunityUncheckedCreateNestedManyWithoutGroupsInput = {
-    create?: XOR<CommunityCreateWithoutGroupsInput, CommunityUncheckedCreateWithoutGroupsInput> | CommunityCreateWithoutGroupsInput[] | CommunityUncheckedCreateWithoutGroupsInput[]
-    connectOrCreate?: CommunityCreateOrConnectWithoutGroupsInput | CommunityCreateOrConnectWithoutGroupsInput[]
-    connect?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
   }
 
   export type UserUpdateManyWithoutGroupsNestedInput = {
@@ -125121,17 +125134,14 @@ export namespace Prisma {
     update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutGroupInput, AdminUpdateWithoutGroupInput>, AdminUncheckedUpdateWithoutGroupInput>
   }
 
-  export type CommunityUpdateManyWithoutGroupsNestedInput = {
-    create?: XOR<CommunityCreateWithoutGroupsInput, CommunityUncheckedCreateWithoutGroupsInput> | CommunityCreateWithoutGroupsInput[] | CommunityUncheckedCreateWithoutGroupsInput[]
-    connectOrCreate?: CommunityCreateOrConnectWithoutGroupsInput | CommunityCreateOrConnectWithoutGroupsInput[]
-    upsert?: CommunityUpsertWithWhereUniqueWithoutGroupsInput | CommunityUpsertWithWhereUniqueWithoutGroupsInput[]
-    set?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    disconnect?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    delete?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    connect?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    update?: CommunityUpdateWithWhereUniqueWithoutGroupsInput | CommunityUpdateWithWhereUniqueWithoutGroupsInput[]
-    updateMany?: CommunityUpdateManyWithWhereWithoutGroupsInput | CommunityUpdateManyWithWhereWithoutGroupsInput[]
-    deleteMany?: CommunityScalarWhereInput | CommunityScalarWhereInput[]
+  export type CommunityUpdateOneWithoutGroupsNestedInput = {
+    create?: XOR<CommunityCreateWithoutGroupsInput, CommunityUncheckedCreateWithoutGroupsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutGroupsInput
+    upsert?: CommunityUpsertWithoutGroupsInput
+    disconnect?: CommunityWhereInput | boolean
+    delete?: CommunityWhereInput | boolean
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutGroupsInput, CommunityUpdateWithoutGroupsInput>, CommunityUncheckedUpdateWithoutGroupsInput>
   }
 
   export type UserUncheckedUpdateManyWithoutGroupsNestedInput = {
@@ -125158,19 +125168,6 @@ export namespace Prisma {
     update?: PostUpdateWithWhereUniqueWithoutGroupInput | PostUpdateWithWhereUniqueWithoutGroupInput[]
     updateMany?: PostUpdateManyWithWhereWithoutGroupInput | PostUpdateManyWithWhereWithoutGroupInput[]
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
-  }
-
-  export type CommunityUncheckedUpdateManyWithoutGroupsNestedInput = {
-    create?: XOR<CommunityCreateWithoutGroupsInput, CommunityUncheckedCreateWithoutGroupsInput> | CommunityCreateWithoutGroupsInput[] | CommunityUncheckedCreateWithoutGroupsInput[]
-    connectOrCreate?: CommunityCreateOrConnectWithoutGroupsInput | CommunityCreateOrConnectWithoutGroupsInput[]
-    upsert?: CommunityUpsertWithWhereUniqueWithoutGroupsInput | CommunityUpsertWithWhereUniqueWithoutGroupsInput[]
-    set?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    disconnect?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    delete?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    connect?: CommunityWhereUniqueInput | CommunityWhereUniqueInput[]
-    update?: CommunityUpdateWithWhereUniqueWithoutGroupsInput | CommunityUpdateWithWhereUniqueWithoutGroupsInput[]
-    updateMany?: CommunityUpdateManyWithWhereWithoutGroupsInput | CommunityUpdateManyWithWhereWithoutGroupsInput[]
-    deleteMany?: CommunityScalarWhereInput | CommunityScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAdminInput = {
@@ -126662,6 +126659,7 @@ export namespace Prisma {
   export type GroupCreateNestedManyWithoutCommunityInput = {
     create?: XOR<GroupCreateWithoutCommunityInput, GroupUncheckedCreateWithoutCommunityInput> | GroupCreateWithoutCommunityInput[] | GroupUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: GroupCreateOrConnectWithoutCommunityInput | GroupCreateOrConnectWithoutCommunityInput[]
+    createMany?: GroupCreateManyCommunityInputEnvelope
     connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
   }
 
@@ -126694,6 +126692,7 @@ export namespace Prisma {
   export type GroupUncheckedCreateNestedManyWithoutCommunityInput = {
     create?: XOR<GroupCreateWithoutCommunityInput, GroupUncheckedCreateWithoutCommunityInput> | GroupCreateWithoutCommunityInput[] | GroupUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: GroupCreateOrConnectWithoutCommunityInput | GroupCreateOrConnectWithoutCommunityInput[]
+    createMany?: GroupCreateManyCommunityInputEnvelope
     connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
   }
 
@@ -126727,6 +126726,7 @@ export namespace Prisma {
     create?: XOR<GroupCreateWithoutCommunityInput, GroupUncheckedCreateWithoutCommunityInput> | GroupCreateWithoutCommunityInput[] | GroupUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: GroupCreateOrConnectWithoutCommunityInput | GroupCreateOrConnectWithoutCommunityInput[]
     upsert?: GroupUpsertWithWhereUniqueWithoutCommunityInput | GroupUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: GroupCreateManyCommunityInputEnvelope
     set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
     disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
     delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
@@ -126794,6 +126794,7 @@ export namespace Prisma {
     create?: XOR<GroupCreateWithoutCommunityInput, GroupUncheckedCreateWithoutCommunityInput> | GroupCreateWithoutCommunityInput[] | GroupUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: GroupCreateOrConnectWithoutCommunityInput | GroupCreateOrConnectWithoutCommunityInput[]
     upsert?: GroupUpsertWithWhereUniqueWithoutCommunityInput | GroupUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: GroupCreateManyCommunityInputEnvelope
     set?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
     disconnect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
     delete?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
@@ -129857,7 +129858,7 @@ export namespace Prisma {
     createdAt?: Date | string
     posts?: PostCreateNestedManyWithoutGroupInput
     admin: AdminCreateNestedOneWithoutGroupInput
-    Community?: CommunityCreateNestedManyWithoutGroupsInput
+    Community?: CommunityCreateNestedOneWithoutGroupsInput
   }
 
   export type GroupUncheckedCreateWithoutMembersInput = {
@@ -129867,8 +129868,8 @@ export namespace Prisma {
     image?: string | null
     adminId: string
     createdAt?: Date | string
+    communityId?: string | null
     posts?: PostUncheckedCreateNestedManyWithoutGroupInput
-    Community?: CommunityUncheckedCreateNestedManyWithoutGroupsInput
   }
 
   export type GroupCreateOrConnectWithoutMembersInput = {
@@ -131139,6 +131140,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Group"> | string | null
     adminId?: StringFilter<"Group"> | string
     createdAt?: DateTimeFilter<"Group"> | Date | string
+    communityId?: StringNullableFilter<"Group"> | string | null
   }
 
   export type ChannelUpsertWithWhereUniqueWithoutMembersInput = {
@@ -140309,7 +140311,7 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: UserCreateNestedManyWithoutGroupsInput
     admin: AdminCreateNestedOneWithoutGroupInput
-    Community?: CommunityCreateNestedManyWithoutGroupsInput
+    Community?: CommunityCreateNestedOneWithoutGroupsInput
   }
 
   export type GroupUncheckedCreateWithoutPostsInput = {
@@ -140319,8 +140321,8 @@ export namespace Prisma {
     image?: string | null
     adminId: string
     createdAt?: Date | string
+    communityId?: string | null
     members?: UserUncheckedCreateNestedManyWithoutGroupsInput
-    Community?: CommunityUncheckedCreateNestedManyWithoutGroupsInput
   }
 
   export type GroupCreateOrConnectWithoutPostsInput = {
@@ -141676,20 +141678,49 @@ export namespace Prisma {
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
-  export type CommunityUpsertWithWhereUniqueWithoutGroupsInput = {
-    where: CommunityWhereUniqueInput
+  export type CommunityUpsertWithoutGroupsInput = {
     update: XOR<CommunityUpdateWithoutGroupsInput, CommunityUncheckedUpdateWithoutGroupsInput>
     create: XOR<CommunityCreateWithoutGroupsInput, CommunityUncheckedCreateWithoutGroupsInput>
+    where?: CommunityWhereInput
   }
 
-  export type CommunityUpdateWithWhereUniqueWithoutGroupsInput = {
-    where: CommunityWhereUniqueInput
+  export type CommunityUpdateToOneWithWhereWithoutGroupsInput = {
+    where?: CommunityWhereInput
     data: XOR<CommunityUpdateWithoutGroupsInput, CommunityUncheckedUpdateWithoutGroupsInput>
   }
 
-  export type CommunityUpdateManyWithWhereWithoutGroupsInput = {
-    where: CommunityScalarWhereInput
-    data: XOR<CommunityUpdateManyMutationInput, CommunityUncheckedUpdateManyWithoutGroupsInput>
+  export type CommunityUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    liveRoom?: LiveRoomUpdateManyWithoutCommunityNestedInput
+    participants?: UserUpdateManyWithoutCommunityNestedInput
+    posts?: PostUpdateManyWithoutCommunityNestedInput
+    discussions?: DiscussionUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    liveRoom?: LiveRoomUncheckedUpdateManyWithoutCommunityNestedInput
+    participants?: UserUncheckedUpdateManyWithoutCommunityNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    discussions?: DiscussionUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type UserCreateWithoutAdminInput = {
@@ -141819,7 +141850,7 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: UserCreateNestedManyWithoutGroupsInput
     posts?: PostCreateNestedManyWithoutGroupInput
-    Community?: CommunityCreateNestedManyWithoutGroupsInput
+    Community?: CommunityCreateNestedOneWithoutGroupsInput
   }
 
   export type GroupUncheckedCreateWithoutAdminInput = {
@@ -141828,9 +141859,9 @@ export namespace Prisma {
     subject: string
     image?: string | null
     createdAt?: Date | string
+    communityId?: string | null
     members?: UserUncheckedCreateNestedManyWithoutGroupsInput
     posts?: PostUncheckedCreateNestedManyWithoutGroupInput
-    Community?: CommunityUncheckedCreateNestedManyWithoutGroupsInput
   }
 
   export type GroupCreateOrConnectWithoutAdminInput = {
@@ -146502,6 +146533,11 @@ export namespace Prisma {
   export type GroupCreateOrConnectWithoutCommunityInput = {
     where: GroupWhereUniqueInput
     create: XOR<GroupCreateWithoutCommunityInput, GroupUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type GroupCreateManyCommunityInputEnvelope = {
+    data: GroupCreateManyCommunityInput | GroupCreateManyCommunityInput[]
+    skipDuplicates?: boolean
   }
 
   export type LiveRoomCreateWithoutCommunityInput = {
@@ -155270,7 +155306,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUpdateManyWithoutGroupNestedInput
     admin?: AdminUpdateOneRequiredWithoutGroupNestedInput
-    Community?: CommunityUpdateManyWithoutGroupsNestedInput
+    Community?: CommunityUpdateOneWithoutGroupsNestedInput
   }
 
   export type GroupUncheckedUpdateWithoutMembersInput = {
@@ -155280,8 +155316,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
     posts?: PostUncheckedUpdateManyWithoutGroupNestedInput
-    Community?: CommunityUncheckedUpdateManyWithoutGroupsNestedInput
   }
 
   export type GroupUncheckedUpdateManyWithoutMembersInput = {
@@ -155291,6 +155327,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChannelUpdateWithoutMembersInput = {
@@ -158637,7 +158674,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUpdateManyWithoutGroupsNestedInput
     admin?: AdminUpdateOneRequiredWithoutGroupNestedInput
-    Community?: CommunityUpdateManyWithoutGroupsNestedInput
+    Community?: CommunityUpdateOneWithoutGroupsNestedInput
   }
 
   export type GroupUncheckedUpdateWithoutPostsInput = {
@@ -158647,8 +158684,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
     members?: UserUncheckedUpdateManyWithoutGroupsNestedInput
-    Community?: CommunityUncheckedUpdateManyWithoutGroupsNestedInput
   }
 
   export type GroupUncheckedUpdateManyWithoutPostsInput = {
@@ -158658,6 +158695,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     adminId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommunityUpdateWithoutPostsInput = {
@@ -158903,59 +158941,13 @@ export namespace Prisma {
     publicRelationsRecordId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type CommunityUpdateWithoutGroupsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    likes?: IntFieldUpdateOperationsInput | number
-    dislikes?: IntFieldUpdateOperationsInput | number
-    views?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveRoom?: LiveRoomUpdateManyWithoutCommunityNestedInput
-    participants?: UserUpdateManyWithoutCommunityNestedInput
-    posts?: PostUpdateManyWithoutCommunityNestedInput
-    discussions?: DiscussionUpdateManyWithoutCommunityNestedInput
-  }
-
-  export type CommunityUncheckedUpdateWithoutGroupsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    likes?: IntFieldUpdateOperationsInput | number
-    dislikes?: IntFieldUpdateOperationsInput | number
-    views?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveRoom?: LiveRoomUncheckedUpdateManyWithoutCommunityNestedInput
-    participants?: UserUncheckedUpdateManyWithoutCommunityNestedInput
-    posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
-    discussions?: DiscussionUncheckedUpdateManyWithoutCommunityNestedInput
-  }
-
-  export type CommunityUncheckedUpdateManyWithoutGroupsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    likes?: IntFieldUpdateOperationsInput | number
-    dislikes?: IntFieldUpdateOperationsInput | number
-    views?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type GroupCreateManyAdminInput = {
     id?: string
     name: string
     subject: string
     image?: string | null
     createdAt?: Date | string
+    communityId?: string | null
   }
 
   export type AccountingEntryCreateManyCreatedByAdminInput = {
@@ -159178,7 +159170,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUpdateManyWithoutGroupsNestedInput
     posts?: PostUpdateManyWithoutGroupNestedInput
-    Community?: CommunityUpdateManyWithoutGroupsNestedInput
+    Community?: CommunityUpdateOneWithoutGroupsNestedInput
   }
 
   export type GroupUncheckedUpdateWithoutAdminInput = {
@@ -159187,9 +159179,9 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
     members?: UserUncheckedUpdateManyWithoutGroupsNestedInput
     posts?: PostUncheckedUpdateManyWithoutGroupNestedInput
-    Community?: CommunityUncheckedUpdateManyWithoutGroupsNestedInput
   }
 
   export type GroupUncheckedUpdateManyWithoutAdminInput = {
@@ -159198,6 +159190,7 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    communityId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccountingEntryUpdateWithoutCreatedByAdminInput = {
@@ -160197,6 +160190,15 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupCreateManyCommunityInput = {
+    id?: string
+    name: string
+    subject: string
+    image?: string | null
+    adminId: string
+    createdAt?: Date | string
   }
 
   export type LiveRoomCreateManyCommunityInput = {

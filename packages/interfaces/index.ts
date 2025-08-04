@@ -486,7 +486,8 @@ export interface Group {
   posts: Post[] | undefined;
   admin: Admin | undefined;
   createdAt: Date;
-  Community: Community[] | undefined;
+  Community?: Community | undefined;
+  communityId?: string;
 }
 
 export interface Admin {

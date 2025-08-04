@@ -29,4 +29,9 @@ export class CreateGroupDto {
   // Field: createdAt, Type: Date
   @Column()
   createdAt: Date;
+
+  @ApiProperty({ type: "string" })
+  // Field: communityId, Type: string
+  @Column()
+  communityId?: string;
 }

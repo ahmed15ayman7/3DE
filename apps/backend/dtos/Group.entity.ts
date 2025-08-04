@@ -54,8 +54,13 @@ export class GroupEntity {
   @Column()
   createdAt: Date;
 
-  @ApiProperty({ type: CommunityEntity })
-  // Field: Community, Type: Community[]
+  @ApiProperty({ type: CommunityEntity, nullable: true })
+  // Field: Community, Type: Community
   @Column()
-  Community: Community[];
+  Community?: Community;
+
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: communityId, Type: string
+  @Column()
+  communityId?: string;
 }
