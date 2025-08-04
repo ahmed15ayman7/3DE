@@ -413,7 +413,7 @@ export default function CoursesPage() {
         </Card>
         <Card className="p-6 text-center">
           <div className="text-2xl font-bold text-warning-main mb-1">
-            {Math.round(courses?.data?.reduce((acc: number, course: Course) => acc + course.progress, 0) / courses?.data?.length)}%
+            {Math.round((courses?.data?.reduce((acc: number, course: Course) => acc + (course.progress || 0), 0) || 0) / (courses?.data?.length || 1))}%
           </div>
           <div className="text-sm text-gray-600">متوسط الإنجاز</div>
         </Card>
