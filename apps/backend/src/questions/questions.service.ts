@@ -11,6 +11,12 @@ export class QuestionsService {
     constructor(private prisma: PrismaService) { }
 
     async create(createQuestionInput: CreateQuestionDto & { options: CreateOptionDto[] }, quizId: string) {
+        let quiz = await this.prisma.quiz.findUnique({
+            where: { id: quizId },
+        });
+        if (!quiz) {
+            throw new NotFoundException(`Quiz with ID ${quizId} not found`);
+        }
         return this.prisma.question.create({
             data: {
                 ...createQuestionInput,

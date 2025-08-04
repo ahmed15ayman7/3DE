@@ -203,7 +203,7 @@ export default function NewQuizPage() {
           quizId: quiz.data.id,
           
           type: question.type,
-          points: question.points,
+          points: +question.points,
           image: question.image,
           explanation: question.explanation,
           options: question.options.map(option => ({
