@@ -119,7 +119,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
           const loginResult = await authApi.login({
             email: data.email,
             password: data.password,
-            device: getDeviceInfo(),
+            ...getDeviceInfo(),
           });
           
           if (loginResult) {

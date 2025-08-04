@@ -17,7 +17,10 @@ export class AuthController {
         const user = await this.authService.validateUser(
             loginDto.email,
             loginDto.password,
-            loginDto.device
+            loginDto.device,
+            loginDto.ip,
+            loginDto.browser,
+            loginDto.os,
         );
         if (!user) {
             return { statusCode: 401, message: 'Invalid credentials' };
