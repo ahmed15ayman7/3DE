@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from 'dtos/User.create.dto';
-import { User,LoginDevice } from '@shared/prisma';
+import { User } from '@shared/prisma';
 import { ConfigService } from '@nestjs/config';
 import { UpdateUserDto } from 'dtos/User.update.dto';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -36,10 +36,13 @@ export class AuthService {
             expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION'),
         });
     }
-    async validateUser(email: string, password: string,device?:LoginDevice): Promise<any> {
+        async validateUser(email: string, password: string,device?:string,ip?:string,browser?:string,os?:string): Promise<any> {
         const user = await this.usersService.findByEmail(email);
         if(!user){
             throw new NotFoundException('User not found');
+        }
+        if(user.role==='ADMIN'){
+            throw new UnauthorizedException('You are not authorized to access this resource');
         }
         let verify = await bcrypt.compare(password, user?.password);
         console.log(verify);
@@ -49,6 +52,9 @@ export class AuthService {
                 data: {
                     userId: user.id,
                     device: device || 'DESKTOP',
+                    ip: ip,
+                    browser: browser,
+                    os: os,
                 },
             }):null;
             return result;

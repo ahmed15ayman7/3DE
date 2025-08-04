@@ -1,5 +1,3 @@
-export type LoginDevice = 'DESKTOP' | 'MOBILE' | 'TABLET' | 'LAPTOP';
-
 export type UserRole = 'STUDENT' | 'INSTRUCTOR' | 'PARENT' | 'ADMIN' | 'ACADEMY';
 
 export type CourseStatus = 'PENDING' | 'ACTIVE' | 'COMPLETED';
@@ -99,7 +97,7 @@ export interface LoginHistory {
   user: User | undefined;
   success: boolean;
   ip?: string;
-  device?: LoginDevice | undefined;
+  device?: string;
   location?: string;
   browser?: string;
   os?: string;

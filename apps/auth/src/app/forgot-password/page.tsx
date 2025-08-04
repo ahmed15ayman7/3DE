@@ -25,6 +25,9 @@ export default function ForgotPasswordPage() {
         case 'PARENT':
           window.location.href = '/parent';
           break;
+        case 'ADMIN':
+          window.location.href = '/student';
+          break;
         default:
           ;
       }

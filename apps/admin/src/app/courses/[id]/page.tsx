@@ -905,8 +905,7 @@ export default function CourseDetailPage() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-gray-900">الاختبارات</h3>
             <Button className="bg-green-600 hover:bg-green-700 text-white" onClick={()=>{
-              setIsAddQuiz(true)
-              setIsEditQuiz(false)
+              router.push(`/quizzes/new?courseId=${course.id}`)
             }}>
               <Plus className="w-4 h-4 ml-2" />
               إضافة اختبار

@@ -1,5 +1,5 @@
 'use client';
-
+import { getDeviceInfo } from '../utils/device-info';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -119,16 +119,17 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
           const loginResult = await authApi.login({
             email: data.email,
             password: data.password,
+            device: getDeviceInfo(),
           });
           
           if (loginResult) {
             // Debug before login
-            authDebugger.log('🔐 LOGIN', 'Login API successful, calling auth.login()', loginResult);
+            // authDebugger.log('🔐 LOGIN', 'Login API successful, calling auth.login()', loginResult);
             
             await login(loginResult);
             
             // Debug after login
-            authDebugger.debugLoginSuccess(loginResult);
+            // authDebugger.debugLoginSuccess(loginResult);
             
             setAlert({
               type: 'success',
@@ -173,11 +174,19 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
           break;
 
         case 'forgot-password':
-          await authApi.forgotPassword(data.email);
-          setAlert({
-            type: 'success',
-            message: 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني',
-          });
+        let forgotPasswordResult = await authApi.forgotPassword(data.email);
+        if(forgotPasswordResult){
+          // setAlert({
+          //     type: 'success',
+          //     message: 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني',
+          //   });
+          router.push(forgotPasswordResult.data)
+          }else{
+            setAlert({
+              type: 'error',
+              message: 'فشل في إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني',
+            });
+          }
           reset();
           break;
 
@@ -196,13 +205,16 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, token }) => {
             message: 'تم إعادة تعيين كلمة المرور بنجاح',
           });
           reset();
+          setTimeout(() => {
+            router.push('/signin')
+          }, 2000);
           break;
       }
     } catch (error: any) {
       authDebugger.debugLoginError(error);
       setAlert({
         type: 'error',
-        message: error.message || 'حدث خطأ ما، حاول مرة أخرى',
+        message:type==='forgot-password'? 'لا يوجد حساب بهذا البريد الإلكتروني' :type==='reset-password'? 'رابط غير صحيح' :type==='signin'? 'البريد الإلكتروني أو كلمة المرور غير صحيحة' : error.message || 'حدث خطأ ما، حاول مرة أخرى',
       });
     } finally {
       setIsLoading(false);

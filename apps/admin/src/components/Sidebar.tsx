@@ -39,7 +39,7 @@ const menuItems: MenuItem[] = [
   { title: 'الغيابات', href: '/absences', icon: UserX },
   // { title: 'الإنجازات', href: '/achievements', icon: Award },
   // { title: 'التقييمات', href: '/submissions', icon: FileText },
-  { title: 'الاختبارات', href: '/exams', icon: Calendar },
+  { title: 'الاختبارات', href: '/quizzes', icon: FileText },
   { title: 'التحليلات', href: '/analytics', icon: BarChart3 },
   { title: 'الإشعارات', href: '/notifications', icon: Bell }, 
 ];

@@ -277,8 +277,8 @@ const QuizListItem = ({ quiz, onEdit, onDelete, onViewResults }: QuizCardProps) 
     </Card>
   </motion.div>
 )
-let getQuizzes=async(userId:string)=>{
-  let response=await quizApi.getByInstructor(userId)
+let getQuizzes=async()=>{
+  let response=await quizApi.getAll()
   return response.data
 }
 export default function QuizzesPage() {
@@ -290,7 +290,7 @@ export default function QuizzesPage() {
   const { user } = useAuth()
   const { data: quizzes } = useQuery({
     queryKey: ['quizzes'],
-    queryFn: () => getQuizzes(user?.id as string),
+    queryFn: () => getQuizzes()
   })
 
   const filteredQuizzes = quizzes?.filter((quiz: Quiz) => {

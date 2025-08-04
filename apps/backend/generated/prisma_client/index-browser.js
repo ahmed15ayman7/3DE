@@ -1048,13 +1048,6 @@ exports.UserRole = exports.$Enums.UserRole = {
   ACADEMY: 'ACADEMY'
 };
 
-exports.LoginDevice = exports.$Enums.LoginDevice = {
-  DESKTOP: 'DESKTOP',
-  MOBILE: 'MOBILE',
-  TABLET: 'TABLET',
-  LAPTOP: 'LAPTOP'
-};
-
 exports.CourseStatus = exports.$Enums.CourseStatus = {
   PENDING: 'PENDING',
   ACTIVE: 'ACTIVE',

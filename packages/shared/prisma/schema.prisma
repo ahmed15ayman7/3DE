@@ -102,9 +102,9 @@ model LoginHistory {
     id        String       @id @default(cuid())
     userId    String
     user      User         @relation(fields: [userId], references: [id])
-    success   Boolean      @default(false)
+    success   Boolean      @default(true)
     ip        String?
-    device    LoginDevice?
+    device    String?
     location  String?
     browser   String?
     os        String?
@@ -123,12 +123,6 @@ model TwoFactor {
     updatedAt     DateTime @updatedAt
 }
 
-enum LoginDevice {
-    DESKTOP
-    MOBILE
-    TABLET
-    LAPTOP
-}
 
 enum UserRole {
     STUDENT

@@ -232,7 +232,7 @@ api.interceptors.response.use(
 
 // Auth APIs
 export const authApi = {
-    login: async (credentials: { email: string; password: string }):Promise<{ access_token: string; refreshToken: string, user: User }|null> => {
+    login: async (credentials: { email: string; password: string,device?:string,ip?:string,browser?:string,os?:string }):Promise<{ access_token: string; refreshToken: string, user: User }|null> => {
         try {
             const response = await api.post('/auth/login', credentials);
             const { access_token, refreshToken } = response.data;
@@ -675,6 +675,7 @@ export const questionApi = {
 export const submissionApi = {
     getByQuiz: (quizId: string): Promise<{ success: boolean, data: (Submission & { user: User, quiz: Quiz & { questions: (Question & { options: Option[] })[] } })[] }> => api.get(`/submissions/quiz/${quizId}`),
     getByUser: (userId: string): Promise<{ success: boolean, data: (Submission & { user: User, quiz: Quiz & { questions: (Question & { options: Option[] })[] } })[] }> => api.get(`/submissions/user/${userId}`),
+    getById: (id: string): Promise<{ success: boolean, data: Submission & { user: User, quiz: Quiz & { questions: (Question & { options: Option[] })[] } } }> => api.get(`/submissions/${id}`),
     create: (data: {
         userId: string;
         quizId: string;

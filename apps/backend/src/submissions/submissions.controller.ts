@@ -16,6 +16,10 @@ export class SubmissionsController {
     async getSubmissions() {
         return this.submissionsService.findAll();
     }
+    @Get(':id')
+    async getSubmission(@Param('id') id: string) {
+        return this.submissionsService.findOne(id);
+    }
 
     @Post()
     async createSubmission(@Body() createSubmissionDto: CreateSubmissionDto) {

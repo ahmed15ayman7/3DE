@@ -408,17 +408,7 @@ export type Support = $Result.DefaultSelection<Prisma.$SupportPayload>
  * Enums
  */
 export namespace $Enums {
-  export const LoginDevice: {
-  DESKTOP: 'DESKTOP',
-  MOBILE: 'MOBILE',
-  TABLET: 'TABLET',
-  LAPTOP: 'LAPTOP'
-};
-
-export type LoginDevice = (typeof LoginDevice)[keyof typeof LoginDevice]
-
-
-export const UserRole: {
+  export const UserRole: {
   STUDENT: 'STUDENT',
   INSTRUCTOR: 'INSTRUCTOR',
   PARENT: 'PARENT',
@@ -599,10 +589,6 @@ export const ExpenseType: {
 export type ExpenseType = (typeof ExpenseType)[keyof typeof ExpenseType]
 
 }
-
-export type LoginDevice = $Enums.LoginDevice
-
-export const LoginDevice: typeof $Enums.LoginDevice
 
 export type UserRole = $Enums.UserRole
 
@@ -12491,7 +12477,7 @@ export namespace Prisma {
     userId: string | null
     success: boolean | null
     ip: string | null
-    device: $Enums.LoginDevice | null
+    device: string | null
     location: string | null
     browser: string | null
     os: string | null
@@ -12503,7 +12489,7 @@ export namespace Prisma {
     userId: string | null
     success: boolean | null
     ip: string | null
-    device: $Enums.LoginDevice | null
+    device: string | null
     location: string | null
     browser: string | null
     os: string | null
@@ -12638,7 +12624,7 @@ export namespace Prisma {
     userId: string
     success: boolean
     ip: string | null
-    device: $Enums.LoginDevice | null
+    device: string | null
     location: string | null
     browser: string | null
     os: string | null
@@ -12734,7 +12720,7 @@ export namespace Prisma {
       userId: string
       success: boolean
       ip: string | null
-      device: $Enums.LoginDevice | null
+      device: string | null
       location: string | null
       browser: string | null
       os: string | null
@@ -13167,7 +13153,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"LoginHistory", 'String'>
     readonly success: FieldRef<"LoginHistory", 'Boolean'>
     readonly ip: FieldRef<"LoginHistory", 'String'>
-    readonly device: FieldRef<"LoginHistory", 'LoginDevice'>
+    readonly device: FieldRef<"LoginHistory", 'String'>
     readonly location: FieldRef<"LoginHistory", 'String'>
     readonly browser: FieldRef<"LoginHistory", 'String'>
     readonly os: FieldRef<"LoginHistory", 'String'>
@@ -103184,20 +103170,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'LoginDevice'
-   */
-  export type EnumLoginDeviceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LoginDevice'>
-    
-
-
-  /**
-   * Reference to a field of type 'LoginDevice[]'
-   */
-  export type ListEnumLoginDeviceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LoginDevice[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -103684,7 +103656,7 @@ export namespace Prisma {
     userId?: StringFilter<"LoginHistory"> | string
     success?: BoolFilter<"LoginHistory"> | boolean
     ip?: StringNullableFilter<"LoginHistory"> | string | null
-    device?: EnumLoginDeviceNullableFilter<"LoginHistory"> | $Enums.LoginDevice | null
+    device?: StringNullableFilter<"LoginHistory"> | string | null
     location?: StringNullableFilter<"LoginHistory"> | string | null
     browser?: StringNullableFilter<"LoginHistory"> | string | null
     os?: StringNullableFilter<"LoginHistory"> | string | null
@@ -103713,7 +103685,7 @@ export namespace Prisma {
     userId?: StringFilter<"LoginHistory"> | string
     success?: BoolFilter<"LoginHistory"> | boolean
     ip?: StringNullableFilter<"LoginHistory"> | string | null
-    device?: EnumLoginDeviceNullableFilter<"LoginHistory"> | $Enums.LoginDevice | null
+    device?: StringNullableFilter<"LoginHistory"> | string | null
     location?: StringNullableFilter<"LoginHistory"> | string | null
     browser?: StringNullableFilter<"LoginHistory"> | string | null
     os?: StringNullableFilter<"LoginHistory"> | string | null
@@ -103744,7 +103716,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"LoginHistory"> | string
     success?: BoolWithAggregatesFilter<"LoginHistory"> | boolean
     ip?: StringNullableWithAggregatesFilter<"LoginHistory"> | string | null
-    device?: EnumLoginDeviceNullableWithAggregatesFilter<"LoginHistory"> | $Enums.LoginDevice | null
+    device?: StringNullableWithAggregatesFilter<"LoginHistory"> | string | null
     location?: StringNullableWithAggregatesFilter<"LoginHistory"> | string | null
     browser?: StringNullableWithAggregatesFilter<"LoginHistory"> | string | null
     os?: StringNullableWithAggregatesFilter<"LoginHistory"> | string | null
@@ -109997,7 +109969,7 @@ export namespace Prisma {
     id?: string
     success?: boolean
     ip?: string | null
-    device?: $Enums.LoginDevice | null
+    device?: string | null
     location?: string | null
     browser?: string | null
     os?: string | null
@@ -110010,7 +109982,7 @@ export namespace Prisma {
     userId: string
     success?: boolean
     ip?: string | null
-    device?: $Enums.LoginDevice | null
+    device?: string | null
     location?: string | null
     browser?: string | null
     os?: string | null
@@ -110021,7 +109993,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     success?: BoolFieldUpdateOperationsInput | boolean
     ip?: NullableStringFieldUpdateOperationsInput | string | null
-    device?: NullableEnumLoginDeviceFieldUpdateOperationsInput | $Enums.LoginDevice | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     browser?: NullableStringFieldUpdateOperationsInput | string | null
     os?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110034,7 +110006,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     success?: BoolFieldUpdateOperationsInput | boolean
     ip?: NullableStringFieldUpdateOperationsInput | string | null
-    device?: NullableEnumLoginDeviceFieldUpdateOperationsInput | $Enums.LoginDevice | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     browser?: NullableStringFieldUpdateOperationsInput | string | null
     os?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110046,7 +110018,7 @@ export namespace Prisma {
     userId: string
     success?: boolean
     ip?: string | null
-    device?: $Enums.LoginDevice | null
+    device?: string | null
     location?: string | null
     browser?: string | null
     os?: string | null
@@ -110057,7 +110029,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     success?: BoolFieldUpdateOperationsInput | boolean
     ip?: NullableStringFieldUpdateOperationsInput | string | null
-    device?: NullableEnumLoginDeviceFieldUpdateOperationsInput | $Enums.LoginDevice | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     browser?: NullableStringFieldUpdateOperationsInput | string | null
     os?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110069,7 +110041,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     success?: BoolFieldUpdateOperationsInput | boolean
     ip?: NullableStringFieldUpdateOperationsInput | string | null
-    device?: NullableEnumLoginDeviceFieldUpdateOperationsInput | $Enums.LoginDevice | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     browser?: NullableStringFieldUpdateOperationsInput | string | null
     os?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117062,13 +117034,6 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type EnumLoginDeviceNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.LoginDevice | EnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLoginDeviceNullableFilter<$PrismaModel> | $Enums.LoginDevice | null
-  }
-
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -117108,16 +117073,6 @@ export namespace Prisma {
     browser?: SortOrder
     os?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type EnumLoginDeviceNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.LoginDevice | EnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLoginDeviceNullableWithAggregatesFilter<$PrismaModel> | $Enums.LoginDevice | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumLoginDeviceNullableFilter<$PrismaModel>
-    _max?: NestedEnumLoginDeviceNullableFilter<$PrismaModel>
   }
 
   export type TwoFactorCountOrderByAggregateInput = {
@@ -122492,10 +122447,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutLoginHistoryInput, UserUncheckedCreateWithoutLoginHistoryInput>
     connectOrCreate?: UserCreateOrConnectWithoutLoginHistoryInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableEnumLoginDeviceFieldUpdateOperationsInput = {
-    set?: $Enums.LoginDevice | null
   }
 
   export type UserUpdateOneRequiredWithoutLoginHistoryNestedInput = {
@@ -129210,23 +129161,6 @@ export namespace Prisma {
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
-
-  export type NestedEnumLoginDeviceNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.LoginDevice | EnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLoginDeviceNullableFilter<$PrismaModel> | $Enums.LoginDevice | null
-  }
-
-  export type NestedEnumLoginDeviceNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.LoginDevice | EnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.LoginDevice[] | ListEnumLoginDeviceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLoginDeviceNullableWithAggregatesFilter<$PrismaModel> | $Enums.LoginDevice | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumLoginDeviceNullableFilter<$PrismaModel>
-    _max?: NestedEnumLoginDeviceNullableFilter<$PrismaModel>
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -130483,7 +130417,7 @@ export namespace Prisma {
     id?: string
     success?: boolean
     ip?: string | null
-    device?: $Enums.LoginDevice | null
+    device?: string | null
     location?: string | null
     browser?: string | null
     os?: string | null
@@ -130494,7 +130428,7 @@ export namespace Prisma {
     id?: string
     success?: boolean
     ip?: string | null
-    device?: $Enums.LoginDevice | null
+    device?: string | null
     location?: string | null
     browser?: string | null
     os?: string | null
@@ -131692,7 +131626,7 @@ export namespace Prisma {
     userId?: StringFilter<"LoginHistory"> | string
     success?: BoolFilter<"LoginHistory"> | boolean
     ip?: StringNullableFilter<"LoginHistory"> | string | null
-    device?: EnumLoginDeviceNullableFilter<"LoginHistory"> | $Enums.LoginDevice | null
+    device?: StringNullableFilter<"LoginHistory"> | string | null
     location?: StringNullableFilter<"LoginHistory"> | string | null
     browser?: StringNullableFilter<"LoginHistory"> | string | null
     os?: StringNullableFilter<"LoginHistory"> | string | null
@@ -155174,7 +155108,7 @@ export namespace Prisma {
     id?: string
     success?: boolean
     ip?: string | null
-    device?: $Enums.LoginDevice | null
+    device?: string | null
     location?: string | null
     browser?: string | null
     os?: string | null
@@ -156117,7 +156051,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     success?: BoolFieldUpdateOperationsInput | boolean
     ip?: NullableStringFieldUpdateOperationsInput | string | null
-    device?: NullableEnumLoginDeviceFieldUpdateOperationsInput | $Enums.LoginDevice | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     browser?: NullableStringFieldUpdateOperationsInput | string | null
     os?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156128,7 +156062,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     success?: BoolFieldUpdateOperationsInput | boolean
     ip?: NullableStringFieldUpdateOperationsInput | string | null
-    device?: NullableEnumLoginDeviceFieldUpdateOperationsInput | $Enums.LoginDevice | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     browser?: NullableStringFieldUpdateOperationsInput | string | null
     os?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156139,7 +156073,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     success?: BoolFieldUpdateOperationsInput | boolean
     ip?: NullableStringFieldUpdateOperationsInput | string | null
-    device?: NullableEnumLoginDeviceFieldUpdateOperationsInput | $Enums.LoginDevice | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     browser?: NullableStringFieldUpdateOperationsInput | string | null
     os?: NullableStringFieldUpdateOperationsInput | string | null

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { UserEntity } from "./User.entity";
-import { User, LoginDevice } from "@shared/prisma";
+import { User } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -31,10 +31,10 @@ export class LoginHistoryEntity {
   @Column()
   ip?: string;
 
-  @ApiProperty({ enum: LoginDevice, nullable: true })
-  // Field: device, Type: LoginDevice
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: device, Type: string
   @Column()
-  device?: LoginDevice;
+  device?: string;
 
   @ApiProperty({ type: "string", nullable: true })
   // Field: location, Type: string
