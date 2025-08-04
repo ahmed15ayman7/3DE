@@ -412,19 +412,26 @@ model Quiz {
   course   Course @relation(fields: [courseId], references: [id])
 }
 
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  ESSAY
+  FILL_BLANK
+}
+
 model Question {
-  id          String   @id @default(cuid())
+  id          String       @id @default(cuid())
   text        String
   image       String?
-  type        String
+  type        QuestionType
   options     Option[]
-  isMultiple  Boolean  @default(false)
+  isMultiple  Boolean      @default(false)
   explanation String?
   points      Int
-  isAnswered  Boolean  @default(false)
+  isAnswered  Boolean      @default(false)
   quizId      String
-  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  quiz        Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
 }
 
 model Option {

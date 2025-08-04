@@ -476,6 +476,16 @@ export const EnrollmentStatus: {
 export type EnrollmentStatus = (typeof EnrollmentStatus)[keyof typeof EnrollmentStatus]
 
 
+export const QuestionType: {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  TRUE_FALSE: 'TRUE_FALSE',
+  ESSAY: 'ESSAY',
+  FILL_BLANK: 'FILL_BLANK'
+};
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
+
 export const NotificationType: {
   ASSIGNMENT: 'ASSIGNMENT',
   GRADE: 'GRADE',
@@ -617,6 +627,10 @@ export const FileType: typeof $Enums.FileType
 export type EnrollmentStatus = $Enums.EnrollmentStatus
 
 export const EnrollmentStatus: typeof $Enums.EnrollmentStatus
+
+export type QuestionType = $Enums.QuestionType
+
+export const QuestionType: typeof $Enums.QuestionType
 
 export type NotificationType = $Enums.NotificationType
 
@@ -31860,7 +31874,7 @@ export namespace Prisma {
     id: string | null
     text: string | null
     image: string | null
-    type: string | null
+    type: $Enums.QuestionType | null
     isMultiple: boolean | null
     explanation: string | null
     points: number | null
@@ -31873,7 +31887,7 @@ export namespace Prisma {
     id: string | null
     text: string | null
     image: string | null
-    type: string | null
+    type: $Enums.QuestionType | null
     isMultiple: boolean | null
     explanation: string | null
     points: number | null
@@ -32035,7 +32049,7 @@ export namespace Prisma {
     id: string
     text: string
     image: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple: boolean
     explanation: string | null
     points: number
@@ -32143,7 +32157,7 @@ export namespace Prisma {
       id: string
       text: string
       image: string | null
-      type: string
+      type: $Enums.QuestionType
       isMultiple: boolean
       explanation: string | null
       points: number
@@ -32578,7 +32592,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Question", 'String'>
     readonly text: FieldRef<"Question", 'String'>
     readonly image: FieldRef<"Question", 'String'>
-    readonly type: FieldRef<"Question", 'String'>
+    readonly type: FieldRef<"Question", 'QuestionType'>
     readonly isMultiple: FieldRef<"Question", 'Boolean'>
     readonly explanation: FieldRef<"Question", 'String'>
     readonly points: FieldRef<"Question", 'Int'>
@@ -103268,6 +103282,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'QuestionType'
+   */
+  export type EnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuestionType[]'
+   */
+  export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json[]'
    */
   export type ListJsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json[]'>
@@ -105013,7 +105041,7 @@ export namespace Prisma {
     id?: StringFilter<"Question"> | string
     text?: StringFilter<"Question"> | string
     image?: StringNullableFilter<"Question"> | string | null
-    type?: StringFilter<"Question"> | string
+    type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
     isMultiple?: BoolFilter<"Question"> | boolean
     explanation?: StringNullableFilter<"Question"> | string | null
     points?: IntFilter<"Question"> | number
@@ -105046,7 +105074,7 @@ export namespace Prisma {
     NOT?: QuestionWhereInput | QuestionWhereInput[]
     text?: StringFilter<"Question"> | string
     image?: StringNullableFilter<"Question"> | string | null
-    type?: StringFilter<"Question"> | string
+    type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
     isMultiple?: BoolFilter<"Question"> | boolean
     explanation?: StringNullableFilter<"Question"> | string | null
     points?: IntFilter<"Question"> | number
@@ -105082,7 +105110,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Question"> | string
     text?: StringWithAggregatesFilter<"Question"> | string
     image?: StringNullableWithAggregatesFilter<"Question"> | string | null
-    type?: StringWithAggregatesFilter<"Question"> | string
+    type?: EnumQuestionTypeWithAggregatesFilter<"Question"> | $Enums.QuestionType
     isMultiple?: BoolWithAggregatesFilter<"Question"> | boolean
     explanation?: StringNullableWithAggregatesFilter<"Question"> | string | null
     points?: IntWithAggregatesFilter<"Question"> | number
@@ -111431,7 +111459,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -111445,7 +111473,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -111459,7 +111487,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -111473,7 +111501,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -111487,7 +111515,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -111500,7 +111528,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -111512,7 +111540,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -118142,6 +118170,13 @@ export namespace Prisma {
     maxAttempts?: SortOrder
   }
 
+  export type EnumQuestionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
+  }
+
   export type OptionListRelationFilter = {
     every?: OptionWhereInput
     some?: OptionWhereInput
@@ -118202,6 +118237,16 @@ export namespace Prisma {
 
   export type QuestionSumOrderByAggregateInput = {
     points?: SortOrder
+  }
+
+  export type EnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeWithAggregatesFilter<$PrismaModel> | $Enums.QuestionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuestionTypeFilter<$PrismaModel>
+    _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
   }
 
   export type QuestionScalarRelationFilter = {
@@ -124476,6 +124521,10 @@ export namespace Prisma {
     connect?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
   }
 
+  export type EnumQuestionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.QuestionType
+  }
+
   export type OptionUpdateManyWithoutQuestionNestedInput = {
     create?: XOR<OptionCreateWithoutQuestionInput, OptionUncheckedCreateWithoutQuestionInput> | OptionCreateWithoutQuestionInput[] | OptionUncheckedCreateWithoutQuestionInput[]
     connectOrCreate?: OptionCreateOrConnectWithoutQuestionInput | OptionCreateOrConnectWithoutQuestionInput[]
@@ -129353,6 +129402,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEnrollmentStatusFilter<$PrismaModel>
     _max?: NestedEnumEnrollmentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQuestionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
+  }
+
+  export type NestedEnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuestionType | EnumQuestionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuestionType[] | ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuestionTypeWithAggregatesFilter<$PrismaModel> | $Enums.QuestionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuestionTypeFilter<$PrismaModel>
+    _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
   }
 
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
@@ -138191,7 +138257,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -138204,7 +138270,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -138380,7 +138446,7 @@ export namespace Prisma {
     id?: StringFilter<"Question"> | string
     text?: StringFilter<"Question"> | string
     image?: StringNullableFilter<"Question"> | string | null
-    type?: StringFilter<"Question"> | string
+    type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
     isMultiple?: BoolFilter<"Question"> | boolean
     explanation?: StringNullableFilter<"Question"> | string | null
     points?: IntFilter<"Question"> | number
@@ -138636,7 +138702,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -138649,7 +138715,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -138678,7 +138744,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -138691,7 +138757,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -158561,7 +158627,7 @@ export namespace Prisma {
     id?: string
     text: string
     image?: string | null
-    type: string
+    type: $Enums.QuestionType
     isMultiple?: boolean
     explanation?: string | null
     points: number
@@ -158585,7 +158651,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -158598,7 +158664,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number
@@ -158611,7 +158677,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     isMultiple?: BoolFieldUpdateOperationsInput | boolean
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     points?: IntFieldUpdateOperationsInput | number

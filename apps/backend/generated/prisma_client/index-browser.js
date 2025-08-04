@@ -1087,6 +1087,13 @@ exports.EnrollmentStatus = exports.$Enums.EnrollmentStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.QuestionType = exports.$Enums.QuestionType = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  TRUE_FALSE: 'TRUE_FALSE',
+  ESSAY: 'ESSAY',
+  FILL_BLANK: 'FILL_BLANK'
+};
+
 exports.NotificationType = exports.$Enums.NotificationType = {
   ASSIGNMENT: 'ASSIGNMENT',
   GRADE: 'GRADE',

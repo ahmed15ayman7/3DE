@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { OptionEntity } from "./Option.entity";
 import { QuizEntity } from "./Quiz.entity";
-import { Option, Quiz } from "@shared/prisma";
+import { QuestionType, Option, Quiz } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -22,10 +22,10 @@ export class QuestionEntity {
   @Column()
   image?: string;
 
-  @ApiProperty({ type: "string" })
-  // Field: type, Type: string
+  @ApiProperty({ enum: QuestionType })
+  // Field: type, Type: QuestionType
   @Column()
-  type: string;
+  type: QuestionType;
 
   @ApiProperty({ type: OptionEntity })
   // Field: options, Type: Option[]

@@ -409,11 +409,18 @@ model Quiz {
     course   Course   @relation(fields: [courseId], references: [id])
 }
 
+enum QuestionType {
+    MULTIPLE_CHOICE
+    TRUE_FALSE
+    ESSAY
+    FILL_BLANK
+}
+
 model Question {
     id         String   @id @default(cuid())
     text       String
     image      String?
-    type       String
+    type       QuestionType
     options    Option[]
     isMultiple Boolean  @default(false)
     explanation String?

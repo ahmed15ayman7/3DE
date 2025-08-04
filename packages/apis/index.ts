@@ -662,22 +662,11 @@ export const enrollmentApi = {
 export const questionApi = {
     getByQuiz: (quizId: string) => api.get(`/questions/${quizId}/quiz`),
     getById: (id: string) => api.get(`/questions/${id}`),
-    create: (data: {
-        text: string;
-        type: string;
-        options?: any;
-        answer: any;
-        quizId: string;
-    }) => api.post('/questions', data),
-    update: (id: string, data: {
-        text?: string;
-        type?: string;
-        options?: any;
-        answer?: any;
-    }) => api.patch(`/questions/${id}`, data),
+    create: (data:Partial<Question & {options:Partial<Option>[]}>) => api.post('/questions', data),
+    update: (id: string, data: Partial<Question>) => api.patch(`/questions/${id}`, data),
     delete: (id: string) => api.delete(`/questions/${id}`),
-    createOption: (data: Option) => api.post('/questions/option', data),
-    updateOption: (id: string, data: Option) => api.patch(`/questions/option/${id}`, data),
+    createOption: (data: Partial<Option>) => api.post('/questions/option', data),
+    updateOption: (id: string, data: Partial<Option>) => api.patch(`/questions/option/${id}`, data),
     deleteOption: (id: string) => api.delete(`/questions/option/${id}`),
 };
 

@@ -25,11 +25,11 @@ import {
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Card, Button, Input, Textarea, Select, Badge, Tabs, Switch } from '@3de/ui'
-import QuizForm from '../../../components/QuizForm'
+import { Card, Button, Input, Textarea, Select, Badge, Switch } from '@3de/ui'
 import QuestionCard from '../../../components/QuestionCard'
-import { courseApi, lessonApi } from '@3de/apis'
+import { courseApi, lessonApi, questionApi, quizApi } from '@3de/apis'
 import { useQuery } from '@tanstack/react-query'
+import { Option } from '@3de/interfaces';
 
 // Validation schema
 const quizSchema = z.object({
@@ -37,6 +37,9 @@ const quizSchema = z.object({
   description: z.string().min(1, 'وصف الاختبار مطلوب'),
   courseId: z.string().min(1, 'يجب اختيار كورس'),
   lessonId: z.string().optional(),
+  startDate: z.string().optional(),
+  upComing: z.boolean(),
+  isCompleted: z.boolean(),
   timeLimit: z.number().min(1, 'الحد الزمني مطلوب').max(180, 'الحد الأقصى 180 دقيقة'),
   passingScore: z.number().min(1, 'درجة النجاح مطلوبة').max(100, 'الحد الأقصى 100%'),
   maxAttempts: z.number().min(1, 'عدد المحاولات مطلوب'),
@@ -95,12 +98,15 @@ export default function NewQuizPage() {
       courseId: '',
       lessonId: '',
       timeLimit: 30,
-      passingScore: 70,
+      passingScore: 100,
       maxAttempts: 3,
       showResultsImmediately: true,
       shuffleQuestions: false,
       shuffleAnswers: false,
       allowReview: true,
+      upComing: false,
+      isCompleted: false,
+      startDate: '',
       questions: [],
     },
   })
@@ -147,7 +153,7 @@ export default function NewQuizPage() {
       case 0:
         return ['title', 'description', 'courseId', 'lessonId'] as const
       case 1:
-        return ['timeLimit', 'passingScore', 'maxAttempts'] as const
+        return ['timeLimit', 'passingScore', 'maxAttempts', 'upComing', 'isCompleted', 'startDate'] as const
       case 2:
         return ['questions'] as const
       default:
@@ -174,6 +180,40 @@ export default function NewQuizPage() {
     setIsSubmitting(true)
     try {
       console.log('Quiz data:', data)
+      let quiz=await quizApi.create({
+        title: data.title,
+        description: data.description,
+        courseId: data.courseId,
+        lessonId: data.lessonId,
+        timeLimit: data.timeLimit,
+        passingScore: data.passingScore,
+        maxAttempts: data.maxAttempts,
+        endDate: new Date(new Date(data.startDate||new Date()).getTime() + data.timeLimit * 60 * 1000),
+        startDate: data.startDate ? new Date(data.startDate) : undefined,
+        upComing: data.upComing,
+        isCompleted: data.isCompleted,
+        showResultsImmediately: data.showResultsImmediately,
+        shuffleQuestions: data.shuffleQuestions,
+        shuffleAnswers: data.shuffleAnswers,
+        allowReview: data.allowReview,
+      })
+      for(let question of data.questions){
+        await questionApi.create({
+          text: question.text,
+          quizId: quiz.data.id,
+          
+          type: question.type,
+          points: question.points,
+          image: question.image,
+          explanation: question.explanation,
+          options: question.options.map(option => ({
+            text: option.text,
+            isCorrect: option.isCorrect,
+          }))as Option[],
+        })
+      }
+      
+      console.log('Questions created:', questions)
       // Here you would call the API to create the quiz
       // await quizApi.create(data)
       
@@ -218,22 +258,19 @@ export default function NewQuizPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  الكورس *
-                </label>
+                
                 <Select
-                  options={courses?.data.map((course) => ({ value: course.id, label: course.title }))||[]}
+                  label=' الكورس'
+                  options={[{value:'',label:'اختر الكورس'},...courses?.data.map((course) => ({ value: course.id, label: course.title }))||[]]}
                   {...register('courseId')}
                   error={errors.courseId?.message}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  الدرس (اختياري)
-                </label>
                 <Select
-                  options={lessons?.data.map((lesson) => ({ value: lesson.id, label: lesson.title }))||[]}
+                  label=' الدرس'
+                  options={[{value:'',label:'اختر الدرس'},...lessons?.data.map((lesson) => ({ value: lesson.id, label: lesson.title }))||[]]}
                   {...register('lessonId')}
                 />
               </div>
@@ -254,6 +291,17 @@ export default function NewQuizPage() {
                   {...register('timeLimit', { valueAsNumber: true })}
                   placeholder="30"
                   error={errors.timeLimit?.message}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  تاريخ البدء *
+                </label>
+                <Input
+                  type="date"
+                  {...register('startDate')}
+                  placeholder="30/08/2025"
+                  error={errors.startDate?.message}
                 />
               </div>
 
@@ -288,6 +336,34 @@ export default function NewQuizPage() {
               </h3>
               
               <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      الاختبار قبل الموعد
+                    </label>
+                    <p className="text-xs text-gray-500">
+                      الاختبار قبل الموعد
+                    </p>
+                  </div>
+                  <Switch
+                    checked={watch('upComing')}
+                    onChange={(checked) => setValue('upComing', checked)}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      الاختبار منتهي
+                    </label>
+                    <p className="text-xs text-gray-500">
+                      الاختبار منتهي
+                    </p>
+                  </div>
+                  <Switch
+                    checked={watch('isCompleted')}
+                    onChange={(checked) => setValue('isCompleted', checked)}
+                  />
+                </div>
                 <div className="flex items-center justify-between">
                   <div>
                     <label className="text-sm font-medium text-gray-700">
@@ -389,7 +465,7 @@ export default function NewQuizPage() {
               <div className="space-y-4">
                 {questions.map((question, index) => (
                   <QuestionCard
-                    key={question.id || index}
+                    key={index}
                     question={question}
                     index={index}
                     onUpdate={(updatedQuestion) => updateQuestion(index, updatedQuestion)}

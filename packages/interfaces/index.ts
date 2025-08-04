@@ -12,6 +12,8 @@ export type FileType = 'VIDEO' | 'PDF' | 'DOCUMENT' | 'IMAGE' | 'AUDIO';
 
 export type EnrollmentStatus = 'ACTIVE' | 'PENDING' | 'CANCELLED';
 
+export type QuestionType = 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'ESSAY' | 'FILL_BLANK';
+
 export type NotificationType = 'ASSIGNMENT' | 'GRADE' | 'MESSAGE' | 'ACHIEVEMENT' | 'URGENT' | 'EVENT' | 'ABSENCE';
 
 export type AccountingType = 'EXPENSE' | 'INCOME' | 'SALARY' | 'ADVANCE' | 'INVOICE';
@@ -352,7 +354,7 @@ export interface Question {
   id: string;
   text: string;
   image?: string;
-  type: string;
+  type: QuestionType | undefined;
   options: Option[] | undefined;
   isMultiple: boolean;
   explanation?: string;
