@@ -11,72 +11,85 @@ export class SubmissionsService {
     constructor(private prisma: PrismaService) { }
 
     async create(createSubmissionInput: CreateSubmissionDto) {
-        let quiz = await this.prisma.quiz.findUnique({
-            where: { id: createSubmissionInput.quizId },
-        });
-        if (!quiz) {
-            throw new NotFoundException(`Quiz with ID ${createSubmissionInput.quizId} not found`);
+        const { quizId, userId, answers, feedback, timeLimit } = createSubmissionInput;
+      
+        if (!quizId) throw new BadRequestException('quizId is required');
+        if (!userId) throw new BadRequestException('userId is required');
+        if (!answers || (Array.isArray(answers) && answers.length === 0) || (!Array.isArray(answers) && typeof answers !== 'object')) {
+          throw new BadRequestException('answers must be an array or object with values');
         }
-        let user = await this.prisma.user.findUnique({
-            where: { id: createSubmissionInput.userId },
+      
+        const quiz = await this.prisma.quiz.findUnique({
+          where: { id: quizId },
+          include: {
+            questions: { include: { options: true } }
+          }
         });
-        if (!user) {
-            throw new NotFoundException(`User with ID ${createSubmissionInput.userId} not found`);
-        }
-
+        if (!quiz) throw new NotFoundException(`Quiz with ID ${quizId} not found`);
+      
+        const user = await this.prisma.user.findUnique({
+          where: { id: userId }
+        });
+        if (!user) throw new NotFoundException(`User with ID ${userId} not found`);
+      
+        // تحويل الإجابات إلى Array إذا كانت Object
+        const normalizedAnswers = Array.isArray(answers)
+          ? answers
+          : Object.entries(answers).map(([qId, optId]) => ({ [qId]: optId }));
+      
+        // إنشاء Submission
         let submission = await this.prisma.submission.create({
-            data: {
-                userId: user.id,
-                quizId: quiz.id,
-                answers: createSubmissionInput.answers,
-                score: 0,
-                feedback: createSubmissionInput.feedback,
-                passed: false,
-                timeLimit: createSubmissionInput.timeLimit,
-            },
-            include: {
-                user: true,
-                quiz: {
-                    include: {
-                        questions: {
-                            include: {
-                                options: true
-                            }
-                        }
-                    }
-                },
-
-            },
+          data: {
+            userId: user.id,
+            quizId: quiz.id,
+            answers: normalizedAnswers,
+            score: 0,
+            feedback,
+            passed: false,
+            timeLimit
+          },
+          include: {
+            user: true,
+            quiz: { include: { questions: { include: { options: true } } } }
+          }
         });
+      
+        // حساب النتيجة
         let score = 0;
-        let passed = false;
         for (let question of submission.quiz.questions) {
-            if (question.options.some(option => option.isCorrect && submission.answers.some((answer: any) => Object.keys(answer)[0] === question.id && answer[question.id] === option.id))) {
-                score += question.points;
-            }
-            if (score >= submission.quiz.passingScore) {
-                passed = true;
-            }
+          const isCorrect = question.options.some(
+            (option) =>
+              option.isCorrect &&
+              normalizedAnswers.some(
+                (ans: any) =>
+                  Object.keys(ans)[0] === question.id && ans[question.id] === option.id
+              )
+          );
+          if (isCorrect) score += question.points;
         }
-        await this.prisma.submission.update({
-            where: { id: submission.id },
-            data: {
-                score: score,
-                passed: score >= submission.quiz.passingScore
-            }
+        const passed = score >= submission.quiz.passingScore;
+      
+        // تحديث النتيجة والحالة
+        submission = await this.prisma.submission.update({
+          where: { id: submission.id },
+          data: { score, passed },
+          include: {
+            user: true,
+            quiz: { include: { questions: { include: { options: true } } } }
+          }
         });
+      
+        // تحديث عدد الفشل
         if (!passed) {
-            await this.prisma.quiz.update({
-                where: { id: submission.quizId },
-                data: {
-                    failCount: {
-                        increment: 1
-                    }
-                }
-            });
+          await this.prisma.quiz.update({
+            where: { id: submission.quizId },
+            data: { failCount: { increment: 1 } }
+          });
         }
-        return submission
-    }
+      
+        return submission;
+      }
+      
 
     async findAll() {
         return this.prisma.submission.findMany({
