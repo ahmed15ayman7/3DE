@@ -224,6 +224,8 @@ const AddInstructor = ({
         <Input
           type="number"
           label="تقييم المحاضر"
+          min={0}
+          max={5}
           placeholder="تقييم المحاضر"
           {...form.register('rating')}
           onChange={(e) => form.setValue('rating', +e.target.value)}
