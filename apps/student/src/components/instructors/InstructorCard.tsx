@@ -17,14 +17,16 @@ export default function InstructorCard({ instructor }: InstructorCardProps) {
       className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
     >
       {/* Instructor Header */}
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-4 mb-4 justify-center">
         <Avatar
           src={instructor.user?.avatar}
           alt={instructor.user?.firstName + ' ' + instructor.user?.lastName}
           size="lg"
-          className="w-16 h-16"
+          className="w-24 h-24"
         />
-        <div className="flex-1">
+        </div>
+      <div className="flex items-center gap-4 mb-4 justify-center">
+        <div className="flex-1 text-center">
           <h3 className="text-xl font-bold text-gray-900 mb-1">
             {instructor.user?.firstName + ' ' + instructor.user?.lastName}
           </h3>

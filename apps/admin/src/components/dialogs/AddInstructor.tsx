@@ -66,7 +66,7 @@ const AddInstructor = ({
         isVerified: true,
         age: dataFull.age,
         location: dataFull.location,
-        avatar: dataFull.avatar,
+        avatar: imageUrl||dataFull.avatar||'',
       });
       await instructorApi.create({
         title: dataFull.title,
