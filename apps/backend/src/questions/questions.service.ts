@@ -20,7 +20,7 @@ export class QuestionsService {
         return this.prisma.question.create({
             data: {
                 ...createQuestionInput,
-                quizId,
+                quizId: quiz.id,
                 options: {
                     create: createQuestionInput.options.map(option => ({
                         isCorrect: option.isCorrect,

@@ -15,8 +15,8 @@ export class QuestionsController {
     constructor(private readonly questionsService: QuestionsService) { }
 
     @Post()
-    create(@Body() createQuestionDto: CreateQuestionDto, @Query('quizId') quizId: string) {
-        return this.questionsService.create({ ...createQuestionDto as CreateQuestionDto & { options: CreateOptionDto[] } }, quizId);
+    create(@Body() createQuestionDto: CreateQuestionDto) {
+        return this.questionsService.create({ ...createQuestionDto as CreateQuestionDto & { options: CreateOptionDto[] } });
     }
 
     @Get()
