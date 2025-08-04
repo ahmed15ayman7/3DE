@@ -19,7 +19,10 @@ export default function SignInPage() {
       if (user && !isLoading && admin) {
         if (user.role === 'ADMIN' && admin?.AdminRole?.[0]?.name === 'ADMIN') {
           window.location.href = '/';
-        } 
+        }
+        if (user.role === 'ADMIN' && admin?.AdminRole?.[0]?.name === 'PUBLIC_RELATIONS') {
+          window.location.href = '/public';
+        }
       }
     }
     getAdminData()

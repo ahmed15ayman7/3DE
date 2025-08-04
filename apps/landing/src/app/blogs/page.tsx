@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { postApi } from '@3de/apis';
-import { Post, User, Comment } from '@3de/interfaces';
+import { BlogPost, Post, User, Comment } from '@3de/interfaces';
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
 import BlogCard from '../../components/BlogCard';
@@ -20,7 +20,7 @@ import {
   X,
   Tag
 } from 'lucide-react';
-import { Button } from '@3de/ui';
+import { Button, Pagination } from '@3de/ui';
 import axios from 'axios';
 
 const categories = [
@@ -41,76 +41,51 @@ const sortOptions = [
   { value: "mostRead", label: "الأكثر قراءة" },
   { value: "mostLiked", label: "الأكثر إعجاباً" }
 ];
-let getPosts = async () => {
-  const response = await axios.get('https://api.3de.school/public/posts');
-  return response as {data: Post[]};
+let getPosts = async (search:string,skip:number,take:number) => {
+  const response = await axios.get(`https://api.3de.school/public/posts?search=${search}&skip=${skip}&take=${take}`);
+  return response as {data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 } 
 export default function BlogsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('جميع المقالات');
   const [sortBy, setSortBy] = useState('newest');
   const [showFilters, setShowFilters] = useState(false);
-
+  const [skip, setSkip] = useState(0);
+  const [take, setTake] = useState(10);
   // Fetch blog posts from community posts
   const { data: postsData, isLoading: postsLoading, error: postsError } = useQuery({
     queryKey: ['blogPosts'],
     queryFn: () =>
-       getPosts(),
+       getPosts(searchTerm,skip,take),
   });
 
-  const allPosts = postsData?.data || [];
+  const allPosts = postsData?.data.posts || [];
 
   // Transform post data to match component props
-  const transformBlogData = (post: Post) => ({
-    id: post.id,
-    title: post.title,
-    excerpt: post.content.substring(0, 200) + "...",
-    featuredImage: "/images/blog/default.jpg",
-    publishDate: new Date(post.createdAt).toLocaleDateString('ar-EG'),
-    publishedAt: new Date(post.createdAt).toLocaleDateString('ar-EG'),
-    readTime: Math.ceil(post.content.split(' ').length / 200) + " دقيقة",
-    author: {
-      name: post.author?.firstName + " " + post.author?.lastName,
-      avatar: post.author?.avatar || "/images/authors/default.jpg",
-      role: "كاتب محتوى"
-    },
+  const transformBlogData = (post: Partial<BlogPost>) => ({
+    id: post.id || "",
+    title: post.title || "",
+    excerpt: post.content?.substring(0, 200) + "...",
+    featuredImage: post.image || "",
+    publishDate: new Date(post.publishDate || "").toLocaleDateString('ar-EG'),
+    readTime: Math.ceil(post.content?.split(' ').length || 0 / 200) + " دقيقة",
     category: "مقال تقني",
-    tags: ["تقنية", "تعليم"],
-    views: Math.floor(Math.random() * 1000) + 100, // Mock views
-    likes: Math.floor(Math.random() * 50) + 10, // Mock likes
-    comments: post.comments?.length || 0,
-    isNew: new Date(post.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    tags: post.tags || [],
+    isNew: new Date(post.createdAt || "") > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
     isFeatured: false
   });
 
   // Filter and search logic
-  const filteredPosts = allPosts.filter((post: Post ) => {
+  const filteredPosts = allPosts.filter((post: Partial<BlogPost> ) => {
     const transformedPost = transformBlogData(post);
     
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (post.author?.firstName + " " + post.author?.lastName || "").toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         post.content?.toLowerCase().includes(searchTerm.toLowerCase()) 
+                      
     
     const matchesCategory = selectedCategory === 'جميع المقالات' || transformedPost.category.includes(selectedCategory);
     
     return matchesSearch && matchesCategory;
-  });
-
-  // Sort logic
-  const sortedPosts = [...filteredPosts].sort((a, b) => {
-    const aTransformed = transformBlogData(a);
-    const bTransformed = transformBlogData(b);
-    
-    switch (sortBy) {
-      case 'popular':
-        return bTransformed.likes - aTransformed.likes;
-      case 'mostRead':
-        return bTransformed.views - aTransformed.views;
-      case 'mostLiked':
-        return bTransformed.likes - aTransformed.likes;
-      default: // newest
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    }
   });
 
   const clearAllFilters = () => {
@@ -136,7 +111,7 @@ export default function BlogsPage() {
     <Layout showBreadcrumb={true}>
       {/* Hero Section */}
       <Hero
-        title="مدونة أكاديمية 3DE"
+        title="مدونة أكاديمية IAFCE"
         subtitle="📚 رؤى ومقالات تقنية"
         description="اكتشف أحدث المقالات والرؤى التقنية من خبرائنا في مختلف المجالات التكنولوجية والتعليمية"
         size="md"
@@ -216,7 +191,7 @@ export default function BlogsPage() {
                   {/* Clear Filters */}
                   <div className="mt-4 flex justify-between items-center">
                     <span className="text-sm text-gray-600">
-                      {sortedPosts.length} مقال من أصل {allPosts.length}
+                      {filteredPosts.length} مقال من أصل {postsData?.data.total || 0}
                     </span>
                     <Button variant="ghost" onClick={clearAllFilters} className="text-sm">
                       <X size={16} className="ml-1" />
@@ -268,13 +243,13 @@ export default function BlogsPage() {
                 </div>
               ))}
             </div>
-          ) : sortedPosts.length > 0 ? (
+          ) : filteredPosts.length > 0 ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {sortedPosts.map((post, index) => (
+              {filteredPosts.map((post, index) => (
                 <motion.div
                   key={post.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -309,6 +284,18 @@ export default function BlogsPage() {
               </div>
             </motion.div>
           )}
+          {postsData && postsData.data.totalPages > 1 && (
+            <div className="flex justify-center">
+              <Pagination
+                totalPages={postsData?.data.totalPages || 0}
+                currentPage={skip / take + 1}
+                onPageChange={(page) => setSkip(page * take)}
+                totalItems={postsData?.data.total || 0}
+                itemsPerPage={take}
+                onItemsPerPageChange={(itemsPerPage) => setTake(itemsPerPage)}
+              />
+            </div>
+          )}
         </div>
       </section>
 
@@ -322,7 +309,7 @@ export default function BlogsPage() {
             className="text-center"
           >
             <h2 className="text-3xl font-bold text-text-primary mb-8">
-              إحصائيات المدونة
+              إحصائيات اخبارنا
             </h2>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

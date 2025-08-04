@@ -162,7 +162,6 @@ model Academy {
   ceos                  UserAcademyCEO[]
   courses               Course[]
   instructors           Instructor[]
-  events                Event[]
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
   AccountingEntry       AccountingEntry[]
@@ -645,8 +644,9 @@ model Event {
   description String?
   startTime   DateTime
   endTime     DateTime
-  academyId   String
-  academy     Academy                @relation(fields: [academyId], references: [id])
+  location    String?
+  capacity    Int?
+  image       String?
   prRecordId  String?
   prRecord    PublicRelationsRecord? @relation(fields: [prRecordId], references: [id])
   adminRoleId String?
@@ -1169,7 +1169,7 @@ model BlogPost {
   title       String
   slug        String   @unique
   content     String
-  coverImage  String?
+  image       String
   authorId    String
   author      Admin    @relation(fields: [authorId], references: [id])
   tags        String[]

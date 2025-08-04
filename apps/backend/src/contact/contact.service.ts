@@ -13,8 +13,37 @@ export class ContactService {
         });
     }
 
-    async findAll() {
-        return this.prisma.contactUs.findMany();
+    async findAll(search: string, take: number, skip: number) {
+        let contacts = await this.prisma.contactUs.findMany({
+            where: {
+                OR: [
+                    { name: { contains: search, mode: 'insensitive' } },
+                    { email: { contains: search, mode: 'insensitive' } },
+                    { phone: { contains: search, mode: 'insensitive' } }
+                ]
+            },
+            take:+take,
+            skip:+skip
+        });
+        let total = await this.prisma.contactUs.count({
+            where: {
+                OR: [
+                    { name: { contains: search, mode: 'insensitive' } },
+                    { email: { contains: search, mode: 'insensitive' } },
+                    { phone: { contains: search, mode: 'insensitive' } }
+                ]
+            }
+        });
+        let totalPages = Math.ceil(total / take);
+        let hasNextPage = skip + take < total;
+        let hasPreviousPage = skip > 0;
+        return {
+            data: contacts,
+            total,
+            totalPages,
+            hasNextPage,
+            hasPreviousPage
+        };
     }
 
     async findOne(id: string) {

@@ -13,7 +13,7 @@ import {
   Tag,
   ArrowLeft
 } from 'lucide-react';
-import { Button } from '@3de/ui';
+import { Button, Card } from '@3de/ui';
 import { useEffect, useState } from 'react';
 
 interface BlogCardProps {
@@ -22,18 +22,10 @@ interface BlogCardProps {
   excerpt: string;
   content?: string;
   featuredImage: string;
-  author: {
-    name: string;
-    avatar?: string;
-    role?: string;
-  };
-  publishedAt: string;
+  publishDate: string;
   readTime: string;
   category: string;
   tags: string[];
-  views?: number;
-  likes?: number;
-  comments?: number;
   isFeautred?: boolean;
   className?: string;
   variant?: 'default' | 'featured' | 'compact' | 'horizontal';
@@ -44,14 +36,10 @@ export default function BlogCard({
   title,
   excerpt,
   featuredImage,
-  author,
-  publishedAt,
+  publishDate,
   readTime,
   category,
   tags,
-  views = 0,
-  likes = 0,
-  comments = 0,
   isFeautred = false,
   className = '',
   variant = 'default',
@@ -61,7 +49,7 @@ export default function BlogCard({
   const isFeatured = variant === 'featured' || isFeautred;
   
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString||"");
     return date.toLocaleDateString('ar-EG', {
       year: 'numeric',
       month: 'long',
@@ -77,10 +65,11 @@ export default function BlogCard({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -5 }}
-      className={`card group cursor-pointer ${
+      className={` group cursor-pointer ${
         isFeatured ? 'ring-2 ring-primary-main ring-offset-2' : ''
       } ${isHorizontal ? 'md:flex md:flex-row' : ''} ${className}`}
     >
+      <Card padding='none' className='w-full h-full overflow-hidden'>
       <Link href={`/blogs/${id}`}>
         {/* Image Container */}
         <div className={`relative overflow-hidden ${
@@ -134,7 +123,7 @@ export default function BlogCard({
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 gap-reverse text-sm text-text-secondary">
               <Calendar size={14} />
-              <span><HijriDate /></span>
+              <span>{publishDate}</span>
             </div>
             <div className="flex items-center gap-1 gap-reverse text-sm text-text-secondary">
               <Clock size={14} />
@@ -163,7 +152,7 @@ export default function BlogCard({
           )}
 
           {/* Tags */}
-          {tags.length > 0 && !isCompact && (
+          {tags.length > 0  && (
             <div className="flex flex-wrap gap-1 mb-4">
               {tags.slice(0, 3).map((tag, index) => (
                 <span
@@ -182,51 +171,7 @@ export default function BlogCard({
             </div>
           )}
 
-          {/* Author and Stats */}
-          <div className="flex items-center justify-between">
-            {/* Author */}
-            <div className="flex items-center gap-2 gap-reverse">
-              {author.avatar ? (
-                <img
-                  src={author.avatar}
-                  alt={author.name}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                  <User size={14} className="text-gray-500" />
-                </div>
-              )}
-              <div>
-                <p className="text-sm font-medium text-text-primary">{author.name}</p>
-                {author.role && (
-                  <p className="text-xs text-text-secondary">{author.role}</p>
-                )}
-              </div>
-            </div>
 
-            {/* Stats */}
-            <div className="flex items-center gap-4 gap-reverse text-xs text-text-secondary">
-              {views > 0 && (
-                <div className="flex items-center gap-1 gap-reverse">
-                  <Eye size={12} />
-                  <span>{views}</span>
-                </div>
-              )}
-              {likes > 0 && (
-                <div className="flex items-center gap-1 gap-reverse">
-                  <Heart size={12} />
-                  <span>{likes}</span>
-                </div>
-              )}
-              {comments > 0 && (
-                <div className="flex items-center gap-1 gap-reverse">
-                  <MessageCircle size={12} />
-                  <span>{comments}</span>
-                </div>
-              )}
-            </div>
-          </div>
 
           {/* Read More Button (for featured variant) */}
           {isFeatured && (
@@ -264,6 +209,7 @@ export default function BlogCard({
           <Share2 size={14} className="text-gray-600" />
         </button>
       </div>
+      </Card>
     </motion.article>
   );
 } 

@@ -19,7 +19,7 @@ import {
   TrendingUp,
   X
 } from 'lucide-react';
-import { Button } from '@3de/ui';
+import { Button, Pagination } from '@3de/ui';
 import axios from 'axios';
 const categories = [
   "جميع التخصصات",
@@ -38,9 +38,9 @@ const sortOptions = [
   { value: "experience", label: "الأكثر خبرة" },
   { value: "name", label: "الاسم (أبجدياً)" }
 ];
-let getInstructors = async (search: string) => {
-  const response = await axios.get(`https://api.3de.school/public/instructors?search=${search}`);
-  return response as {data: Instructor[]};
+let getInstructors = async (search: string,skip:number,take:number) => {
+  const response = await axios.get(`https://api.3de.school/public/instructors?search=${search}&skip=${skip}&take=${take}`);
+  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 
 export default function InstructorsPage() {
@@ -49,16 +49,17 @@ export default function InstructorsPage() {
   const [sortBy, setSortBy] = useState('rating');
   const [showFilters, setShowFilters] = useState(false);
   const [showVerifiedOnly, setShowVerifiedOnly] = useState(false);
-
+  const [skip, setSkip] = useState(0);
+  const [take, setTake] = useState(9);
   // Fetch instructors
   const { data: instructorsData, isLoading: instructorsLoading, error: instructorsError } = useQuery({
     queryKey: ['instructors'],
     queryFn: () =>
-       getInstructors(searchTerm),
+       getInstructors(searchTerm,skip,take),
   });
 
 
-  const allInstructors = instructorsData?.data || [];
+  const allInstructors = instructorsData?.data?.instructors || [];
 
   // Transform instructor data to match component props
   const transformInstructorData = (instructor: Instructor) => ({
@@ -313,6 +314,16 @@ export default function InstructorsPage() {
                   <InstructorCard {...transformInstructorData(instructor)} />
                 </motion.div>
               ))}
+          {instructorsData?.data?.totalPages && instructorsData?.data?.totalPages > 1 &&    <Pagination
+                totalItems={instructorsData?.data?.total || 0}
+                totalPages={instructorsData?.data?.totalPages  || 0}
+                currentPage={skip}
+                onPageChange={setSkip}
+                itemsPerPage={take}
+                onItemsPerPageChange={setTake}
+                showItemsPerPage
+                showTotalItems
+              />}
             </motion.div>
           ) : (
             <motion.div

@@ -98,8 +98,9 @@ export default function ExamResultDetailPage() {
 
   const scoreBadge = getScoreBadge(submission.score || 0);
   const totalQuestions = submission.quiz.questions?.length || 0;
-  const correctAnswers = submission.answers?.filter((answer: any) => answer.isCorrect).length || 0;
-  const wrongAnswers = totalQuestions - correctAnswers;
+  const correctAnswers = submission.trueAnswers || 0;
+  const wrongAnswers = submission.falseAnswers || 0;
+  console.log(submission);
 
   return (
     <Layout>

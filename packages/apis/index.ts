@@ -33,6 +33,7 @@ import {
   ContactUs,
   Support,
   EnrollmentCode,
+  BlogPost,
 } from '@3de/interfaces';
 
 // API Configuration
@@ -581,6 +582,10 @@ export const postApi = {
     getComments: (id: string) => api.get(`/posts/${id}/comments`),
     updateComment: (id: string,commentId:string,content:string) => api.put(`/posts/${id}/comments/${commentId}`,{content}),
     deleteComment: (id: string,commentId:string) => api.delete(`/posts/${id}/comments/${commentId}`),
+    createBlogPost: (data: Partial<BlogPost>) => api.post('/posts/blog', data),
+    getPublicPosts: (search: string,take:number,skip:number) => api.get(`/posts/public-relation/posts?search=${search}&take=${take}&skip=${skip}`),
+    updateBlogPost: (id: string, data: Partial<BlogPost>) => api.put(`/posts/blog/${id}`, data),
+    getBlogPostById: (id: string) => api.get(`/posts/blog/${id}`),
 };
 
 // Bookmark APIs
@@ -593,21 +598,10 @@ export const bookmarkApi = {
 
 // Event APIs
 export const eventApi = {
-    getAll: () => api.get('/events'),
+    getAll: (search: string, take: number, skip: number) => api.get(`/events?search=${search}&take=${take}&skip=${skip}`),
     getById: (id: string) => api.get(`/events/${id}`),
-    create: (data: {
-        title: string;
-        description?: string;
-        startTime: string;
-        endTime: string;
-        academyId: string;
-    }) => api.post('/events', data),
-    update: (id: string, data: {
-        title?: string;
-        description?: string;
-        startTime?: string;
-        endTime?: string;
-    }) => api.patch(`/events/${id}`, data),
+    create: (data: Partial<Event>) => api.post('/events', data),
+    update: (id: string, data: Partial<Event>) => api.patch(`/events/${id}`, data),
     delete: (id: string) => api.delete(`/events/${id}`),
 };
 
@@ -876,12 +870,19 @@ export const instructorApi = {
 };
 
 // Contact APIs
+// Contact APIs
 export const contactApi = {
-    getAll: (): Promise<{ success: boolean, data: ContactUs[] }> => api.get('/contacts'),
-    getById: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.get(`/contacts/${id}`),
-    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://api.3de.school/contacts', data),
-    update: (id: string, data: Partial<ContactUs>): Promise<{ success: boolean, data: ContactUs }> => api.patch(`/contacts/${id}`, data),
-    delete: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.delete(`/contacts/${id}`),
+    getAll: (search: string, take: number, skip: number): Promise<{ success: boolean, data: {
+        data: ContactUs[];
+        total: number;
+        totalPages: number;
+        hasNextPage: boolean;
+        hasPreviousPage: boolean;
+    } }> => api.get(`/contact?search=${search}&take=${take}&skip=${skip}`),
+    getById: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.get(`/contact/${id}`),
+    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://api.iafce.net/contact', data),
+    update: (id: string, data: Partial<ContactUs>): Promise<{ success: boolean, data: ContactUs }> => api.patch(`/contact/${id}`, data),
+    delete: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.delete(`/contact/${id}`),
 };
 
 // Support APIs

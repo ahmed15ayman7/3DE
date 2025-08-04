@@ -4,7 +4,6 @@ import {
   UserAcademyCEO,
   Course,
   Instructor,
-  Event,
   AccountingEntry,
   PublicRelationsRecord,
   Meeting,

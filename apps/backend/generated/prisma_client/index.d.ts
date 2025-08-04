@@ -8489,7 +8489,6 @@ export namespace Prisma {
     ceos: number
     courses: number
     instructors: number
-    events: number
     AccountingEntry: number
     PublicRelationsRecord: number
     Meeting: number
@@ -8505,7 +8504,6 @@ export namespace Prisma {
     ceos?: boolean | AcademyCountOutputTypeCountCeosArgs
     courses?: boolean | AcademyCountOutputTypeCountCoursesArgs
     instructors?: boolean | AcademyCountOutputTypeCountInstructorsArgs
-    events?: boolean | AcademyCountOutputTypeCountEventsArgs
     AccountingEntry?: boolean | AcademyCountOutputTypeCountAccountingEntryArgs
     PublicRelationsRecord?: boolean | AcademyCountOutputTypeCountPublicRelationsRecordArgs
     Meeting?: boolean | AcademyCountOutputTypeCountMeetingArgs
@@ -8553,13 +8551,6 @@ export namespace Prisma {
    */
   export type AcademyCountOutputTypeCountInstructorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InstructorWhereInput
-  }
-
-  /**
-   * AcademyCountOutputType without action
-   */
-  export type AcademyCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EventWhereInput
   }
 
   /**
@@ -16982,7 +16973,6 @@ export namespace Prisma {
     ceos?: boolean | Academy$ceosArgs<ExtArgs>
     courses?: boolean | Academy$coursesArgs<ExtArgs>
     instructors?: boolean | Academy$instructorsArgs<ExtArgs>
-    events?: boolean | Academy$eventsArgs<ExtArgs>
     AccountingEntry?: boolean | Academy$AccountingEntryArgs<ExtArgs>
     PublicRelationsRecord?: boolean | Academy$PublicRelationsRecordArgs<ExtArgs>
     Meeting?: boolean | Academy$MeetingArgs<ExtArgs>
@@ -17030,7 +17020,6 @@ export namespace Prisma {
     ceos?: boolean | Academy$ceosArgs<ExtArgs>
     courses?: boolean | Academy$coursesArgs<ExtArgs>
     instructors?: boolean | Academy$instructorsArgs<ExtArgs>
-    events?: boolean | Academy$eventsArgs<ExtArgs>
     AccountingEntry?: boolean | Academy$AccountingEntryArgs<ExtArgs>
     PublicRelationsRecord?: boolean | Academy$PublicRelationsRecordArgs<ExtArgs>
     Meeting?: boolean | Academy$MeetingArgs<ExtArgs>
@@ -17051,7 +17040,6 @@ export namespace Prisma {
       ceos: Prisma.$UserAcademyCEOPayload<ExtArgs>[]
       courses: Prisma.$CoursePayload<ExtArgs>[]
       instructors: Prisma.$InstructorPayload<ExtArgs>[]
-      events: Prisma.$EventPayload<ExtArgs>[]
       AccountingEntry: Prisma.$AccountingEntryPayload<ExtArgs>[]
       PublicRelationsRecord: Prisma.$PublicRelationsRecordPayload<ExtArgs>[]
       Meeting: Prisma.$MeetingPayload<ExtArgs>[]
@@ -17467,7 +17455,6 @@ export namespace Prisma {
     ceos<T extends Academy$ceosArgs<ExtArgs> = {}>(args?: Subset<T, Academy$ceosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAcademyCEOPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     courses<T extends Academy$coursesArgs<ExtArgs> = {}>(args?: Subset<T, Academy$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     instructors<T extends Academy$instructorsArgs<ExtArgs> = {}>(args?: Subset<T, Academy$instructorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    events<T extends Academy$eventsArgs<ExtArgs> = {}>(args?: Subset<T, Academy$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     AccountingEntry<T extends Academy$AccountingEntryArgs<ExtArgs> = {}>(args?: Subset<T, Academy$AccountingEntryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountingEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     PublicRelationsRecord<T extends Academy$PublicRelationsRecordArgs<ExtArgs> = {}>(args?: Subset<T, Academy$PublicRelationsRecordArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PublicRelationsRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Meeting<T extends Academy$MeetingArgs<ExtArgs> = {}>(args?: Subset<T, Academy$MeetingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -17993,30 +17980,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InstructorScalarFieldEnum | InstructorScalarFieldEnum[]
-  }
-
-  /**
-   * Academy.events
-   */
-  export type Academy$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Event
-     */
-    select?: EventSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Event
-     */
-    omit?: EventOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EventInclude<ExtArgs> | null
-    where?: EventWhereInput
-    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
-    cursor?: EventWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
   }
 
   /**
@@ -49349,8 +49312,18 @@ export namespace Prisma {
 
   export type AggregateEvent = {
     _count: EventCountAggregateOutputType | null
+    _avg: EventAvgAggregateOutputType | null
+    _sum: EventSumAggregateOutputType | null
     _min: EventMinAggregateOutputType | null
     _max: EventMaxAggregateOutputType | null
+  }
+
+  export type EventAvgAggregateOutputType = {
+    capacity: number | null
+  }
+
+  export type EventSumAggregateOutputType = {
+    capacity: number | null
   }
 
   export type EventMinAggregateOutputType = {
@@ -49359,7 +49332,9 @@ export namespace Prisma {
     description: string | null
     startTime: Date | null
     endTime: Date | null
-    academyId: string | null
+    location: string | null
+    capacity: number | null
+    image: string | null
     prRecordId: string | null
     adminRoleId: string | null
     legalCaseId: string | null
@@ -49373,7 +49348,9 @@ export namespace Prisma {
     description: string | null
     startTime: Date | null
     endTime: Date | null
-    academyId: string | null
+    location: string | null
+    capacity: number | null
+    image: string | null
     prRecordId: string | null
     adminRoleId: string | null
     legalCaseId: string | null
@@ -49387,7 +49364,9 @@ export namespace Prisma {
     description: number
     startTime: number
     endTime: number
-    academyId: number
+    location: number
+    capacity: number
+    image: number
     prRecordId: number
     adminRoleId: number
     legalCaseId: number
@@ -49397,13 +49376,23 @@ export namespace Prisma {
   }
 
 
+  export type EventAvgAggregateInputType = {
+    capacity?: true
+  }
+
+  export type EventSumAggregateInputType = {
+    capacity?: true
+  }
+
   export type EventMinAggregateInputType = {
     id?: true
     title?: true
     description?: true
     startTime?: true
     endTime?: true
-    academyId?: true
+    location?: true
+    capacity?: true
+    image?: true
     prRecordId?: true
     adminRoleId?: true
     legalCaseId?: true
@@ -49417,7 +49406,9 @@ export namespace Prisma {
     description?: true
     startTime?: true
     endTime?: true
-    academyId?: true
+    location?: true
+    capacity?: true
+    image?: true
     prRecordId?: true
     adminRoleId?: true
     legalCaseId?: true
@@ -49431,7 +49422,9 @@ export namespace Prisma {
     description?: true
     startTime?: true
     endTime?: true
-    academyId?: true
+    location?: true
+    capacity?: true
+    image?: true
     prRecordId?: true
     adminRoleId?: true
     legalCaseId?: true
@@ -49478,6 +49471,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: EventAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EventSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: EventMinAggregateInputType
@@ -49508,6 +49513,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: EventCountAggregateInputType | true
+    _avg?: EventAvgAggregateInputType
+    _sum?: EventSumAggregateInputType
     _min?: EventMinAggregateInputType
     _max?: EventMaxAggregateInputType
   }
@@ -49518,13 +49525,17 @@ export namespace Prisma {
     description: string | null
     startTime: Date
     endTime: Date
-    academyId: string
+    location: string | null
+    capacity: number | null
+    image: string | null
     prRecordId: string | null
     adminRoleId: string | null
     legalCaseId: string | null
     createdAt: Date
     updatedAt: Date
     _count: EventCountAggregateOutputType | null
+    _avg: EventAvgAggregateOutputType | null
+    _sum: EventSumAggregateOutputType | null
     _min: EventMinAggregateOutputType | null
     _max: EventMaxAggregateOutputType | null
   }
@@ -49549,13 +49560,14 @@ export namespace Prisma {
     description?: boolean
     startTime?: boolean
     endTime?: boolean
-    academyId?: boolean
+    location?: boolean
+    capacity?: boolean
+    image?: boolean
     prRecordId?: boolean
     adminRoleId?: boolean
     legalCaseId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    academy?: boolean | AcademyDefaultArgs<ExtArgs>
     prRecord?: boolean | Event$prRecordArgs<ExtArgs>
     adminRole?: boolean | Event$adminRoleArgs<ExtArgs>
     legalCase?: boolean | Event$legalCaseArgs<ExtArgs>
@@ -49567,13 +49579,14 @@ export namespace Prisma {
     description?: boolean
     startTime?: boolean
     endTime?: boolean
-    academyId?: boolean
+    location?: boolean
+    capacity?: boolean
+    image?: boolean
     prRecordId?: boolean
     adminRoleId?: boolean
     legalCaseId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    academy?: boolean | AcademyDefaultArgs<ExtArgs>
     prRecord?: boolean | Event$prRecordArgs<ExtArgs>
     adminRole?: boolean | Event$adminRoleArgs<ExtArgs>
     legalCase?: boolean | Event$legalCaseArgs<ExtArgs>
@@ -49585,13 +49598,14 @@ export namespace Prisma {
     description?: boolean
     startTime?: boolean
     endTime?: boolean
-    academyId?: boolean
+    location?: boolean
+    capacity?: boolean
+    image?: boolean
     prRecordId?: boolean
     adminRoleId?: boolean
     legalCaseId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    academy?: boolean | AcademyDefaultArgs<ExtArgs>
     prRecord?: boolean | Event$prRecordArgs<ExtArgs>
     adminRole?: boolean | Event$adminRoleArgs<ExtArgs>
     legalCase?: boolean | Event$legalCaseArgs<ExtArgs>
@@ -49603,7 +49617,9 @@ export namespace Prisma {
     description?: boolean
     startTime?: boolean
     endTime?: boolean
-    academyId?: boolean
+    location?: boolean
+    capacity?: boolean
+    image?: boolean
     prRecordId?: boolean
     adminRoleId?: boolean
     legalCaseId?: boolean
@@ -49611,21 +49627,18 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "startTime" | "endTime" | "academyId" | "prRecordId" | "adminRoleId" | "legalCaseId" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "startTime" | "endTime" | "location" | "capacity" | "image" | "prRecordId" | "adminRoleId" | "legalCaseId" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    academy?: boolean | AcademyDefaultArgs<ExtArgs>
     prRecord?: boolean | Event$prRecordArgs<ExtArgs>
     adminRole?: boolean | Event$adminRoleArgs<ExtArgs>
     legalCase?: boolean | Event$legalCaseArgs<ExtArgs>
   }
   export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    academy?: boolean | AcademyDefaultArgs<ExtArgs>
     prRecord?: boolean | Event$prRecordArgs<ExtArgs>
     adminRole?: boolean | Event$adminRoleArgs<ExtArgs>
     legalCase?: boolean | Event$legalCaseArgs<ExtArgs>
   }
   export type EventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    academy?: boolean | AcademyDefaultArgs<ExtArgs>
     prRecord?: boolean | Event$prRecordArgs<ExtArgs>
     adminRole?: boolean | Event$adminRoleArgs<ExtArgs>
     legalCase?: boolean | Event$legalCaseArgs<ExtArgs>
@@ -49634,7 +49647,6 @@ export namespace Prisma {
   export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Event"
     objects: {
-      academy: Prisma.$AcademyPayload<ExtArgs>
       prRecord: Prisma.$PublicRelationsRecordPayload<ExtArgs> | null
       adminRole: Prisma.$AdminRolePayload<ExtArgs> | null
       legalCase: Prisma.$LegalCasePayload<ExtArgs> | null
@@ -49645,7 +49657,9 @@ export namespace Prisma {
       description: string | null
       startTime: Date
       endTime: Date
-      academyId: string
+      location: string | null
+      capacity: number | null
+      image: string | null
       prRecordId: string | null
       adminRoleId: string | null
       legalCaseId: string | null
@@ -50045,7 +50059,6 @@ export namespace Prisma {
    */
   export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    academy<T extends AcademyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AcademyDefaultArgs<ExtArgs>>): Prisma__AcademyClient<$Result.GetResult<Prisma.$AcademyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     prRecord<T extends Event$prRecordArgs<ExtArgs> = {}>(args?: Subset<T, Event$prRecordArgs<ExtArgs>>): Prisma__PublicRelationsRecordClient<$Result.GetResult<Prisma.$PublicRelationsRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     adminRole<T extends Event$adminRoleArgs<ExtArgs> = {}>(args?: Subset<T, Event$adminRoleArgs<ExtArgs>>): Prisma__AdminRoleClient<$Result.GetResult<Prisma.$AdminRolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     legalCase<T extends Event$legalCaseArgs<ExtArgs> = {}>(args?: Subset<T, Event$legalCaseArgs<ExtArgs>>): Prisma__LegalCaseClient<$Result.GetResult<Prisma.$LegalCasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -50083,7 +50096,9 @@ export namespace Prisma {
     readonly description: FieldRef<"Event", 'String'>
     readonly startTime: FieldRef<"Event", 'DateTime'>
     readonly endTime: FieldRef<"Event", 'DateTime'>
-    readonly academyId: FieldRef<"Event", 'String'>
+    readonly location: FieldRef<"Event", 'String'>
+    readonly capacity: FieldRef<"Event", 'Int'>
+    readonly image: FieldRef<"Event", 'String'>
     readonly prRecordId: FieldRef<"Event", 'String'>
     readonly adminRoleId: FieldRef<"Event", 'String'>
     readonly legalCaseId: FieldRef<"Event", 'String'>
@@ -84345,7 +84360,7 @@ export namespace Prisma {
     title: string | null
     slug: string | null
     content: string | null
-    coverImage: string | null
+    image: string | null
     authorId: string | null
     publishDate: Date | null
     isPublished: boolean | null
@@ -84358,7 +84373,7 @@ export namespace Prisma {
     title: string | null
     slug: string | null
     content: string | null
-    coverImage: string | null
+    image: string | null
     authorId: string | null
     publishDate: Date | null
     isPublished: boolean | null
@@ -84371,7 +84386,7 @@ export namespace Prisma {
     title: number
     slug: number
     content: number
-    coverImage: number
+    image: number
     authorId: number
     tags: number
     publishDate: number
@@ -84387,7 +84402,7 @@ export namespace Prisma {
     title?: true
     slug?: true
     content?: true
-    coverImage?: true
+    image?: true
     authorId?: true
     publishDate?: true
     isPublished?: true
@@ -84400,7 +84415,7 @@ export namespace Prisma {
     title?: true
     slug?: true
     content?: true
-    coverImage?: true
+    image?: true
     authorId?: true
     publishDate?: true
     isPublished?: true
@@ -84413,7 +84428,7 @@ export namespace Prisma {
     title?: true
     slug?: true
     content?: true
-    coverImage?: true
+    image?: true
     authorId?: true
     tags?: true
     publishDate?: true
@@ -84500,7 +84515,7 @@ export namespace Prisma {
     title: string
     slug: string
     content: string
-    coverImage: string | null
+    image: string
     authorId: string
     tags: string[]
     publishDate: Date
@@ -84531,7 +84546,7 @@ export namespace Prisma {
     title?: boolean
     slug?: boolean
     content?: boolean
-    coverImage?: boolean
+    image?: boolean
     authorId?: boolean
     tags?: boolean
     publishDate?: boolean
@@ -84546,7 +84561,7 @@ export namespace Prisma {
     title?: boolean
     slug?: boolean
     content?: boolean
-    coverImage?: boolean
+    image?: boolean
     authorId?: boolean
     tags?: boolean
     publishDate?: boolean
@@ -84561,7 +84576,7 @@ export namespace Prisma {
     title?: boolean
     slug?: boolean
     content?: boolean
-    coverImage?: boolean
+    image?: boolean
     authorId?: boolean
     tags?: boolean
     publishDate?: boolean
@@ -84576,7 +84591,7 @@ export namespace Prisma {
     title?: boolean
     slug?: boolean
     content?: boolean
-    coverImage?: boolean
+    image?: boolean
     authorId?: boolean
     tags?: boolean
     publishDate?: boolean
@@ -84585,7 +84600,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "coverImage" | "authorId" | "tags" | "publishDate" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPost"]>
+  export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "image" | "authorId" | "tags" | "publishDate" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPost"]>
   export type BlogPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | AdminDefaultArgs<ExtArgs>
   }
@@ -84606,7 +84621,7 @@ export namespace Prisma {
       title: string
       slug: string
       content: string
-      coverImage: string | null
+      image: string
       authorId: string
       tags: string[]
       publishDate: Date
@@ -85041,7 +85056,7 @@ export namespace Prisma {
     readonly title: FieldRef<"BlogPost", 'String'>
     readonly slug: FieldRef<"BlogPost", 'String'>
     readonly content: FieldRef<"BlogPost", 'String'>
-    readonly coverImage: FieldRef<"BlogPost", 'String'>
+    readonly image: FieldRef<"BlogPost", 'String'>
     readonly authorId: FieldRef<"BlogPost", 'String'>
     readonly tags: FieldRef<"BlogPost", 'String[]'>
     readonly publishDate: FieldRef<"BlogPost", 'DateTime'>
@@ -102408,7 +102423,9 @@ export namespace Prisma {
     description: 'description',
     startTime: 'startTime',
     endTime: 'endTime',
-    academyId: 'academyId',
+    location: 'location',
+    capacity: 'capacity',
+    image: 'image',
     prRecordId: 'prRecordId',
     adminRoleId: 'adminRoleId',
     legalCaseId: 'legalCaseId',
@@ -102846,7 +102863,7 @@ export namespace Prisma {
     title: 'title',
     slug: 'slug',
     content: 'content',
-    coverImage: 'coverImage',
+    image: 'image',
     authorId: 'authorId',
     tags: 'tags',
     publishDate: 'publishDate',
@@ -103962,7 +103979,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOListRelationFilter
     courses?: CourseListRelationFilter
     instructors?: InstructorListRelationFilter
-    events?: EventListRelationFilter
     AccountingEntry?: AccountingEntryListRelationFilter
     PublicRelationsRecord?: PublicRelationsRecordListRelationFilter
     Meeting?: MeetingListRelationFilter
@@ -103985,7 +104001,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOOrderByRelationAggregateInput
     courses?: CourseOrderByRelationAggregateInput
     instructors?: InstructorOrderByRelationAggregateInput
-    events?: EventOrderByRelationAggregateInput
     AccountingEntry?: AccountingEntryOrderByRelationAggregateInput
     PublicRelationsRecord?: PublicRelationsRecordOrderByRelationAggregateInput
     Meeting?: MeetingOrderByRelationAggregateInput
@@ -104011,7 +104026,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOListRelationFilter
     courses?: CourseListRelationFilter
     instructors?: InstructorListRelationFilter
-    events?: EventListRelationFilter
     AccountingEntry?: AccountingEntryListRelationFilter
     PublicRelationsRecord?: PublicRelationsRecordListRelationFilter
     Meeting?: MeetingListRelationFilter
@@ -106149,13 +106163,14 @@ export namespace Prisma {
     description?: StringNullableFilter<"Event"> | string | null
     startTime?: DateTimeFilter<"Event"> | Date | string
     endTime?: DateTimeFilter<"Event"> | Date | string
-    academyId?: StringFilter<"Event"> | string
+    location?: StringNullableFilter<"Event"> | string | null
+    capacity?: IntNullableFilter<"Event"> | number | null
+    image?: StringNullableFilter<"Event"> | string | null
     prRecordId?: StringNullableFilter<"Event"> | string | null
     adminRoleId?: StringNullableFilter<"Event"> | string | null
     legalCaseId?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
-    academy?: XOR<AcademyScalarRelationFilter, AcademyWhereInput>
     prRecord?: XOR<PublicRelationsRecordNullableScalarRelationFilter, PublicRelationsRecordWhereInput> | null
     adminRole?: XOR<AdminRoleNullableScalarRelationFilter, AdminRoleWhereInput> | null
     legalCase?: XOR<LegalCaseNullableScalarRelationFilter, LegalCaseWhereInput> | null
@@ -106167,13 +106182,14 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    academyId?: SortOrder
+    location?: SortOrderInput | SortOrder
+    capacity?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     prRecordId?: SortOrderInput | SortOrder
     adminRoleId?: SortOrderInput | SortOrder
     legalCaseId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    academy?: AcademyOrderByWithRelationInput
     prRecord?: PublicRelationsRecordOrderByWithRelationInput
     adminRole?: AdminRoleOrderByWithRelationInput
     legalCase?: LegalCaseOrderByWithRelationInput
@@ -106188,13 +106204,14 @@ export namespace Prisma {
     description?: StringNullableFilter<"Event"> | string | null
     startTime?: DateTimeFilter<"Event"> | Date | string
     endTime?: DateTimeFilter<"Event"> | Date | string
-    academyId?: StringFilter<"Event"> | string
+    location?: StringNullableFilter<"Event"> | string | null
+    capacity?: IntNullableFilter<"Event"> | number | null
+    image?: StringNullableFilter<"Event"> | string | null
     prRecordId?: StringNullableFilter<"Event"> | string | null
     adminRoleId?: StringNullableFilter<"Event"> | string | null
     legalCaseId?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
-    academy?: XOR<AcademyScalarRelationFilter, AcademyWhereInput>
     prRecord?: XOR<PublicRelationsRecordNullableScalarRelationFilter, PublicRelationsRecordWhereInput> | null
     adminRole?: XOR<AdminRoleNullableScalarRelationFilter, AdminRoleWhereInput> | null
     legalCase?: XOR<LegalCaseNullableScalarRelationFilter, LegalCaseWhereInput> | null
@@ -106206,15 +106223,19 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    academyId?: SortOrder
+    location?: SortOrderInput | SortOrder
+    capacity?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     prRecordId?: SortOrderInput | SortOrder
     adminRoleId?: SortOrderInput | SortOrder
     legalCaseId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: EventCountOrderByAggregateInput
+    _avg?: EventAvgOrderByAggregateInput
     _max?: EventMaxOrderByAggregateInput
     _min?: EventMinOrderByAggregateInput
+    _sum?: EventSumOrderByAggregateInput
   }
 
   export type EventScalarWhereWithAggregatesInput = {
@@ -106226,7 +106247,9 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Event"> | string | null
     startTime?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"Event"> | Date | string
-    academyId?: StringWithAggregatesFilter<"Event"> | string
+    location?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    capacity?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    image?: StringNullableWithAggregatesFilter<"Event"> | string | null
     prRecordId?: StringNullableWithAggregatesFilter<"Event"> | string | null
     adminRoleId?: StringNullableWithAggregatesFilter<"Event"> | string | null
     legalCaseId?: StringNullableWithAggregatesFilter<"Event"> | string | null
@@ -108544,7 +108567,7 @@ export namespace Prisma {
     title?: StringFilter<"BlogPost"> | string
     slug?: StringFilter<"BlogPost"> | string
     content?: StringFilter<"BlogPost"> | string
-    coverImage?: StringNullableFilter<"BlogPost"> | string | null
+    image?: StringFilter<"BlogPost"> | string
     authorId?: StringFilter<"BlogPost"> | string
     tags?: StringNullableListFilter<"BlogPost">
     publishDate?: DateTimeFilter<"BlogPost"> | Date | string
@@ -108559,7 +108582,7 @@ export namespace Prisma {
     title?: SortOrder
     slug?: SortOrder
     content?: SortOrder
-    coverImage?: SortOrderInput | SortOrder
+    image?: SortOrder
     authorId?: SortOrder
     tags?: SortOrder
     publishDate?: SortOrder
@@ -108577,7 +108600,7 @@ export namespace Prisma {
     NOT?: BlogPostWhereInput | BlogPostWhereInput[]
     title?: StringFilter<"BlogPost"> | string
     content?: StringFilter<"BlogPost"> | string
-    coverImage?: StringNullableFilter<"BlogPost"> | string | null
+    image?: StringFilter<"BlogPost"> | string
     authorId?: StringFilter<"BlogPost"> | string
     tags?: StringNullableListFilter<"BlogPost">
     publishDate?: DateTimeFilter<"BlogPost"> | Date | string
@@ -108592,7 +108615,7 @@ export namespace Prisma {
     title?: SortOrder
     slug?: SortOrder
     content?: SortOrder
-    coverImage?: SortOrderInput | SortOrder
+    image?: SortOrder
     authorId?: SortOrder
     tags?: SortOrder
     publishDate?: SortOrder
@@ -108612,7 +108635,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"BlogPost"> | string
     slug?: StringWithAggregatesFilter<"BlogPost"> | string
     content?: StringWithAggregatesFilter<"BlogPost"> | string
-    coverImage?: StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+    image?: StringWithAggregatesFilter<"BlogPost"> | string
     authorId?: StringWithAggregatesFilter<"BlogPost"> | string
     tags?: StringNullableListFilter<"BlogPost">
     publishDate?: DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
@@ -110298,7 +110321,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -110321,7 +110343,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -110344,7 +110365,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -110367,7 +110387,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -112624,9 +112643,11 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    academy: AcademyCreateNestedOneWithoutEventsInput
     prRecord?: PublicRelationsRecordCreateNestedOneWithoutEventsInput
     adminRole?: AdminRoleCreateNestedOneWithoutEventsInput
     legalCase?: LegalCaseCreateNestedOneWithoutEventsInput
@@ -112638,7 +112659,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     prRecordId?: string | null
     adminRoleId?: string | null
     legalCaseId?: string | null
@@ -112652,9 +112675,11 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    academy?: AcademyUpdateOneRequiredWithoutEventsNestedInput
     prRecord?: PublicRelationsRecordUpdateOneWithoutEventsNestedInput
     adminRole?: AdminRoleUpdateOneWithoutEventsNestedInput
     legalCase?: LegalCaseUpdateOneWithoutEventsNestedInput
@@ -112666,7 +112691,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
     adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112680,7 +112707,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     prRecordId?: string | null
     adminRoleId?: string | null
     legalCaseId?: string | null
@@ -112694,6 +112723,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -112704,7 +112736,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
     adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115162,7 +115196,7 @@ export namespace Prisma {
     title: string
     slug: string
     content: string
-    coverImage?: string | null
+    image: string
     tags?: BlogPostCreatetagsInput | string[]
     publishDate: Date | string
     isPublished?: boolean
@@ -115176,7 +115210,7 @@ export namespace Prisma {
     title: string
     slug: string
     content: string
-    coverImage?: string | null
+    image: string
     authorId: string
     tags?: BlogPostCreatetagsInput | string[]
     publishDate: Date | string
@@ -115190,7 +115224,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     tags?: BlogPostUpdatetagsInput | string[]
     publishDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -115204,7 +115238,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     tags?: BlogPostUpdatetagsInput | string[]
     publishDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -115218,7 +115252,7 @@ export namespace Prisma {
     title: string
     slug: string
     content: string
-    coverImage?: string | null
+    image: string
     authorId: string
     tags?: BlogPostCreatetagsInput | string[]
     publishDate: Date | string
@@ -115232,7 +115266,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     tags?: BlogPostUpdatetagsInput | string[]
     publishDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -115245,7 +115279,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     tags?: BlogPostUpdatetagsInput | string[]
     publishDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -117283,12 +117317,6 @@ export namespace Prisma {
     none?: CourseWhereInput
   }
 
-  export type EventListRelationFilter = {
-    every?: EventWhereInput
-    some?: EventWhereInput
-    none?: EventWhereInput
-  }
-
   export type AccountingEntryListRelationFilter = {
     every?: AccountingEntryWhereInput
     some?: AccountingEntryWhereInput
@@ -117336,10 +117364,6 @@ export namespace Prisma {
   }
 
   export type CourseOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type EventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -118933,12 +118957,18 @@ export namespace Prisma {
     description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    academyId?: SortOrder
+    location?: SortOrder
+    capacity?: SortOrder
+    image?: SortOrder
     prRecordId?: SortOrder
     adminRoleId?: SortOrder
     legalCaseId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EventAvgOrderByAggregateInput = {
+    capacity?: SortOrder
   }
 
   export type EventMaxOrderByAggregateInput = {
@@ -118947,7 +118977,9 @@ export namespace Prisma {
     description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    academyId?: SortOrder
+    location?: SortOrder
+    capacity?: SortOrder
+    image?: SortOrder
     prRecordId?: SortOrder
     adminRoleId?: SortOrder
     legalCaseId?: SortOrder
@@ -118961,12 +118993,18 @@ export namespace Prisma {
     description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    academyId?: SortOrder
+    location?: SortOrder
+    capacity?: SortOrder
+    image?: SortOrder
     prRecordId?: SortOrder
     adminRoleId?: SortOrder
     legalCaseId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EventSumOrderByAggregateInput = {
+    capacity?: SortOrder
   }
 
   export type AttendanceCountOrderByAggregateInput = {
@@ -119537,6 +119575,16 @@ export namespace Prisma {
     in?: $Enums.PRRequestStatus[] | ListEnumPRRequestStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.PRRequestStatus[] | ListEnumPRRequestStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumPRRequestStatusFilter<$PrismaModel> | $Enums.PRRequestStatus
+  }
+
+  export type EventListRelationFilter = {
+    every?: EventWhereInput
+    some?: EventWhereInput
+    none?: EventWhereInput
+  }
+
+  export type EventOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PublicRelationsRecordCountOrderByAggregateInput = {
@@ -120315,7 +120363,7 @@ export namespace Prisma {
     title?: SortOrder
     slug?: SortOrder
     content?: SortOrder
-    coverImage?: SortOrder
+    image?: SortOrder
     authorId?: SortOrder
     tags?: SortOrder
     publishDate?: SortOrder
@@ -120329,7 +120377,7 @@ export namespace Prisma {
     title?: SortOrder
     slug?: SortOrder
     content?: SortOrder
-    coverImage?: SortOrder
+    image?: SortOrder
     authorId?: SortOrder
     publishDate?: SortOrder
     isPublished?: SortOrder
@@ -120342,7 +120390,7 @@ export namespace Prisma {
     title?: SortOrder
     slug?: SortOrder
     content?: SortOrder
-    coverImage?: SortOrder
+    image?: SortOrder
     authorId?: SortOrder
     publishDate?: SortOrder
     isPublished?: SortOrder
@@ -122611,13 +122659,6 @@ export namespace Prisma {
     connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
   }
 
-  export type EventCreateNestedManyWithoutAcademyInput = {
-    create?: XOR<EventCreateWithoutAcademyInput, EventUncheckedCreateWithoutAcademyInput> | EventCreateWithoutAcademyInput[] | EventUncheckedCreateWithoutAcademyInput[]
-    connectOrCreate?: EventCreateOrConnectWithoutAcademyInput | EventCreateOrConnectWithoutAcademyInput[]
-    createMany?: EventCreateManyAcademyInputEnvelope
-    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-  }
-
   export type AccountingEntryCreateNestedManyWithoutAcademyInput = {
     create?: XOR<AccountingEntryCreateWithoutAcademyInput, AccountingEntryUncheckedCreateWithoutAcademyInput> | AccountingEntryCreateWithoutAcademyInput[] | AccountingEntryUncheckedCreateWithoutAcademyInput[]
     connectOrCreate?: AccountingEntryCreateOrConnectWithoutAcademyInput | AccountingEntryCreateOrConnectWithoutAcademyInput[]
@@ -122699,13 +122740,6 @@ export namespace Prisma {
     connectOrCreate?: InstructorCreateOrConnectWithoutAcademyInput | InstructorCreateOrConnectWithoutAcademyInput[]
     createMany?: InstructorCreateManyAcademyInputEnvelope
     connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-  }
-
-  export type EventUncheckedCreateNestedManyWithoutAcademyInput = {
-    create?: XOR<EventCreateWithoutAcademyInput, EventUncheckedCreateWithoutAcademyInput> | EventCreateWithoutAcademyInput[] | EventUncheckedCreateWithoutAcademyInput[]
-    connectOrCreate?: EventCreateOrConnectWithoutAcademyInput | EventCreateOrConnectWithoutAcademyInput[]
-    createMany?: EventCreateManyAcademyInputEnvelope
-    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
   }
 
   export type AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput = {
@@ -122817,20 +122851,6 @@ export namespace Prisma {
     update?: InstructorUpdateWithWhereUniqueWithoutAcademyInput | InstructorUpdateWithWhereUniqueWithoutAcademyInput[]
     updateMany?: InstructorUpdateManyWithWhereWithoutAcademyInput | InstructorUpdateManyWithWhereWithoutAcademyInput[]
     deleteMany?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
-  }
-
-  export type EventUpdateManyWithoutAcademyNestedInput = {
-    create?: XOR<EventCreateWithoutAcademyInput, EventUncheckedCreateWithoutAcademyInput> | EventCreateWithoutAcademyInput[] | EventUncheckedCreateWithoutAcademyInput[]
-    connectOrCreate?: EventCreateOrConnectWithoutAcademyInput | EventCreateOrConnectWithoutAcademyInput[]
-    upsert?: EventUpsertWithWhereUniqueWithoutAcademyInput | EventUpsertWithWhereUniqueWithoutAcademyInput[]
-    createMany?: EventCreateManyAcademyInputEnvelope
-    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    update?: EventUpdateWithWhereUniqueWithoutAcademyInput | EventUpdateWithWhereUniqueWithoutAcademyInput[]
-    updateMany?: EventUpdateManyWithWhereWithoutAcademyInput | EventUpdateManyWithWhereWithoutAcademyInput[]
-    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
   }
 
   export type AccountingEntryUpdateManyWithoutAcademyNestedInput = {
@@ -122998,20 +123018,6 @@ export namespace Prisma {
     update?: InstructorUpdateWithWhereUniqueWithoutAcademyInput | InstructorUpdateWithWhereUniqueWithoutAcademyInput[]
     updateMany?: InstructorUpdateManyWithWhereWithoutAcademyInput | InstructorUpdateManyWithWhereWithoutAcademyInput[]
     deleteMany?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
-  }
-
-  export type EventUncheckedUpdateManyWithoutAcademyNestedInput = {
-    create?: XOR<EventCreateWithoutAcademyInput, EventUncheckedCreateWithoutAcademyInput> | EventCreateWithoutAcademyInput[] | EventUncheckedCreateWithoutAcademyInput[]
-    connectOrCreate?: EventCreateOrConnectWithoutAcademyInput | EventCreateOrConnectWithoutAcademyInput[]
-    upsert?: EventUpsertWithWhereUniqueWithoutAcademyInput | EventUpsertWithWhereUniqueWithoutAcademyInput[]
-    createMany?: EventCreateManyAcademyInputEnvelope
-    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    update?: EventUpdateWithWhereUniqueWithoutAcademyInput | EventUpdateWithWhereUniqueWithoutAcademyInput[]
-    updateMany?: EventUpdateManyWithWhereWithoutAcademyInput | EventUpdateManyWithWhereWithoutAcademyInput[]
-    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
   }
 
   export type AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput = {
@@ -126325,12 +126331,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookmarksInput, UserUpdateWithoutBookmarksInput>, UserUncheckedUpdateWithoutBookmarksInput>
   }
 
-  export type AcademyCreateNestedOneWithoutEventsInput = {
-    create?: XOR<AcademyCreateWithoutEventsInput, AcademyUncheckedCreateWithoutEventsInput>
-    connectOrCreate?: AcademyCreateOrConnectWithoutEventsInput
-    connect?: AcademyWhereUniqueInput
-  }
-
   export type PublicRelationsRecordCreateNestedOneWithoutEventsInput = {
     create?: XOR<PublicRelationsRecordCreateWithoutEventsInput, PublicRelationsRecordUncheckedCreateWithoutEventsInput>
     connectOrCreate?: PublicRelationsRecordCreateOrConnectWithoutEventsInput
@@ -126347,14 +126347,6 @@ export namespace Prisma {
     create?: XOR<LegalCaseCreateWithoutEventsInput, LegalCaseUncheckedCreateWithoutEventsInput>
     connectOrCreate?: LegalCaseCreateOrConnectWithoutEventsInput
     connect?: LegalCaseWhereUniqueInput
-  }
-
-  export type AcademyUpdateOneRequiredWithoutEventsNestedInput = {
-    create?: XOR<AcademyCreateWithoutEventsInput, AcademyUncheckedCreateWithoutEventsInput>
-    connectOrCreate?: AcademyCreateOrConnectWithoutEventsInput
-    upsert?: AcademyUpsertWithoutEventsInput
-    connect?: AcademyWhereUniqueInput
-    update?: XOR<XOR<AcademyUpdateToOneWithWhereWithoutEventsInput, AcademyUpdateWithoutEventsInput>, AcademyUncheckedUpdateWithoutEventsInput>
   }
 
   export type PublicRelationsRecordUpdateOneWithoutEventsNestedInput = {
@@ -129642,7 +129634,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -129664,7 +129655,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -130918,7 +130908,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -130940,7 +130929,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -132949,7 +132937,6 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -132971,7 +132958,6 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -133134,7 +133120,6 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -133156,7 +133141,6 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -133406,42 +133390,6 @@ export namespace Prisma {
 
   export type InstructorCreateManyAcademyInputEnvelope = {
     data: InstructorCreateManyAcademyInput | InstructorCreateManyAcademyInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type EventCreateWithoutAcademyInput = {
-    id?: string
-    title: string
-    description?: string | null
-    startTime: Date | string
-    endTime: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    prRecord?: PublicRelationsRecordCreateNestedOneWithoutEventsInput
-    adminRole?: AdminRoleCreateNestedOneWithoutEventsInput
-    legalCase?: LegalCaseCreateNestedOneWithoutEventsInput
-  }
-
-  export type EventUncheckedCreateWithoutAcademyInput = {
-    id?: string
-    title: string
-    description?: string | null
-    startTime: Date | string
-    endTime: Date | string
-    prRecordId?: string | null
-    adminRoleId?: string | null
-    legalCaseId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type EventCreateOrConnectWithoutAcademyInput = {
-    where: EventWhereUniqueInput
-    create: XOR<EventCreateWithoutAcademyInput, EventUncheckedCreateWithoutAcademyInput>
-  }
-
-  export type EventCreateManyAcademyInputEnvelope = {
-    data: EventCreateManyAcademyInput | EventCreateManyAcademyInput[]
     skipDuplicates?: boolean
   }
 
@@ -133854,39 +133802,6 @@ export namespace Prisma {
     data: XOR<InstructorUpdateManyMutationInput, InstructorUncheckedUpdateManyWithoutAcademyInput>
   }
 
-  export type EventUpsertWithWhereUniqueWithoutAcademyInput = {
-    where: EventWhereUniqueInput
-    update: XOR<EventUpdateWithoutAcademyInput, EventUncheckedUpdateWithoutAcademyInput>
-    create: XOR<EventCreateWithoutAcademyInput, EventUncheckedCreateWithoutAcademyInput>
-  }
-
-  export type EventUpdateWithWhereUniqueWithoutAcademyInput = {
-    where: EventWhereUniqueInput
-    data: XOR<EventUpdateWithoutAcademyInput, EventUncheckedUpdateWithoutAcademyInput>
-  }
-
-  export type EventUpdateManyWithWhereWithoutAcademyInput = {
-    where: EventScalarWhereInput
-    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutAcademyInput>
-  }
-
-  export type EventScalarWhereInput = {
-    AND?: EventScalarWhereInput | EventScalarWhereInput[]
-    OR?: EventScalarWhereInput[]
-    NOT?: EventScalarWhereInput | EventScalarWhereInput[]
-    id?: StringFilter<"Event"> | string
-    title?: StringFilter<"Event"> | string
-    description?: StringNullableFilter<"Event"> | string | null
-    startTime?: DateTimeFilter<"Event"> | Date | string
-    endTime?: DateTimeFilter<"Event"> | Date | string
-    academyId?: StringFilter<"Event"> | string
-    prRecordId?: StringNullableFilter<"Event"> | string | null
-    adminRoleId?: StringNullableFilter<"Event"> | string | null
-    legalCaseId?: StringNullableFilter<"Event"> | string | null
-    createdAt?: DateTimeFilter<"Event"> | Date | string
-    updatedAt?: DateTimeFilter<"Event"> | Date | string
-  }
-
   export type AccountingEntryUpsertWithWhereUniqueWithoutAcademyInput = {
     where: AccountingEntryWhereUniqueInput
     update: XOR<AccountingEntryUpdateWithoutAcademyInput, AccountingEntryUncheckedUpdateWithoutAcademyInput>
@@ -134255,7 +134170,6 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutAcademyInput
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -134277,7 +134191,6 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutAcademyInput
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -134495,7 +134408,6 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutAcademyNestedInput
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -134517,7 +134429,6 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutAcademyNestedInput
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -134555,7 +134466,6 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutAcademyInput
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -134577,7 +134487,6 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutAcademyInput
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -135005,7 +134914,6 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutAcademyNestedInput
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -135027,7 +134935,6 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutAcademyNestedInput
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -142363,7 +142270,7 @@ export namespace Prisma {
     title: string
     slug: string
     content: string
-    coverImage?: string | null
+    image: string
     tags?: BlogPostCreatetagsInput | string[]
     publishDate: Date | string
     isPublished?: boolean
@@ -142376,7 +142283,7 @@ export namespace Prisma {
     title: string
     slug: string
     content: string
-    coverImage?: string | null
+    image: string
     tags?: BlogPostCreatetagsInput | string[]
     publishDate: Date | string
     isPublished?: boolean
@@ -143109,7 +143016,7 @@ export namespace Prisma {
     title?: StringFilter<"BlogPost"> | string
     slug?: StringFilter<"BlogPost"> | string
     content?: StringFilter<"BlogPost"> | string
-    coverImage?: StringNullableFilter<"BlogPost"> | string | null
+    image?: StringFilter<"BlogPost"> | string
     authorId?: StringFilter<"BlogPost"> | string
     tags?: StringNullableListFilter<"BlogPost">
     publishDate?: DateTimeFilter<"BlogPost"> | Date | string
@@ -144352,55 +144259,6 @@ export namespace Prisma {
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
   }
 
-  export type AcademyCreateWithoutEventsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    logo?: string | null
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserCreateNestedManyWithoutAcademyInput
-    ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
-    courses?: CourseCreateNestedManyWithoutAcademyInput
-    instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
-    PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
-    Meeting?: MeetingCreateNestedManyWithoutAcademyInput
-    LegalCase?: LegalCaseCreateNestedManyWithoutAcademyInput
-    Testimonial?: TestimonialCreateNestedManyWithoutAcademyInput
-    mediaAlerts?: MediaAlertCreateNestedManyWithoutAcademyInput
-    partnershipAgreements?: PartnershipAgreementCreateNestedManyWithoutAcademyInput
-    csrProjects?: CSRProjectCreateNestedManyWithoutAcademyInput
-  }
-
-  export type AcademyUncheckedCreateWithoutEventsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    logo?: string | null
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutAcademyInput
-    ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
-    courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
-    instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
-    PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
-    Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
-    LegalCase?: LegalCaseUncheckedCreateNestedManyWithoutAcademyInput
-    Testimonial?: TestimonialUncheckedCreateNestedManyWithoutAcademyInput
-    mediaAlerts?: MediaAlertUncheckedCreateNestedManyWithoutAcademyInput
-    partnershipAgreements?: PartnershipAgreementUncheckedCreateNestedManyWithoutAcademyInput
-    csrProjects?: CSRProjectUncheckedCreateNestedManyWithoutAcademyInput
-  }
-
-  export type AcademyCreateOrConnectWithoutEventsInput = {
-    where: AcademyWhereUniqueInput
-    create: XOR<AcademyCreateWithoutEventsInput, AcademyUncheckedCreateWithoutEventsInput>
-  }
-
   export type PublicRelationsRecordCreateWithoutEventsInput = {
     id?: string
     message: string
@@ -144510,61 +144368,6 @@ export namespace Prisma {
   export type LegalCaseCreateOrConnectWithoutEventsInput = {
     where: LegalCaseWhereUniqueInput
     create: XOR<LegalCaseCreateWithoutEventsInput, LegalCaseUncheckedCreateWithoutEventsInput>
-  }
-
-  export type AcademyUpsertWithoutEventsInput = {
-    update: XOR<AcademyUpdateWithoutEventsInput, AcademyUncheckedUpdateWithoutEventsInput>
-    create: XOR<AcademyCreateWithoutEventsInput, AcademyUncheckedCreateWithoutEventsInput>
-    where?: AcademyWhereInput
-  }
-
-  export type AcademyUpdateToOneWithWhereWithoutEventsInput = {
-    where?: AcademyWhereInput
-    data: XOR<AcademyUpdateWithoutEventsInput, AcademyUncheckedUpdateWithoutEventsInput>
-  }
-
-  export type AcademyUpdateWithoutEventsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUpdateManyWithoutAcademyNestedInput
-    ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
-    courses?: CourseUpdateManyWithoutAcademyNestedInput
-    instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
-    PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
-    Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
-    LegalCase?: LegalCaseUpdateManyWithoutAcademyNestedInput
-    Testimonial?: TestimonialUpdateManyWithoutAcademyNestedInput
-    mediaAlerts?: MediaAlertUpdateManyWithoutAcademyNestedInput
-    partnershipAgreements?: PartnershipAgreementUpdateManyWithoutAcademyNestedInput
-    csrProjects?: CSRProjectUpdateManyWithoutAcademyNestedInput
-  }
-
-  export type AcademyUncheckedUpdateWithoutEventsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutAcademyNestedInput
-    ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
-    instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
-    PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
-    Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
-    LegalCase?: LegalCaseUncheckedUpdateManyWithoutAcademyNestedInput
-    Testimonial?: TestimonialUncheckedUpdateManyWithoutAcademyNestedInput
-    mediaAlerts?: MediaAlertUncheckedUpdateManyWithoutAcademyNestedInput
-    partnershipAgreements?: PartnershipAgreementUncheckedUpdateManyWithoutAcademyNestedInput
-    csrProjects?: CSRProjectUncheckedUpdateManyWithoutAcademyNestedInput
   }
 
   export type PublicRelationsRecordUpsertWithoutEventsInput = {
@@ -147567,7 +147370,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
     LegalCase?: LegalCaseCreateNestedManyWithoutAcademyInput
@@ -147589,7 +147391,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
     LegalCase?: LegalCaseUncheckedCreateNestedManyWithoutAcademyInput
@@ -147816,7 +147617,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
     LegalCase?: LegalCaseUpdateManyWithoutAcademyNestedInput
@@ -147838,7 +147638,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
     LegalCase?: LegalCaseUncheckedUpdateManyWithoutAcademyNestedInput
@@ -148411,7 +148210,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
     LegalCase?: LegalCaseCreateNestedManyWithoutAcademyInput
@@ -148433,7 +148231,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
     LegalCase?: LegalCaseUncheckedCreateNestedManyWithoutAcademyInput
@@ -148478,9 +148275,11 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    academy: AcademyCreateNestedOneWithoutEventsInput
     adminRole?: AdminRoleCreateNestedOneWithoutEventsInput
     legalCase?: LegalCaseCreateNestedOneWithoutEventsInput
   }
@@ -148491,7 +148290,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     adminRoleId?: string | null
     legalCaseId?: string | null
     createdAt?: Date | string
@@ -148714,7 +148515,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
     LegalCase?: LegalCaseUpdateManyWithoutAcademyNestedInput
@@ -148736,7 +148536,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
     LegalCase?: LegalCaseUncheckedUpdateManyWithoutAcademyNestedInput
@@ -148776,6 +148575,25 @@ export namespace Prisma {
   export type EventUpdateManyWithWhereWithoutPrRecordInput = {
     where: EventScalarWhereInput
     data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutPrRecordInput>
+  }
+
+  export type EventScalarWhereInput = {
+    AND?: EventScalarWhereInput | EventScalarWhereInput[]
+    OR?: EventScalarWhereInput[]
+    NOT?: EventScalarWhereInput | EventScalarWhereInput[]
+    id?: StringFilter<"Event"> | string
+    title?: StringFilter<"Event"> | string
+    description?: StringNullableFilter<"Event"> | string | null
+    startTime?: DateTimeFilter<"Event"> | Date | string
+    endTime?: DateTimeFilter<"Event"> | Date | string
+    location?: StringNullableFilter<"Event"> | string | null
+    capacity?: IntNullableFilter<"Event"> | number | null
+    image?: StringNullableFilter<"Event"> | string | null
+    prRecordId?: StringNullableFilter<"Event"> | string | null
+    adminRoleId?: StringNullableFilter<"Event"> | string | null
+    legalCaseId?: StringNullableFilter<"Event"> | string | null
+    createdAt?: DateTimeFilter<"Event"> | Date | string
+    updatedAt?: DateTimeFilter<"Event"> | Date | string
   }
 
   export type PostUpsertWithWhereUniqueWithoutPublicRelationsRecordInput = {
@@ -149101,7 +148919,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     LegalCase?: LegalCaseCreateNestedManyWithoutAcademyInput
@@ -149123,7 +148940,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     LegalCase?: LegalCaseUncheckedCreateNestedManyWithoutAcademyInput
@@ -149358,7 +149174,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     LegalCase?: LegalCaseUpdateManyWithoutAcademyNestedInput
@@ -149380,7 +149195,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     LegalCase?: LegalCaseUncheckedUpdateManyWithoutAcademyNestedInput
@@ -150011,9 +149825,11 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    academy: AcademyCreateNestedOneWithoutEventsInput
     prRecord?: PublicRelationsRecordCreateNestedOneWithoutEventsInput
     legalCase?: LegalCaseCreateNestedOneWithoutEventsInput
   }
@@ -150024,7 +149840,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     prRecordId?: string | null
     legalCaseId?: string | null
     createdAt?: Date | string
@@ -150514,7 +150332,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -150536,7 +150353,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -150748,9 +150564,11 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    academy: AcademyCreateNestedOneWithoutEventsInput
     prRecord?: PublicRelationsRecordCreateNestedOneWithoutEventsInput
     adminRole?: AdminRoleCreateNestedOneWithoutEventsInput
   }
@@ -150761,7 +150579,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     prRecordId?: string | null
     adminRoleId?: string | null
     createdAt?: Date | string
@@ -150936,7 +150756,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -150958,7 +150777,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -152456,7 +152274,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -152478,7 +152295,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -152577,7 +152393,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -152599,7 +152414,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -152928,7 +152742,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -152950,7 +152763,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -153195,7 +153007,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -153217,7 +153028,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -153255,7 +153065,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -153277,7 +153086,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -153299,7 +153107,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOCreateNestedManyWithoutAcademyInput
     courses?: CourseCreateNestedManyWithoutAcademyInput
     instructors?: InstructorCreateNestedManyWithoutAcademyInput
-    events?: EventCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingCreateNestedManyWithoutAcademyInput
@@ -153321,7 +153128,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedCreateNestedManyWithoutAcademyInput
     courses?: CourseUncheckedCreateNestedManyWithoutAcademyInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutAcademyInput
-    events?: EventUncheckedCreateNestedManyWithoutAcademyInput
     AccountingEntry?: AccountingEntryUncheckedCreateNestedManyWithoutAcademyInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedCreateNestedManyWithoutAcademyInput
     Meeting?: MeetingUncheckedCreateNestedManyWithoutAcademyInput
@@ -153359,7 +153165,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -153381,7 +153186,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput
@@ -156591,19 +156395,6 @@ export namespace Prisma {
     location?: string | null
   }
 
-  export type EventCreateManyAcademyInput = {
-    id?: string
-    title: string
-    description?: string | null
-    startTime: Date | string
-    endTime: Date | string
-    prRecordId?: string | null
-    adminRoleId?: string | null
-    legalCaseId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type AccountingEntryCreateManyAcademyInput = {
     id?: string
     type: $Enums.AccountingType
@@ -156939,45 +156730,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: InstructorUpdateskillsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type EventUpdateWithoutAcademyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    prRecord?: PublicRelationsRecordUpdateOneWithoutEventsNestedInput
-    adminRole?: AdminRoleUpdateOneWithoutEventsNestedInput
-    legalCase?: LegalCaseUpdateOneWithoutEventsNestedInput
-  }
-
-  export type EventUncheckedUpdateWithoutAcademyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
-    adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
-    legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type EventUncheckedUpdateManyWithoutAcademyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
-    adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
-    legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountingEntryUpdateWithoutAcademyInput = {
@@ -159338,7 +159090,7 @@ export namespace Prisma {
     title: string
     slug: string
     content: string
-    coverImage?: string | null
+    image: string
     tags?: BlogPostCreatetagsInput | string[]
     publishDate: Date | string
     isPublished?: boolean
@@ -159882,7 +159634,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     tags?: BlogPostUpdatetagsInput | string[]
     publishDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -159895,7 +159647,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     tags?: BlogPostUpdatetagsInput | string[]
     publishDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -159908,7 +159660,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     tags?: BlogPostUpdatetagsInput | string[]
     publishDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublished?: BoolFieldUpdateOperationsInput | boolean
@@ -160990,7 +160742,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     adminRoleId?: string | null
     legalCaseId?: string | null
     createdAt?: Date | string
@@ -161059,9 +160813,11 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    academy?: AcademyUpdateOneRequiredWithoutEventsNestedInput
     adminRole?: AdminRoleUpdateOneWithoutEventsNestedInput
     legalCase?: LegalCaseUpdateOneWithoutEventsNestedInput
   }
@@ -161072,7 +160828,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -161085,7 +160843,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -161468,7 +161228,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     prRecordId?: string | null
     legalCaseId?: string | null
     createdAt?: Date | string
@@ -161621,9 +161383,11 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    academy?: AcademyUpdateOneRequiredWithoutEventsNestedInput
     prRecord?: PublicRelationsRecordUpdateOneWithoutEventsNestedInput
     legalCase?: LegalCaseUpdateOneWithoutEventsNestedInput
   }
@@ -161634,7 +161398,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
     legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -161647,7 +161413,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
     legalCaseId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -161718,7 +161486,9 @@ export namespace Prisma {
     description?: string | null
     startTime: Date | string
     endTime: Date | string
-    academyId: string
+    location?: string | null
+    capacity?: number | null
+    image?: string | null
     prRecordId?: string | null
     adminRoleId?: string | null
     createdAt?: Date | string
@@ -161828,9 +161598,11 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    academy?: AcademyUpdateOneRequiredWithoutEventsNestedInput
     prRecord?: PublicRelationsRecordUpdateOneWithoutEventsNestedInput
     adminRole?: AdminRoleUpdateOneWithoutEventsNestedInput
   }
@@ -161841,7 +161613,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
     adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -161854,7 +161628,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    academyId?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     prRecordId?: NullableStringFieldUpdateOperationsInput | string | null
     adminRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -162080,7 +161856,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUpdateManyWithoutAcademyNestedInput
     courses?: CourseUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUpdateManyWithoutAcademyNestedInput
-    events?: EventUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUpdateManyWithoutAcademyNestedInput
@@ -162102,7 +161877,6 @@ export namespace Prisma {
     ceos?: UserAcademyCEOUncheckedUpdateManyWithoutAcademyNestedInput
     courses?: CourseUncheckedUpdateManyWithoutAcademyNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutAcademyNestedInput
-    events?: EventUncheckedUpdateManyWithoutAcademyNestedInput
     AccountingEntry?: AccountingEntryUncheckedUpdateManyWithoutAcademyNestedInput
     PublicRelationsRecord?: PublicRelationsRecordUncheckedUpdateManyWithoutAcademyNestedInput
     Meeting?: MeetingUncheckedUpdateManyWithoutAcademyNestedInput

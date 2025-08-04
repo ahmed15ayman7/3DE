@@ -146,7 +146,6 @@ export interface Academy {
   ceos: UserAcademyCEO[] | undefined;
   courses: Course[] | undefined;
   instructors: Instructor[] | undefined;
-  events: Event[] | undefined;
   createdAt: Date;
   updatedAt: Date;
   AccountingEntry: AccountingEntry[] | undefined;
@@ -560,8 +559,9 @@ export interface Event {
   description?: string;
   startTime: Date;
   endTime: Date;
-  academyId: string;
-  academy: Academy | undefined;
+  location?: string;
+  capacity?: number;
+  image?: string;
   prRecordId?: string;
   prRecord?: PublicRelationsRecord | undefined;
   adminRoleId?: string;
@@ -997,7 +997,7 @@ export interface BlogPost {
   title: string;
   slug: string;
   content: string;
-  coverImage?: string;
+  image: string;
   authorId: string;
   author: Admin | undefined;
   tags: string[];

@@ -14,8 +14,34 @@ export class EventsService {
         });
     }
 
-    async findAll() {
-        return this.prisma.event.findMany();
+    async findAll(search: string, take: number, skip: number) {
+        let events = await this.prisma.event.findMany({
+            where: {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { description: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+            take: +take,
+            skip: +skip
+        });
+        let total = await this.prisma.event.count({
+            where: {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { description: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+        });
+        let hasNextPage = +skip + +take < total;
+        let hasPreviousPage = +skip - +take >= 0;
+        return {
+            events,
+            total,
+            totalPages: Math.ceil(total / +take),
+            hasNextPage,
+            hasPreviousPage
+        };
     }
 
     async findOne(id: string) {
@@ -50,15 +76,8 @@ export class EventsService {
     description: true,
     startTime: true,
     endTime: true,
-    academyId: true,
     createdAt: true,
-    updatedAt: true,
-    academy: {
-        select: {
-            id: true,
-            name: true,
-        },
-    }
+    updatedAt: true
     },take:10
         });
     }

@@ -20,10 +20,10 @@ export class UpdateBlogPostDto {
   @Column()
   content: string;
 
-  @ApiProperty({ type: "string", nullable: true })
-  // Field: coverImage, Type: string
+  @ApiProperty({ type: "string" })
+  // Field: image, Type: string
   @Column()
-  coverImage?: string;
+  image: string;
 
   @ApiProperty({ type: "string" })
   // Field: authorId, Type: string

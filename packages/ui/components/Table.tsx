@@ -248,9 +248,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   align = 'left'
 }) => {
   return (
-    <th className={`px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${getAlignClasses(align)} ${className}`}>
+    <thead className={`px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${getAlignClasses(align)} ${className}`}>
       {children}
-    </th>
+    </thead>
   );
 };
 
@@ -258,15 +258,17 @@ export interface TableCellProps {
   children: React.ReactNode;
   className?: string;
   align?: 'left' | 'center' | 'right';
+  span?: number;
 }
 
 export const TableCell: React.FC<TableCellProps> = ({
   children,
   className = '',
+  span = 1,
   align = 'left'
 }) => {
   return (
-    <td className={`px-6 py-4 whitespace-nowrap ${getAlignClasses(align)} ${className}`}>
+    <td className={`px-6 py-4 whitespace-nowrap ${getAlignClasses(align)} ${className}`} colSpan={span}>
       {children}
     </td>
   );

@@ -163,7 +163,6 @@ model Academy {
     ceos                  UserAcademyCEO[]
     courses               Course[]
     instructors           Instructor[]
-    events                Event[]
     createdAt             DateTime                @default(now())
     updatedAt             DateTime                @updatedAt
     AccountingEntry       AccountingEntry[]
@@ -637,13 +636,14 @@ model Bookmark {
 
 // Events and Calendar
 model Event {
-    id          String                 @id @default(cuid())
+   id          String                 @id @default(cuid())
     title       String
     description String?
     startTime   DateTime
     endTime     DateTime
-    academyId   String
-    academy     Academy                @relation(fields: [academyId], references: [id])
+    location    String?
+    capacity    Int?
+    image       String?
     prRecordId  String?
     prRecord    PublicRelationsRecord? @relation(fields: [prRecordId], references: [id])
     adminRoleId String?
@@ -652,7 +652,7 @@ model Event {
     legalCase   LegalCase?             @relation(fields: [legalCaseId], references: [id])
     createdAt   DateTime               @default(now())
     updatedAt   DateTime               @updatedAt
-}
+    }
 
 // Attendance Tracking
 model Attendance {
@@ -1166,7 +1166,7 @@ model BlogPost {
     title       String
     slug        String   @unique
     content     String
-    coverImage  String?
+    image  String
     authorId    String
     author      Admin    @relation(fields: [authorId], references: [id])
     tags        String[]

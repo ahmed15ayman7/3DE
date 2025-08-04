@@ -21,9 +21,9 @@ export class CreateBlogPostDto {
   content: string;
 
   @ApiProperty({ type: "string" })
-  // Field: coverImage, Type: string
+  // Field: image, Type: string
   @Column()
-  coverImage?: string;
+  image: string;
 
   @ApiProperty({ type: "string" })
   // Field: authorId, Type: string

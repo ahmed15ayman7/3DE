@@ -1,14 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { AcademyEntity } from "./Academy.entity";
 import { PublicRelationsRecordEntity } from "./PublicRelationsRecord.entity";
 import { AdminRoleEntity } from "./AdminRole.entity";
 import { LegalCaseEntity } from "./LegalCase.entity";
-import {
-  Academy,
-  PublicRelationsRecord,
-  AdminRole,
-  LegalCase,
-} from "@shared/prisma";
+import { PublicRelationsRecord, AdminRole, LegalCase } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -39,15 +33,20 @@ export class EventEntity {
   @Column()
   endTime: Date;
 
-  @ApiProperty({ type: "string" })
-  // Field: academyId, Type: string
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: location, Type: string
   @Column()
-  academyId: string;
+  location?: string;
 
-  @ApiProperty({ type: AcademyEntity })
-  // Field: academy, Type: Academy
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: capacity, Type: number
   @Column()
-  academy: Academy;
+  capacity?: number;
+
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: image, Type: string
+  @Column()
+  image?: string;
 
   @ApiProperty({ type: "string", nullable: true })
   // Field: prRecordId, Type: string

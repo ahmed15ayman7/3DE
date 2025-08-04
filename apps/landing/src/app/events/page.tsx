@@ -20,7 +20,7 @@ import {
   X,
   TrendingUp
 } from 'lucide-react';
-import { Button } from '@3de/ui';
+import { Button, Pagination } from '@3de/ui';
 import axios from 'axios';
 const categories = [
   "جميع الفئات",
@@ -44,9 +44,9 @@ const sortOptions = [
   { value: "popular", label: "الأكثر حضوراً" },
   { value: "newest", label: "الأحدث إضافة" }
 ];
-let getEvents = async () => {
-  const response = await axios.get('https://api.3de.school/public/events');
-  return response as {data: Event[]};
+let getEvents = async (search:string,skip:number,take:number) => {
+  const response = await axios.get(`https://api.iafce.net/public/events?search=${search}&skip=${skip}&take=${take}`);
+  return response as {data: {events: Partial<Event>[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 
 export default function EventsPage() {
@@ -57,32 +57,33 @@ export default function EventsPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [showFreeOnly, setShowFreeOnly] = useState(false);
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
-
+  const [skip, setSkip] = useState(0);
+  const [take, setTake] = useState(10);
   // Fetch events
   const { data: eventsData, isLoading: eventsLoading, error: eventsError } = useQuery({
     queryKey: ['events'],
     queryFn: () =>
-       getEvents(),
+       getEvents(searchTerm,skip,take),
   });
 
-  const allEvents = eventsData?.data || [];
+  const allEvents = eventsData?.data.events || [];
 
   // Transform event data to match component props
-  const transformEventData = (event: Event) => ({
-    id: event.id,
-    title: event.title,
+  const transformEventData = (event: Partial<Event>) => ({
+    id: event.id || "",
+    title: event.title || "",
     description: event.description || "حدث تعليمي مميز",
     featuredImage: "/images/events/default.jpg",
-    startDate: new Date(event.startTime).toISOString().split('T')[0],
-    startTime: new Date(event.startTime).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
-    endTime: new Date(event.endTime).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+    startDate: new Date(event.startTime || "").toISOString().split('T')[0],
+    startTime: new Date(event.startTime || "").toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+    endTime: new Date(event.endTime || "").toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
     location: {
       type: "offline" as const,
-      venue: "أكاديمية 3DE",
+      venue: "أكاديمية IAFCE",
       city: "الخانكة"
     },
     organizer: {
-      name: "أكاديمية 3DE",
+      name: "أكاديمية IAFCE",
       avatar: "/images/logo.png"
     },
     category: "فعالية تعليمية",
@@ -94,10 +95,10 @@ export default function EventsPage() {
   });
 
   // Filter and search logic
-  const filteredEvents = allEvents.filter((event: Event) => {
+  const filteredEvents = allEvents.filter((event: Partial<Event>) => {
     const transformedEvent = transformEventData(event);
     
-    const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = event.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          (event.description || "").toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesCategory = selectedCategory === 'جميع الفئات' || transformedEvent.category.includes(selectedCategory);
@@ -115,9 +116,9 @@ export default function EventsPage() {
         // Sort by a mock popularity score since we don't have attendees data
         return Math.random() - 0.5;
       case 'newest':
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        return new Date(b.createdAt || "").getTime() - new Date(a.createdAt || "").getTime();
       default: // date
-        return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+        return new Date(a.startTime || "").getTime() - new Date(b.startTime || "").getTime();
     }
   });
 
@@ -391,6 +392,17 @@ export default function EventsPage() {
               </div>
             </motion.div>
           )}
+          {eventsData && eventsData.data.totalPages > 1 && (
+          <div className="flex justify-center">
+            <Pagination
+              totalPages={eventsData?.data.totalPages || 0}
+              currentPage={skip / take + 1}
+              onPageChange={(page) => setSkip(page * take)}
+              totalItems={eventsData?.data.total || 0}
+              itemsPerPage={take}
+              onItemsPerPageChange={(itemsPerPage) => setTake(itemsPerPage)}
+            />
+          </div>)}
         </div>
       </section>
 

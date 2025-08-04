@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@3de/ui": ["../../packages/ui/src"],
+      "@3de/apis": ["../../packages/apis/src"],
+      "@3de/interfaces": ["../../packages/interfaces/index.ts"],
+      "@3de/auth": ["../../packages/auth/src"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

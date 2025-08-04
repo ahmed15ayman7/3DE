@@ -33,17 +33,21 @@ import {
 import { Button } from '@3de/ui';
 import axios from 'axios';
 let getCourses = async () => {
-  const response = await axios.get('https://api.3de.school/public/courses');
-  return response as {data: Course[]};
+  const response = await axios.get('https://api.3de.school/public/courses?take=3&skip=0');
+  return response as {data: {courses:Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 let getInstructors = async () => {
-  const response = await axios.get('https://api.3de.school/public/instructors');
-  return response as {data: Instructor[]};
+  const response = await axios.get('https://api.3de.school/public/instructors?take=3&skip=0');
+  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
-let getEvents = async () => {
-  const response = await axios.get('https://api.3de.school/public/events');
-  return response as {data: Event[]};
-}
+  let getEvents = async () => {
+    const response = await axios.get('https://api.3de.school/public/events?take=2&skip=0');
+    return response as {data: {events:Event[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+  }
+  let getBlogs = async () => {
+    const response = await axios.get('https://api.3de.school/public/posts?take=3&skip=0');
+    return response as {data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+  }
 export default function HomePage() {
   // Fetch featured courses
   const { data: coursesData, isLoading: coursesLoading } = useQuery({
@@ -65,57 +69,34 @@ export default function HomePage() {
     queryFn: () =>
        getEvents(),
   });
+  const { data: blogsData, isLoading: blogsLoading } = useQuery({
+    queryKey: ['latest-blogs'],
+    queryFn: () =>
+       getBlogs(),
+  });
 
   // Get featured courses (first 3)
-  const featuredCourses = coursesData?.data?.slice(0, 3) || [];
+  const featuredCourses = coursesData?.data?.courses || [];
   
   // Get top instructors (first 3)  
-  const topInstructors = instructorsData?.data?.slice(0, 3) || [];
+  const topInstructors = instructorsData?.data?.instructors || [];
   
   // Get upcoming events (first 2)
-  const upcomingEvents = eventsData?.data?.slice(0, 2) || [];
+  const upcomingEvents = eventsData?.data?.events || [];
 
-  // Mock blog data (since there's no blog API yet)
-  const latestBlogs = [
-    {
-      id: "1",
-      title: "مستقبل التعليم الرقمي في المنطقة العربية",
-      excerpt: "نظرة عميقة على التطورات الحديثة في مجال التعليم الإلكتروني وتأثيرها على المنطقة العربية",
-      featuredImage: "/images/blogs/digital-education.jpg",
-      author: {
-        name: "فريق 3DE",
-        avatar: "/images/team/3de-team.jpg",
-        role: "فريق المحتوى"
-      },
-      publishedAt: "2024-01-15",
-      readTime: "5 دقائق",
-      category: "التعليم الرقمي",
-      tags: ["تعليم", "تكنولوجيا", "مستقبل"],
-      views: 1250,
-      likes: 89,
-      comments: 24
-    },
-    {
-      id: "2",
-      title: "10 نصائح لتعلم البرمجة بفعالية",
-      excerpt: "دليل شامل للمبتدئين في البرمجة مع أفضل الطرق والأساليب للتعلم السريع",
-      featuredImage: "/images/blogs/programming-tips.jpg",
-      author: {
-        name: "أحمد محمد",
-        avatar: "/images/instructors/ahmed.jpg",
-        role: "مطور ومعلم"
-      },
-      publishedAt: "2024-01-10",
-      readTime: "8 دقائق",
-      category: "البرمجة",
-      tags: ["برمجة", "نصائح", "تعلم"],
-      views: 2100,
-      likes: 156,
-      comments: 45,
-      variant: "featured" as const
-    }
-  ];
-
+  const latestBlogs = blogsData?.data?.posts || [];
+  const transformBlogData = (post: Partial<BlogPost>) => ({
+    id: post.id || "",
+    title: post.title || "",
+    excerpt: post.content?.substring(0, 200) + "...",
+    featuredImage: post.image || "",
+    publishDate: new Date(post.publishDate || "").toLocaleDateString('ar-EG'),
+    readTime: Math.ceil(post.content?.split(' ').length || 0 / 200) + " دقيقة",
+    category: "مقال تقني",
+    tags: post.tags || [],
+    isNew: new Date(post.createdAt || "") > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    isFeatured: false
+  });
   const transformCourseData = (course: Course) => ({
     id: course.id,
     title: course.title,
@@ -203,9 +184,9 @@ export default function HomePage() {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12"
         >
           {[
-            { icon: Users, number: `${instructorsData?.data?.reduce((total, instructor) => total + (instructor.courses?.reduce((courseTotal, course) => courseTotal + (course.enrollments?.length || 0), 0) || 0), 0) || "10,000"}+`, label: "طالب" },
-            { icon: BookOpen, number: `${coursesData?.data?.length || "200"}+`, label: "كورس" },
-            { icon: Award, number: `${instructorsData?.data?.length || "50"}+`, label: "محاضر" },
+            { icon: Users, number: `${instructorsData?.data?.total || "10,000"}+`, label: "طالب" },
+            { icon: BookOpen, number: `${coursesData?.data?.total || "200"}+`, label: "كورس" },
+            { icon: Award, number: `${instructorsData?.data?.total || "50"}+`, label: "محاضر" },
             { icon: Trophy, number: "95%", label: "نسبة النجاح" }
           ].map((stat, index) => (
             <motion.div
@@ -425,12 +406,12 @@ export default function HomePage() {
             {[
               { 
                 icon: GraduationCap, 
-                number: `${instructorsData?.data?.reduce((total, instructor) => total + (instructor.courses?.reduce((courseTotal, course) => courseTotal + (course.enrollments?.length || 0), 0) || 0), 0) || "15,000"}+`, 
+                number: `${instructorsData?.data?.instructors.reduce((total, instructor) => total + (instructor.courses?.reduce((courseTotal, course) => courseTotal + (course.enrollments?.length || 0), 0) || 0), 0) || "15,000"}+`, 
                 label: "خريج" 
               },
               { 
                 icon: BookOpen, 
-                number: `${coursesData?.data?.reduce((total, course) => total + (course.lessons?.length || 0), 0) || "500"}+`, 
+                number: `${coursesData?.data?.courses.reduce((total, course) => total + (course.lessons?.length || 0), 0) || "500"}+`, 
                 label: "ساعة محتوى" 
               },
               { icon: Building, number: "100+", label: "شريك" },
@@ -485,7 +466,7 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
               >
-                <BlogCard {...blog} />
+                <BlogCard {...transformBlogData(blog)} />
               </motion.div>
             ))}
           </div>

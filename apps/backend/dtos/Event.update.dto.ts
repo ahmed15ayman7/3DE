@@ -1,10 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  Academy,
-  PublicRelationsRecord,
-  AdminRole,
-  LegalCase,
-} from "@shared/prisma";
+import { PublicRelationsRecord, AdminRole, LegalCase } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -30,10 +25,20 @@ export class UpdateEventDto {
   @Column()
   endTime: Date;
 
-  @ApiProperty({ type: "string" })
-  // Field: academyId, Type: string
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: location, Type: string
   @Column()
-  academyId: string;
+  location?: string;
+
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: capacity, Type: number
+  @Column()
+  capacity?: number;
+
+  @ApiProperty({ type: "string", nullable: true })
+  // Field: image, Type: string
+  @Column()
+  image?: string;
 
   @ApiProperty({ type: "string", nullable: true })
   // Field: prRecordId, Type: string

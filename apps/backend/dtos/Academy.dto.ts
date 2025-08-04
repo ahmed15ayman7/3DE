@@ -3,7 +3,6 @@ import { UserEntity } from "./User.entity";
 import { UserAcademyCEOEntity } from "./UserAcademyCEO.entity";
 import { CourseEntity } from "./Course.entity";
 import { InstructorEntity } from "./Instructor.entity";
-import { EventEntity } from "./Event.entity";
 import { AccountingEntryEntity } from "./AccountingEntry.entity";
 import { PublicRelationsRecordEntity } from "./PublicRelationsRecord.entity";
 import { MeetingEntity } from "./Meeting.entity";
@@ -17,7 +16,6 @@ import {
   UserAcademyCEO,
   Course,
   Instructor,
-  Event,
   AccountingEntry,
   PublicRelationsRecord,
   Meeting,
@@ -76,11 +74,6 @@ export class AcademyDto {
   // Field: instructors, Type: Instructor[]
   @Column()
   instructors: Instructor[];
-
-  @ApiProperty({ type: EventEntity })
-  // Field: events, Type: Event[]
-  @Column()
-  events: Event[];
 
   @ApiProperty({ type: "string", format: "date-time" })
   // Field: createdAt, Type: Date

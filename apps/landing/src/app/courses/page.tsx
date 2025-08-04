@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@3de/ui';
 import axios from 'axios';
+import { Pagination } from '@3de/ui';
 const categories = [
   "جميع الفئات",
   "البرمجة",
@@ -42,10 +43,10 @@ const levels = [
 const priceRanges = [
   { value: "all", label: "جميع الأسعار" },
   { value: "free", label: "مجاني" },
-  { value: "0-100", label: "أقل من 100 ريال" },
-  { value: "100-500", label: "100 - 500 ريال" },
-  { value: "500-1000", label: "500 - 1000 ريال" },
-  { value: "1000+", label: "أكثر من 1000 ريال" }
+  { value: "0-100", label: "أقل من 100 جنية" },
+  { value: "100-500", label: "100 - 500 جنية" },
+  { value: "500-1000", label: "500 - 1000 جنية" },
+  { value: "1000+", label: "أكثر من 1000 جنية" }
 ];
 
 const sortOptions = [
@@ -55,12 +56,12 @@ const sortOptions = [
   { value: "price-low", label: "السعر: من الأقل للأعلى" },
   { value: "price-high", label: "السعر: من الأعلى للأقل" }
 ];
-let getCourses = async () => {
-  const response = await axios.get('https://api.3de.school/public/courses');
-  return response as {data: Course[]};
+let getCourses = async (search:string,skip:number,take:number) => {
+  const response = await axios.get(`https://api.iafce.net/public/courses?search=${search}&skip=${skip}&take=${take}`);
+  return response as {data: {courses: Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 let getInstructors = async () => {
-  const response = await axios.get('https://api.3de.school/public/instructors');
+  const response = await axios.get('https://api.iafce.net/public/instructors');
   return response as {data: Instructor[]};
 }
 export default function CoursesPage() {
@@ -72,12 +73,13 @@ export default function CoursesPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [showFreeOnly, setShowFreeOnly] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-
+  const [skip, setSkip] = useState(0);
+  const [take, setTake] = useState(10);
   // Fetch courses
   const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useQuery({
     queryKey: ['courses'],
     queryFn: () =>
-       getCourses(),
+       getCourses(searchTerm,skip,take),
   });
 
   // Fetch instructors for filtering
@@ -87,7 +89,7 @@ export default function CoursesPage() {
        getInstructors(),
   });
 
-  const allCourses = coursesData?.data || [];
+  const allCourses = coursesData?.data.courses || [];
 
   // Transform course data to match component props
   const transformCourseData = (course: Course) => ({
@@ -96,7 +98,7 @@ export default function CoursesPage() {
     description: course.description,
     image: course.image || "/images/courses/default.jpg",
     instructor: {
-      name: course.instructors?.[0]?.user?.firstName + " " + course.instructors?.[0]?.user?.lastName || "مدرب",
+      name: course.instructors?.[0]?.user?.firstName + " " + course.instructors?.[0]?.user?.lastName || "محاضر",
       avatar: course.instructors?.[0]?.user?.avatar || "/images/instructors/default.jpg"
     },
     duration: course.duration ? `${course.duration} أسبوع` : "مدة غير محددة",
@@ -187,7 +189,7 @@ export default function CoursesPage() {
                   <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="text"
-                    placeholder="ابحث في الكورسات، المدربين، أو المواضيع..."
+                    placeholder="ابحث في الكورسات، المحاضرين، أو المواضيع..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full pr-12 pl-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-main focus:border-transparent"
@@ -410,6 +412,20 @@ export default function CoursesPage() {
               </div>
             </motion.div>
           )}
+          { coursesData?.data.totalPages && coursesData?.data.totalPages > 1 && (
+          <div className="flex justify-center">
+            <Pagination
+              currentPage={skip}
+              totalPages={coursesData?.data.totalPages || 0}
+              totalItems={coursesData?.data.total || 0}
+              itemsPerPage={take}
+              onPageChange={(page) => setSkip(page)}
+              onItemsPerPageChange={(itemsPerPage) => setTake(itemsPerPage)}
+              showItemsPerPage={false}
+              showTotalItems={false}
+            />
+          </div>
+          )}
         </div>
       </section>
 
@@ -446,7 +462,7 @@ export default function CoursesPage() {
                 { 
                   icon: Award, 
                   number: (instructorsData?.data?.length || 0).toString(), 
-                  label: "مدرب متخصص" 
+                  label: "محاضر متخصص" 
                 }
               ].map((stat, index) => (
                 <motion.div

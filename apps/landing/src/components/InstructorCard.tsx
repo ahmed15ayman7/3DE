@@ -12,9 +12,11 @@ import {
   Linkedin,
   Twitter,
   Instagram,
-  ExternalLink
+  ExternalLink,
+  User
 } from 'lucide-react';
 import { Button } from '@3de/ui';
+import { useRouter } from 'next/navigation';
 
 interface InstructorCardProps {
   id: string;
@@ -61,7 +63,7 @@ export default function InstructorCard({
 }: InstructorCardProps) {
   const isCompact = variant === 'compact';
   const isFeatured = variant === 'featured';
-
+  const router = useRouter();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -78,11 +80,11 @@ export default function InstructorCard({
           {/* Avatar */}
           <div className="relative mx-auto mb-4">
             <div className={`relative ${isCompact ? 'w-20 h-20' : 'w-24 h-24'} mx-auto`}>
-              <img
+            {avatar ? <img
                 src={avatar}
                 alt={name}
                 className="w-full h-full object-cover rounded-full ring-4 ring-white shadow-lg"
-              />
+              /> : <User size={100} className="w-full h-full object-cover rounded-full ring-4 ring-white shadow-lg" />}
               
               {/* Verified Badge */}
               {isVerified && (
@@ -251,10 +253,11 @@ export default function InstructorCard({
           {/* Action Button */}
           <Button 
             size={isCompact ? "sm" : "md"}
+            onClick={() => router.push(`/student/`)}
             variant="outline"
             className="w-full group-hover:bg-primary-main group-hover:text-white group-hover:border-primary-main transition-all duration-200"
           >
-            <span>عرض الملف الشخصي</span>
+            <span>سجل الان</span>
             <ExternalLink size={14} className="mr-1" />
           </Button>
         </div>

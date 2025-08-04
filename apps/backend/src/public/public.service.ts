@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEventDto } from 'dtos/Event.create.dto';
 import { UpdateEventDto } from 'dtos/Event.update.dto';
-import { Course, Event, Post } from '@shared/prisma';
+import { BlogPost, Course, Event, Post, Prisma } from '@shared/prisma';
 
 @Injectable()
 export class PublicService {
     constructor(private prisma: PrismaService) { }
 
-    async getEventsPublic(search: string): Promise<Partial<Event>[]> {
-        return this.prisma.event.findMany({
+    async getEventsPublic(search: string,skip:number,take:number): Promise<{events:Partial<Event>[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}> {
+        let events = await this.prisma.event.findMany({
             where: {
                 OR: [
                     { title: { contains: search, mode: 'insensitive' } },
@@ -22,20 +22,18 @@ export class PublicService {
     description: true,
     startTime: true,
     endTime: true,
-    academyId: true,
     createdAt: true,
     updatedAt: true,
-    academy: {
-        select: {
-            id: true,
-            name: true,
-        },
-    }
-    },take:10
+    },take:+take,skip:+skip
         });
+        let total = await this.prisma.event.count();
+        let totalPages = Math.ceil(total / take);
+        let hasNextPage = +skip + take < total;
+        let hasPreviousPage = +skip - take >= 0;
+        return {events,total,totalPages,hasNextPage,hasPreviousPage}
     }
-    async getPublicInstructors(search: string) {
-        return this.prisma.instructor.findMany({
+    async getPublicInstructors(search: string,take:number,skip:number) {
+        let instructors = await this.prisma.instructor.findMany({
             where: {
                 user: {
                     OR: [
@@ -74,37 +72,48 @@ export class PublicService {
             },
             take: 3,
         });
+        let total = await this.prisma.instructor.count();
+        let totalPages = Math.ceil(total / take);
+        let hasNextPage = +skip + take < total;
+        let hasPreviousPage = +skip - take >= 0;
+        return {instructors,total,totalPages,hasNextPage,hasPreviousPage}
     }
-    async getPostsPublic(search: string): Promise<Partial<Post>[]> {
-        return this.prisma.post.findMany({
+    async getPostsPublic(search: string,take:number,skip:number): Promise<{posts:Partial<BlogPost>[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}> {
+        let posts = await this.prisma.blogPost.findMany({
             where: {
-                publicRelationsRecordId: { not: null },
                 OR: [
-                    { title: { contains: search, mode: 'insensitive' } },
-                    { content: { contains: search, mode: 'insensitive' } },
+                    { title: { contains: search, mode: Prisma.QueryMode.insensitive } },
+                    { content: { contains: search, mode: Prisma.QueryMode.insensitive } },
                 ],
             },
             select: {
                 id: true,
                 title: true,
                 content: true,
-                likesCount: true,
+                image: true,
+                publishDate: true,
+                isPublished: true,
                 createdAt: true,
-                comments: {
-                    select: {
-                        id: true,
-                        content: true,
-                        createdAt: true,
-                    },
-                },
             },
-            take: 10,
+            take: +take,
+            skip: +skip,
+        });
+        let total = await this.prisma.blogPost.count();
+        let totalPages = Math.ceil(total / take);
+        let hasNextPage = +skip + take < total;
+        let hasPreviousPage = +skip - take >= 0;
+        return {posts,total,totalPages,hasNextPage,hasPreviousPage}
+    
+    }
+    async getPostById(id: string): Promise<Partial<BlogPost>> {
+        return this.prisma.blogPost.findUnique({
+            where: { id },
         });
     }
-    async getCoursesPublic(search: string): Promise<Course[]> {
+    async getCoursesPublic(search: string,take:number,skip:number): Promise<{courses:Partial<Course>[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}> {
         const maybeDate = new Date(search);
 const isValidDate = !isNaN(maybeDate.getTime());
-        return this.prisma.course.findMany({
+        let courses = await this.prisma.course.findMany({
             where: {
                 OR: [
                   { title: { contains: search, mode: 'insensitive' } },
@@ -159,8 +168,14 @@ const isValidDate = !isNaN(maybeDate.getTime());
                     },
                 },
             },
-            take: 6,
+            take: +take,
+            skip: +skip,
         });
+        let total = await this.prisma.course.count();
+        let totalPages = Math.ceil(total / take);
+        let hasNextPage = +skip + take < total;
+        let hasPreviousPage = +skip - take >= 0;
+        return {courses,total,totalPages,hasNextPage,hasPreviousPage}
     }
 
-} 
+}

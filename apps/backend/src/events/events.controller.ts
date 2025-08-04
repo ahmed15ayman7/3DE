@@ -19,8 +19,8 @@ export class EventsController {
     }
 
     @Get()
-    async findAll(): Promise<Event[]> {
-        return this.eventsService.findAll();
+    async findAll(@Query('search') search?: string, @Query('take') take?: number, @Query('skip') skip?: number): Promise<{ events: Event[], total: number, totalPages: number }> {
+        return this.eventsService.findAll(search ?? "", take ?? 9, skip ?? 0);
     }
 
     @Get(':id')
