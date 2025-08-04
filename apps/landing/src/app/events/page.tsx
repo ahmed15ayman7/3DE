@@ -45,7 +45,7 @@ const sortOptions = [
   { value: "newest", label: "الأحدث إضافة" }
 ];
 let getEvents = async (search:string,skip:number,take:number) => {
-  const response = await axios.get(`https://api.iafce.net/public/events?search=${search}&skip=${skip}&take=${take}`);
+  const response = await axios.get(`https://api.3de.school/public/events?search=${search}&skip=${skip}&take=${take}`);
   return response as {data: {events: Partial<Event>[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 

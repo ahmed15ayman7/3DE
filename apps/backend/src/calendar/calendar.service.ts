@@ -15,7 +15,6 @@ export class CalendarService {
         description?: string;
         startTime: Date;
         endTime: Date;
-        academyId: string;
         userId: string;
     }) {
         const event = await this.prisma.event.create({
@@ -23,8 +22,7 @@ export class CalendarService {
                 title: data.title,
                 description: data.description,
                 startTime: data.startTime,
-                endTime: data.endTime,
-                academyId: data.academyId,
+                endTime: data.endTime
             },
         });
 
@@ -69,16 +67,14 @@ export class CalendarService {
         });
     }
 
-    async listEvents(academyId: string) {
+    async listEvents() {
         return this.prisma.event.findMany({
-            where: { academyId },
         });
     }
 
-    async getEventsByDateRange(academyId: string, startDate: Date, endDate: Date) {
+    async getEventsByDateRange(startDate: Date, endDate: Date) {
         return this.prisma.event.findMany({
             where: {
-                academyId,
                 startTime: {
                     gte: startDate,
                     lte: endDate,

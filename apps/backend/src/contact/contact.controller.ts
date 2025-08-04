@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Query } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { CreateContactUsDto } from '../../dtos/ContactUs.create.dto';
 import { UpdateContactUsDto } from '../../dtos/ContactUs.update.dto';
@@ -18,8 +18,8 @@ export class ContactController {
     @Get()
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
-    async findAll(): Promise<ContactUs[]> {
-        return this.contactService.findAll();
+    async findAll(@Query('search') search?: string, @Query('take') take?: number, @Query('skip') skip?: number): Promise<{data: ContactUs[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}> {
+        return this.contactService.findAll(search ?? "", take ?? 10, skip ?? 0);
     }
     
     @Get(':id')

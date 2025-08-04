@@ -16,7 +16,6 @@ export class CalendarController {
         description?: string;
         startTime: Date;
         endTime: Date;
-        academyId: string;
         userId: string;
     }) {
         return this.calendarService.createEvent(data);
@@ -46,16 +45,15 @@ export class CalendarController {
     }
 
     @Get()
-    async listEvents(@Query('academyId') academyId: string) {
-        return this.calendarService.listEvents(academyId);
+    async listEvents() {
+        return this.calendarService.listEvents();
     }
 
     @Get('range')
     async getEventsByDateRange(
-        @Query('academyId') academyId: string,
         @Query('startDate') startDate: Date,
         @Query('endDate') endDate: Date,
     ) {
-        return this.calendarService.getEventsByDateRange(academyId, startDate, endDate);
+        return this.calendarService.getEventsByDateRange(startDate, endDate);
     }
 } 

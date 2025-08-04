@@ -880,7 +880,7 @@ export const contactApi = {
         hasPreviousPage: boolean;
     } }> => api.get(`/contact?search=${search}&take=${take}&skip=${skip}`),
     getById: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.get(`/contact/${id}`),
-    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://api.iafce.net/contact', data),
+    create: (data: ContactUs): Promise<{ success: boolean, data: ContactUs }> => axios.post('https://api.3de.school/contact', data),
     update: (id: string, data: Partial<ContactUs>): Promise<{ success: boolean, data: ContactUs }> => api.patch(`/contact/${id}`, data),
     delete: (id: string): Promise<{ success: boolean, data: ContactUs }> => api.delete(`/contact/${id}`),
 };

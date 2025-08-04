@@ -57,12 +57,12 @@ const sortOptions = [
   { value: "price-high", label: "السعر: من الأعلى للأقل" }
 ];
 let getCourses = async (search:string,skip:number,take:number) => {
-  const response = await axios.get(`https://api.iafce.net/public/courses?search=${search}&skip=${skip}&take=${take}`);
+  const response = await axios.get(`https://api.3de.school/public/courses?search=${search}&skip=${skip}&take=${take}`);
   return response as {data: {courses: Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 let getInstructors = async () => {
-  const response = await axios.get('https://api.iafce.net/public/instructors');
-  return response as {data: Instructor[]};
+  const response = await axios.get('https://api.3de.school/public/instructors?take=9&skip=0');
+  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 export default function CoursesPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -461,7 +461,7 @@ export default function CoursesPage() {
                 },
                 { 
                   icon: Award, 
-                  number: (instructorsData?.data?.length || 0).toString(), 
+                  number: (instructorsData?.data?.instructors.length || 0).toString(), 
                   label: "محاضر متخصص" 
                 }
               ].map((stat, index) => (

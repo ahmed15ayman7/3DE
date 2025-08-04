@@ -9,9 +9,9 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@3de/ui', 'lucide-react'],
   },
-  allowedDevOrigins: ['https://iafce.net'],
+  allowedDevOrigins: ['https://3de.school'],
   images: {
-    domains: ['localhost', 'iafce.net', 'res.cloudinary.com', 'images.unsplash.com'],
+    domains: ['localhost', '3de.school', 'res.cloudinary.com', 'images.unsplash.com'],
   },
   webpack: (config) => {
     config.resolve.alias = {
