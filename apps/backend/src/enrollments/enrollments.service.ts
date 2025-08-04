@@ -113,8 +113,7 @@ export class EnrollmentsService {
         });
     }
     async getAllEnrollmentCodes(search:string,take:number,skip:number,courseId:string) {
-        const [enrollmentCodes,total] = await this.prisma.$transaction([
-            this.prisma.enrollmentCode.findMany({
+        let enrollmentCodes = await this.prisma.enrollmentCode.findMany({
             where: {
                 OR: [
                     { code: { contains: search, mode: 'insensitive' } },
@@ -126,8 +125,8 @@ export class EnrollmentsService {
             },
             take:+take,
                 skip:+skip
-            }),
-            this.prisma.enrollmentCode.count({
+            });
+        let total = await this.prisma.enrollmentCode.count({
                 where: {
                     OR: [
                         { code: { contains: search, mode: 'insensitive' } },
@@ -136,7 +135,7 @@ export class EnrollmentsService {
                     courseId: courseId ? courseId : undefined
                 }
             })
-        ]);
+        ;
         return { data: enrollmentCodes, total,totalPages:Math.ceil(total/take) };
     }
 } 
