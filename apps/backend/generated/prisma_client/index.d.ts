@@ -34109,11 +34109,15 @@ export namespace Prisma {
   export type SubmissionAvgAggregateOutputType = {
     score: number | null
     timeLimit: number | null
+    trueAnswers: number | null
+    falseAnswers: number | null
   }
 
   export type SubmissionSumAggregateOutputType = {
     score: number | null
     timeLimit: number | null
+    trueAnswers: number | null
+    falseAnswers: number | null
   }
 
   export type SubmissionMinAggregateOutputType = {
@@ -34123,6 +34127,8 @@ export namespace Prisma {
     score: number | null
     feedback: string | null
     timeLimit: number | null
+    trueAnswers: number | null
+    falseAnswers: number | null
     passed: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -34135,6 +34141,8 @@ export namespace Prisma {
     score: number | null
     feedback: string | null
     timeLimit: number | null
+    trueAnswers: number | null
+    falseAnswers: number | null
     passed: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -34148,6 +34156,8 @@ export namespace Prisma {
     score: number
     feedback: number
     timeLimit: number
+    trueAnswers: number
+    falseAnswers: number
     passed: number
     createdAt: number
     updatedAt: number
@@ -34158,11 +34168,15 @@ export namespace Prisma {
   export type SubmissionAvgAggregateInputType = {
     score?: true
     timeLimit?: true
+    trueAnswers?: true
+    falseAnswers?: true
   }
 
   export type SubmissionSumAggregateInputType = {
     score?: true
     timeLimit?: true
+    trueAnswers?: true
+    falseAnswers?: true
   }
 
   export type SubmissionMinAggregateInputType = {
@@ -34172,6 +34186,8 @@ export namespace Prisma {
     score?: true
     feedback?: true
     timeLimit?: true
+    trueAnswers?: true
+    falseAnswers?: true
     passed?: true
     createdAt?: true
     updatedAt?: true
@@ -34184,6 +34200,8 @@ export namespace Prisma {
     score?: true
     feedback?: true
     timeLimit?: true
+    trueAnswers?: true
+    falseAnswers?: true
     passed?: true
     createdAt?: true
     updatedAt?: true
@@ -34197,6 +34215,8 @@ export namespace Prisma {
     score?: true
     feedback?: true
     timeLimit?: true
+    trueAnswers?: true
+    falseAnswers?: true
     passed?: true
     createdAt?: true
     updatedAt?: true
@@ -34297,6 +34317,8 @@ export namespace Prisma {
     score: number | null
     feedback: string | null
     timeLimit: number | null
+    trueAnswers: number | null
+    falseAnswers: number | null
     passed: boolean | null
     createdAt: Date
     updatedAt: Date
@@ -34329,6 +34351,8 @@ export namespace Prisma {
     score?: boolean
     feedback?: boolean
     timeLimit?: boolean
+    trueAnswers?: boolean
+    falseAnswers?: boolean
     passed?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -34344,6 +34368,8 @@ export namespace Prisma {
     score?: boolean
     feedback?: boolean
     timeLimit?: boolean
+    trueAnswers?: boolean
+    falseAnswers?: boolean
     passed?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -34359,6 +34385,8 @@ export namespace Prisma {
     score?: boolean
     feedback?: boolean
     timeLimit?: boolean
+    trueAnswers?: boolean
+    falseAnswers?: boolean
     passed?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -34374,12 +34402,14 @@ export namespace Prisma {
     score?: boolean
     feedback?: boolean
     timeLimit?: boolean
+    trueAnswers?: boolean
+    falseAnswers?: boolean
     passed?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "quizId" | "answers" | "score" | "feedback" | "timeLimit" | "passed" | "createdAt" | "updatedAt", ExtArgs["result"]["submission"]>
+  export type SubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "quizId" | "answers" | "score" | "feedback" | "timeLimit" | "trueAnswers" | "falseAnswers" | "passed" | "createdAt" | "updatedAt", ExtArgs["result"]["submission"]>
   export type SubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
@@ -34407,6 +34437,8 @@ export namespace Prisma {
       score: number | null
       feedback: string | null
       timeLimit: number | null
+      trueAnswers: number | null
+      falseAnswers: number | null
       passed: boolean | null
       createdAt: Date
       updatedAt: Date
@@ -34842,6 +34874,8 @@ export namespace Prisma {
     readonly score: FieldRef<"Submission", 'Float'>
     readonly feedback: FieldRef<"Submission", 'String'>
     readonly timeLimit: FieldRef<"Submission", 'Int'>
+    readonly trueAnswers: FieldRef<"Submission", 'Int'>
+    readonly falseAnswers: FieldRef<"Submission", 'Int'>
     readonly passed: FieldRef<"Submission", 'Boolean'>
     readonly createdAt: FieldRef<"Submission", 'DateTime'>
     readonly updatedAt: FieldRef<"Submission", 'DateTime'>
@@ -102212,6 +102246,8 @@ export namespace Prisma {
     score: 'score',
     feedback: 'feedback',
     timeLimit: 'timeLimit',
+    trueAnswers: 'trueAnswers',
+    falseAnswers: 'falseAnswers',
     passed: 'passed',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -105162,6 +105198,8 @@ export namespace Prisma {
     score?: FloatNullableFilter<"Submission"> | number | null
     feedback?: StringNullableFilter<"Submission"> | string | null
     timeLimit?: IntNullableFilter<"Submission"> | number | null
+    trueAnswers?: IntNullableFilter<"Submission"> | number | null
+    falseAnswers?: IntNullableFilter<"Submission"> | number | null
     passed?: BoolNullableFilter<"Submission"> | boolean | null
     createdAt?: DateTimeFilter<"Submission"> | Date | string
     updatedAt?: DateTimeFilter<"Submission"> | Date | string
@@ -105177,6 +105215,8 @@ export namespace Prisma {
     score?: SortOrderInput | SortOrder
     feedback?: SortOrderInput | SortOrder
     timeLimit?: SortOrderInput | SortOrder
+    trueAnswers?: SortOrderInput | SortOrder
+    falseAnswers?: SortOrderInput | SortOrder
     passed?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -105195,6 +105235,8 @@ export namespace Prisma {
     score?: FloatNullableFilter<"Submission"> | number | null
     feedback?: StringNullableFilter<"Submission"> | string | null
     timeLimit?: IntNullableFilter<"Submission"> | number | null
+    trueAnswers?: IntNullableFilter<"Submission"> | number | null
+    falseAnswers?: IntNullableFilter<"Submission"> | number | null
     passed?: BoolNullableFilter<"Submission"> | boolean | null
     createdAt?: DateTimeFilter<"Submission"> | Date | string
     updatedAt?: DateTimeFilter<"Submission"> | Date | string
@@ -105210,6 +105252,8 @@ export namespace Prisma {
     score?: SortOrderInput | SortOrder
     feedback?: SortOrderInput | SortOrder
     timeLimit?: SortOrderInput | SortOrder
+    trueAnswers?: SortOrderInput | SortOrder
+    falseAnswers?: SortOrderInput | SortOrder
     passed?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -105231,6 +105275,8 @@ export namespace Prisma {
     score?: FloatNullableWithAggregatesFilter<"Submission"> | number | null
     feedback?: StringNullableWithAggregatesFilter<"Submission"> | string | null
     timeLimit?: IntNullableWithAggregatesFilter<"Submission"> | number | null
+    trueAnswers?: IntNullableWithAggregatesFilter<"Submission"> | number | null
+    falseAnswers?: IntNullableWithAggregatesFilter<"Submission"> | number | null
     passed?: BoolNullableWithAggregatesFilter<"Submission"> | boolean | null
     createdAt?: DateTimeWithAggregatesFilter<"Submission"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Submission"> | Date | string
@@ -111589,6 +111635,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -111604,6 +111652,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -111615,6 +111665,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -111630,6 +111682,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -111643,6 +111697,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -111654,6 +111710,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -111667,6 +111725,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -118263,6 +118323,8 @@ export namespace Prisma {
     score?: SortOrder
     feedback?: SortOrder
     timeLimit?: SortOrder
+    trueAnswers?: SortOrder
+    falseAnswers?: SortOrder
     passed?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118271,6 +118333,8 @@ export namespace Prisma {
   export type SubmissionAvgOrderByAggregateInput = {
     score?: SortOrder
     timeLimit?: SortOrder
+    trueAnswers?: SortOrder
+    falseAnswers?: SortOrder
   }
 
   export type SubmissionMaxOrderByAggregateInput = {
@@ -118280,6 +118344,8 @@ export namespace Prisma {
     score?: SortOrder
     feedback?: SortOrder
     timeLimit?: SortOrder
+    trueAnswers?: SortOrder
+    falseAnswers?: SortOrder
     passed?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118292,6 +118358,8 @@ export namespace Prisma {
     score?: SortOrder
     feedback?: SortOrder
     timeLimit?: SortOrder
+    trueAnswers?: SortOrder
+    falseAnswers?: SortOrder
     passed?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118300,6 +118368,8 @@ export namespace Prisma {
   export type SubmissionSumOrderByAggregateInput = {
     score?: SortOrder
     timeLimit?: SortOrder
+    trueAnswers?: SortOrder
+    falseAnswers?: SortOrder
   }
 
   export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -129875,6 +129945,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -129888,6 +129960,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -131163,6 +131237,8 @@ export namespace Prisma {
     score?: FloatNullableFilter<"Submission"> | number | null
     feedback?: StringNullableFilter<"Submission"> | string | null
     timeLimit?: IntNullableFilter<"Submission"> | number | null
+    trueAnswers?: IntNullableFilter<"Submission"> | number | null
+    falseAnswers?: IntNullableFilter<"Submission"> | number | null
     passed?: BoolNullableFilter<"Submission"> | boolean | null
     createdAt?: DateTimeFilter<"Submission"> | Date | string
     updatedAt?: DateTimeFilter<"Submission"> | Date | string
@@ -138229,6 +138305,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -138242,6 +138320,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -154997,6 +155077,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -155469,6 +155551,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -155482,6 +155566,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -155494,6 +155580,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158576,6 +158664,8 @@ export namespace Prisma {
     score?: number | null
     feedback?: string | null
     timeLimit?: number | null
+    trueAnswers?: number | null
+    falseAnswers?: number | null
     passed?: boolean | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -158625,6 +158715,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158638,6 +158730,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158650,6 +158744,8 @@ export namespace Prisma {
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
+    trueAnswers?: NullableIntFieldUpdateOperationsInput | number | null
+    falseAnswers?: NullableIntFieldUpdateOperationsInput | number | null
     passed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

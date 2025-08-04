@@ -35,6 +35,16 @@ export class CreateSubmissionDto {
   @Column()
   timeLimit?: number;
 
+  @ApiProperty({ type: "number" })
+  // Field: trueAnswers, Type: number
+  @Column()
+  trueAnswers?: number;
+
+  @ApiProperty({ type: "number" })
+  // Field: falseAnswers, Type: number
+  @Column()
+  falseAnswers?: number;
+
   @ApiProperty({ type: "boolean" })
   // Field: passed, Type: boolean
   @Column()

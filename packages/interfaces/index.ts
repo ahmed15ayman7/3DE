@@ -383,6 +383,8 @@ export interface Submission {
   score?: number;
   feedback?: string;
   timeLimit?: number;
+  trueAnswers?: number;
+  falseAnswers?: number;
   passed?: boolean;
   createdAt: Date;
   updatedAt: Date;

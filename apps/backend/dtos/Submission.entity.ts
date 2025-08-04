@@ -52,6 +52,16 @@ export class SubmissionEntity {
   @Column()
   timeLimit?: number;
 
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: trueAnswers, Type: number
+  @Column()
+  trueAnswers?: number;
+
+  @ApiProperty({ type: "number", nullable: true })
+  // Field: falseAnswers, Type: number
+  @Column()
+  falseAnswers?: number;
+
   @ApiProperty({ type: "boolean", nullable: true })
   // Field: passed, Type: boolean
   @Column()

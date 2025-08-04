@@ -438,18 +438,20 @@ model Option {
 }
 
 model Submission {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  quizId    String
-  quiz      Quiz     @relation(fields: [quizId], references: [id])
-  answers   Json[]
-  score     Float?
-  feedback  String?
-  timeLimit Int?
-  passed    Boolean? @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  quizId       String
+  quiz         Quiz     @relation(fields: [quizId], references: [id])
+  answers      Json[]
+  score        Float?
+  feedback     String?
+  timeLimit    Int?
+  trueAnswers  Int?
+  falseAnswers Int?
+  passed       Boolean? @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 // Achievements and Badges

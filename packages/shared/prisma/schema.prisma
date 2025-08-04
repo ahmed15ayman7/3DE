@@ -445,6 +445,8 @@ model Submission {
     score     Float?
     feedback  String?
     timeLimit Int?
+    trueAnswers Int?
+    falseAnswers Int?
     passed    Boolean? @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

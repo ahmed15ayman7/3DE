@@ -361,6 +361,8 @@ exports.Prisma.SubmissionScalarFieldEnum = {
   score: 'score',
   feedback: 'feedback',
   timeLimit: 'timeLimit',
+  trueAnswers: 'trueAnswers',
+  falseAnswers: 'falseAnswers',
   passed: 'passed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

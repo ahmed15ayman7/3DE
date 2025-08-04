@@ -56,6 +56,8 @@ export class SubmissionsService {
       
         // حساب النتيجة
         let score = 0;
+        let trueAnswers = 0;
+        let falseAnswers = 0;
         for (let question of submission.quiz.questions) {
           const isCorrect = question.options.some(
             (option) =>
@@ -65,14 +67,19 @@ export class SubmissionsService {
                   Object.keys(ans)[0] === question.id && ans[question.id] === option.id
               )
           );
-          if (isCorrect) score += question.points;
+          if (isCorrect){
+            score += question.points;
+            trueAnswers++;
+          }else{
+            falseAnswers++;
+          }
         }
         const passed = score >= submission.quiz.passingScore;
       
         // تحديث النتيجة والحالة
         submission = await this.prisma.submission.update({
           where: { id: submission.id },
-          data: { score, passed },
+          data: { score, passed, trueAnswers, falseAnswers },
           include: {
             user: true,
             quiz: { include: { questions: { include: { options: true } } } }
