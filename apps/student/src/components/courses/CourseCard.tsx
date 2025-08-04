@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Clock, Users, BookOpen, Play } from 'lucide-react';
-import { Button, Badge, Progress, toast } from '@3de/ui';
+import { Button, Badge, Progress, toast, Modal, Input } from '@3de/ui';
 import { Course } from '@3de/interfaces';
 import { enrollmentApi } from '@3de/apis';
+import { useState } from 'react';
 
 interface CourseCardProps {
   userId: string;
@@ -15,6 +16,8 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({ userId, course, isEnrolled = false, refetch }: CourseCardProps) {
+  const [showEnrollModal, setShowEnrollModal] = useState(false);
+  const [enrollmentCode, setEnrollmentCode] = useState('');
   const progress = (course.lessons?.filter((lesson: any) => lesson.WatchedLesson.some((watched: any) => watched.userId === userId)).length || 0) / (course.lessons?.length || 1) * 100 || 0;
   let isPending = course.enrollments?.find((enrollment) => enrollment.userId === userId && enrollment.status === "PENDING");
   // تحويل التاريخ إلى string إذا كان Date object
@@ -30,8 +33,9 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
   };
   let handleEnroll = async () => {
     let toastId = toast.loading('يتم الالتحاق بالكورس...');
-    let enrollment = await enrollmentApi.create({courseId:course.id,userId:userId,status:"PENDING"});
+    let enrollment =isPending ? await enrollmentApi.update(course.enrollments?.find((enrollment)=>enrollment.userId === userId)?.id||'',{status:"PENDING"}) : await enrollmentApi.create({courseId:course.id,userId:userId,status:"PENDING"});
     if(enrollment.status>=200 && enrollment.status<300){
+      let code = await enrollmentApi.updateEnrollmentCode(enrollmentCode,{courseId:course.id,usedById:userId,isUsed:true});
       toast.success('تم الالتحاق بالكورس بنجاح',{id:toastId});
       refetch();
       }else{
@@ -103,11 +107,22 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
             <Play className="w-4 h-4 ml-2" />
            {isPending ? 'جاري التحقق...' : 'استكمال الكورس'}
           </Button>
-        </Link> : <Button className="w-full" variant={isEnrolled ? 'primary' : 'outline'} onClick={handleEnroll}>
+        </Link> : <Button className="w-full" variant={isEnrolled ? 'primary' : 'outline'} onClick={()=>setShowEnrollModal(true)}>
           <Play className="w-4 h-4 ml-2" />
           الالتحاق بالكورس
         </Button>}
       </div>
+      {showEnrollModal&&<Modal isOpen={showEnrollModal} onClose={()=>setShowEnrollModal(false)}>
+        <div className="flex flex-col gap-4">
+          <h2 className="text-2xl font-bold text-gray-900">الالتحاق بالكورس</h2>
+          <p>لكي تتمكن من الالتحاق بالكورس، يرجى كتابة كود التفعيل</p>
+          <Input type="text" placeholder="كود التفعيل" onChange={(e)=>setEnrollmentCode(e.target.value)} />
+          <Button className="w-full" variant="primary" onClick={handleEnroll}>
+            <Play className="w-4 h-4 ml-2" />
+            الالتحاق بالكورس
+          </Button>
+        </div>
+      </Modal>}
     </motion.div>
   );
 } 

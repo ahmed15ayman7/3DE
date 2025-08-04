@@ -52,12 +52,12 @@ export class EnrollmentsController {
         return this.enrollmentsService.createEnrollmentCode(createEnrollmentCodeDto);
     }
 
-    @Put('code/:id')
+    @Put('code/:code')
     async updateEnrollmentCode(
-        @Param('id') id: string,
+        @Param('code') code: string,
         @Body() updateEnrollmentCodeDto: UpdateEnrollmentCodeDto,
     ): Promise<EnrollmentCode> {
-        return this.enrollmentsService.updateEnrollmentCode(id, updateEnrollmentCodeDto);
+        return this.enrollmentsService.updateEnrollmentCode(code, updateEnrollmentCodeDto);
     }
 
     @Get('codes/all')

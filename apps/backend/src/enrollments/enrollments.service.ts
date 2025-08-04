@@ -87,7 +87,7 @@ export class EnrollmentsService {
             }
         });
     }
-    async updateEnrollmentCode(id: string, data: UpdateEnrollmentCodeDto) {
+    async updateEnrollmentCode(code: string, data: UpdateEnrollmentCodeDto) {
         if (data.isUsed && !data.usedById) {
             throw new BadRequestException('Used by is required');
         }
@@ -107,9 +107,15 @@ export class EnrollmentsService {
             if (!enrollmentCode) {
                 throw new BadRequestException('Invalid code');
             }
+            if(enrollmentCode.isUsed){
+                throw new BadRequestException('Code already used');
+            }
+            if(enrollmentCode.usedById){
+                throw new BadRequestException('Code already used');
+            }
         }
         return this.prisma.enrollmentCode.update({
-            where: { id,code:data.code },
+            where: { code:code },
             data: data
         });
     }

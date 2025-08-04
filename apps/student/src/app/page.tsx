@@ -15,7 +15,6 @@ import { Course, Instructor, Lesson } from '@3de/interfaces';
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'courses' | 'instructors'>('courses');
   const { user } = useAuth();
-  console.log(user)
   
   // Fetch data
   const { data: coursesResponse, isLoading: coursesLoading ,refetch} = useQuery({
