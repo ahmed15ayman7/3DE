@@ -100,18 +100,12 @@ export class EnrollmentsService {
             }
             data.usedById = user.id;
         }
-        if (data.code) {
+        if (code) {
             const enrollmentCode = await this.prisma.enrollmentCode.findUnique({
-                where: { code: data.code,isUsed:false,usedById:null,courseId:data.courseId }
+                where: { code: code,isUsed:false,usedById:null,courseId:data.courseId }
             });
             if (!enrollmentCode) {
                 throw new BadRequestException('Invalid code');
-            }
-            if(enrollmentCode.isUsed){
-                throw new BadRequestException('Code already used');
-            }
-            if(enrollmentCode.usedById){
-                throw new BadRequestException('Code already used');
             }
         }
         return this.prisma.enrollmentCode.update({
@@ -145,4 +139,4 @@ export class EnrollmentsService {
         ;
         return { data: enrollmentCodes, total,totalPages:Math.ceil(total/take) };
     }
-} 
+}
