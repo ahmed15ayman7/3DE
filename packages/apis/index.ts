@@ -365,12 +365,12 @@ export const courseApi = {
     unenroll: (courseId: string) => api.post(`/courses/${courseId}/unenroll`),
     addInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/add-instructor/${instructorId}`),
     removeInstructor: (courseId: string, instructorId: string) => api.post(`/courses/${courseId}/remove-instructor`, { instructorId }),
-    getLessons: (courseId: string) => api.get(`/courses/${courseId}/lessons`),
+    getLessons: (courseId: string): Promise<{ success: boolean, data: (Lesson & { files: FileModel[], quizzes: Quiz[] })[] }> => api.get(`/courses/${courseId}/lessons`),
     getQuizzes: (courseId: string) => api.get(`/courses/${courseId}/quizzes`),
     getStudents: (courseId: string): Promise<{ status:number, data: (Enrollment & { user: User })[] }> => api.get(`/courses/${courseId}/students`),
     getInstructors: (courseId: string) => api.get(`/courses/${courseId}/instructors`),
     getByStudentId: (studentId: string): Promise<{ success: boolean, data: (Course & { instructors: (Instructor & { user: User })[] ,lessons: (Lesson & { files: FileModel[], quizzes: Quiz[] })[] })[] }> => api.get(`/courses/by-student/${studentId}`),
-    getByInstructorId: (instructorId: string) => api.get(`/courses/by-instructor/${instructorId}`),
+    getByInstructorId: (instructorId: string): Promise<{ success: boolean, data: (Course & { instructors: (Instructor & { user: User })[] ,lessons: (Lesson & { files: FileModel[], quizzes: Quiz[] })[] })[] }> => api.get(`/courses/by-instructor/${instructorId}`),
     getByAcademyId: (academyId: string) => api.get(`/courses/by-academy/${academyId}`),
     updateEnrollment: (courseId: string, enrollmentId: string, data: Partial<Enrollment>) => api.put(`/courses/${courseId}/enrollments/${enrollmentId}`, data),
 };
@@ -668,6 +668,7 @@ export const questionApi = {
     createOption: (data: Partial<Option>) => api.post('/questions/option', data),
     updateOption: (id: string, data: Partial<Option>) => api.patch(`/questions/option/${id}`, data),
     deleteOption: (id: string) => api.delete(`/questions/option/${id}`),
+    getOptionById: (optionId: string) => api.get(`/questions/option/${optionId}`),
 };
 
 // Submission APIs

@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Trash2,
@@ -79,6 +79,9 @@ export default function QuestionCard({
     }
     updateQuestion({ options: [...question.options, newOption] })
   }
+  useEffect(() => {
+    updateQuestion({ image: imagePreview })
+  }, [imagePreview])
 
   const removeOption = (optionIndex: number) => {
     if (question.options.length > 2) {

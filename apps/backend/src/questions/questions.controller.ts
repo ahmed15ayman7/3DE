@@ -57,6 +57,10 @@ export class QuestionsController {
     createOption(@Param('id') id: string, @Body() createOptionDto: CreateOptionDto) {
         return this.questionsService.createOption(createOptionDto);
     }
+    @Get(':id/option/:optionId')
+    getOptionById(@Param('id') id: string, @Param('optionId') optionId: string) {
+        return this.questionsService.getOptionById(id, optionId);
+    }
     @Put(':id/option')
     updateOption(@Param('id') id: string, @Body() updateOptionDto: UpdateOptionDto) {
         return this.questionsService.updateOption(id, updateOptionDto);

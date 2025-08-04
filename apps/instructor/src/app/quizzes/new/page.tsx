@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
@@ -30,6 +30,7 @@ import QuestionCard from '../../../components/QuestionCard'
 import { courseApi, lessonApi, questionApi, quizApi } from '@3de/apis'
 import { useQuery } from '@tanstack/react-query'
 import { Option } from '@3de/interfaces';
+import { useAuth } from '@3de/auth'
 
 // Validation schema
 const quizSchema = z.object({
@@ -80,7 +81,7 @@ export default function NewQuizPage() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
-
+  const {user} = useAuth()
   const {
     register,
     control,
@@ -120,12 +121,15 @@ export default function NewQuizPage() {
   const totalPoints = watchedQuestions.reduce((sum, q) => sum + (q.points || 0), 0)
   let {data: courses} = useQuery({
     queryKey: ['courses'],
-    queryFn: () => courseApi.getAll(),
+    queryFn: () => courseApi.getByInstructorId(user?.id||''),
   })
-  let {data: lessons} = useQuery({
+  let {data: lessons,refetch: refetchLessons} = useQuery({
     queryKey: ['lessons'],
-    queryFn: () => lessonApi.getAll(0,10,''),
+    queryFn: () => courseApi.getLessons(watch('courseId')||''),
   })
+  useEffect(() => {
+    refetchLessons()
+  }, [watch('courseId')])
 
 
 
@@ -201,7 +205,6 @@ export default function NewQuizPage() {
         await questionApi.create({
           text: question.text,
           quizId: quiz.data.id,
-          
           type: question.type,
           points: +question.points,
           image: question.image,

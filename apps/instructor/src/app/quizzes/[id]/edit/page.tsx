@@ -28,8 +28,9 @@ import { z } from 'zod'
 import { Card, Button, Input, Textarea, Select, Badge, Tabs, Switch } from '@3de/ui'
 import QuizForm from '../../../../components/QuizForm'
 import QuestionCard from '../../../../components/QuestionCard'
-import { courseApi, lessonApi, quizApi } from '@3de/apis'
+import { courseApi, lessonApi, questionApi, quizApi } from '@3de/apis'
 import { useQuery } from '@tanstack/react-query'
+import { Question, Option } from '@3de/interfaces'
 
 // Validation schema
 const quizSchema = z.object({
@@ -41,6 +42,9 @@ const quizSchema = z.object({
   passingScore: z.number().min(1, 'درجة النجاح مطلوبة').max(100, 'الحد الأقصى 100%'),
   maxAttempts: z.number().min(1, 'عدد المحاولات مطلوب'),
   showResultsImmediately: z.boolean(),
+  startDate: z.string().optional(),
+  upComing: z.boolean(),
+  isCompleted: z.boolean(),
   shuffleQuestions: z.boolean(),
   shuffleAnswers: z.boolean(),
   allowReview: z.boolean(),
@@ -149,14 +153,17 @@ export default function EditQuizPage() {
         shuffleQuestions: quizData.shuffleQuestions ?? false,
         shuffleAnswers: quizData.shuffleAnswers ?? false,
         allowReview: quizData.allowReview ?? true,
-        questions: quizData.questions?.map(q => ({
+        startDate: quizData.startDate || new Date(),
+        upComing: quizData.upComing ?? false,
+        isCompleted: quizData.isCompleted ?? false,
+        questions: quizData.questions?.map((q: Question) => ({
           id: q.id,
           text: q.text,
           type: q.type,
           points: q.points,
           image: q.image || '',
           explanation: q.explanation || '',
-          options: q.options?.map(opt => ({
+          options: q.options?.map((opt: Option) => ({
             id: opt.id,
             text: opt.text,
             isCorrect: opt.isCorrect,
@@ -217,8 +224,46 @@ export default function EditQuizPage() {
     setIsSubmitting(true)
     try {
       console.log('Updated quiz data:', data)
-      await quizApi.update(quizId, data)
-      
+      await quizApi.update(quizId, {
+        title: data.title,
+        description: data.description,
+        courseId: data.courseId,
+        lessonId: data.lessonId,
+        timeLimit: data.timeLimit,
+        passingScore: data.passingScore,
+        maxAttempts: data.maxAttempts,
+        startDate: new Date(data.startDate||''),
+        shuffleQuestions: data.shuffleQuestions,
+        shuffleAnswers: data.shuffleAnswers,
+        allowReview: data.allowReview,
+        showResultsImmediately: data.showResultsImmediately,
+        endDate: new Date(new Date(data.startDate||new Date()).getTime() + data.timeLimit * 60 * 1000),
+        upComing: data.upComing,
+        isCompleted: data.isCompleted,
+      })
+      for(let question of data.questions){
+        let q=await questionApi.getById(question.id||'')
+        if(q.data){
+        await questionApi.update(question.id||'', {
+          text: question.text,
+          quizId: quizId,
+          type: question.type,
+          points: +question.points,
+          image: question.image,
+          explanation: question.explanation,
+        })
+        for(let option of question.options){
+          let o=await questionApi.getOptionById(q.data.id, option.id||'')
+          if(o.data){
+          await questionApi.updateOption(o.data.id, {
+            text: option.text,
+            isCorrect: option.isCorrect,
+            questionId: q.data.id,
+          })
+          }
+        }
+      }
+      }
       router.push('/quizzes')
     } catch (error) {
       console.error('Error updating quiz:', error)
@@ -291,116 +336,155 @@ export default function EditQuizPage() {
           </div>
         )
 
-      case 1:
-        return (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  الحد الزمني (دقيقة) *
-                </label>
-                <Input
-                  type="number"
-                  {...register('timeLimit', { valueAsNumber: true })}
-                  placeholder="30"
-                  error={errors.timeLimit?.message}
-                />
+        case 1:
+          return (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    الحد الزمني (دقيقة) *
+                  </label>
+                  <Input
+                    type="number"
+                    {...register('timeLimit', { valueAsNumber: true })}
+                    placeholder="30"
+                    error={errors.timeLimit?.message}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    تاريخ البدء *
+                  </label>
+                  <Input
+                    type="date"
+                    {...register('startDate')}
+                    placeholder="30/08/2025"
+                    error={errors.startDate?.message}
+                  />
+                </div>
+  
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    درجة النجاح (%) *
+                  </label>
+                  <Input
+                    type="number"
+                    {...register('passingScore', { valueAsNumber: true })}
+                    placeholder="70"
+                    error={errors.passingScore?.message}
+                  />
+                </div>
+  
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    عدد المحاولات المسموحة *
+                  </label>
+                  <Input
+                    type="number"
+                    {...register('maxAttempts', { valueAsNumber: true })}
+                    placeholder="3"
+                    error={errors.maxAttempts?.message}
+                  />
+                </div>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  درجة النجاح (%) *
-                </label>
-                <Input
-                  type="number"
-                  {...register('passingScore', { valueAsNumber: true })}
-                  placeholder="70"
-                  error={errors.passingScore?.message}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  عدد المحاولات المسموحة *
-                </label>
-                <Input
-                  type="number"
-                  {...register('maxAttempts', { valueAsNumber: true })}
-                  placeholder="3"
-                  error={errors.maxAttempts?.message}
-                />
-              </div>
+  
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  إعدادات إضافية
+                </h3>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        الاختبار قبل الموعد
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        الاختبار قبل الموعد
+                      </p>
+                    </div>
+                    <Switch
+                      checked={watch('upComing')}
+                      onChange={(checked) => setValue('upComing', checked)}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        الاختبار منتهي
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        الاختبار منتهي
+                      </p>
+                    </div>
+                    <Switch
+                      checked={watch('isCompleted')}
+                      onChange={(checked) => setValue('isCompleted', checked)}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        عرض النتائج فوراً
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        عرض النتائج للطلاب بعد انتهاء الاختبار مباشرة
+                      </p>
+                    </div>
+                    <Switch
+                      checked={watch('showResultsImmediately')}
+                      onChange={(checked) => setValue('showResultsImmediately', checked)}
+                    />
+                  </div>
+  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        خلط ترتيب الأسئلة
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        عرض الأسئلة بترتيب مختلف لكل طالب
+                      </p>
+                    </div>
+                    <Switch
+                      checked={watch('shuffleQuestions')}
+                      onChange={(checked) => setValue('shuffleQuestions', checked)}
+                    />
+                  </div>
+  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        خلط ترتيب الخيارات
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        عرض خيارات الأسئلة بترتيب مختلف
+                      </p>
+                    </div>
+                    <Switch
+                      checked={watch('shuffleAnswers')}
+                      onChange={(checked) => setValue('shuffleAnswers', checked)}
+                    />
+                  </div>
+  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        السماح بمراجعة الإجابات
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        السماح للطلاب بمراجعة إجاباتهم قبل التسليم
+                      </p>
+                    </div>
+                    <Switch
+                      checked={watch('allowReview')}
+                      onChange={(checked) => setValue('allowReview', checked)}
+                    />
+                  </div>
+                </div>
+              </Card>
             </div>
-
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                إعدادات إضافية
-              </h3>
-              
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      عرض النتائج فوراً
-                    </label>
-                    <p className="text-xs text-gray-500">
-                      عرض النتائج للطلاب بعد انتهاء الاختبار مباشرة
-                    </p>
-                  </div>
-                  <Switch
-                    checked={watch('showResultsImmediately')}
-                    onChange={(checked) => setValue('showResultsImmediately', checked)}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      خلط ترتيب الأسئلة
-                    </label>
-                    <p className="text-xs text-gray-500">
-                      عرض الأسئلة بترتيب مختلف لكل طالب
-                    </p>
-                  </div>
-                  <Switch
-                    checked={watch('shuffleQuestions')}
-                    onChange={(checked) => setValue('shuffleQuestions', checked)}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      خلط ترتيب الخيارات
-                    </label>
-                    <p className="text-xs text-gray-500">
-                      عرض خيارات الأسئلة بترتيب مختلف
-                    </p>
-                  </div>
-                  <Switch
-                    checked={watch('shuffleAnswers')}
-                    onChange={(checked) => setValue('shuffleAnswers', checked)}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      السماح بمراجعة الإجابات
-                    </label>
-                    <p className="text-xs text-gray-500">
-                      السماح للطلاب بمراجعة إجاباتهم قبل التسليم
-                    </p>
-                  </div>
-                  <Switch
-                    checked={watch('allowReview')}
-                    onChange={(checked) => setValue('allowReview', checked)}
-                  />
-                </div>
-              </div>
-            </Card>
-          </div>
-        )
+          )
 
       case 2:
         return (
@@ -439,7 +523,7 @@ export default function EditQuizPage() {
               <div className="space-y-4">
                 {questions.map((question, index) => (
                   <QuestionCard
-                    key={question.id || index}
+                    key={index}
                     question={question}
                     index={index}
                     onUpdate={(updatedQuestion) => updateQuestion(index, updatedQuestion)}

@@ -128,6 +128,17 @@ export class QuestionsService {
             data: createOptionInput,
         });
     }
+    async getOptionById(questionId: string, optionId: string) {
+        let question = await this.prisma.question.findUnique({
+            where: { id: questionId },
+        });
+        if (!question) {
+            throw new NotFoundException(`Question with ID ${questionId} not found`);
+        }
+        return this.prisma.option.findUnique({
+            where: { id: optionId, questionId: question.id },
+        });
+    }
     async updateOption(id: string, updateOptionInput: UpdateOptionDto) {
         return this.prisma.option.update({
             where: { id },
