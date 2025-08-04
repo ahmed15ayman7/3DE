@@ -200,7 +200,7 @@ export default function ExamResultDetailPage() {
               </div>
             </div>
             <div className="text-sm text-gray-600">
-              تاريخ الإكمال: {new Date(submission.createdAt).toLocaleDateString('ar-EG')}
+              تاريخ الإكمال: {new Date(submission.createdAt).toLocaleDateString('ar-EG',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
             </div>
           </Card>
         </motion.div>

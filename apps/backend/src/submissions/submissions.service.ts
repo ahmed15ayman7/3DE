@@ -106,7 +106,20 @@ export class SubmissionsService {
             where: { id },
             include: {
                 user: true,
-                quiz: true,
+                quiz: {
+                    include: {
+                      lesson:{
+                        include:{
+                            course:true
+                        }
+                      },
+                        questions: {
+                            include: {
+                                options: true
+                            }
+                        }
+                    }
+                }
 
             },
         });
