@@ -31,9 +31,9 @@ export default function EnrollmentCodesPage() {
     placeholderData: keepPreviousData,
   });
 
-  const codes: EnrollmentCode[] = data?.data || [];
-  const totalPages = data?.totalPages || 1;
-  const totalItems = data?.total || 0;
+  const codes = data?.data.data || [];
+  const totalPages = data?.data.totalPages || 1;
+  const totalItems = data?.data.total || 0;
 
   // Fetch Courses for Filter & Modal
   const { data: coursesData } = useQuery({
@@ -64,8 +64,7 @@ export default function EnrollmentCodesPage() {
       toast.error('خطأ في إنشاء الأكواد');
     },
   });
-
-  const sortedCodes = [...codes].sort((a, b) => {
+  const sortedCodes = codes.sort((a, b) => {
     const aVal = (a as any)[sortBy] || '';
     const bVal = (b as any)[sortBy] || '';
     if (sortOrder === 'asc') return aVal > bVal ? 1 : -1;
@@ -75,7 +74,7 @@ export default function EnrollmentCodesPage() {
   const columns: TableColumn<EnrollmentCode>[] = [
     { key: 'code', header: 'الكود', render: (v) => <span className="font-mono">{v}</span> },
     { key: 'course', header: 'الكورس', render: (_v, r) => r.course?.title || '—' },
-    { key: 'usedBy', header: 'الطالب', render: (_v, r) => r.usedBy?.firstName + ' ' + r.usedBy?.lastName || '—' },
+    { key: 'usedBy', header: 'الطالب', render: (_v, r) => r.usedBy ? r.usedBy?.firstName + ' ' + r.usedBy?.lastName : '—' },
     { key: 'isUsed', header: 'الحالة', render: (v) => (v ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />) },
     { key: 'createdAt', header: 'تاريخ الإنشاء', render: (v) => new Date(v).toLocaleString() },
   ];
@@ -125,7 +124,7 @@ export default function EnrollmentCodesPage() {
               </div>
               <div className="text-lg font-mono mt-2">{code.code}</div>
               <div className="mt-2 text-sm">الكورس: {code.course?.title || '—'}</div>
-              <div className="mt-2 text-sm">الطالب: {code.usedBy?.firstName + ' ' + code.usedBy?.lastName || '—'}</div>
+              <div className="mt-2 text-sm">الطالب: {code.usedBy ? code.usedBy?.firstName + ' ' + code.usedBy?.lastName : '—'}</div>
               <div className="mt-2 text-sm">{code.isUsed ? 'مستخدم' : 'غير مستخدم'}</div>
             </motion.div>
           ))}

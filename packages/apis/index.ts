@@ -649,7 +649,7 @@ export const enrollmentApi = {
     delete: (id: string) => api.delete(`/enrollments/${id}`),
     createEnrollmentCode: (data: Partial<EnrollmentCode>) => api.post('/enrollments/code', data),
     updateEnrollmentCode: (id: string, data: Partial<EnrollmentCode>) => api.put(`/enrollments/code/${id}`, data),
-    getAllEnrollmentCodes: (search: string, take: number, skip: number, courseId: string): Promise<{ success: boolean, data: EnrollmentCode[], total: number, totalPages: number }> => api.get(`/enrollments/codes/all?search=${search}&take=${take}&skip=${skip}&courseId=${courseId}`),
+    getAllEnrollmentCodes: (search: string, take: number, skip: number, courseId: string): Promise<{ success: boolean,data:{data:EnrollmentCode[],total:number,totalPages:number} }> => api.get(`/enrollments/codes/all?search=${search}&take=${take}&skip=${skip}&courseId=${courseId}`),
 };
 
 // Question APIs
