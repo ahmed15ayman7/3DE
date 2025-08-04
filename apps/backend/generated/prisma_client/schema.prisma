@@ -342,7 +342,7 @@ enum FileType {
 
 model EnrollmentCode {
   id          String    @id @default(cuid())
-  code        String    @unique
+  code        String    @unique @default(uuid())
   courseId    String
   course      Course    @relation(fields: [courseId], references: [id])
   isUsed      Boolean   @default(false)

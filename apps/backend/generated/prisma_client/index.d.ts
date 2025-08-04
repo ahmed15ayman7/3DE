@@ -111190,7 +111190,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateInput = {
     id?: string
-    code: string
+    code?: string
     isUsed?: boolean
     createdAt?: Date | string
     usedAt?: Date | string | null
@@ -111201,7 +111201,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeUncheckedCreateInput = {
     id?: string
-    code: string
+    code?: string
     courseId: string
     isUsed?: boolean
     usedById?: string | null
@@ -111234,7 +111234,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateManyInput = {
     id?: string
-    code: string
+    code?: string
     courseId: string
     isUsed?: boolean
     usedById?: string | null
@@ -130859,7 +130859,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateWithoutUsedByInput = {
     id?: string
-    code: string
+    code?: string
     isUsed?: boolean
     createdAt?: Date | string
     usedAt?: Date | string | null
@@ -130869,7 +130869,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeUncheckedCreateWithoutUsedByInput = {
     id?: string
-    code: string
+    code?: string
     courseId: string
     isUsed?: boolean
     createdById: string
@@ -134866,7 +134866,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateWithoutCourseInput = {
     id?: string
-    code: string
+    code?: string
     isUsed?: boolean
     createdAt?: Date | string
     usedAt?: Date | string | null
@@ -134876,7 +134876,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeUncheckedCreateWithoutCourseInput = {
     id?: string
-    code: string
+    code?: string
     isUsed?: boolean
     usedById?: string | null
     createdById: string
@@ -142549,7 +142549,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateWithoutCreatedByInput = {
     id?: string
-    code: string
+    code?: string
     isUsed?: boolean
     createdAt?: Date | string
     usedAt?: Date | string | null
@@ -142559,7 +142559,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeUncheckedCreateWithoutCreatedByInput = {
     id?: string
-    code: string
+    code?: string
     courseId: string
     isUsed?: boolean
     usedById?: string | null
@@ -155135,7 +155135,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateManyUsedByInput = {
     id?: string
-    code: string
+    code?: string
     courseId: string
     isUsed?: boolean
     createdById: string
@@ -157260,7 +157260,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateManyCourseInput = {
     id?: string
-    code: string
+    code?: string
     isUsed?: boolean
     usedById?: string | null
     createdById: string
@@ -159154,7 +159154,7 @@ export namespace Prisma {
 
   export type EnrollmentCodeCreateManyCreatedByInput = {
     id?: string
-    code: string
+    code?: string
     courseId: string
     isUsed?: boolean
     usedById?: string | null
