@@ -7,17 +7,12 @@ import {
   BarChart3,
   Users,
   Trophy,
-  TrendingUp,
-  TrendingDown,
   Clock,
   CheckCircle,
   XCircle,
   Download,
-  Filter,
   Search,
   Eye,
-  Calendar,
-  Award,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import {
@@ -31,8 +26,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
 } from 'recharts'
 import { Card, Button, Badge, Avatar, Tabs, Progress } from '@3de/ui'
 
