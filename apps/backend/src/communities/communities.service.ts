@@ -215,7 +215,7 @@ export class CommunitiesService {
     }
     async getGroups(communityId: string): Promise<Group[]> {
         return this.prisma.group.findMany({
-            where: { Community: { some: { id: communityId } } },
+            where: { communityId },
             include: {
                 members: true,
             },
