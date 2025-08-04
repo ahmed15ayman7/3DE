@@ -102,7 +102,7 @@ export class EnrollmentsService {
         }
         if (data.code) {
             const enrollmentCode = await this.prisma.enrollmentCode.findUnique({
-                where: { code: data.code }
+                where: { code: data.code,isUsed:false,usedById:null,courseId:data.courseId }
             });
             if (!enrollmentCode) {
                 throw new BadRequestException('Invalid code');

@@ -7,6 +7,7 @@ import { Button, Badge, Progress, toast, Modal, Input } from '@3de/ui';
 import { Course } from '@3de/interfaces';
 import { enrollmentApi } from '@3de/apis';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface CourseCardProps {
   userId: string;
@@ -16,6 +17,7 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({ userId, course, isEnrolled = false, refetch }: CourseCardProps) {
+  const router = useRouter();
   const [showEnrollModal, setShowEnrollModal] = useState(false);
   const [enrollmentCode, setEnrollmentCode] = useState('');
   const progress = (course.lessons?.filter((lesson: any) => lesson.WatchedLesson.some((watched: any) => watched.userId === userId)).length || 0) / (course.lessons?.length || 1) * 100 || 0;
@@ -33,6 +35,7 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
   };
   let handleEnroll = async () => {
     let toastId = toast.loading('يتم الالتحاق بالكورس...');
+    try{
     let enrollment =isPending ? await enrollmentApi.update(course.enrollments?.find((enrollment)=>enrollment.userId === userId)?.id||'',{status:"PENDING"}) : await enrollmentApi.create({courseId:course.id,userId:userId,status:"PENDING"});
     if(enrollment.status>=200 && enrollment.status<300){
       let code = await enrollmentApi.updateEnrollmentCode(enrollmentCode,{courseId:course.id,usedById:userId,isUsed:true});
@@ -41,6 +44,8 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
         if(enrollment2.status>=200 && enrollment2.status<300){
           toast.success('تم الالتحاق بالكورس بنجاح',{id:toastId});
           refetch();
+          setShowEnrollModal(false);
+          setEnrollmentCode('');
         }else{
           toast.error('حدث خطأ أثناء الالتحاق بالكورس',{id:toastId});
         }
@@ -50,9 +55,13 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
     }else{
       toast.error('حدث خطأ أثناء الالتحاق بالكورس',{id:toastId});
     }
+    }catch(error){
+      toast.error('يرجى التأكد من كود التفعيل والتاكد من عدم استخدامه من قبل',{id:toastId});
+    }
   }
 
   return (
+    <div className="">
     <motion.div
       whileHover={{ y: -5 }}
       className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
@@ -111,16 +120,18 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
         )}
 
         {/* Action Button */}
-        {isEnrolled ? <Link href={`/courses/${course.id}`}>
-          <Button className="w-full" variant={isEnrolled && !isPending ? 'primary': isPending ? 'secondary' : 'outline'} disabled={isPending ? true : false}>
-            <Play className="w-4 h-4 ml-2" />
-           {isPending ? 'جاري التحقق...' : 'استكمال الكورس'}
-          </Button>
-        </Link> : <Button className="w-full" variant={isEnrolled ? 'primary' : 'outline'} onClick={()=>setShowEnrollModal(true)}>
+        <Button className="w-full" variant={isEnrolled && !isPending ? 'primary' : 'outline'} onClick={()=>{
+          if(isEnrolled && isPending||!isEnrolled){
+            setShowEnrollModal(true);
+          }else{
+            router.push(`/courses/${course.id}`);
+          }
+        }}>
           <Play className="w-4 h-4 ml-2" />
-          الالتحاق بالكورس
-        </Button>}
+           {isPending && isEnrolled ? 'استكمل الاشتراك': isEnrolled ? 'استكمال الكورس' : 'الالتحاق بالكورس'}
+        </Button>
       </div>
+    </motion.div>
       {showEnrollModal&&<Modal isOpen={showEnrollModal} onClose={()=>setShowEnrollModal(false)}>
         <div className="flex flex-col gap-4">
           <h2 className="text-2xl font-bold text-gray-900">الالتحاق بالكورس</h2>
@@ -132,6 +143,6 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
           </Button>
         </div>
       </Modal>}
-    </motion.div>
+    </div>
   );
 } 
