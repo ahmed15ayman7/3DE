@@ -3,25 +3,21 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { postApi } from '@3de/apis';
-import { BlogPost, Post, User, Comment } from '@3de/interfaces';
+import { landingApi } from '@3de/apis';
+import { BlogPost } from '@3de/interfaces';
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
 import BlogCard from '../../components/BlogCard';
 import { 
   Search, 
   Filter, 
-  Calendar,
   Eye,
   Heart,
   MessageCircle,
   BookOpen,
-  TrendingUp,
   X,
-  Tag
 } from 'lucide-react';
 import { Button, Pagination } from '@3de/ui';
-import axios from 'axios';
 
 const categories = [
   "جميع المقالات",
@@ -41,10 +37,7 @@ const sortOptions = [
   { value: "mostRead", label: "الأكثر قراءة" },
   { value: "mostLiked", label: "الأكثر إعجاباً" }
 ];
-let getPosts = async (search:string,skip:number,take:number) => {
-  const response = await axios.get(`https://api.3de.school/public/posts?search=${search}&skip=${skip}&take=${take}`);
-  return response as {data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-} 
+
 export default function BlogsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('جميع المقالات');
@@ -56,7 +49,7 @@ export default function BlogsPage() {
   const { data: postsData, isLoading: postsLoading, error: postsError } = useQuery({
     queryKey: ['blogPosts'],
     queryFn: () =>
-       getPosts(searchTerm,skip,take),
+       landingApi.getBlogs(searchTerm, take, skip),
   });
 
   const allPosts = postsData?.data.posts || [];

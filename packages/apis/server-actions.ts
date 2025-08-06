@@ -770,27 +770,27 @@ export async function getAttendanceByDateStudentLessonStatus(
 //!!attendanceApis
 
 //??notificationApis
-export async function getAllNotifications(page: number, limit: number, search: string) {
+export async function getAllNotifications(page: number, limit: number, search: string): Promise<{ status: number, data: Notification[] }> {
   const response = await api.get(`/notifications?page=${page}&limit=${limit}&search=${search}`);
   return { status: response.status, data: response.data };
 }
 
-export async function getNotificationsByUserId(userId: string) {
+export async function getNotificationsByUserId(userId: string): Promise<{ status: number, data: Notification[] }> {
   const response = await api.get(`/notifications/user/${userId}`);
   return { status: response.status, data: response.data };
 }
 
-export async function getUnreadNotifications() {
+export async function getUnreadNotifications(): Promise<{ status: number, data: Notification[] }> {
   const response = await api.get(`/notifications/unread`);
   return { status: response.status, data: response.data };
 }
 
-export async function markNotificationAsRead(id: string) {
+export async function markNotificationAsRead(id: string): Promise<{ status: number, data: Notification[] }> {
   const response = await api.patch(`/notifications/${id}/read`);
   return { status: response.status, data: response.data };
 }
 
-export async function markAllNotificationsAsRead() {
+export async function markAllNotificationsAsRead(): Promise<{ status: number, data: Notification[] }> {
   const response = await api.patch(`/notifications/read-all`);
   return { status: response.status, data: response.data };
 }
@@ -803,7 +803,7 @@ export async function createNotification(data: {
   title?: string;
   urgent?: boolean;
   isImportant?: boolean;
-}) {
+}): Promise<{ status: number, data: Notification }> {
   const response = await api.post(`/notifications`, data);
   return { status: response.status, data: response.data };
 }
@@ -817,22 +817,22 @@ export async function updateNotification(
     urgent?: boolean;
     isImportant?: boolean;
   }
-) {
+): Promise<{ status: number, data: Notification }> {
   const response = await api.patch(`/notifications/${id}`, data);
   return { status: response.status, data: response.data };
 }
 
-export async function deleteNotification(id: string) {
+export async function deleteNotification(id: string): Promise<{ status: number, data: Notification }> {
   const response = await api.delete(`/notifications/${id}`);
   return { status: response.status, data: response.data };
 }
 
-export async function getNotificationSettings() {
+export async function getNotificationSettings(): Promise<{ status: number, data: Notification }> {
   const response = await api.get(`/notifications/settings`);
   return { status: response.status, data: response.data };
 }
 
-export async function getNotificationSettingsByUserId(userId: string) {
+export async function getNotificationSettingsByUserId(userId: string): Promise<{ status: number, data: Notification }> {
   const response = await api.get(`/notifications/settings/user/${userId}`);
   return { status: response.status, data: response.data };
 }
@@ -845,7 +845,7 @@ export async function updateNotificationSettings(data: {
   urgent: boolean;
   email: boolean;
   push: boolean;
-}) {
+}): Promise<{ status: number, data: Notification }> {
   const response = await api.patch(`/notifications/settings`, data);
   return { status: response.status, data: response.data };
 }
@@ -858,7 +858,7 @@ export async function createNotificationSettings(data: {
   urgent: boolean;
   email: boolean;
   push: boolean;
-}) {
+}): Promise<{ status: number, data: Notification }> {
   const response = await api.post(`/notifications/settings`, data);
   return { status: response.status, data: response.data };
 }
@@ -1649,7 +1649,32 @@ export async function getAllForStudents(id: string) {
   return { status: response.status, data: response.data };
 }
 
-export async function getInstructorDashboardData(id: string) {
+export async function getInstructorDashboardData(id: string): Promise<{ status: number, data: {
+  statistics: {
+    totalCourses: number;
+    totalStudents: number;
+    activeQuizzes: number;
+    averageProgress: number;
+  },
+  performanceMetrics: {
+    assignmentCompletionRate: number;
+    attendanceRate: number;
+    successRate: number;
+    lessonWatchRate: number;
+  },
+  recentNotifications: Notification[],
+  weeklyData: {
+    date: string;
+    totalStudents: number;
+    activeQuizzes: number;
+    averageProgress: number;
+  }[],
+  courseCompletionData: {
+    courseId: string;
+    courseName: string;
+    completionRate: number;
+  }[]
+} }> {
   const response = await api.get(`/instructors/${id}/dashboard`);
   return { status: response.status, data: response.data };
 }
@@ -1708,3 +1733,22 @@ export async function deleteSupport(id: string) {
   return { status: response.status, data: response.data };
 }
 //!!supportApis
+
+
+//??landingApis
+export async function getCourses(search: string, take: number, skip: number) {
+  const response = await axios.get(`https://api.3de.school/public/courses?search=${search}&take=${take}&skip=${skip}`);
+  return response as {data: {courses:Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+}
+export async function getInstructors(search: string, take: number, skip: number) {
+  const response = await axios.get(`https://api.3de.school/public/instructors?search=${search}&take=${take}&skip=${skip}`);
+  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+}
+  export async function getEventsPublic(search: string, take: number, skip: number) {
+    const response = await axios.get(`https://api.3de.school/public/events?search=${search}&take=${take}&skip=${skip}`);
+    return response as {data: {events:Event[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+  }
+  export async function getBlogs(search: string, take: number, skip: number) {
+    const response = await axios.get(`https://api.3de.school/public/posts?search=${search}&take=${take}&skip=${skip}`);
+    return response as {data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+  }

@@ -637,7 +637,14 @@ export const supportApi = {
     update: serverActions.updateSupport,
     delete: serverActions.deleteSupport,
   };
-  
+
+// ?? Landing APIs
+export const landingApi = {
+  getCourses: serverActions.getCourses,
+  getInstructors: serverActions.getInstructors,
+  getEventsPublic: serverActions.getEventsPublic,
+  getBlogs: serverActions.getBlogs,
+};
 // ?? Export auth service for direct access
 export { authService };
 

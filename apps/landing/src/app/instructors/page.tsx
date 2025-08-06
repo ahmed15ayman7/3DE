@@ -14,13 +14,11 @@ import {
   BookOpen,
   Star,
   Award,
-  Globe,
-  GraduationCap,
-  TrendingUp,
+  GraduationCap,  
   X
 } from 'lucide-react';
 import { Button, Pagination } from '@3de/ui';
-import axios from 'axios';
+import { landingApi } from '@3de/apis';
 const categories = [
   "جميع التخصصات",
   "البرمجة",
@@ -38,10 +36,7 @@ const sortOptions = [
   { value: "experience", label: "الأكثر خبرة" },
   { value: "name", label: "الاسم (أبجدياً)" }
 ];
-let getInstructors = async (search: string,skip:number,take:number) => {
-  const response = await axios.get(`https://api.3de.school/public/instructors?search=${search}&skip=${skip}&take=${take}`);
-  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-}
+
 
 export default function InstructorsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -55,7 +50,7 @@ export default function InstructorsPage() {
   const { data: instructorsData, isLoading: instructorsLoading, error: instructorsError } = useQuery({
     queryKey: ['instructors'],
     queryFn: () =>
-       getInstructors(searchTerm,skip,take),
+       landingApi.getInstructors(searchTerm,take,skip),
   });
 
 

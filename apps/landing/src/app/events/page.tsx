@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { eventApi } from '@3de/apis';
+import { landingApi } from '@3de/apis';
 import { Event } from '@3de/interfaces';
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
@@ -12,16 +12,12 @@ import {
   Search, 
   Filter, 
   Calendar,
-  Clock,
   MapPin,
   Users,
   Globe,
-  Video,
   X,
-  TrendingUp
 } from 'lucide-react';
 import { Button, Pagination } from '@3de/ui';
-import axios from 'axios';
 const categories = [
   "جميع الفئات",
   "مؤتمر",
@@ -44,10 +40,7 @@ const sortOptions = [
   { value: "popular", label: "الأكثر حضوراً" },
   { value: "newest", label: "الأحدث إضافة" }
 ];
-let getEvents = async (search:string,skip:number,take:number) => {
-  const response = await axios.get(`https://api.3de.school/public/events?search=${search}&skip=${skip}&take=${take}`);
-  return response as {data: {events: Partial<Event>[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-}
+
 
 export default function EventsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -63,7 +56,7 @@ export default function EventsPage() {
   const { data: eventsData, isLoading: eventsLoading, error: eventsError } = useQuery({
     queryKey: ['events'],
     queryFn: () =>
-       getEvents(searchTerm,skip,take),
+       landingApi.getEventsPublic(searchTerm,take,skip),
   });
 
   const allEvents = eventsData?.data.events || [];

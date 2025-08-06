@@ -19,14 +19,11 @@ export default function NotificationsPage() {
     queryKey: ['notifications', page, limit, search],
     queryFn: async () => {
       const response = await notificationApi.getAll(page, limit, search);
-      return {
-        ...response,
-        data: JSON.parse(JSON.stringify(response.data))
-      };
+      return response
     },
   });
 
-  const notifications = (notificationsResponse as any)?.data || [];
+  const notifications = notificationsResponse?.data || [];
 
   const markAsReadMutation = useMutation({
     mutationFn: (id: string) => notificationApi.markAsRead(id),

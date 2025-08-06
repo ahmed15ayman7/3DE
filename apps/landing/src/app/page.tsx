@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { courseApi, instructorApi, eventApi, communityApi } from '@3de/apis';
+import { landingApi } from '@3de/apis';
 import { Course, Instructor, Event, BlogPost, User } from '@3de/interfaces';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
@@ -32,47 +32,32 @@ import {
 } from 'lucide-react';
 import { Button } from '@3de/ui';
 import axios from 'axios';
-let getCourses = async () => {
-  const response = await axios.get('https://api.3de.school/public/courses?take=3&skip=0');
-  return response as {data: {courses:Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-}
-let getInstructors = async () => {
-  const response = await axios.get('https://api.3de.school/public/instructors?take=3&skip=0');
-  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-}
-  let getEvents = async () => {
-    const response = await axios.get('https://api.3de.school/public/events?take=2&skip=0');
-    return response as {data: {events:Event[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-  }
-  let getBlogs = async () => {
-    const response = await axios.get('https://api.3de.school/public/posts?take=3&skip=0');
-    return response as {data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-  }
+
 export default function HomePage() {
   // Fetch featured courses
   const { data: coursesData, isLoading: coursesLoading } = useQuery({
     queryKey: ['featured-courses'],
     queryFn: () =>
-       getCourses(),
+       landingApi.getCourses("", 3, 0),
   });
 
   // Fetch top instructors
   const { data: instructorsData, isLoading: instructorsLoading } = useQuery({
     queryKey: ['top-instructors'],
     queryFn: () =>
-       getInstructors(),
+       landingApi.getInstructors("",  3, 0),
   });
 
   // Fetch upcoming events
   const { data: eventsData, isLoading: eventsLoading } = useQuery({
     queryKey: ['upcoming-events'],
     queryFn: () =>
-       getEvents(),
+       landingApi.getEventsPublic("", 2, 0),
   });
   const { data: blogsData, isLoading: blogsLoading } = useQuery({
     queryKey: ['latest-blogs'],
     queryFn: () =>
-       getBlogs(),
+       landingApi.getBlogs("", 3, 0),
   });
 
   // Get featured courses (first 3)

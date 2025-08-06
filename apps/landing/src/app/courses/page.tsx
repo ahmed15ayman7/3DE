@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { courseApi, instructorApi } from '@3de/apis';
-import { Course, Instructor, User } from '@3de/interfaces';
+import { landingApi } from '@3de/apis';
+import { Course } from '@3de/interfaces';
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
 import CourseCard from '../../components/CourseCard';
@@ -15,13 +15,11 @@ import {
   List,
   BookOpen,
   Users,
-  TrendingUp,
   Award,
   X,
   Clock
 } from 'lucide-react';
 import { Button } from '@3de/ui';
-import axios from 'axios';
 import { Pagination } from '@3de/ui';
 const categories = [
   "جميع الفئات",
@@ -56,14 +54,7 @@ const sortOptions = [
   { value: "price-low", label: "السعر: من الأقل للأعلى" },
   { value: "price-high", label: "السعر: من الأعلى للأقل" }
 ];
-let getCourses = async (search:string,skip:number,take:number) => {
-  const response = await axios.get(`https://api.3de.school/public/courses?search=${search}&skip=${skip}&take=${take}`);
-  return response as {data: {courses: Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-}
-let getInstructors = async () => {
-  const response = await axios.get('https://api.3de.school/public/instructors?take=9&skip=0');
-  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
-}
+
 export default function CoursesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('جميع الفئات');
@@ -79,14 +70,14 @@ export default function CoursesPage() {
   const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useQuery({
     queryKey: ['courses'],
     queryFn: () =>
-       getCourses(searchTerm,skip,take),
+       landingApi.getCourses(searchTerm,take,skip),
   });
 
   // Fetch instructors for filtering
   const { data: instructorsData } = useQuery({
     queryKey: ['instructors'],
     queryFn: () =>
-       getInstructors(),
+       landingApi.getInstructors("", 9, 0),
   });
 
   const allCourses = coursesData?.data.courses || [];
