@@ -402,7 +402,7 @@ export async function getEnrollments(id: string): Promise<{ status: number; data
   const response = await api.get(`/users/${id}/enrollments`);
   return { status: response.status, data: response.data };
 }
-export async function adminLogin(credentials: { email: string; password: string }) {
+export async function adminLogin(credentials: { email: string; password: string }): Promise<{ access_token: string; refreshToken: string; user: User }> {
   try {
     const response = await api.post("/admin-auth/login", credentials);
     const { access_token, refreshToken } = response.data;
@@ -415,7 +415,7 @@ export async function adminLogin(credentials: { email: string; password: string 
     };
   } catch (error) {
     console.error(error);
-    return { status: 500, data: null };
+    throw error;
   }
 }
 

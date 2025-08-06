@@ -237,7 +237,7 @@ export const adminAuthApi = {
         return {access_token,refreshToken,user};
       } catch (error) {
         console.error(error);
-        return { status: 500, data: null };
+        throw error;
       }
     },
     getDashboardStats: serverActions.getDashboardStats,
