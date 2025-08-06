@@ -78,9 +78,15 @@
   .input-field {
     @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-main focus:border-transparent transition-all duration-200;
   }
-  .bg-gradient-primary {
-    background: linear-gradient(135deg, #FBB34C 0%, #ee9311 100%);
+   /* Background Utilities */
+   .bg-gradient-primary {
+    background: linear-gradient(135deg, #249491 0%, #1a6b69 100%);
   }
+  
+  .bg-gradient-secondary {
+    background: linear-gradient(135deg, #003f59 0%, #002a3a 100%);
+  }
+  
   
 
 }
@@ -95,12 +101,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FBB34C;
+  background: #249491;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ee9311;
+  background: #1a6b69;
 }
 
 html.screenshot-detected::after {
