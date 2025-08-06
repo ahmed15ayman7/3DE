@@ -49,7 +49,6 @@ export default function InstructorDetailsPage() {
   const [sortBy, setSortBy] = useState('user.firstName');
   const [sortOrder, setSortOrder] = useState('asc');
   const [showAddCourseModal, setShowAddCourseModal] = useState(false);
-  const [showAddStudentModal, setShowAddStudentModal] = useState(false);
 
   // Form data for editing
   const [formData, setFormData] = useState({
@@ -77,7 +76,7 @@ export default function InstructorDetailsPage() {
   // Fetch instructor courses
   const { data: coursesData } = useQuery({
     queryKey: ['instructor-courses', instructorId],
-    queryFn: () => instructorApi.getCourses(instructorId),
+    queryFn: () => courseApi.getByInstructorId(instructorId),
     enabled: !!instructorId
   });
 
@@ -92,14 +91,6 @@ export default function InstructorDetailsPage() {
 
   const allCourses = allCoursesData?.data || [];
 
-  // Fetch all students for adding to instructor
-  const { data: allStudentsData } = useQuery({
-    queryKey: ['all-students'],
-    queryFn: () => userApi.getAll(0, 100, ''),
-    enabled: showAddStudentModal
-  });
-
-  const allStudents = allStudentsData?.data || [];
 
   // Update instructor mutation
   const updateInstructorMutation = useMutation({
@@ -595,13 +586,13 @@ export default function InstructorDetailsPage() {
                 {viewMode === 'grid' ? <List className="w-5 h-5" /> : <Grid className="w-5 h-5" />}
               </button>
 
-              <Button
-                onClick={() => activeTab === 'students' ? setShowAddStudentModal(true) : setShowAddCourseModal(true)}
+              {activeTab === "courses"? <Button
+                onClick={() => setShowAddCourseModal(true)}
                 className="flex items-center gap-2"
               >
                 <Plus className="w-4 h-4" />
-                إضافة {activeTab === 'students' ? 'طالب' : 'كورس'}
-              </Button>
+                إضافة كورس
+              </Button>:null}
             </div>
           </div>
 
@@ -827,7 +818,7 @@ export default function InstructorDetailsPage() {
       </Modal>
 
       {/* Add Student Modal */}
-      <Modal
+      {/* <Modal
         isOpen={showAddStudentModal}
         onClose={() => setShowAddStudentModal(false)}
         title="إضافة طالب للمحاضر"
@@ -862,7 +853,7 @@ export default function InstructorDetailsPage() {
               ))}
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

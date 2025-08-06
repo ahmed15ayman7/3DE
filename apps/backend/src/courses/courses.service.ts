@@ -294,7 +294,7 @@ export class CoursesService {
     }
     async getCoursesByInstructorId(instructorId: string): Promise<Course[]> {
         const instructor = await this.prisma.instructor.findFirst({
-            where: { userId: instructorId },
+            where: { OR:[ {userId: instructorId },{id:instructorId}]}
         });
         if (!instructor) {
             throw new NotFoundException('Instructor not found');
