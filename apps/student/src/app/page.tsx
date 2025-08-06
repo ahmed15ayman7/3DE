@@ -21,12 +21,10 @@ export default function HomePage() {
     queryKey: ['courses'],
     queryFn: async () => {
       const response = await courseApi.getAll();
-      return {
-        ...response,
-        data: JSON.parse(JSON.stringify(response.data))
-      };
+      return response;
     },
   });
+  
 
   const { data: instructorsResponse, isLoading: instructorsLoading ,refetch:refetchInstructors} = useQuery({
     queryKey: ['instructors'],

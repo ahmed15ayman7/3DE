@@ -113,7 +113,7 @@ export default function CourseCard({ userId, course, isEnrolled = false, refetch
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium text-gray-700">التقدم</span>
-              <span className="text-sm text-gray-500">{progress}%</span>
+              <span className="text-sm text-gray-500">{Math.round(progress)}%</span>
             </div>
             <Progress value={progress} className="h-2" />
           </div>

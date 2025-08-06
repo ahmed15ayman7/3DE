@@ -310,7 +310,7 @@ class AuthService {
           const admin=user.data.role==='ADMIN'?await adminAuthApi.getAdminByUserId(user.data.id):null
           
           return {
-            user:{...user.data,Admin:admin?[admin]:[]},
+            user:{...user.data,Admin:admin?[admin.data]:[]},
             accessToken,
             refreshToken,
           };

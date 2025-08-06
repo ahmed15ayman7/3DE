@@ -120,7 +120,7 @@ export default function AchievementsPage() {
     ...achievements.map((a: any) => a.userId),
     ...badges.map((b: any) => b.userId)
   ]).size;
-  const totalPoints = [...achievements, ...badges].reduce((sum, item) => sum + (item.points || 0), 0);
+  const totalPoints = [...achievements, ...badges].reduce((sum, item) => sum + ((item as  Badge)?.points || 0), 0);
 
   // Get unique types
   const uniqueTypes = [...new Set(currentData.map((item: any) => item.type))];
