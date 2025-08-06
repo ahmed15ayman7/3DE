@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { AuthGuard } from '../auth/auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CreateUserDto } from 'dtos/User.create.dto';
@@ -20,7 +20,7 @@ import { UserRole } from '@shared/prisma';
 
 @ApiTags('المستخدمين')
 @ApiBearerAuth()
-@UseGuards(AuthGuard, RolesGuard) // تطبيق الحماية بالـ JWT + الـ Roles
+@UseGuards(JwtAuthGuard, RolesGuard) // تطبيق الحماية بالـ JWT + الـ Roles
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}

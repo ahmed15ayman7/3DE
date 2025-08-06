@@ -23,6 +23,7 @@ import {
       }
   
       const { user } = context.switchToHttp().getRequest();
+      console.log('user',user);
   
       if (!user || !user.role) {
         throw new ForbiddenException('User has no role or is not authenticated');
