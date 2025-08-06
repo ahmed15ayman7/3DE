@@ -17,10 +17,10 @@ export default function SignInPage() {
     let getAdminData=async()=>{
       const admin=user?.id? await adminAuthApi.getAdminByUserId(user?.id!) : null
       if (user && !isLoading && admin) {
-        if (user.role === 'ADMIN' && admin?.AdminRole?.[0]?.name === 'ADMIN') {
+        if (user.role === 'ADMIN' && admin?.data?.AdminRole?.[0]?.name === 'ADMIN') {
           window.location.href = '/';
         }
-        if (user.role === 'ADMIN' && admin?.AdminRole?.[0]?.name === 'PUBLIC_RELATIONS') {
+        if (user.role === 'ADMIN' && admin?.data?.AdminRole?.[0]?.name === 'PUBLIC_RELATIONS') {
           window.location.href = '/public';
         }
       }
