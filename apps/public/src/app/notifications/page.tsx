@@ -9,25 +9,24 @@ import { Button, Card, Badge, Skeleton } from '@3de/ui';
 import { Bell, Check, Trash2, BookOpen, Users, Award } from 'lucide-react';
 import { Notification } from '@3de/interfaces';
 import {Pagination} from '@3de/ui';
+import { useAuth } from '@3de/auth';
 
 export default function NotificationsPage() {
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('unread');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
-
+  const { user } = useAuth();
   const { data: notificationsResponse, isLoading } = useQuery({
-    queryKey: ['notifications', page, limit, search],
+    queryKey: ['notifications', user?.id, page, limit, search],
     queryFn: async () => {
-      const response = await notificationApi.getAll(page, limit, search);
-      return {
-        ...response,
-        data: JSON.parse(JSON.stringify(response.data))
-      };
+      const response = await notificationApi.getAllByUserId(user?.id as string, page, limit, search);
+      return response;
     },
+    enabled: !!user?.id,
   });
 
-  const notifications = (notificationsResponse as any)?.data || [];
+  const notifications = notificationsResponse?.data?.data || [];
 
   const markAsReadMutation = useMutation({
     mutationFn: (id: string) => notificationApi.markAsRead(id),

@@ -8,22 +8,24 @@ import { Button, Card, Badge, Skeleton } from '@3de/ui';
 import { Bell, Check, Trash2, BookOpen, Users, Award } from 'lucide-react';
 import { Notification } from '@3de/interfaces';
 import {Pagination} from '@3de/ui';
+import { useAuth } from '@3de/auth';
 
 export default function NotificationsPage() {
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('unread');
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
-
+  const { user } = useAuth();
   const { data: notificationsResponse, isLoading } = useQuery({
-    queryKey: ['notifications', page, limit, search],
+    queryKey: ['notifications', user?.id, page, limit, search],
     queryFn: async () => {
-      const response = await notificationApi.getAll(page, limit, search);
+      const response = await notificationApi.getAllByUserId(user?.id as string, page, limit, search);
       return response
     },
+    enabled: !!user?.id,
   });
 
-  const notifications = notificationsResponse?.data || [];
+  const notifications = notificationsResponse?.data?.data || [];
 
   const markAsReadMutation = useMutation({
     mutationFn: (id: string) => notificationApi.markAsRead(id),
@@ -58,13 +60,13 @@ export default function NotificationsPage() {
     }
   };
 
-  const filteredNotifications = notifications.filter((notification: Notification) => {
+  const filteredNotifications = notifications?.filter((notification: Notification) => {
     if (filter === 'unread') return !notification.read;
     if (filter === 'read') return notification.read;
     return true;
   });
 
-  const unreadCount = notifications.filter((notification: Notification) => !notification.read).length || 0;
+  const unreadCount = notifications?.filter((notification: Notification) => !notification.read).length || 0;
 
   const handlePrevious = () => {
     setPage(page - 1);
@@ -126,7 +128,7 @@ export default function NotificationsPage() {
             size="sm"
             onClick={() => setFilter('all')}
           >
-            الكل ({notifications?.length || 0})
+            الكل ({notificationsResponse?.data?.total || 0})
           </Button>
           <Button
             variant={filter === 'unread' ? 'primary' : 'outline'}
@@ -140,7 +142,7 @@ export default function NotificationsPage() {
             size="sm"
             onClick={() => setFilter('read')}
           >
-            المقروءة ({(notifications?.length || 0) - unreadCount})
+            المقروءة ({(notificationsResponse?.data?.total || 0) - unreadCount})
           </Button>
         </motion.div>
 
@@ -203,15 +205,15 @@ export default function NotificationsPage() {
         </div>
         
         {/* Pagination */}
-        {notifications && notifications.length && notifications.length > 0 && (
+        {notifications && notificationsResponse?.data?.total && notificationsResponse?.data?.total > 0 && (
           <Pagination
             currentPage={page}
             onPageChange={setPage}
             onItemsPerPageChange={setLimit}
             showItemsPerPage={true}
             showTotalItems={true}
-            totalPages={Math.ceil(notifications.length / limit)}
-            totalItems={notifications.length}
+            totalPages={notificationsResponse?.data?.totalPages || 0}
+            totalItems={notificationsResponse?.data?.total || 0}
             itemsPerPage={limit}
           />
         )}

@@ -27,8 +27,30 @@ export class NotificationsService {
         return notification;
     }
 
-    async findAll(): Promise<Notification[]> {
-        return this.prisma.notification.findMany();
+    async findAll(search?: string, take?: number, skip?: number): Promise<{ data: Notification[], total: number, totalPages: number }> {
+        let notifications = await this.prisma.notification.findMany({
+            where: {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { message: { contains: search, mode: 'insensitive' } },
+                    { user: { firstName: { contains: search, mode: 'insensitive' } } },
+                    { user: { lastName: { contains: search, mode: 'insensitive' } } }
+                ]
+            },
+            take,
+            skip
+        });
+        let total = await this.prisma.notification.count({
+            where: {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { message: { contains: search, mode: 'insensitive' } },
+                    { user: { firstName: { contains: search, mode: 'insensitive' } } },
+                    { user: { lastName: { contains: search, mode: 'insensitive' } } }
+                ]
+            }
+        });
+        return { data: notifications, total,totalPages:Math.ceil(total/take) };
     }
 
     async findOne(id: string): Promise<Notification> {
@@ -36,10 +58,32 @@ export class NotificationsService {
             where: { id },
         });
     }
-    async findAllByUserId(userId: string): Promise<Notification[]> {
-        return this.prisma.notification.findMany({
-            where: { userId },
+    async findAllByUserId(userId: string, search?: string, take?: number, skip?: number): Promise<{ data: Notification[], total: number, totalPages: number }> {
+            let notifications = await this.prisma.notification.findMany({
+            where: {
+                userId,
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { message: { contains: search, mode: 'insensitive' } },
+                    { user: { firstName: { contains: search, mode: 'insensitive' } } },
+                    { user: { lastName: { contains: search, mode: 'insensitive' } } }
+                ]
+            },
+            take,
+            skip
         });
+        let total = await this.prisma.notification.count({
+            where: {
+                userId,
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { message: { contains: search, mode: 'insensitive' } },
+                    { user: { firstName: { contains: search, mode: 'insensitive' } } },
+                    { user: { lastName: { contains: search, mode: 'insensitive' } } }
+                ]
+            }
+        });
+            return { data: notifications, total,totalPages:Math.ceil(total/take) };
     }
 
     async update(id: string, updateNotificationDto: UpdateNotificationDto): Promise<Notification> {

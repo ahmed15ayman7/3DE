@@ -383,8 +383,8 @@ export async function getAchievements(id: string) {
   return { status: response.status, data: response.data as { success: boolean; data: Achievement[] } };
 }
 
-export async function getNotifications(id: string) {
-  const response = await api.get(`/notifications/user/${id}`);
+export async function getNotifications(id: string, page: number, limit: number, search: string) {
+  const response = await api.get(`/notifications/user/${id}?page=${page}&limit=${limit}&search=${search}`);
   return { status: response.status, data: response.data as { success: boolean; data: Notification[] } };
 }
 
@@ -771,13 +771,13 @@ export async function getAttendanceByDateStudentLessonStatus(
 //!!attendanceApis
 
 //??notificationApis
-export async function getAllNotifications(page: number, limit: number, search: string): Promise<{ status: number, data: Notification[] }> {
-  const response = await api.get(`/notifications?page=${page}&limit=${limit}&search=${search}`);
+export async function getAllNotifications(page: number, limit: number, search: string): Promise<{ status: number, data: {data: Notification[], total: number, totalPages: number} }> {
+  const response = await api.get(`/notifications?skip=${page}&take=${limit}&search=${search}`);
   return { status: response.status, data: response.data };
 }
 
-export async function getNotificationsByUserId(userId: string): Promise<{ status: number, data: Notification[] }> {
-  const response = await api.get(`/notifications/user/${userId}`);
+export async function getNotificationsByUserId(userId: string, page: number, limit: number, search: string): Promise<{ status: number, data: {data: Notification[], total: number, totalPages: number} }> {
+  const response = await api.get(`/notifications/user/${userId}?skip=${page}&take=${limit}&search=${search}`);
   return { status: response.status, data: response.data };
 }
 

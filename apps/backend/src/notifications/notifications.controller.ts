@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { CreateNotificationDto } from 'dtos/Notification.create.dto';
 import { UpdateNotificationDto } from 'dtos/Notification.update.dto';
@@ -24,8 +24,8 @@ export class NotificationsController {
     @Get()
     @ApiOperation({ summary: 'الحصول على جميع الإشعارات' })
     @ApiResponse({ status: 200, description: 'تم جلب الإشعارات بنجاح' })
-    findAll(): Promise<Notification[]> {
-        return this.notificationsService.findAll();
+    findAll(@Query('search') search?: string, @Query('take') take?: number, @Query('skip') skip?: number): Promise<{ data: Notification[], total: number, totalPages: number }> {
+        return this.notificationsService.findAll(search, take, skip);
     }
 
     @Get(':id')
@@ -38,8 +38,8 @@ export class NotificationsController {
     @Get("user/:userId")
     @ApiOperation({ summary: 'الحصول على إشعارات محددة للمستخدم' })
     @ApiResponse({ status: 200, description: 'تم جلب الإشعارات بنجاح' })
-    findAllByUserId(@Param('userId') userId: string) {
-        return this.notificationsService.findAllByUserId(userId);
+    findAllByUserId(@Param('userId') userId: string, @Query('search') search?: string, @Query('take') take?: number, @Query('skip') skip?: number): Promise<{ data: Notification[], total: number, totalPages: number }> {
+        return this.notificationsService.findAllByUserId(userId, search, take, skip);
     }
 
     @Patch(':id')

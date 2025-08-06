@@ -20,7 +20,7 @@ import {
   File,
   Trophy,
 } from 'lucide-react'
-import { Card, Button, Badge, Avatar, Dropdown, Tabs } from '@3de/ui'
+import { Card, Button, Badge, Avatar, Dropdown, Tabs, Pagination } from '@3de/ui'
 import { notificationApi } from '@3de/apis'
 import { useAuth } from '@3de/auth'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -163,9 +163,11 @@ export default function NotificationsPage() {
   const [filter, setFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const { user } = useAuth()
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10)
   const { data: notifications, refetch } = useQuery({
     queryKey: ['notifications'],
-    queryFn: () => notificationApi.getAllByUserId(user?.id as string),
+    queryFn: () => notificationApi.getAllByUserId(user?.id as string, page, limit, searchQuery),
     enabled: !!user?.id,
   })
   useEffect(()=>{
@@ -189,7 +191,7 @@ export default function NotificationsPage() {
       refetch()
     }
   })
-  const filteredNotifications = notifications?.data?.filter((notification: Notification) => {
+  const filteredNotifications = notifications?.data?.data?.filter((notification: Notification) => {
     const matchesFilter = filter === 'all' || 
                          (filter === 'unread' && !notification.read) ||
                          (filter === 'urgent' && notification.urgent) ||
@@ -202,14 +204,14 @@ export default function NotificationsPage() {
     return matchesFilter && matchesSearch
   })
 
-  const unreadCount = notifications?.data?.filter((n: Notification) => !n.read).length
-  const importantCount = notifications?.data?.filter((n: Notification) => n.isImportant).length
+  const unreadCount = notifications?.data?.data?.filter((n: Notification) => !n.read).length
+  const importantCount = notifications?.data?.data?.filter((n: Notification) => n.isImportant).length
 
 
   const tabItems = [
     {
       id: 'all',
-      label: `جميع الإشعارات (${notifications?.data?.length})`,
+      label: `جميع الإشعارات (${notifications?.data?.total})`,
       content: (
         <div className="space-y-4">
           <AnimatePresence>
@@ -221,6 +223,18 @@ export default function NotificationsPage() {
                 onDelete={deleteNotification.mutate}
               />
             ))}
+            {notifications?.data?.totalPages && notifications?.data?.totalPages > 1 && (
+              <Pagination
+                currentPage={page}
+                onPageChange={setPage}
+                onItemsPerPageChange={setLimit}
+                showItemsPerPage={true}
+                showTotalItems={true}
+                totalPages={notifications?.data?.totalPages || 0}
+                totalItems={notifications?.data?.total || 0}
+                itemsPerPage={limit}
+              />
+            )}
           </AnimatePresence>
 
           {filteredNotifications?.length === 0 && (
@@ -369,7 +383,7 @@ export default function NotificationsPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="p-6 text-center">
           <div className="text-2xl font-bold text-gray-900 mb-1">
-            {notifications?.data?.length}
+            {notifications?.data?.total}
           </div>
           <div className="text-sm text-gray-600">إجمالي الإشعارات</div>
         </Card>
@@ -390,7 +404,7 @@ export default function NotificationsPage() {
 
         <Card className="p-6 text-center">
           <div className="text-2xl font-bold text-green-600 mb-1">
-              {notifications?.data?.filter((n: Notification) => n.read).length}
+              {notifications?.data?.data?.filter((n: Notification) => n.read).length}
           </div>
           <div className="text-sm text-gray-600">مقروءة</div>
         </Card>
