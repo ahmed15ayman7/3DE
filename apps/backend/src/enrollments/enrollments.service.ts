@@ -124,6 +124,14 @@ export class EnrollmentsService {
                 ],
                 courseId: courseId ? courseId : undefined
             },
+            include:{
+                course:true,
+                usedBy:true,
+                createdBy:true
+            },
+            orderBy:{
+                createdAt:'desc'
+            },
             take:+take,
                 skip:+skip
             });
