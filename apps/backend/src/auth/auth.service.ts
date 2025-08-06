@@ -64,7 +64,7 @@ export class AuthService {
 
     async login(user: User, refreshToken?: string) {
 
-        const payload = { email: user.email, sub: user.id, role: user.role };
+        const payload = { email: user.email, sub: user.id};
         return {
             access_token: this.jwtService.sign(payload),
             refreshToken: refreshToken ?? this.generateRefreshToken(payload),

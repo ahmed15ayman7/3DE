@@ -65,9 +65,7 @@ export class AdminAuthService {
 
         const payload = {
             sub: admin.userId,
-            email: admin.user.email,
-            role: admin.user.role,
-            roles: admin.AdminRole
+            email: admin.user.email
         };
 
         return {

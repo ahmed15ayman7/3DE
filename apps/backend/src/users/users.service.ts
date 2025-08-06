@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { UserRole } from '@shared/prisma';
@@ -74,9 +74,13 @@ export class UsersService {
     }
 
     async update(id: string, data: UpdateUserDto) {
+        
         const user = await this.findOne(id);
         if(data.password){
             data.password = await bcrypt.hash(data.password, 10);
+        }
+        if(data.role!==user.role){
+            throw new ForbiddenException('You are not allowed to change your role');
         }
         return this.prisma.user.update({
             where: { id },
