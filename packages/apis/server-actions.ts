@@ -410,7 +410,8 @@ export async function adminLogin(credentials: { email: string; password: string 
 
     return {
       access_token,
-      refreshToken
+      refreshToken,
+      user: response.data.user
     };
   } catch (error) {
     console.error(error);

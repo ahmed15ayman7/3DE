@@ -230,11 +230,11 @@ export const authApi = {
 export const adminAuthApi = {
     login: async (credentials: { email: string; password: string }) => {
         try {
-            const {access_token,refreshToken} = await serverActions.adminLogin(credentials);
+            const {access_token,refreshToken,user} = await serverActions.adminLogin(credentials);
     
         await authService.setTokens(access_token, refreshToken);
     
-        return {access_token,refreshToken};
+        return {access_token,refreshToken,user};
       } catch (error) {
         console.error(error);
         return { status: 500, data: null };
