@@ -489,6 +489,24 @@ export const NotificationType: {
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
 
 
+export const AttendanceStatus: {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT',
+  LATE: 'LATE'
+};
+
+export type AttendanceStatus = (typeof AttendanceStatus)[keyof typeof AttendanceStatus]
+
+
+export const AttendanceMethod: {
+  FACE_ID: 'FACE_ID',
+  QR_CODE: 'QR_CODE',
+  ONLINE: 'ONLINE'
+};
+
+export type AttendanceMethod = (typeof AttendanceMethod)[keyof typeof AttendanceMethod]
+
+
 export const AccountingType: {
   EXPENSE: 'EXPENSE',
   INCOME: 'INCOME',
@@ -621,6 +639,14 @@ export const QuestionType: typeof $Enums.QuestionType
 export type NotificationType = $Enums.NotificationType
 
 export const NotificationType: typeof $Enums.NotificationType
+
+export type AttendanceStatus = $Enums.AttendanceStatus
+
+export const AttendanceStatus: typeof $Enums.AttendanceStatus
+
+export type AttendanceMethod = $Enums.AttendanceMethod
+
+export const AttendanceMethod: typeof $Enums.AttendanceMethod
 
 export type AccountingType = $Enums.AccountingType
 
@@ -50592,8 +50618,8 @@ export namespace Prisma {
     id: string | null
     studentId: string | null
     lessonId: string | null
-    status: string | null
-    method: string | null
+    status: $Enums.AttendanceStatus | null
+    method: $Enums.AttendanceMethod | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -50602,8 +50628,8 @@ export namespace Prisma {
     id: string | null
     studentId: string | null
     lessonId: string | null
-    status: string | null
-    method: string | null
+    status: $Enums.AttendanceStatus | null
+    method: $Enums.AttendanceMethod | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -50727,8 +50753,8 @@ export namespace Prisma {
     id: string
     studentId: string
     lessonId: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt: Date
     updatedAt: Date
     _count: AttendanceCountAggregateOutputType | null
@@ -50820,8 +50846,8 @@ export namespace Prisma {
       id: string
       studentId: string
       lessonId: string
-      status: string
-      method: string
+      status: $Enums.AttendanceStatus
+      method: $Enums.AttendanceMethod
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["attendance"]>
@@ -51252,8 +51278,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Attendance", 'String'>
     readonly studentId: FieldRef<"Attendance", 'String'>
     readonly lessonId: FieldRef<"Attendance", 'String'>
-    readonly status: FieldRef<"Attendance", 'String'>
-    readonly method: FieldRef<"Attendance", 'String'>
+    readonly status: FieldRef<"Attendance", 'AttendanceStatus'>
+    readonly method: FieldRef<"Attendance", 'AttendanceMethod'>
     readonly createdAt: FieldRef<"Attendance", 'DateTime'>
     readonly updatedAt: FieldRef<"Attendance", 'DateTime'>
   }
@@ -103346,6 +103372,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AttendanceStatus'
+   */
+  export type EnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceStatus[]'
+   */
+  export type ListEnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceMethod'
+   */
+  export type EnumAttendanceMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceMethod[]'
+   */
+  export type ListEnumAttendanceMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceMethod[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PaymentMethod'
    */
   export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
@@ -106273,8 +106327,8 @@ export namespace Prisma {
     id?: StringFilter<"Attendance"> | string
     studentId?: StringFilter<"Attendance"> | string
     lessonId?: StringFilter<"Attendance"> | string
-    status?: StringFilter<"Attendance"> | string
-    method?: StringFilter<"Attendance"> | string
+    status?: EnumAttendanceStatusFilter<"Attendance"> | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFilter<"Attendance"> | $Enums.AttendanceMethod
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
     updatedAt?: DateTimeFilter<"Attendance"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -106300,8 +106354,8 @@ export namespace Prisma {
     NOT?: AttendanceWhereInput | AttendanceWhereInput[]
     studentId?: StringFilter<"Attendance"> | string
     lessonId?: StringFilter<"Attendance"> | string
-    status?: StringFilter<"Attendance"> | string
-    method?: StringFilter<"Attendance"> | string
+    status?: EnumAttendanceStatusFilter<"Attendance"> | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFilter<"Attendance"> | $Enums.AttendanceMethod
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
     updatedAt?: DateTimeFilter<"Attendance"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -106328,8 +106382,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Attendance"> | string
     studentId?: StringWithAggregatesFilter<"Attendance"> | string
     lessonId?: StringWithAggregatesFilter<"Attendance"> | string
-    status?: StringWithAggregatesFilter<"Attendance"> | string
-    method?: StringWithAggregatesFilter<"Attendance"> | string
+    status?: EnumAttendanceStatusWithAggregatesFilter<"Attendance"> | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodWithAggregatesFilter<"Attendance"> | $Enums.AttendanceMethod
     createdAt?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
   }
@@ -112759,8 +112813,8 @@ export namespace Prisma {
 
   export type AttendanceCreateInput = {
     id?: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
     student: UserCreateNestedOneWithoutAttendanceInput
@@ -112771,16 +112825,16 @@ export namespace Prisma {
     id?: string
     studentId: string
     lessonId: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AttendanceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutAttendanceNestedInput
@@ -112791,8 +112845,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -112801,16 +112855,16 @@ export namespace Prisma {
     id?: string
     studentId: string
     lessonId: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AttendanceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -112819,8 +112873,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -119026,6 +119080,20 @@ export namespace Prisma {
     capacity?: SortOrder
   }
 
+  export type EnumAttendanceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusFilter<$PrismaModel> | $Enums.AttendanceStatus
+  }
+
+  export type EnumAttendanceMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceMethod | EnumAttendanceMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceMethodFilter<$PrismaModel> | $Enums.AttendanceMethod
+  }
+
   export type AttendanceCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
@@ -119054,6 +119122,26 @@ export namespace Prisma {
     method?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+  }
+
+  export type EnumAttendanceMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceMethod | EnumAttendanceMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceMethodWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceMethodFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceMethodFilter<$PrismaModel>
   }
 
   export type EnumPaymentMethodFilter<$PrismaModel = never> = {
@@ -126388,6 +126476,14 @@ export namespace Prisma {
     connect?: LessonWhereUniqueInput
   }
 
+  export type EnumAttendanceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceStatus
+  }
+
+  export type EnumAttendanceMethodFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceMethod
+  }
+
   export type UserUpdateOneRequiredWithoutAttendanceNestedInput = {
     create?: XOR<UserCreateWithoutAttendanceInput, UserUncheckedCreateWithoutAttendanceInput>
     connectOrCreate?: UserCreateOrConnectWithoutAttendanceInput
@@ -129471,6 +129567,40 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumAttendanceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusFilter<$PrismaModel> | $Enums.AttendanceStatus
+  }
+
+  export type NestedEnumAttendanceMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceMethod | EnumAttendanceMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceMethodFilter<$PrismaModel> | $Enums.AttendanceMethod
+  }
+
+  export type NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAttendanceMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceMethod | EnumAttendanceMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceMethod[] | ListEnumAttendanceMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceMethodWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceMethodFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceMethodFilter<$PrismaModel>
+  }
+
   export type NestedEnumPaymentMethodFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentMethod[] | ListEnumPaymentMethodFieldRefInput<$PrismaModel>
@@ -129970,8 +130100,8 @@ export namespace Prisma {
 
   export type AttendanceCreateWithoutStudentInput = {
     id?: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
     lesson: LessonCreateNestedOneWithoutAttendanceInput
@@ -129980,8 +130110,8 @@ export namespace Prisma {
   export type AttendanceUncheckedCreateWithoutStudentInput = {
     id?: string
     lessonId: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -131257,8 +131387,8 @@ export namespace Prisma {
     id?: StringFilter<"Attendance"> | string
     studentId?: StringFilter<"Attendance"> | string
     lessonId?: StringFilter<"Attendance"> | string
-    status?: StringFilter<"Attendance"> | string
-    method?: StringFilter<"Attendance"> | string
+    status?: EnumAttendanceStatusFilter<"Attendance"> | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFilter<"Attendance"> | $Enums.AttendanceMethod
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
     updatedAt?: DateTimeFilter<"Attendance"> | Date | string
   }
@@ -136083,8 +136213,8 @@ export namespace Prisma {
 
   export type AttendanceCreateWithoutLessonInput = {
     id?: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
     student: UserCreateNestedOneWithoutAttendanceInput
@@ -136093,8 +136223,8 @@ export namespace Prisma {
   export type AttendanceUncheckedCreateWithoutLessonInput = {
     id?: string
     studentId: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -154927,8 +155057,8 @@ export namespace Prisma {
   export type AttendanceCreateManyStudentInput = {
     id?: string
     lessonId: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -155430,8 +155560,8 @@ export namespace Prisma {
 
   export type AttendanceUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutAttendanceNestedInput
@@ -155440,8 +155570,8 @@ export namespace Prisma {
   export type AttendanceUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -155449,8 +155579,8 @@ export namespace Prisma {
   export type AttendanceUncheckedUpdateManyWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -157976,8 +158106,8 @@ export namespace Prisma {
   export type AttendanceCreateManyLessonInput = {
     id?: string
     studentId: string
-    status: string
-    method: string
+    status: $Enums.AttendanceStatus
+    method: $Enums.AttendanceMethod
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -158252,8 +158382,8 @@ export namespace Prisma {
 
   export type AttendanceUpdateWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutAttendanceNestedInput
@@ -158262,8 +158392,8 @@ export namespace Prisma {
   export type AttendanceUncheckedUpdateWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -158271,8 +158401,8 @@ export namespace Prisma {
   export type AttendanceUncheckedUpdateManyWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    method?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    method?: EnumAttendanceMethodFieldUpdateOperationsInput | $Enums.AttendanceMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

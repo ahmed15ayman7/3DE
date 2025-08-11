@@ -105,7 +105,9 @@ export default function InstructorDetailsPage() {
   const addCourseMutation = useMutation({
     mutationFn: (courseId: string) => courseApi.addInstructor(courseId, instructorId),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['instructor', instructorId] });
       queryClient.invalidateQueries({ queryKey: ['instructor-courses', instructorId] });
+      queryClient.invalidateQueries({ queryKey: ['all-courses'] });
       setShowAddCourseModal(false);
     }
   });
@@ -511,7 +513,7 @@ export default function InstructorDetailsPage() {
           <div className="flex">
             <button
               onClick={() => setActiveTab('students')}
-              className={`flex items-center gap-2 px-6 py-4 font-medium text-sm border-b-2 transition-colors ${
+              className={`flex items-center cursor-pointer gap-2 px-6 py-4 font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'students'
                   ? 'border-primary-main text-primary-main'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -668,12 +670,12 @@ export default function InstructorDetailsPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center gap-2">
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" onClick={() => router.push(`/students/${student.id}`)}>
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700">
+                            {/* <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700">
                               <Trash2 className="w-4 h-4" />
-                            </Button>
+                            </Button> */}
                           </div>
                         </td>
                       </tr>
@@ -860,6 +862,7 @@ export default function InstructorDetailsPage() {
 
 // Student Card Component
 function StudentCard({ student, viewMode }: { student: User; viewMode: 'grid' | 'list' }) {
+  const router = useRouter();
   if (viewMode === 'list') {
     return (
       <div className="flex items-center gap-4">
@@ -870,7 +873,7 @@ function StudentCard({ student, viewMode }: { student: User; viewMode: 'grid' | 
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary">{student.role}</Badge>
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" onClick={() => router.push(`/students/${student.id}`)}>
             <Eye className="w-4 h-4" />
           </Button>
         </div>
@@ -888,7 +891,7 @@ function StudentCard({ student, viewMode }: { student: User; viewMode: 'grid' | 
       <h4 className="font-medium mb-1">{student.firstName} {student.lastName}</h4>
       <p className="text-sm text-gray-600 mb-3">{student.email}</p>
       <Badge variant="secondary" className="mb-3">{student.role}</Badge>
-      <Button size="sm" variant="outline" className="w-full">
+      <Button size="sm" variant="outline" className="w-full" onClick={() => router.push(`/students/${student.id}`)}>
         <Eye className="w-4 h-4 ml-2" />
         عرض التفاصيل
       </Button>
@@ -898,6 +901,7 @@ function StudentCard({ student, viewMode }: { student: User; viewMode: 'grid' | 
 
 // Course Card Component
 function CourseCard({ course, viewMode }: { course: Course; viewMode: 'grid' | 'list' }) {
+  const router = useRouter();
   if (viewMode === 'list') {
     return (
       <div className="flex items-center gap-4">
@@ -912,7 +916,7 @@ function CourseCard({ course, viewMode }: { course: Course; viewMode: 'grid' | '
           <Badge variant={course.status === 'ACTIVE' ? 'success' : 'secondary'}>
             {course.status}
           </Badge>
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" onClick={() => router.push(`/courses/${course.id}`)}>
             <Eye className="w-4 h-4" />
           </Button>
         </div>
@@ -935,7 +939,7 @@ function CourseCard({ course, viewMode }: { course: Course; viewMode: 'grid' | '
           {course.enrollments?.length || 0} طالب
         </span>
       </div>
-      <Button size="sm" variant="outline" className="w-full">
+      <Button size="sm" variant="outline" className="w-full" onClick={() => router.push(`/courses/${course.id}`)}>
         <Eye className="w-4 h-4 ml-2" />
         عرض التفاصيل
       </Button>

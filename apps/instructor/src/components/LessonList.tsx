@@ -37,6 +37,7 @@ interface LessonListProps {
   onFileSelect: (file: LessonFile) => void
   setAddLessonModalOpen: (open: boolean) => void
   setIsEditLessonModalOpen: (open: boolean) => void
+  setAddFileModalOpen: (open: boolean) => void
 }
 
 const getFileIcon = (type: FileType) => {
@@ -105,6 +106,7 @@ const LessonItem = ({
   onToggle,
   onFileSelect,
   setIsEditLessonModalOpen,
+  setAddFileModalOpen,
 }: {
   lesson: Lesson
   isSelected: boolean
@@ -113,6 +115,7 @@ const LessonItem = ({
   onToggle: () => void
   onFileSelect: (file: LessonFile) => void
   setIsEditLessonModalOpen: (open: boolean) => void
+  setAddFileModalOpen: (open: boolean) => void
 }) => {
   const [isLocked, setIsLocked] = useState(false)
 
@@ -285,7 +288,9 @@ const LessonItem = ({
                 <div className="text-center py-6 text-gray-500">
                   <File className="h-8 w-8 mx-auto mb-2 opacity-50" />
                   <p className="text-sm">لا توجد ملفات في هذا الدرس</p>
-                  <Button variant="outline" size="sm" className="mt-3">
+                  <Button variant="outline" size="sm" className="mt-3" onClick={()=>{
+                    setAddFileModalOpen(true)
+                  }}>
                     إضافة ملف
                   </Button>
                 </div>
@@ -306,6 +311,7 @@ export default function LessonList({
   onFileSelect,
   setAddLessonModalOpen,
   setIsEditLessonModalOpen,
+  setAddFileModalOpen,
 }: LessonListProps) {
   const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set())
 
@@ -387,6 +393,7 @@ export default function LessonList({
             onToggle={() => toggleLesson(lesson.id)}
             onFileSelect={onFileSelect}
             setIsEditLessonModalOpen={setIsEditLessonModalOpen}
+            setAddFileModalOpen={setAddFileModalOpen}
           />
         ))}
 

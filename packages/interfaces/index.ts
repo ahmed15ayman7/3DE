@@ -14,6 +14,10 @@ export type QuestionType = 'MULTIPLE_CHOICE' | 'TRUE_FALSE' | 'ESSAY' | 'FILL_BL
 
 export type NotificationType = 'ASSIGNMENT' | 'GRADE' | 'MESSAGE' | 'ACHIEVEMENT' | 'URGENT' | 'EVENT' | 'ABSENCE';
 
+export type AttendanceStatus = 'PRESENT' | 'ABSENT' | 'LATE';
+
+export type AttendanceMethod = 'FACE_ID' | 'QR_CODE' | 'ONLINE';
+
 export type AccountingType = 'EXPENSE' | 'INCOME' | 'SALARY' | 'ADVANCE' | 'INVOICE';
 
 export type InvoiceStatus = 'PENDING' | 'PAID' | 'OVERDUE' | 'CANCELLED';
@@ -579,8 +583,8 @@ export interface Attendance {
   student: User | undefined;
   lessonId: string;
   lesson: Lesson | undefined;
-  status: string;
-  method: string;
+  status: AttendanceStatus | undefined;
+  method: AttendanceMethod | undefined;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -77,6 +77,7 @@ export default function CourseDetailPage() {
   const [isAddQuiz, setIsAddQuiz] = useState(false);
   const [isEditQuiz, setIsEditQuiz] = useState(false);
   const [currentQuizData, setCurrentQuizData] = useState<Quiz | null>(null);
+  const [uploading, setUploading] = useState(false)
   // Fetch course data
   const {
     data: courseData,
@@ -114,7 +115,19 @@ export default function CourseDetailPage() {
       toast.error('حدث خطأ أثناء تحديث الكورس');
     },
   });
-
+  useEffect(() => {
+    if (uploading) {
+      const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+        e.preventDefault();
+        e.returnValue = "الفيديو لسه بيترفع، هل أنت متأكد أنك عايز تقفل الصفحة؟";
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [uploading]);
+  
   // Update lesson whitelist mutation
   const updateWhitelistMutation = useMutation({
     mutationFn: ({
@@ -1316,6 +1329,7 @@ export default function CourseDetailPage() {
         fileId={fileId || undefined}
         setFileId={setFileId}
         isEdit={fileId ? true : false}
+        setUploading={setUploading}
       />}
       {isAddLesson && <AddLessonModal
         isOpen={isAddLesson}

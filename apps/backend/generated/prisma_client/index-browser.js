@@ -1102,6 +1102,18 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   ABSENCE: 'ABSENCE'
 };
 
+exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT',
+  LATE: 'LATE'
+};
+
+exports.AttendanceMethod = exports.$Enums.AttendanceMethod = {
+  FACE_ID: 'FACE_ID',
+  QR_CODE: 'QR_CODE',
+  ONLINE: 'ONLINE'
+};
+
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {
   CASH: 'CASH',
   BANK_TRANSFER: 'BANK_TRANSFER',

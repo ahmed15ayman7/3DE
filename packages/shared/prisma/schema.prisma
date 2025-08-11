@@ -662,11 +662,25 @@ model Attendance {
     student   User     @relation(fields: [studentId], references: [id])
     lessonId  String
     lesson    Lesson   @relation(fields: [lessonId], references: [id])
-    status    String // PRESENT, ABSENT, LATE
-    method    String // FACE_ID, QR_CODE
+    status    AttendanceStatus // PRESENT, ABSENT, LATE
+    method    AttendanceMethod // FACE_ID, QR_CODE
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+enum AttendanceStatus {
+    PRESENT
+    ABSENT
+    LATE
+}
+
+
+enum AttendanceMethod {
+    FACE_ID
+    QR_CODE
+    ONLINE
+}
+
 
 model Payment {
     id           String        @id @default(cuid())

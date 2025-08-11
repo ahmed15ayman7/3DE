@@ -14,12 +14,13 @@ import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { Card, Button, Badge, Avatar, Progress, Tabs, Dropdown } from '@3de/ui'
 import { courseApi } from '@3de/apis'
-import { Course, User } from '@3de/interfaces'
+import { Course, Lesson, User } from '@3de/interfaces'
 import LessonList from '../../../components/LessonList'
 import LessonFileViewer from '../../../components/LessonFileViewer'
 import AddLessonModal from '../../../components/dialogs/AddLessonModal'
 import AddCourse from '../../../components/dialogs/AddCourse'
 import { useAuth } from '@3de/auth'
+import AddFileModal from '@/components/dialogs/AddFileModal'
 let getCourse=async(id:string):Promise<Course> =>{
   let course=await courseApi.getById(id)
   return course.data
@@ -28,7 +29,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
   const courseId = use(params).id
   const [showCreateLessonModal, setShowCreateLessonModal] = useState(false)
   const [showEditLessonModal, setShowEditLessonModal] = useState(false)
-
+  const [showAddFileModal, setShowAddFileModal] = useState(false)
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<any>(null)
   const [activeTab, setActiveTab] = useState('lessons')
@@ -39,6 +40,20 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
     queryFn: () => getCourse(courseId),
     enabled: !!courseId,
   })
+  const [uploading, setUploading] = useState(false)
+  useEffect(() => {
+    if (uploading) {
+      const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+        e.preventDefault();
+        e.returnValue = "الفيديو لسه بيترفع، هل أنت متأكد أنك عايز تقفل الصفحة؟";
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [uploading]);
+  
   const tabItems = [
     {
       id: 'lessons',
@@ -55,6 +70,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
               onFileSelect={setSelectedFile}
               setAddLessonModalOpen={setShowCreateLessonModal}
               setIsEditLessonModalOpen={setShowEditLessonModal}
+              setAddFileModalOpen={setShowAddFileModal}
               />
           </div>
           
@@ -320,6 +336,14 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
       </Card>
       {(showCreateLessonModal || showEditLessonModal) && <AddLessonModal isOpen={showCreateLessonModal || showEditLessonModal} onClose={() => {setShowCreateLessonModal(false);setShowEditLessonModal(false)}} refetch={refetch} courseId={courseId} lesson={course?.lessons?.find(l => l.id === selectedLesson) || undefined} isEdit={showEditLessonModal} />}
       {showUpdateCourseModal && <AddCourse isOpen={showUpdateCourseModal} onClose={() => setShowUpdateCourseModal(false)} refetch={refetch} instructorId={user?.id as string} course={course} />}
+      <AddFileModal
+        isOpen={showAddFileModal}
+        onClose={() => setShowAddFileModal(false)}
+        refetch={refetch}
+        lesson={selectedLesson as unknown as Lesson}
+        setFileId={()=>{}}
+        setUploading={setUploading}
+      />
       </div>
   )
 } 

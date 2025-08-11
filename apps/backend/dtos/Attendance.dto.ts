@@ -1,7 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { UserEntity } from "./User.entity";
 import { LessonEntity } from "./Lesson.entity";
-import { User, Lesson } from "@shared/prisma";
+import {
+  User,
+  Lesson,
+  AttendanceStatus,
+  AttendanceMethod,
+} from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -32,15 +37,15 @@ export class AttendanceDto {
   @Column()
   lesson: Lesson;
 
-  @ApiProperty({ type: "string" })
-  // Field: status, Type: string
+  @ApiProperty({ enum: AttendanceStatus })
+  // Field: status, Type: AttendanceStatus
   @Column()
-  status: string;
+  status: AttendanceStatus;
 
-  @ApiProperty({ type: "string" })
-  // Field: method, Type: string
+  @ApiProperty({ enum: AttendanceMethod })
+  // Field: method, Type: AttendanceMethod
   @Column()
-  method: string;
+  method: AttendanceMethod;
 
   @ApiProperty({ type: "string", format: "date-time" })
   // Field: createdAt, Type: Date

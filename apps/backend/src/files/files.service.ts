@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateFileDto } from 'dtos/File.create.dto';
 import { UpdateFileDto } from 'dtos/File.update.dto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class FilesService {
@@ -39,8 +41,25 @@ export class FilesService {
     }
 
     async remove(id: string) {
-        return this.prisma.file.delete({
-            where: { id }
+        // 1- جيب الفايل من الـ DB
+        const file = await this.prisma.file.findUnique({
+          where: { id },
         });
-    }
+    
+        if (!file) {
+          throw new NotFoundException(`File with id ${id} not found`);
+        }
+        let filename = file.url.split('/').pop();
+    
+        // 2- امسح الفايل من المسار
+        const filePath = path.join('/var/www/videos', filename); // filename هو اسم الفايل المخزن
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath); // حذف الفايل فعلياً
+        }
+    
+        // 3- امسح السجل من DB
+        return this.prisma.file.delete({
+          where: { id },
+        });
+      }
 } 

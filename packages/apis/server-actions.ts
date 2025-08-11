@@ -38,7 +38,7 @@ import {
   BlogPost,
   Admin,
 } from '@3de/interfaces';
-import axios from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 export async function getAccessTokenFromCookieServer(): Promise<string> {
   const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value as string;
@@ -876,14 +876,24 @@ export async function getAllFiles() {
   return { status: response.status, data: response.data };
 }
 
-export async function uploadFile(file: File) {
+
+export async function uploadFile(
+  file: File,
+  url: string,
+  onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
+) {
   const formData = new FormData();
   formData.append("file", file);
-  const response = await api.post(`/files/upload`, formData, {
+  formData.append("url", url);
+
+  const response = await api.post(`/files/upload/video`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
+    onUploadProgress, // هنا نمرر callback لو موجود
   });
+
   return { status: response.status, data: response.data };
 }
+
 
 export async function updateFile(id: string, data: Partial<FileModel>) {
   const response = await api.put(`/files/${id}`, data);
@@ -1739,17 +1749,17 @@ export async function deleteSupport(id: string) {
 //??landingApis
 export async function getCourses(search: string, take: number, skip: number) {
   const response = await axios.get(`https://api.3de.school/public/courses?search=${search}&take=${take}&skip=${skip}`);
-  return response as {data: {courses:Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+  return {status:response.status,data:response.data} as {status:number,data: {courses:Course[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
 export async function getInstructors(search: string, take: number, skip: number) {
   const response = await axios.get(`https://api.3de.school/public/instructors?search=${search}&take=${take}&skip=${skip}`);
-  return response as {data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+  return {status:response.status,data:response.data} as {status:number,data: {instructors:Instructor[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
 }
   export async function getEventsPublic(search: string, take: number, skip: number) {
     const response = await axios.get(`https://api.3de.school/public/events?search=${search}&take=${take}&skip=${skip}`);
-    return response as {data: {events:Event[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+    return {status:response.status,data:response.data} as {status:number,data: {events:Event[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
   }
   export async function getBlogs(search: string, take: number, skip: number) {
     const response = await axios.get(`https://api.3de.school/public/posts?search=${search}&take=${take}&skip=${skip}`);
-    return response as {data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
+    return {status:response.status,data:response.data} as {status:number,data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
   }

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { courseApi, fileApi, lessonApi } from '@3de/apis';
+import { attendanceApi, courseApi, fileApi, lessonApi } from '@3de/apis';
 import Layout from '../../../components/layout/Layout';
 import LessonList from '../../../components/lessons/LessonList';
 import FileViewer from '../../../components/files/FileViewer';
@@ -76,6 +76,12 @@ export default function CoursePage() {
         
           const progress = ((currentFileIndex||0) + 1) / (lesson?.files?.length || 1);
           await lessonApi.updateWatchedLesson(currentLessonId, user?.id, progress *100);
+          await attendanceApi.create({
+            lessonId: currentLessonId,
+            studentId: user?.id,
+            status:"PRESENT",
+            method:"ONLINE"
+          });
           refetch();
         
         } catch (error) {

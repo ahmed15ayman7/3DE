@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { attendanceApi, userApi, courseApi, lessonApi } from '@3de/apis';
 import { Button, Input, Modal, toast } from '@3de/ui';
-import { Attendance, User as UserType, Course, Lesson } from '@3de/interfaces';
+import { Attendance, User as UserType, Course, Lesson, AttendanceStatus } from '@3de/interfaces';
 
 export default function AbsencesPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -500,7 +500,7 @@ export default function AbsencesPage() {
                 onChange={(e) => {
                   setSelectedAttendance({
                     ...selectedAttendance,
-                    status: e.target.value
+                    status: e.target.value as AttendanceStatus
                   });
                 }}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -523,7 +523,7 @@ export default function AbsencesPage() {
                 onClick={() => {
                   updateAttendanceMutation.mutate({
                     id: selectedAttendance.id,
-                    status: selectedAttendance.status
+                    status: selectedAttendance.status as AttendanceStatus 
                   });
                 }}
                 disabled={updateAttendanceMutation.isPending}

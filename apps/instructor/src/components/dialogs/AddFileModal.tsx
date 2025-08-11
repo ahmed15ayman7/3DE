@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Input, Button, Select, toast, Textarea } from '@3de/ui';
+import { Modal, Input, Button, Select, toast, Textarea, Progress } from '@3de/ui';
 import {  fileApi } from '@3de/apis';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {  Lesson, FileType } from '@3de/interfaces';
 import VideoPlayer from '../files/VideoPlayer';
+import { LinkIcon, VideoIcon } from 'lucide-react';
+import { AxiosProgressEvent } from 'axios';
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -24,6 +26,7 @@ const AddFileModal = ({
   refetch,
   lesson,
   setFileId,
+  setUploading,
 }: {
   isEdit?: boolean;
   fileId?:string;
@@ -32,7 +35,9 @@ const AddFileModal = ({
   refetch: () => void;
   lesson: Lesson;
   setFileId: (fileId: string | null) => void;
+  setUploading: (uploading: boolean) => void;
 }) => {
+  let [file,setFile] = useState<File>()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,32 +57,64 @@ const AddFileModal = ({
     }
 
   },[fileId,isEdit])
+ 
+  const [uploadProgress, setUploadProgress] = useState(0);
+  
   const onSubmit = async (dataFull: z.infer<typeof formSchema>) => {
-    let toastId = toast.loading(`جاري ${isEdit ? 'تعديل' : 'إضافة'} الملف...`);
+    let toastId = toast.loading(`جاري إضافة الملف...`);
     try {
-       isEdit?await fileApi.update(fileId as string,{
+      const finalFilename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.mp4`;
+      const fileUrl = `https://3de.school/videos/${finalFilename}`;
+  
+      // إنشاء السجل في DB
+      await fileApi.create({
         ...dataFull,
-        url:dataFull.type === 'VIDEO' ? `https://www.youtube.com/embed/${dataFull.url}` : dataFull.url,
+        url: fileUrl,
         type: dataFull.type as FileType,
         lessonId: lesson?.id,
-       }):await fileApi.create({
-          ...dataFull,
-          url:dataFull.type === 'VIDEO' ? `https://www.youtube.com/embed/${dataFull.url}` : dataFull.url,
-          type: dataFull.type as FileType,
-          lessonId: lesson?.id,
-        });
-        refetch();
+      });
+  
+      // رفع الفيديو
+      if (file && fileUrl && dataFull.type === "VIDEO") {
+        setUploading(true);
+        setUploadProgress(0);
+  
+        const uploadToast = toast.custom(
+          (t) => (
+            <Progress
+              value={uploadProgress}
+              color='primary'
+              className='w-full'
+            />
+          ),
+          { duration: Infinity }
+        );
+  
+        await fileApi.upload(file, fileUrl, (progressEvent: AxiosProgressEvent) => {
+            const percent = Math.round(
+              (progressEvent.loaded * 100) / (progressEvent.total || 1)
+            );
+            setUploadProgress(percent);
+          });
+  
+        toast.dismiss(uploadToast);
+      }
+  
+      setUploading(false);
+      refetch();
       toast.dismiss(toastId);
-      toast.success(`تم ${isEdit ? 'تعديل' : 'إضافة'} الملف بنجاح`);
+      toast.success("تم إضافة الملف بنجاح");
       onClose();
-      form.reset()
-      setFileId(null)
+      form.reset();
+      setFileId(null);
     } catch (error) {
+      setUploading(false);
       toast.dismiss(toastId);
-      toast.error('حدث خطأ ما');
+      toast.error("حدث خطأ أثناء الإضافة");
     }
   };
-
+  
+  
   return (
     <Modal title={` ${isEdit ? 'تعديل' : 'إضافة'} ملف لدرس ${lesson?.title}`} isOpen={isOpen} onClose={onClose} size="sm">
       <div className="flex flex-col py-5 items-center justify-center">
@@ -102,12 +139,20 @@ const AddFileModal = ({
             error={form.formState.errors.type?.message}
           />
         <Input
-          type="text"
+          type={form.getValues('type') === 'VIDEO' ? "text" : "file"}
           label="الرابط"
+          accept={form.getValues('type') === 'VIDEO' ? "video/*" : undefined}
+          icon={form.getValues('type') === 'VIDEO' ? <VideoIcon className='w-4 h-4' /> : <LinkIcon className='w-4 h-4' />}
           className='w-full'
-          placeholder={`ادخل الرابط هنا ${form.getValues('type') === 'VIDEO' ? 'id الفيديو' : ''}`}
+          placeholder={form.getValues('type') === 'VIDEO' ? `اختر الفيديو` : `ادخل الرابط هنا `}
           {...form.register('url')}
-          onChange={(e) => form.setValue('url', e.target.value)}
+          onChange={(e) => {
+            if(form.getValues('type') === 'VIDEO'){
+              setFile(e.target.files?.[0])
+            }else{
+              form.setValue('url', e.target.value)
+            }
+          }}
           error={form.formState.errors.url?.message}
         />
       </div>
