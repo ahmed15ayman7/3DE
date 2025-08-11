@@ -38,6 +38,7 @@ const AddFileModal = ({
   setUploading: (uploading: boolean) => void;
 }) => {
   let [file,setFile] = useState<File>()
+  let [videoUrl,setVideoUrl] = useState<string>()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +53,8 @@ const AddFileModal = ({
     if(file){
       form.setValue('name',file.name)
       form.setValue('type',file.type as FileType||"VIDEO")
-      form.setValue('url',file.type === 'VIDEO' ? file.url.split('/embed/')[1] : file.url)
+      form.setValue('url',file.url)
+      setVideoUrl(file.type === 'VIDEO' ? file.url : undefined)
       form.setValue('lessonId',lesson?.id)
     }
 
@@ -113,12 +115,23 @@ const AddFileModal = ({
       toast.error("حدث خطأ أثناء الإضافة");
     }
   };
+  let handleSelectVideo =  () => {
+    if(file){
+      let url = URL.createObjectURL(file)
+      setVideoUrl(url)
+    }
+  }
+  useEffect(()=>{
+    if(file){
+      handleSelectVideo()
+    }
+  },[file])
   
   
   return (
     <Modal title={` ${isEdit ? 'تعديل' : 'إضافة'} ملف لدرس ${lesson?.title}`} isOpen={isOpen} onClose={onClose} size="sm">
       <div className="flex flex-col py-5 items-center justify-center">
-       {form.getValues('type') === 'VIDEO' && form.getValues('url') && <VideoPlayer src={`https://www.youtube.com/embed/${form.getValues('url')}`} />}
+       {form.getValues('type') === 'VIDEO' && videoUrl && <VideoPlayer src={videoUrl} />}
       </div>
       <div className="flex flex-col gap-4">
         <Input
