@@ -139,7 +139,7 @@ const AddFileModal = ({
             error={form.formState.errors.type?.message}
           />
         <Input
-          type={form.getValues('type') === 'VIDEO' ? "text" : "file"}
+          type={form.getValues('type') === 'VIDEO' ? "file" : "text"}
           label="الرابط"
           accept={form.getValues('type') === 'VIDEO' ? "video/*" : undefined}
           icon={form.getValues('type') === 'VIDEO' ? <VideoIcon className='w-4 h-4' /> : <LinkIcon className='w-4 h-4' />}
