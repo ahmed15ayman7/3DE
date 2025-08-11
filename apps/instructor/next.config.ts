@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@3de/ui', '@3de/apis', '@3de/interfaces', '@3de/auth'],
   experimental: {
     optimizePackageImports: ['@3de/ui', 'lucide-react'],
+    serverActions: {
+      bodySizeLimit: "500mb", // ← زود الحد هنا
+    },
   },
   allowedDevOrigins: ['https://3de.school'],
   images: {
@@ -36,6 +39,7 @@ const nextConfig: NextConfig = {
                 scriptSrc: ["'self'", "'unsafe-inline'"],
                 styleSrc: ["'self'", "'unsafe-inline'"],
                 imgSrc: ["'self'", "data:"],
+                mediaSrc: ["'self'", "blob:"], 
                 connectSrc: ["'self'"],
               },
             },

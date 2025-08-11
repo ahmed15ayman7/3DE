@@ -20,7 +20,7 @@ import LessonFileViewer from '../../../components/LessonFileViewer'
 import AddLessonModal from '../../../components/dialogs/AddLessonModal'
 import AddCourse from '../../../components/dialogs/AddCourse'
 import { useAuth } from '@3de/auth'
-import AddFileModal from '@/components/dialogs/AddFileModal'
+import AddFileModal from '../../../components/dialogs/AddFileModal'
 let getCourse=async(id:string):Promise<Course> =>{
   let course=await courseApi.getById(id)
   return course.data
@@ -340,7 +340,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
         isOpen={showAddFileModal}
         onClose={() => setShowAddFileModal(false)}
         refetch={refetch}
-        lesson={selectedLesson as unknown as Lesson}
+        lesson={course?.lessons?.find(l => l.id === selectedLesson) as Lesson}
         setFileId={()=>{}}
         setUploading={setUploading}
       />

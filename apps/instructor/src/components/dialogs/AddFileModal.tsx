@@ -116,8 +116,11 @@ const AddFileModal = ({
     }
   };
   let handleSelectVideo =  () => {
+    console.log(file)
     if(file){
+      console.log(file)
       let url = URL.createObjectURL(file)
+      console.log(url)
       setVideoUrl(url)
     }
   }

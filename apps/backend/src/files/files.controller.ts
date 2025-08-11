@@ -46,6 +46,7 @@ export class FilesController {
     @Post('upload/video')
     @UseInterceptors(
         FileInterceptor('file', {
+          limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
           storage: diskStorage({
             destination: '/var/www/videos/temp', // رفع مؤقت
             filename: (req, file, cb) => {
