@@ -45,6 +45,8 @@ export async function getAccessTokenFromCookieServer(): Promise<string> {
   return token || '';
 }
 export async function setAccessTokenToCookieServer(accessToken: string,refreshToken: string) {
+  console.log("set refreshToken",refreshToken)
+  console.log("set accessToken",accessToken)
   const cookieStore = await cookies();
     // حفظ التوكن في الكوكيز
     cookieStore.set('accessToken', accessToken, { 
@@ -53,6 +55,7 @@ export async function setAccessTokenToCookieServer(accessToken: string,refreshTo
       sameSite: 'strict',
       maxAge: 15 * 60 // 15 minutes
     });
+    
     
     cookieStore.set('refreshToken', refreshToken, { 
       httpOnly: true, 
@@ -66,7 +69,7 @@ export async function getRefreshTokenFromCookieServer(): Promise<string> {
   const token = cookieStore.get('refreshToken')?.value as string;
   return token || '';
 }
-export async function refreshTokenServer(): Promise<{access_Token:string,refreshToken:string}> {
+export async function refreshTokenServer(): Promise<{access_token:string,refreshToken:string}> {
   try {
     const cookieStore = await cookies();
     const refreshT = cookieStore.get('refreshToken')?.value as string;
@@ -74,12 +77,11 @@ export async function refreshTokenServer(): Promise<{access_Token:string,refresh
     const response = await axios.post(`${API_URL}/auth/refresh-token`, {
       refreshToken: refreshT || ''
     });
-
-    const { access_Token } = response.data;
-    return {access_Token,refreshToken:refreshT};
+    const { access_token } = response.data;
+    return {access_token,refreshToken:refreshT};
   } catch (error: any) {
     await logout();
-    return {access_Token:"",refreshToken:""};
+    return {access_token:"",refreshToken:""};
   }
 } 
 export async function logoutServer() {
@@ -124,9 +126,9 @@ export async function logout() {
 
 export async function refreshToken(refreshToken: string) {
   const response = await api.post('/auth/refresh-token', { refreshToken });
-  const { access_Token } = response.data;
-  await authService.setTokens(access_Token, refreshToken);
-  return access_Token;
+  const { access_token } = response.data;
+  await authService.setTokens(access_token, refreshToken);
+  return access_token;
 }
 
 export async function register(data: {

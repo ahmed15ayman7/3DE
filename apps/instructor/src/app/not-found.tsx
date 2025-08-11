@@ -1,8 +1,6 @@
 'use client';
-
 import Link from 'next/link';
 import { Button } from '@3de/ui';
-
 export default function NotFound() {
   const handleGoBack = () => {
     window.history.back();

@@ -3251,9 +3251,9 @@ class AuthService {
         refreshToken: refreshT || this.refresh_token || ''
       });
 
-      const { access_Token } = response.data;
-      await this.setTokens(access_Token, refreshT || this.refresh_token);
-      return access_Token;
+      const { access_token } = response.data;
+      await this.setTokens(access_token, refreshT || this.refresh_token);
+      return access_token;
     } catch (error: any) {
       await this.logout();
       throw new Error('Failed to refresh token' + error);
@@ -3372,9 +3372,9 @@ export const authApi = {
 
     refreshToken: async ({ refreshToken }: { refreshToken: string }) => {
         const response = await api.post('/auth/refresh-token', { refreshToken });
-        const { access_Token } = response.data;
-        await authService.setTokens(access_Token, refreshToken);
-        return access_Token;
+        const { access_token } = response.data;
+        await authService.setTokens(access_token, refreshToken);
+        return access_token;
     },
 
     register: (data: {
@@ -4144,9 +4144,9 @@ class AuthService {
       });
 
       const data = await response.json();
-      const { access_Token } = data;
-      await this.setTokens(access_Token, refreshT || this.refresh_token);
-      return access_Token;
+      const { access_token } = data;
+      await this.setTokens(access_token, refreshT || this.refresh_token);
+      return access_token;
     } catch (error: any) {
       await this.logout();
       throw new Error('Failed to refresh token' + error);

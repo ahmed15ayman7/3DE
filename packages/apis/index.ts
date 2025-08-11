@@ -123,9 +123,9 @@ class AuthService {
   // ?? تجديد التوكن
   public async refreshToken(): Promise<string> {
     try {
-      const {access_Token,refreshToken} = await serverActions.refreshTokenServer();
-      await this.setTokens(access_Token, refreshToken||this.refresh_token);
-      return access_Token;
+      const {access_token,refreshToken} = await serverActions.refreshTokenServer();
+      await this.setTokens(access_token, refreshToken||this.refresh_token);
+      return access_token;
     } catch (error: any) {
       await this.logout();
       return "";
