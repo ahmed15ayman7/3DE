@@ -23,6 +23,7 @@ import {
   Calendar,
   BookOpen,
   Pencil,
+  Plus,
 } from 'lucide-react'
 import { Card, Button, Badge, Progress, Tooltip } from '@3de/ui'
 import { FileType,Lesson ,File as LessonFile, User } from '@3de/interfaces'
@@ -283,7 +284,30 @@ const LessonItem = ({
                   </div>
                 </motion.div>
               ))}
-              
+                {lesson.files?.length !== 0 && (<motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className={`flex items-center justify-between p-3 bg-white rounded-lg cursor-pointer hover:shadow-sm transition-all duration-200`}
+                  onClick={() => {setAddFileModalOpen(true)}}
+                >
+                  <div className="flex items-center gap-3 gap-reverse flex-1">
+                    <div className={`${getFileTypeColor('DOCUMENT')}`}>
+                      {getFileIcon('DOCUMENT')}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        إضافة ملف
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 gap-reverse">
+                    <Plus className="h-4 w-4 text-primary-main" />
+                    
+                    
+                  </div>
+                </motion.div>)
+              }
               {lesson.files?.length === 0 && (
                 <div className="text-center py-6 text-gray-500">
                   <File className="h-8 w-8 mx-auto mb-2 opacity-50" />

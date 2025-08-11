@@ -890,6 +890,8 @@ export async function uploadFile(
 
   const response = await api.post(`/files/upload/video`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
+    maxContentLength: Infinity, // تعطيل الحد الأقصى للحجم في Axios
+    maxBodyLength: Infinity,
     onUploadProgress, // هنا نمرر callback لو موجود
   });
 

@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import helmet from 'helmet';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, { cors: true });
@@ -18,6 +19,8 @@ async function bootstrap() {
 
     // Security
     app.use(helmet({ contentSecurityPolicy: false }));
+    app.use(bodyParser.json({ limit: '1gb' }));
+    app.use(bodyParser.urlencoded({ limit: '1gb', extended: true }));
 
     // Swagger setup
     const config = new DocumentBuilder()
