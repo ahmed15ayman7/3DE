@@ -886,9 +886,8 @@ export async function uploadFile(
 ) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("url", url);
 
-  const response = await api.post(`/files/upload/video`, formData, {
+  const response = await api.post(`/files/upload/video?url=${url}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     maxContentLength: Infinity, // تعطيل الحد الأقصى للحجم في Axios
     maxBodyLength: Infinity,

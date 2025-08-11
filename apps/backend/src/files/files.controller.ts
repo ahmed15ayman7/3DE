@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, UploadedFile, Query } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { CreateFileDto } from '../../dtos/File.create.dto';
 import { UpdateFileDto } from '../../dtos/File.update.dto';
@@ -62,7 +62,7 @@ export class FilesController {
           },
         }),
       )
-      async uploadVideo(@UploadedFile() file: Express.Multer.File,url:string) {
+      async uploadVideo(@UploadedFile() file: Express.Multer.File,@Query('url') url:string) {
         const finalFilename = url.split('/').pop();
         const finalPath = `/var/www/videos/${finalFilename}`;
     
