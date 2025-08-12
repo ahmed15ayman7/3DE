@@ -50,7 +50,7 @@ export class FilesService {
         if (!file) {
           throw new NotFoundException(`File with id ${id} not found`);
         }
-        let filename = file.url.split('/').pop();
+        let filename = file.url.split('videos/')[1].split('/')[0];
     
         // 2- امسح الفايل من المسار
         const filePath = path.join('/var/www/videos', filename); // filename هو اسم الفايل المخزن

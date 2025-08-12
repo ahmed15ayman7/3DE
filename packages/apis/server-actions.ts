@@ -881,13 +881,13 @@ export async function getAllFiles() {
 
 export async function uploadFile(
   file: File,
-  url: string,
+  videoId: string,
   onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
 ) {
   const formData = new FormData();
   formData.append("file", file, file.name);
 
-  const response = await api.post(`/files/upload/video?url=${url}`, formData, {
+  const response = await api.post(`/files/upload/video?videoId=${videoId}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     maxContentLength: Infinity,
     maxBodyLength: Infinity,
