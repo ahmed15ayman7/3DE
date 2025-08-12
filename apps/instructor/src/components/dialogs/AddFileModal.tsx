@@ -82,13 +82,14 @@ const AddFileModal = ({
         setUploadProgress(0);
   
         const uploadToast = toast(
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-2 w-full'>
           <Progress
           value={uploadProgress}
+          showLabel={true}
+          labelPosition='top'
           color='primary'
           className='w-full'
           />
-          <p className='text-sm text-gray-500'>{uploadProgress}%</p>
           </div>
           ,
           {

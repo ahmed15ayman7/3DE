@@ -265,7 +265,7 @@ const LessonItem = ({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 gap-reverse">
+                  <div className="flex items-center gap-1 gap-reverse">
                     {file.isCompleted ? (
                       <CheckCircle className="h-4 w-4 text-green-500" />
                     ) : (
@@ -281,7 +281,7 @@ const LessonItem = ({
                         e.stopPropagation()
                         window.open(file.url, '_blank')
                       }}
-                      className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                      className=" text-gray-400 hover:text-gray-600 transition-colors"
                     >
                       <Download className="h-3 w-3" />
                     </button>
@@ -289,7 +289,7 @@ const LessonItem = ({
                       onClick={(e) => {
                         handleDeleteFile(file.id)
                       }}
-                      className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                      className=" text-gray-400 hover:text-gray-600 transition-colors"
                     >
                         <Trash className="h-3 w-3" />
                     </button>

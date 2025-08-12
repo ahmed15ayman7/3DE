@@ -55,7 +55,7 @@ export const Progress: React.FC<ProgressProps> = ({
   size = 'md',
   showLabel = false,
   labelPosition = 'top',
-  animated = false,
+  animated = true,
   striped = false,
   color,
   onChange,
