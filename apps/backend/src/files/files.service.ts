@@ -4,6 +4,7 @@ import { CreateFileDto } from 'dtos/File.create.dto';
 import { UpdateFileDto } from 'dtos/File.update.dto';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class FilesService {
@@ -61,5 +62,9 @@ export class FilesService {
         return this.prisma.file.delete({
           where: { id },
         });
+      }
+      async getVideoLink(id: string) {
+        const token = jwt.sign({ id }, process.env.VIDEO_SECRET, { expiresIn: '5m' });
+        return { url: `https://3de.school/secure/videos/${id}/index.m3u8?token=${token}` };
       }
 } 

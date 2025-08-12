@@ -65,8 +65,8 @@ const AddFileModal = ({
   const onSubmit = async (dataFull: z.infer<typeof formSchema>) => {
     let toastId = toast.loading(`جاري إضافة الملف...`);
     try {
-      const finalFilename = `${dataFull.name.replace(/ /g, '-')}-${Date.now()}-${Math.round(Math.random() * 1e9)}.mp4`;
-      const fileUrl = `https://3de.school/videos/${finalFilename}`;
+      const videoId = `${dataFull.name.replace(/ /g, '-')}-${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      const fileUrl = `https://3de.school/videos/${videoId}/index.m3u8`;
   
       // إنشاء السجل في DB
       await fileApi.create({
@@ -82,7 +82,7 @@ const AddFileModal = ({
         setUploadProgress(0);
   
         const uploadToast = toast(
-          <div className='flex flex-col gap-2 w-full'>
+          <div className='flex flex-col gap-2 w-full' style={{width: '400px'}}>
           <Progress
           value={uploadProgress}
           showLabel={true}
@@ -99,7 +99,7 @@ const AddFileModal = ({
         );
         onClose();
   
-        await fileApi.upload(file, fileUrl, (progressEvent: AxiosProgressEvent) => {
+        await fileApi.upload(file, videoId, (progressEvent: AxiosProgressEvent) => {
             const percent = Math.round(
               (progressEvent.loaded * 100) / (progressEvent.total || 1)
             );

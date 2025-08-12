@@ -897,6 +897,10 @@ export async function uploadFile(
   return { status: response.status, data: response.data };
 }
 
+export async function getVideoLink(videoId: string) {
+  const response = await api.get(`/files/video/${videoId}`);
+  return { status: response.status, data: response.data };
+}
 
 export async function updateFile(id: string, data: Partial<FileModel>) {
   const response = await api.put(`/files/${id}`, data);
