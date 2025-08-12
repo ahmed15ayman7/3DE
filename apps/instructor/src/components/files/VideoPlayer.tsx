@@ -1,50 +1,56 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import ReactPlayer from 'react-player';
-
-import { formatTime } from '@3de/auth';
+import React, { useEffect, useRef } from 'react';
+import Hls from 'hls.js';
 
 interface VideoPlayerProps {
   src: string;
-  lastWatched?: number; // بالثواني
-  onProgress?: (progress: number,duration:number) => void;
+  lastWatched?: number;
+  onProgress?: (progress: number, duration: number) => void;
   onComplete?: () => void;
 }
 
-export default function VideoPlayer({ src, lastWatched = 0, onProgress, onComplete }: VideoPlayerProps) {
-  const playerRef = useRef<any>(null);
-  const [showLastWatched, setShowLastWatched] = useState(true);
-  const [duration, setDuration] = useState(0);
-  // ⏪ ابدأ من آخر مشاهدة
-  useEffect(() => {
-    if (playerRef.current && lastWatched) {
-      playerRef.current.seekTo(lastWatched, 'seconds');
-    }
-  }, [lastWatched]);
+export default function VideoPlayer({
+  src,
+  lastWatched = 0,
+  onProgress,
+  onComplete
+}: VideoPlayerProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(src);
+        hls.attachMedia(videoRef.current);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          if (lastWatched) {
+            videoRef.current!.currentTime = lastWatched;
+          }
+        });
+      } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+        // Safari
+        videoRef.current.src = src;
+      }
+    }
+  }, [src, lastWatched]);
 
   return (
-    <div className="space-y-3">
-
-      <div className="aspect-video rounded-lg overflow-hidden">
-        <ReactPlayer
-          ref={playerRef}
-          src={src}
-          controls
-          width="100%"
-          height="100%"
-          onEnded={()=>{
-            onComplete?.();
-          }}
-        />
-      </div>
-
-      {showLastWatched && lastWatched > 0 && (
-        <p className="text-sm text-muted-foreground">
-          بدأت من الدقيقة: <span className="font-medium">{formatTime(lastWatched)}</span>
-        </p>
-      )}
+    <div className="aspect-video rounded-lg overflow-hidden">
+      <video
+        ref={videoRef}
+        controls
+        width="100%"
+        height="100%"
+        onEnded={() => onComplete?.()}
+        onTimeUpdate={(e) => {
+          const currentTime = (e.target as HTMLVideoElement).currentTime;
+          const duration = (e.target as HTMLVideoElement).duration;
+          onProgress?.(currentTime, duration);
+        }}
+      />
     </div>
   );
 }

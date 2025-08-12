@@ -76,6 +76,7 @@
     "bcryptjs": "^2.4.3",
     "cookies-next": "^4.1.0",
     "framer-motion": "^10.16.0",
+    "hls.js": "^1.6.9",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^4.0.0",

@@ -29,6 +29,9 @@ importers:
       framer-motion:
         specifier: ^10.16.0
         version: 10.18.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      hls.js:
+        specifier: ^1.6.9
+        version: 1.6.9
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
@@ -4335,8 +4338,8 @@ packages:
   hls-video-element@1.5.5:
     resolution: {integrity: sha512-7HYIf+jeeCtazcBVVmj16qfTDRKvxd92TMdscocNWPoAePmovPPnii1aBdRsinsiw4rt90B8FgYoHzMhLi1qYQ==}
 
-  hls.js@1.6.7:
-    resolution: {integrity: sha512-QW2fnwDGKGc9DwQUGLbmMOz8G48UZK7PVNJPcOUql1b8jubKx4/eMHNP5mGqr6tYlJNDG1g10Lx2U/qPzL6zwQ==}
+  hls.js@1.6.9:
+    resolution: {integrity: sha512-q7qPrri6GRwjcNd7EkFCmhiJ6PBIxeUsdxKbquBkQZpg9jAnp6zSAeN9eEWFlOB09J8JfzAQGoXL5ZEAltjO9g==}
 
   html-entities@2.6.0:
     resolution: {integrity: sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==}
@@ -7705,7 +7708,7 @@ snapshots:
 
   '@mux/playback-core@0.30.1':
     dependencies:
-      hls.js: 1.6.7
+      hls.js: 1.6.9
       mux-embed: 5.11.0
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -10824,10 +10827,10 @@ snapshots:
   hls-video-element@1.5.5:
     dependencies:
       custom-media-element: 1.4.5
-      hls.js: 1.6.7
+      hls.js: 1.6.9
       media-tracks: 0.3.3
 
-  hls.js@1.6.7: {}
+  hls.js@1.6.9: {}
 
   html-entities@2.6.0: {}
 

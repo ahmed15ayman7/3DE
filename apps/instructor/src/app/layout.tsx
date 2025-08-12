@@ -29,7 +29,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#3B82F6" />
-        <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; media-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' blob:; frame-src 'self' blob:; worker-src 'self' blob:; child-src 'self' blob:; form-action 'self'; base-uri 'self'; block-all-mixed-content; upgrade-insecure-requests; report-uri https://your-report-uri.com/csp-report" />
+        {/* <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; media-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' blob:; frame-src 'self' blob:; worker-src 'self' blob:; child-src 'self' blob:; form-action 'self'; base-uri 'self'; block-all-mixed-content; upgrade-insecure-requests; report-uri https://your-report-uri.com/csp-report" /> */}
       </head>
       <body className="h-full bg-gray-50 text-gray-900  antialiased">
         <RootProvider>

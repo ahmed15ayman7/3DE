@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import {createSecureHeaders} from 'next-secure-headers';
 
 const nextConfig: NextConfig = {
   basePath: '/ins',
@@ -10,7 +9,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@3de/ui', 'lucide-react'],
     serverActions: {
-      bodySizeLimit: "500mb", // ← زود الحد هنا
+      bodySizeLimit: "500mb",
     },
   },
   allowedDevOrigins: ['https://3de.school'],
@@ -29,21 +28,17 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          // حماية XSS الأساسية
           { key: 'X-XSS-Protection', value: '1; mode=block' },
-          // CSP
-          ...createSecureHeaders({
-            contentSecurityPolicy: {
-              directives: {
-                defaultSrc: ["'self'"],
-                scriptSrc: ["'self'", "'unsafe-inline'"],
-                styleSrc: ["'self'", "'unsafe-inline'"],
-                imgSrc: ["'self'", "data:"],
-                mediaSrc: ["'self'", "blob:"], 
-                connectSrc: ["'self'"],
-              },
-            },
-          }),
+          {
+            key: 'Content-Security-Policy',
+            value:
+              "default-src 'self'; " +
+              "script-src 'self' 'unsafe-inline'; " +
+              "style-src 'self' 'unsafe-inline'; " +
+              "img-src 'self' data: blob: https://3de.school https://cloudinary.com; " +
+              "media-src 'self' blob: https://3de.school https://cloudinary.com;  " +
+              "connect-src 'self' blob: https://3de.school https://www.3de.school https://cloudinary.com;"
+          },
         ],
       },
     ];
