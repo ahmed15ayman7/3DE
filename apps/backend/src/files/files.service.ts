@@ -53,9 +53,9 @@ export class FilesService {
         let filename = file.url.split('videos/')[1].split('/')[0];
     
         // 2- امسح الفايل من المسار
-        const filePath = path.join('/var/www/videos', filename); // filename هو اسم الفايل المخزن
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath); // حذف الفايل فعلياً
+        const dirPath = path.join('/var/www/videos', filename); // filename هو اسم الفايل المخزن
+        if (fs.existsSync(dirPath)) {
+          fs.rmSync(dirPath, { recursive: true, force: true });
         }
     
         // 3- امسح السجل من DB
