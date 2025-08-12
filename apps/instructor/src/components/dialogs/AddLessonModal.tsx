@@ -63,6 +63,7 @@ const AddLessonModal = ({
       form.reset()
     } catch (error) {
       toast.dismiss(toastId);
+      console.log(error);
       toast.error('حدث خطأ ما');
     }
   };

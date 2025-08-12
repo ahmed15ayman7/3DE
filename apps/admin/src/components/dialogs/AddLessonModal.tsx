@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Modal, Input, Button, Select, toast, Textarea } from '@3de/ui';
-import {  fileApi, lessonApi } from '@3de/apis';
+import {  lessonApi } from '@3de/apis';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {  Lesson, FileType } from '@3de/interfaces';
-import VideoPlayer from '../files/VideoPlayer';
+import {  Lesson } from '@3de/interfaces';
 
 const formSchema = z.object({
   title: z.string().min(1),
