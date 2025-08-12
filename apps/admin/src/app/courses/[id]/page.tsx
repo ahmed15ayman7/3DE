@@ -675,20 +675,20 @@ export default function CourseDetailPage() {
               </div>
 
               {/* Instructors */}
-              {course.instructors && course.instructors.length > 0 && (
                 <div className="bg-gray-50 p-4 rounded-lg relative">
                   <div className="absolute top-0 left-0 ">
                     <Button
                       variant="outline"
                       className="bg-white text-primary-main"
                       onClick={() => setShowInstructorsModal(true)}
-                    >
+                      >
                       <Plus className="w-4 h-4" />
                     </Button>
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-3">
                     المحاضرين
                   </h3>
+                      {course.instructors && course.instructors.length > 0 && (
                   <div className="space-y-2">
                     {course.instructors.map((instructor) => (
                       <div
@@ -721,8 +721,8 @@ export default function CourseDetailPage() {
                       </div>
                     ))}
                   </div>
-                </div>
               )}
+                </div>
 
               {/* Actions */}
               <div className="space-y-2">
