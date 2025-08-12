@@ -1,5 +1,5 @@
 "use server";
-
+import fs from "fs";
 import { cookies } from "next/headers";
 import api, { API_URL } from "./index"; 
 import { authService } from "./index"; 
@@ -884,14 +884,17 @@ export async function uploadFile(
   url: string,
   onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
 ) {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", new Blob([buffer]), file.name);
 
   const response = await api.post(`/files/upload/video?url=${url}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
-    maxContentLength: Infinity, // تعطيل الحد الأقصى للحجم في Axios
+    maxContentLength: Infinity,
     maxBodyLength: Infinity,
-    onUploadProgress, // هنا نمرر callback لو موجود
+    onUploadProgress,
   });
 
   return { status: response.status, data: response.data };
