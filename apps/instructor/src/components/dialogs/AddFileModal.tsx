@@ -65,7 +65,7 @@ const AddFileModal = ({
   const onSubmit = async (dataFull: z.infer<typeof formSchema>) => {
     let toastId = toast.loading(`جاري إضافة الملف...`);
     try {
-      const finalFilename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.mp4`;
+      const finalFilename = `${dataFull.name.replace(/ /g, '-')}-${Date.now()}-${Math.round(Math.random() * 1e9)}.mp4`;
       const fileUrl = `https://3de.school/videos/${finalFilename}`;
   
       // إنشاء السجل في DB
