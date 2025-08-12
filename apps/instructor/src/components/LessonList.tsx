@@ -450,7 +450,9 @@ export default function LessonList({
             <p className="text-gray-600 mb-4">
               ابدأ بإنشاء درسك الأول
             </p>
-            <Button variant="primary">
+            <Button variant="primary" onClick={()=>{
+              setAddLessonModalOpen(true)
+            }}>
               إضافة درس جديد
             </Button>
           </Card>

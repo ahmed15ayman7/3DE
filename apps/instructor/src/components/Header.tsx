@@ -41,12 +41,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
       onClick: () => router.push('/settings'),
     },
     {
-      id: 'settings',
-      label: 'الإعدادات',
-      icon: <Settings className="h-4 w-4" />,
-      onClick: () => router.push('/settings'),
-    },
-    {
       id: 'divider',
       label: '',
       divider: true,
