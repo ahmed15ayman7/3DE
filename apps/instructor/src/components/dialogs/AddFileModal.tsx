@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {  Lesson, FileType } from '@3de/interfaces';
-import VideoPlayer from '../files/VideoPlayer';
+import VideoPlayer2 from '../files/VideoPlayer2';
 import { LinkIcon, VideoIcon } from 'lucide-react';
 import { AxiosProgressEvent } from 'axios';
 
@@ -140,7 +140,7 @@ const AddFileModal = ({
   return (
     <Modal title={` ${isEdit ? 'تعديل' : 'إضافة'} ملف لدرس ${lesson?.title}`} isOpen={isOpen} onClose={onClose} size="sm">
       <div className="flex flex-col py-5 items-center justify-center">
-       {form.getValues('type') === 'VIDEO' && videoUrl && <VideoPlayer src={videoUrl} />}
+       {form.getValues('type') === 'VIDEO' && videoUrl && <VideoPlayer2 src={videoUrl} />}
       </div>
       <div className="flex flex-col gap-4">
         <Input

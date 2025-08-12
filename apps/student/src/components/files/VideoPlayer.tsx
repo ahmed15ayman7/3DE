@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { formatTime } from '@3de/auth';
+import Hls from 'hls.js';
+import { Play, Pause, Volume2, VolumeX, Maximize } from 'lucide-react';
+import { Button, Progress } from '@3de/ui';
 
 interface VideoPlayerProps {
-  src: string;              // رابط اليوتيوب مثل: https://www.youtube.com/watch?v=...
-  lastWatched?: number;     // بالثواني
+  src: string;
+  lastWatched?: number;
   onProgress?: (progress: number, duration: number) => void;
   onComplete?: () => void;
 }
@@ -16,205 +18,175 @@ export default function VideoPlayer({
   onProgress,
   onComplete
 }: VideoPlayerProps) {
-  const iframeRef = useRef<HTMLDivElement>(null);
-  const [player, setPlayer] = useState<any>(null);
-  const [playing, setPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // const videoId = React.useMemo(() => {
-  //   const urlParams = new URL(src).searchParams;
-  //   return urlParams.get('v'); // استخرج ID الفيديو من رابط اليوتيوب
-  // }, [src]);
-  const videoId ="gPp0c9694eQ"
+  const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
+
   useEffect(() => {
-    if (!videoId) return;
+    if (isYouTube) return;
 
-    if (!window.YT) {
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.body.appendChild(tag);
-      (window as any).onYouTubeIframeAPIReady = initPlayer;
-    } else {
-      initPlayer();
-    }
+    if (videoRef.current) {
+      if (src.endsWith('.m3u8')) {
+        if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+          videoRef.current.src = src;
+        } else if (Hls.isSupported()) {
+          const hls = new Hls();
+          hls.loadSource(src);
+          hls.attachMedia(videoRef.current);
 
-    function initPlayer() {
-      const newPlayer = new window.YT.Player(iframeRef.current, {
-        videoId,
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          modestbranding: 1,
-          rel: 0,
-          fs: 0,
-          iv_load_policy: 3,
-          showinfo: 0,
-        },
-        events: {
-          onReady: (event: any) => {
-            setDuration(event.target.getDuration());
-            if (lastWatched) event.target.seekTo(lastWatched);
-          },
-          onStateChange: (event: any) => {
-            if (event.data === window.YT.PlayerState.ENDED) {
-              onComplete?.();
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            if (lastWatched) {
+              videoRef.current!.currentTime = lastWatched;
             }
-          }
+          });
         }
-      });
-      setPlayer(newPlayer);
+      } else {
+        videoRef.current.src = src;
+        if (lastWatched) {
+          videoRef.current.currentTime = lastWatched;
+        }
+      }
     }
-  }, [videoId, lastWatched, onComplete]);
-
-  // تحديث التقدم كل ثانية
-  useEffect(() => {
-    if (!player) return;
-    const interval = setInterval(() => {
-      const currentTime = player.getCurrentTime?.() || 0;
-      const total = player.getDuration?.() || 0;
-      onProgress?.(currentTime, total);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [player, onProgress]);
+  }, [src, lastWatched, isYouTube]);
 
   const togglePlay = () => {
-    if (!player) return;
-    console.log("togglePlay");
-    if (playing) {
-      player.pauseVideo();
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
     } else {
-      player.playVideo();
+      videoRef.current.play();
     }
-    setPlaying(!playing);
+    setIsPlaying(!isPlaying);
   };
 
-  return (
-    <div className="space-y-3">
-      {/* <div className="aspect-video rounded-lg overflow-hidden relative bg-black">
-        <div ref={iframeRef} className="w-full h-full" />
-        <div className="absolute bottom-4 left-4 flex gap-2">
-          <button
-            onClick={togglePlay}
-            className="px-4 py-2 bg-white rounded shadow cursor-pointer"
-          >
-            {playing ? 'إيقاف' : 'تشغيل'}
-          </button>
-        </div>
-      </div>
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const current = videoRef.current.currentTime;
+      const total = videoRef.current.duration || 0;
+      setCurrentTime(current);
+      setProgress(total ? (current / total) * 100 : 0);
+      onProgress?.(current, total);
+    }
+  };
 
-      {lastWatched > 0 && (
-        <p className="text-sm text-muted-foreground">
-          بدأت من الدقيقة: <span className="font-medium">{formatTime(lastWatched)}</span>
-        </p>
-      )} */}
-      <VideoPlayerLite videoId={videoId} />
-    </div>
-  );
-}
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration || 0);
+    }
+  };
 
+  const handleVolumeChange = (newVolume: number) => {
+    setVolume(newVolume);
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume;
+    }
+  };
 
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+    }
+  };
 
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
 
-export function VideoPlayerLite({ videoId }: { videoId: string }) {
-  const [playing, setPlaying] = useState(false);
-  const thumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-  return (
-    <div className="aspect-video relative rounded-lg overflow-hidden bg-black">
-      {!playing && (
-        <button
-          className="absolute inset-0 w-full h-full flex items-center justify-center"
-          onClick={() => setPlaying(true)}
-          aria-label="تشغيل الفيديو"
-        >
-          <img
-            src={thumb}
-            alt="فيديو"
-            className="object-cover w-full h-full"
-            style={{ filter: 'brightness(0.7)' }}
-          />
-          <span className="absolute flex items-center justify-center w-20 h-20 bg-black/50 rounded-full">
-            <svg viewBox="0 0 68 48" width="48" height="48">
-              <path d="M66.52,7.86A8,8,0,0,0,59.38,1H8.62A8,8,0,0,0,1.48,7.86,85.08,85.08,0,0,0,0,24a85.08,85.08,0,0,0,1.48,16.14A8,8,0,0,0,8.62,47h50.76a8,8,0,0,0,7.14-6.86A85.08,85.08,0,0,0,68,24,85.08,85.08,0,0,0,66.52,7.86ZM27,34V14l18,10Z" fill="#fff"/>
-            </svg>
-          </span>
-        </button>
-      )}
-      {playing && (
+  if (isYouTube) {
+    return (
+      <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">
         <iframe
-          className="w-full h-full absolute inset-0"
-          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&controls=0&modestbranding=1&rel=0`}
-          frameBorder="0"
-          allow="autoplay; encrypted-media"
+          src={src}
+          className="w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black">
+      <video
+        ref={videoRef}
+        className="w-full h-full object-contain"
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => {
+          setIsPlaying(false);
+          onComplete?.();
+        }}
+        controls={false}
+      >
+        {!src.endsWith('.m3u8') && <source src={src} type="video/mp4" />}
+        المتصفح لا يدعم تشغيل الفيديو
+      </video>
+
+      {/* Custom Controls */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+        <div className="space-y-3">
+          {/* Progress Bar */}
+          <div className="flex items-center gap-2">
+            <span className="text-white text-sm">{formatTime(currentTime)}</span>
+            <div className="flex-1">
+              <Progress value={progress} className="h-1 bg-white/20" />
+            </div>
+            <span className="text-white text-sm">{formatTime(duration)}</span>
+          </div>
+
+          {/* Controls */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={togglePlay}
+                variant="ghost"
+                size="sm"
+                className="text-white hover:bg-white/20"
+              >
+                {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+              </Button>
+
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={toggleMute}
+                  variant="ghost"
+                  size="sm"
+                  className="text-white hover:bg-white/20"
+                >
+                  {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                </Button>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={isMuted ? 0 : volume}
+                  onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+                  className="w-16"
+                />
+              </div>
+            </div>
+
+            <Button
+              onClick={() => videoRef.current?.requestFullscreen()}
+              variant="ghost"
+              size="sm"
+              className="text-white hover:bg-white/20"
+            >
+              <Maximize className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
-
-
-
-// 'use client';
-
-// import React, { useEffect, useRef, useState } from 'react';
-// import ReactPlayer from 'react-player';
-
-// import { formatTime } from '@3de/auth';
-
-// interface VideoPlayerProps {
-//   src: string;
-//   lastWatched?: number; // بالثواني
-//   onProgress?: (progress: number,duration:number) => void;
-//   onComplete?: () => void;
-// }
-
-// export default function VideoPlayer({ src, lastWatched = 0, onProgress, onComplete }: VideoPlayerProps) {
-//   const playerRef = useRef<any>(null);
-//   const [showLastWatched, setShowLastWatched] = useState(true);
-//   const [duration, setDuration] = useState(0);
-//   const [playing, setPlaying] = useState(false);
-//   // ⏪ ابدأ من آخر مشاهدة
-//   useEffect(() => {
-//     if (playerRef.current && lastWatched) {
-//       playerRef.current.seekTo(lastWatched, 'seconds');
-//     }
-//   }, [lastWatched]);
-
-
-//   return (
-//     <div className="space-y-3">
-
-//       <div className="aspect-video rounded-lg overflow-hidden relative">
-//         <ReactPlayer
-//           ref={playerRef}
-//           src={src}
-//           playing={playing}
-//           controls={false}
-//           width="100%"
-//           height="100%"
-//           onEnded={()=>{
-//             onComplete?.();
-//           }}
-//         />
-//         <div style={{
-//         position: 'absolute',
-//         bottom: 10,
-//         left: 10,
-//         display: 'flex',
-//         gap: '10px'
-//       }}>
-//         <button onClick={() => setPlaying(!playing)}>
-//           {playing ? 'إيقاف' : 'تشغيل'}
-//         </button>
-//       </div>
-//       </div>
-
-//       {showLastWatched && lastWatched > 0 && (
-//         <p className="text-sm text-muted-foreground">
-//           بدأت من الدقيقة: <span className="font-medium">{formatTime(lastWatched)}</span>
-//         </p>
-//       )}
-//     </div>
-//   );
-// }

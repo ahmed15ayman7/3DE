@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {  Lesson, FileType } from '@3de/interfaces';
-import VideoPlayer from '../files/VideoPlayer';
+import VideoPlayer2 from '../files/VideoPlayer2';
 import { LinkIcon, VideoIcon } from 'lucide-react';
 import { AxiosProgressEvent } from 'axios';
 
@@ -65,8 +65,8 @@ const AddFileModal = ({
   const onSubmit = async (dataFull: z.infer<typeof formSchema>) => {
     let toastId = toast.loading(`جاري إضافة الملف...`);
     try {
-      const finalFilename = `${dataFull.name.replace(/ /g, '-')}-${Date.now()}-${Math.round(Math.random() * 1e9)}.mp4`;
-      const fileUrl = `https://3de.school/videos/${finalFilename}`;
+      const videoId = `${dataFull.name.replace(/ /g, '-')}-${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      const fileUrl = `https://3de.school/videos/${videoId}/index.m3u8`;
   
       // إنشاء السجل في DB
       await fileApi.create({
@@ -99,7 +99,7 @@ const AddFileModal = ({
         );
         onClose();
   
-        await fileApi.upload(file, fileUrl, (progressEvent: AxiosProgressEvent) => {
+        await fileApi.upload(file, videoId, (progressEvent: AxiosProgressEvent) => {
             const percent = Math.round(
               (progressEvent.loaded * 100) / (progressEvent.total || 1)
             );
@@ -140,7 +140,7 @@ const AddFileModal = ({
   return (
     <Modal title={` ${isEdit ? 'تعديل' : 'إضافة'} ملف لدرس ${lesson?.title}`} isOpen={isOpen} onClose={onClose} size="sm">
       <div className="flex flex-col py-5 items-center justify-center">
-       {form.getValues('type') === 'VIDEO' && videoUrl && <VideoPlayer src={videoUrl} />}
+       {form.getValues('type') === 'VIDEO' && videoUrl && <VideoPlayer2 src={videoUrl} />}
       </div>
       <div className="flex flex-col gap-4">
         <Input
