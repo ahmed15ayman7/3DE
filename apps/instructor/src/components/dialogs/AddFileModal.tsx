@@ -81,16 +81,22 @@ const AddFileModal = ({
         setUploading(true);
         setUploadProgress(0);
   
-        const uploadToast = toast.custom(
-          (t) => (
-            <Progress
-              value={uploadProgress}
-              color='primary'
-              className='w-full'
-            />
-          ),
-          { duration: Infinity }
+        const uploadToast = toast(
+          <div className='flex flex-col gap-2'>
+          <Progress
+          value={uploadProgress}
+          color='primary'
+          className='w-full'
+          />
+          <p className='text-sm text-gray-500'>{uploadProgress}%</p>
+          </div>
+          ,
+          {
+            duration: Infinity,
+            position: 'top-center',
+          }
         );
+        onClose();
   
         await fileApi.upload(file, fileUrl, (progressEvent: AxiosProgressEvent) => {
             const percent = Math.round(
@@ -106,7 +112,6 @@ const AddFileModal = ({
       refetch();
       toast.dismiss(toastId);
       toast.success("تم إضافة الملف بنجاح");
-      onClose();
       form.reset();
       setFileId(null);
     } catch (error) {

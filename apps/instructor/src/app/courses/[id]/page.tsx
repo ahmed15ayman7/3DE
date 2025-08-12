@@ -9,18 +9,20 @@ import {
   Download,
   Plus,
   Settings,
+  X,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { Card, Button, Badge, Avatar, Progress, Tabs, Dropdown } from '@3de/ui'
-import { courseApi } from '@3de/apis'
-import { Course, Lesson, User } from '@3de/interfaces'
+import { Card, Button, Badge, Avatar, Progress, Tabs, Dropdown, Modal } from '@3de/ui'
+import { courseApi, fileApi } from '@3de/apis'
+import { Course, File as FileModel, Lesson, User } from '@3de/interfaces'
 import LessonList from '../../../components/LessonList'
 import LessonFileViewer from '../../../components/LessonFileViewer'
 import AddLessonModal from '../../../components/dialogs/AddLessonModal'
 import AddCourse from '../../../components/dialogs/AddCourse'
 import { useAuth } from '@3de/auth'
 import AddFileModal from '../../../components/dialogs/AddFileModal'
+import { toast } from '@3de/ui'
 let getCourse=async(id:string):Promise<Course> =>{
   let course=await courseApi.getById(id)
   return course.data
@@ -30,8 +32,9 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
   const [showCreateLessonModal, setShowCreateLessonModal] = useState(false)
   const [showEditLessonModal, setShowEditLessonModal] = useState(false)
   const [showAddFileModal, setShowAddFileModal] = useState(false)
+  const [showDeleteFileModal, setShowDeleteFileModal] = useState(false)
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null)
-  const [selectedFile, setSelectedFile] = useState<any>(null)
+  const [selectedFile, setSelectedFile] = useState<FileModel | null>(null)
   const [activeTab, setActiveTab] = useState('lessons')
   const [showUpdateCourseModal, setShowUpdateCourseModal] = useState(false)
   const { user } = useAuth()
@@ -71,6 +74,10 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
               setAddLessonModalOpen={setShowCreateLessonModal}
               setIsEditLessonModalOpen={setShowEditLessonModal}
               setAddFileModalOpen={setShowAddFileModal}
+              handleDeleteFile={(fileId: string) => {
+                setSelectedFile(course?.lessons?.find(l => l.id === selectedLesson)?.files?.find(f => f.id === fileId) as FileModel)
+                setShowDeleteFileModal(true)
+              }}
               />
           </div>
           
@@ -215,6 +222,21 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
   useEffect(()=>{
     refetch()
   },[courseId,refetch])
+  const handleDeleteFile = async (fileId: string) => {
+  let toastId=  toast.loading('جاري حذف الملف...')
+    try {
+      await fileApi.delete(fileId)
+      refetch()
+      toast.dismiss(toastId)
+      toast.success('تم حذف الملف بنجاح')
+    } catch (error) {
+      console.error(error)
+      toast.dismiss(toastId)
+      toast.error('حدث خطأ ما')
+    } finally {
+      setShowDeleteFileModal(false)
+    }
+  }
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -344,6 +366,20 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
         setFileId={()=>{}}
         setUploading={setUploading}
       />
+      {showDeleteFileModal && <Modal isOpen={showDeleteFileModal} onClose={() => setShowDeleteFileModal(false)}>
+        <div className="flex items-center justify-between">
+          <p>هل أنت متأكد من حذف الملف؟</p>
+          <Button variant="outline" onClick={() => setShowDeleteFileModal(false)}>
+            إلغاء
+          </Button>
+          <Button variant="primary" onClick={() => {
+            setShowDeleteFileModal(false)
+            handleDeleteFile(selectedFile?.id as string)
+          }}>
+            حذف
+          </Button>
+        </div>
+      </Modal>}
       </div>
   )
 } 

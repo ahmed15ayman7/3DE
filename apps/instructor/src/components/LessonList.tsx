@@ -24,6 +24,7 @@ import {
   BookOpen,
   Pencil,
   Plus,
+  Trash,
 } from 'lucide-react'
 import { Card, Button, Badge, Progress, Tooltip } from '@3de/ui'
 import { FileType,Lesson ,File as LessonFile, User } from '@3de/interfaces'
@@ -39,6 +40,7 @@ interface LessonListProps {
   setAddLessonModalOpen: (open: boolean) => void
   setIsEditLessonModalOpen: (open: boolean) => void
   setAddFileModalOpen: (open: boolean) => void
+  handleDeleteFile: (fileId: string) => void
 }
 
 const getFileIcon = (type: FileType) => {
@@ -108,6 +110,7 @@ const LessonItem = ({
   onFileSelect,
   setIsEditLessonModalOpen,
   setAddFileModalOpen,
+  handleDeleteFile,
 }: {
   lesson: Lesson
   isSelected: boolean
@@ -117,6 +120,7 @@ const LessonItem = ({
   onFileSelect: (file: LessonFile) => void
   setIsEditLessonModalOpen: (open: boolean) => void
   setAddFileModalOpen: (open: boolean) => void
+  handleDeleteFile: (fileId: string) => void
 }) => {
   const [isLocked, setIsLocked] = useState(false)
 
@@ -281,6 +285,14 @@ const LessonItem = ({
                     >
                       <Download className="h-3 w-3" />
                     </button>
+                    <button
+                      onClick={(e) => {
+                        handleDeleteFile(file.id)
+                      }}
+                      className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                        <Trash className="h-3 w-3" />
+                    </button>
                   </div>
                 </motion.div>
               ))}
@@ -336,6 +348,7 @@ export default function LessonList({
   setAddLessonModalOpen,
   setIsEditLessonModalOpen,
   setAddFileModalOpen,
+  handleDeleteFile,
 }: LessonListProps) {
   const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set())
 
@@ -418,6 +431,7 @@ export default function LessonList({
             onFileSelect={onFileSelect}
             setIsEditLessonModalOpen={setIsEditLessonModalOpen}
             setAddFileModalOpen={setAddFileModalOpen}
+            handleDeleteFile={handleDeleteFile}
           />
         ))}
 
