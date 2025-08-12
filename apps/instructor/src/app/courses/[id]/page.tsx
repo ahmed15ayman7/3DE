@@ -23,6 +23,7 @@ import AddCourse from '../../../components/dialogs/AddCourse'
 import { useAuth } from '@3de/auth'
 import AddFileModal from '../../../components/dialogs/AddFileModal'
 import { toast } from '@3de/ui'
+import BlockLessonModal from '../../../components/dialogs/BlockLessonModal'
 let getCourse=async(id:string):Promise<Course> =>{
   let course=await courseApi.getById(id)
   return course.data
@@ -36,11 +37,18 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<FileModel | null>(null)
   const [activeTab, setActiveTab] = useState('lessons')
+  const [showBlockLessonModal, setShowBlockLessonModal] = useState(false)
+  const [currentLessonData, setCurrentLessonData] = useState<Lesson | null>(null)
   const [showUpdateCourseModal, setShowUpdateCourseModal] = useState(false)
   const { user } = useAuth()
   let {data:course,refetch}=useQuery({
     queryKey: ['course',courseId],
     queryFn: () => getCourse(courseId),
+    enabled: !!courseId,
+  })
+  let {data:students}=useQuery({
+    queryKey: ['students',courseId],
+    queryFn: () => courseApi.getStudents(courseId),
     enabled: !!courseId,
   })
   const [uploading, setUploading] = useState(false)
@@ -56,7 +64,10 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
       };
     }
   }, [uploading]);
-  
+  const handleBlockLesson = (lesson: Lesson, isBlocked: boolean) => {
+    setShowBlockLessonModal(true);
+    setCurrentLessonData(lesson);
+  };
   const tabItems = [
     {
       id: 'lessons',
@@ -74,6 +85,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
               setAddLessonModalOpen={setShowCreateLessonModal}
               setIsEditLessonModalOpen={setShowEditLessonModal}
               setAddFileModalOpen={setShowAddFileModal}
+              handleBlockLesson={handleBlockLesson}
               handleDeleteFile={(fileId: string) => {
                 setSelectedFile(course?.lessons?.find(l => l.id === selectedLesson)?.files?.find(f => f.id === fileId) as FileModel)
                 setShowDeleteFileModal(true)
@@ -227,6 +239,7 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
     try {
       await fileApi.delete(fileId)
       refetch()
+      setSelectedFile(null)
       toast.dismiss(toastId)
       toast.success('تم حذف الملف بنجاح')
     } catch (error) {
@@ -380,6 +393,13 @@ export default function CourseDetailsPage({params}:{params: Promise<{id: string}
           </Button>
         </div>
       </Modal>}
+      {showBlockLessonModal && <BlockLessonModal
+        lesson={currentLessonData as Lesson}
+        students={students?.data?.map((student) => student.user as User) || []}
+        isOpen={showBlockLessonModal}
+        onClose={() => setShowBlockLessonModal(false)}
+        refetch={refetch}
+      />}
       </div>
   )
 } 

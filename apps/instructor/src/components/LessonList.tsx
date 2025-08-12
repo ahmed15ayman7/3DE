@@ -41,6 +41,7 @@ interface LessonListProps {
   setIsEditLessonModalOpen: (open: boolean) => void
   setAddFileModalOpen: (open: boolean) => void
   handleDeleteFile: (fileId: string) => void
+  handleBlockLesson: (lesson: Lesson, isBlocked: boolean) => void
 }
 
 const getFileIcon = (type: FileType) => {
@@ -111,6 +112,7 @@ const LessonItem = ({
   setIsEditLessonModalOpen,
   setAddFileModalOpen,
   handleDeleteFile,
+  handleBlockLesson,
 }: {
   lesson: Lesson
   isSelected: boolean
@@ -121,6 +123,7 @@ const LessonItem = ({
   setIsEditLessonModalOpen: (open: boolean) => void
   setAddFileModalOpen: (open: boolean) => void
   handleDeleteFile: (fileId: string) => void
+  handleBlockLesson: (lesson: Lesson, isBlocked: boolean) => void
 }) => {
   const [isLocked, setIsLocked] = useState(false)
 
@@ -174,7 +177,7 @@ const LessonItem = ({
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  setIsLocked(!isLocked)
+                  handleBlockLesson(lesson, true) 
                 }}
                 className={`p-1 rounded transition-colors ${
                   isSelected
@@ -182,11 +185,12 @@ const LessonItem = ({
                     : 'hover:bg-gray-100'
                 }`}
               >
-                {isLocked ? (
-                  <Lock className="h-4 w-4" />
-                ) : (
-                  <Unlock className="h-4 w-4" />
-                )}
+                  {lesson.LessonWhiteList?.length === 0 ? (
+                    <Lock className="h-4 w-4" />
+                  ) : (
+                    <Unlock className="h-4 w-4" />
+                  )}
+               
               </button>
             </Tooltip>
             <Tooltip content="تعديل الدرس">
@@ -349,6 +353,7 @@ export default function LessonList({
   setIsEditLessonModalOpen,
   setAddFileModalOpen,
   handleDeleteFile,
+  handleBlockLesson,
 }: LessonListProps) {
   const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set())
 
@@ -432,6 +437,7 @@ export default function LessonList({
             setIsEditLessonModalOpen={setIsEditLessonModalOpen}
             setAddFileModalOpen={setAddFileModalOpen}
             handleDeleteFile={handleDeleteFile}
+            handleBlockLesson={handleBlockLesson}
           />
         ))}
 

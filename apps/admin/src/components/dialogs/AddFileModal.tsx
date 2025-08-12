@@ -65,7 +65,7 @@ const AddFileModal = ({
   const onSubmit = async (dataFull: z.infer<typeof formSchema>) => {
     let toastId = toast.loading(`جاري إضافة الملف...`);
     try {
-      const finalFilename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.mp4`;
+      const finalFilename = `${dataFull.name.replace(/ /g, '-')}-${Date.now()}-${Math.round(Math.random() * 1e9)}.mp4`;
       const fileUrl = `https://3de.school/videos/${finalFilename}`;
   
       // إنشاء السجل في DB
@@ -81,16 +81,23 @@ const AddFileModal = ({
         setUploading(true);
         setUploadProgress(0);
   
-        const uploadToast = toast.custom(
-          (t) => (
-            <Progress
-              value={uploadProgress}
-              color='primary'
-              className='w-full'
-            />
-          ),
-          { duration: Infinity }
+        const uploadToast = toast(
+          <div className='flex flex-col gap-2 w-full'>
+          <Progress
+          value={uploadProgress}
+          showLabel={true}
+          labelPosition='top'
+          color='primary'
+          className='w-full'
+          />
+          </div>
+          ,
+          {
+            duration: Infinity,
+            position: 'top-center',
+          }
         );
+        onClose();
   
         await fileApi.upload(file, fileUrl, (progressEvent: AxiosProgressEvent) => {
             const percent = Math.round(
@@ -106,7 +113,6 @@ const AddFileModal = ({
       refetch();
       toast.dismiss(toastId);
       toast.success("تم إضافة الملف بنجاح");
-      onClose();
       form.reset();
       setFileId(null);
     } catch (error) {
@@ -116,8 +122,11 @@ const AddFileModal = ({
     }
   };
   let handleSelectVideo =  () => {
+    console.log(file)
     if(file){
+      console.log(file)
       let url = URL.createObjectURL(file)
+      console.log(url)
       setVideoUrl(url)
     }
   }
