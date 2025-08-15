@@ -7,7 +7,7 @@ import { ArrowLeft, Star, MapPin, Award } from 'lucide-react';
 import { landingApi } from '@3de/apis';
 import { Button, Badge, Avatar } from '@3de/ui';
 import { Course } from '@3de/interfaces';
-
+import Layout from '../../../components/Layout';
 export default function InstructorDetailsPage() {
   const params = useParams();
   const router = useRouter();
@@ -22,14 +22,23 @@ export default function InstructorDetailsPage() {
   const instructor = instructorData?.data;
 
   if (isLoading) {
-    return <p className="text-center py-20">جارٍ تحميل البيانات...</p>;
+    return (
+      <Layout>
+        <p className="text-center py-20">جارٍ تحميل البيانات...</p>
+      </Layout>
+    );
   }
 
   if (error || !instructor) {
-    return <p className="text-center text-red-500 py-20">حدث خطأ في تحميل البيانات</p>;
+    return (
+      <Layout>
+        <p className="text-center text-red-500 py-20">حدث خطأ في تحميل البيانات</p>
+      </Layout>
+    );
   }
 
   return (
+    <Layout>
     <div className="space-y-6">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4">
@@ -97,5 +106,6 @@ export default function InstructorDetailsPage() {
         )}
       </motion.div>
     </div>
+    </Layout>
   );
 }
