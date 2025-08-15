@@ -82,6 +82,13 @@ export default function InstructorDetailsPage() {
                 ))}
               </div>
             )}
+             <div className="w-full flex items-center justify-end gap-4">
+                <Button variant="primary" onClick={()=>{
+                  window.open(`https://wa.me/`);
+                }}>
+                  تواصل معنا 
+                </Button>
+              </div>
           </div>
         </div>
       </motion.div>
