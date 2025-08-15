@@ -26,4 +26,12 @@ export class PublicController {
     async getCoursesPublic(@Query('search') search?: string, @Query('take') take?: number, @Query('skip') skip?: number): Promise<{courses:Partial<Course>[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}> {
         return this.publicService.getCoursesPublic(search ?? "", take ?? 10, skip ?? 0);
     }
+    @Get('courses/:id')
+    async getCourseByIdPublic(@Param('id') id: string): Promise<Partial<Course>> {
+        return this.publicService.getCourseById(id);
+    }
+    @Get('instructors/:id')
+    async getInstructorByIdPublic(@Param('id') id: string): Promise<Partial<Instructor>> {
+        return this.publicService.getInstructorById(id);
+    }
 } 

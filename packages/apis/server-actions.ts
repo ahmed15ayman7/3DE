@@ -1770,3 +1770,12 @@ export async function getInstructors(search: string, take: number, skip: number)
     const response = await axios.get(`https://api.3de.school/public/posts?search=${search}&take=${take}&skip=${skip}`);
     return {status:response.status,data:response.data} as {status:number,data: {posts:BlogPost[],total:number,totalPages:number,hasNextPage:boolean,hasPreviousPage:boolean}};
   }
+  export async function getCourse(id: string) {
+    const response = await axios.get(`https://api.iafce.net/public/courses/${id}`);
+    return {status:response.status,data:response.data} as {status:number,data: Course};
+  }
+  export async function getInstructor(id: string) {
+    const response = await axios.get(`https://api.iafce.net/public/instructors/${id}`);
+    return {status:response.status,data:response.data} as {status:number,data: Instructor};
+  }
+  //!!landingApis

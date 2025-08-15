@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { 
   Star, 
-  Users, 
   BookOpen, 
   Award,
   MapPin,
@@ -253,7 +252,7 @@ export default function InstructorCard({
           {/* Action Button */}
           <Button 
             size={isCompact ? "sm" : "md"}
-            onClick={() => router.push(`/student/`)}
+            onClick={() => router.push(`/instructors/${id}`)}
             variant="outline"
             className="w-full group-hover:bg-primary-main group-hover:text-white group-hover:border-primary-main transition-all duration-200"
           >

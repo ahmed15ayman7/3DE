@@ -644,6 +644,8 @@ export const landingApi = {
   getInstructors: serverActions.getInstructors,
   getEventsPublic: serverActions.getEventsPublic,
   getBlogs: serverActions.getBlogs,
+  getCourse: serverActions.getCourse,
+  getInstructor: serverActions.getInstructor,
 };
 // ?? Export auth service for direct access
 export { authService };

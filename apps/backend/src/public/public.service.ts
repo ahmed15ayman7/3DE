@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEventDto } from 'dtos/Event.create.dto';
 import { UpdateEventDto } from 'dtos/Event.update.dto';
-import { BlogPost, Course, Event, Post, Prisma } from '@shared/prisma';
+import { BlogPost, Course, Event, Post, Prisma,Instructor } from '@shared/prisma';
 
 @Injectable()
 export class PublicService {
@@ -178,4 +178,51 @@ const isValidDate = !isNaN(maybeDate.getTime());
         return {courses,total,totalPages,hasNextPage,hasPreviousPage}
     }
 
-}
+    async getCourseById(id: string): Promise<Partial<Course>> {
+        return this.prisma.course.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                image: true,
+                level: true,
+                price: true,
+                duration: true,
+                startDate: true,
+                createdAt: true,
+                updatedAt: true,
+                academyId: true,
+                status: true,
+                progress: true,
+            },
+        });
+    }
+    async getInstructorById(id: string): Promise<Partial<Instructor>> {
+        return this.prisma.instructor.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                title: true,
+                bio: true,
+                rating: true,
+                experienceYears: true,
+                skills: true,
+                location: true,
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        avatar: true,
+                    },
+                },
+                courses: {
+                    select: {
+                        id: true,
+                        title: true,
+                    },
+                },
+            },
+        });
+    }
+} 
