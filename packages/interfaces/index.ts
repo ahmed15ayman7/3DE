@@ -93,6 +93,8 @@ export interface User {
   WatchedLesson: WatchedLesson[] | undefined;
   Like: Like[] | undefined;
   EnrollmentCode: EnrollmentCode[] | undefined;
+  Child: Child[] | undefined;
+  Parent: Parent[] | undefined;
 }
 
 export interface LoginHistory {
@@ -118,6 +120,25 @@ export interface TwoFactor {
   secret?: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface Child {
+  id: string;
+  userId: string;
+  user: User | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+  parentId: string;
+  parent: Parent | undefined;
+}
+
+export interface Parent {
+  id: string;
+  userId: string;
+  user: User | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+  children: Child[] | undefined;
 }
 
 export interface Profile {

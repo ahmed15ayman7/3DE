@@ -40,6 +40,8 @@ import {
   WatchedLesson,
   Like,
   EnrollmentCode,
+  Child,
+  Parent,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";

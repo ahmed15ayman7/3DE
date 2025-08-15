@@ -38,6 +38,8 @@ import { LessonWhiteListEntity } from "./LessonWhiteList.entity";
 import { WatchedLessonEntity } from "./WatchedLesson.entity";
 import { LikeEntity } from "./Like.entity";
 import { EnrollmentCodeEntity } from "./EnrollmentCode.entity";
+import { ChildEntity } from "./Child.entity";
+import { ParentEntity } from "./Parent.entity";
 import {
   UserRole,
   Academy,
@@ -79,6 +81,8 @@ import {
   WatchedLesson,
   Like,
   EnrollmentCode,
+  Child,
+  Parent,
 } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
@@ -364,4 +368,14 @@ export class UserDto {
   // Field: EnrollmentCode, Type: EnrollmentCode[]
   @Column()
   EnrollmentCode: EnrollmentCode[];
+
+  @ApiProperty({ type: ChildEntity })
+  // Field: Child, Type: Child[]
+  @Column()
+  Child: Child[];
+
+  @ApiProperty({ type: ParentEntity })
+  // Field: Parent, Type: Parent[]
+  @Column()
+  Parent: Parent[];
 }

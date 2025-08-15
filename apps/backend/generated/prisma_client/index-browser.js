@@ -163,6 +163,21 @@ exports.Prisma.TwoFactorScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ChildScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  parentId: 'parentId'
+};
+
+exports.Prisma.ParentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1191,6 +1206,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   LoginHistory: 'LoginHistory',
   TwoFactor: 'TwoFactor',
+  Child: 'Child',
+  Parent: 'Parent',
   Profile: 'Profile',
   UserAcademyCEO: 'UserAcademyCEO',
   Academy: 'Academy',

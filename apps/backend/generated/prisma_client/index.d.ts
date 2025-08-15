@@ -29,6 +29,16 @@ export type LoginHistory = $Result.DefaultSelection<Prisma.$LoginHistoryPayload>
  */
 export type TwoFactor = $Result.DefaultSelection<Prisma.$TwoFactorPayload>
 /**
+ * Model Child
+ * 
+ */
+export type Child = $Result.DefaultSelection<Prisma.$ChildPayload>
+/**
+ * Model Parent
+ * 
+ */
+export type Parent = $Result.DefaultSelection<Prisma.$ParentPayload>
+/**
  * Model Profile
  * 
  */
@@ -838,6 +848,26 @@ export class PrismaClient<
     * ```
     */
   get twoFactor(): Prisma.TwoFactorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.child`: Exposes CRUD operations for the **Child** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Children
+    * const children = await prisma.child.findMany()
+    * ```
+    */
+  get child(): Prisma.ChildDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.parent`: Exposes CRUD operations for the **Parent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Parents
+    * const parents = await prisma.parent.findMany()
+    * ```
+    */
+  get parent(): Prisma.ParentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.profile`: Exposes CRUD operations for the **Profile** model.
@@ -2031,6 +2061,8 @@ export namespace Prisma {
     User: 'User',
     LoginHistory: 'LoginHistory',
     TwoFactor: 'TwoFactor',
+    Child: 'Child',
+    Parent: 'Parent',
     Profile: 'Profile',
     UserAcademyCEO: 'UserAcademyCEO',
     Academy: 'Academy',
@@ -2124,7 +2156,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "loginHistory" | "twoFactor" | "profile" | "userAcademyCEO" | "academy" | "instructor" | "course" | "path" | "milestone" | "lessonWhiteList" | "lesson" | "watchedLesson" | "file" | "enrollmentCode" | "enrollment" | "quiz" | "question" | "option" | "submission" | "achievement" | "notification" | "notificationSettings" | "message" | "post" | "like" | "comment" | "group" | "admin" | "channel" | "owner" | "bookmark" | "event" | "attendance" | "payment" | "report" | "badge" | "certificate" | "community" | "discussion" | "liveRoom" | "accountingEntry" | "invoice" | "salaryPayment" | "publicRelationsRecord" | "pRResponse" | "meeting" | "meetingParticipant" | "permission" | "adminRole" | "adminAssignment" | "legalCase" | "installment" | "expense" | "branch" | "branchFinance" | "aboutSection" | "newsEvent" | "successStory" | "testimonial" | "contactMessage" | "fAQ" | "blogPost" | "partnership" | "cSRProject" | "crisisCommunication" | "mediaAlert" | "partnershipAgreement" | "secretariatDashboard" | "traineeManagement" | "trainingSchedule" | "quickActionLink" | "paymentLogBySecretary" | "internalMessage" | "secretaryFiles" | "employeeAttendanceLog" | "contactUs" | "support"
+      modelProps: "user" | "loginHistory" | "twoFactor" | "child" | "parent" | "profile" | "userAcademyCEO" | "academy" | "instructor" | "course" | "path" | "milestone" | "lessonWhiteList" | "lesson" | "watchedLesson" | "file" | "enrollmentCode" | "enrollment" | "quiz" | "question" | "option" | "submission" | "achievement" | "notification" | "notificationSettings" | "message" | "post" | "like" | "comment" | "group" | "admin" | "channel" | "owner" | "bookmark" | "event" | "attendance" | "payment" | "report" | "badge" | "certificate" | "community" | "discussion" | "liveRoom" | "accountingEntry" | "invoice" | "salaryPayment" | "publicRelationsRecord" | "pRResponse" | "meeting" | "meetingParticipant" | "permission" | "adminRole" | "adminAssignment" | "legalCase" | "installment" | "expense" | "branch" | "branchFinance" | "aboutSection" | "newsEvent" | "successStory" | "testimonial" | "contactMessage" | "fAQ" | "blogPost" | "partnership" | "cSRProject" | "crisisCommunication" | "mediaAlert" | "partnershipAgreement" | "secretariatDashboard" | "traineeManagement" | "trainingSchedule" | "quickActionLink" | "paymentLogBySecretary" | "internalMessage" | "secretaryFiles" | "employeeAttendanceLog" | "contactUs" | "support"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2347,6 +2379,154 @@ export namespace Prisma {
           count: {
             args: Prisma.TwoFactorCountArgs<ExtArgs>
             result: $Utils.Optional<TwoFactorCountAggregateOutputType> | number
+          }
+        }
+      }
+      Child: {
+        payload: Prisma.$ChildPayload<ExtArgs>
+        fields: Prisma.ChildFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChildFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChildFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>
+          }
+          findFirst: {
+            args: Prisma.ChildFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChildFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>
+          }
+          findMany: {
+            args: Prisma.ChildFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>[]
+          }
+          create: {
+            args: Prisma.ChildCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>
+          }
+          createMany: {
+            args: Prisma.ChildCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChildCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>[]
+          }
+          delete: {
+            args: Prisma.ChildDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>
+          }
+          update: {
+            args: Prisma.ChildUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChildDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChildUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChildUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChildUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChildPayload>
+          }
+          aggregate: {
+            args: Prisma.ChildAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChild>
+          }
+          groupBy: {
+            args: Prisma.ChildGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChildGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChildCountArgs<ExtArgs>
+            result: $Utils.Optional<ChildCountAggregateOutputType> | number
+          }
+        }
+      }
+      Parent: {
+        payload: Prisma.$ParentPayload<ExtArgs>
+        fields: Prisma.ParentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ParentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ParentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>
+          }
+          findFirst: {
+            args: Prisma.ParentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ParentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>
+          }
+          findMany: {
+            args: Prisma.ParentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>[]
+          }
+          create: {
+            args: Prisma.ParentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>
+          }
+          createMany: {
+            args: Prisma.ParentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ParentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>[]
+          }
+          delete: {
+            args: Prisma.ParentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>
+          }
+          update: {
+            args: Prisma.ParentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ParentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ParentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ParentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>[]
+          }
+          upsert: {
+            args: Prisma.ParentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentPayload>
+          }
+          aggregate: {
+            args: Prisma.ParentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateParent>
+          }
+          groupBy: {
+            args: Prisma.ParentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ParentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ParentCountArgs<ExtArgs>
+            result: $Utils.Optional<ParentCountAggregateOutputType> | number
           }
         }
       }
@@ -7987,6 +8167,8 @@ export namespace Prisma {
     user?: UserOmit
     loginHistory?: LoginHistoryOmit
     twoFactor?: TwoFactorOmit
+    child?: ChildOmit
+    parent?: ParentOmit
     profile?: ProfileOmit
     userAcademyCEO?: UserAcademyCEOOmit
     academy?: AcademyOmit
@@ -8193,6 +8375,8 @@ export namespace Prisma {
     WatchedLesson: number
     Like: number
     EnrollmentCode: number
+    Child: number
+    Parent: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8233,6 +8417,8 @@ export namespace Prisma {
     WatchedLesson?: boolean | UserCountOutputTypeCountWatchedLessonArgs
     Like?: boolean | UserCountOutputTypeCountLikeArgs
     EnrollmentCode?: boolean | UserCountOutputTypeCountEnrollmentCodeArgs
+    Child?: boolean | UserCountOutputTypeCountChildArgs
+    Parent?: boolean | UserCountOutputTypeCountParentArgs
   }
 
   // Custom InputTypes
@@ -8503,6 +8689,51 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountEnrollmentCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EnrollmentCodeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountChildArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChildWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountParentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParentWhereInput
+  }
+
+
+  /**
+   * Count Type ParentCountOutputType
+   */
+
+  export type ParentCountOutputType = {
+    children: number
+  }
+
+  export type ParentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | ParentCountOutputTypeCountChildrenArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ParentCountOutputType without action
+   */
+  export type ParentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentCountOutputType
+     */
+    select?: ParentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ParentCountOutputType without action
+   */
+  export type ParentCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChildWhereInput
   }
 
 
@@ -10475,6 +10706,8 @@ export namespace Prisma {
     WatchedLesson?: boolean | User$WatchedLessonArgs<ExtArgs>
     Like?: boolean | User$LikeArgs<ExtArgs>
     EnrollmentCode?: boolean | User$EnrollmentCodeArgs<ExtArgs>
+    Child?: boolean | User$ChildArgs<ExtArgs>
+    Parent?: boolean | User$ParentArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -10581,6 +10814,8 @@ export namespace Prisma {
     WatchedLesson?: boolean | User$WatchedLessonArgs<ExtArgs>
     Like?: boolean | User$LikeArgs<ExtArgs>
     EnrollmentCode?: boolean | User$EnrollmentCodeArgs<ExtArgs>
+    Child?: boolean | User$ChildArgs<ExtArgs>
+    Parent?: boolean | User$ParentArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10632,6 +10867,8 @@ export namespace Prisma {
       WatchedLesson: Prisma.$WatchedLessonPayload<ExtArgs>[]
       Like: Prisma.$LikePayload<ExtArgs>[]
       EnrollmentCode: Prisma.$EnrollmentCodePayload<ExtArgs>[]
+      Child: Prisma.$ChildPayload<ExtArgs>[]
+      Parent: Prisma.$ParentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11084,6 +11321,8 @@ export namespace Prisma {
     WatchedLesson<T extends User$WatchedLessonArgs<ExtArgs> = {}>(args?: Subset<T, User$WatchedLessonArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchedLessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Like<T extends User$LikeArgs<ExtArgs> = {}>(args?: Subset<T, User$LikeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     EnrollmentCode<T extends User$EnrollmentCodeArgs<ExtArgs> = {}>(args?: Subset<T, User$EnrollmentCodeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Child<T extends User$ChildArgs<ExtArgs> = {}>(args?: Subset<T, User$ChildArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Parent<T extends User$ParentArgs<ExtArgs> = {}>(args?: Subset<T, User$ParentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12449,6 +12688,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EnrollmentCodeScalarFieldEnum | EnrollmentCodeScalarFieldEnum[]
+  }
+
+  /**
+   * User.Child
+   */
+  export type User$ChildArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    where?: ChildWhereInput
+    orderBy?: ChildOrderByWithRelationInput | ChildOrderByWithRelationInput[]
+    cursor?: ChildWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChildScalarFieldEnum | ChildScalarFieldEnum[]
+  }
+
+  /**
+   * User.Parent
+   */
+  export type User$ParentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    where?: ParentWhereInput
+    orderBy?: ParentOrderByWithRelationInput | ParentOrderByWithRelationInput[]
+    cursor?: ParentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParentScalarFieldEnum | ParentScalarFieldEnum[]
   }
 
   /**
@@ -14674,6 +14961,2147 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TwoFactorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Child
+   */
+
+  export type AggregateChild = {
+    _count: ChildCountAggregateOutputType | null
+    _min: ChildMinAggregateOutputType | null
+    _max: ChildMaxAggregateOutputType | null
+  }
+
+  export type ChildMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    parentId: string | null
+  }
+
+  export type ChildMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    parentId: string | null
+  }
+
+  export type ChildCountAggregateOutputType = {
+    id: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    parentId: number
+    _all: number
+  }
+
+
+  export type ChildMinAggregateInputType = {
+    id?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    parentId?: true
+  }
+
+  export type ChildMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    parentId?: true
+  }
+
+  export type ChildCountAggregateInputType = {
+    id?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    parentId?: true
+    _all?: true
+  }
+
+  export type ChildAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Child to aggregate.
+     */
+    where?: ChildWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Children to fetch.
+     */
+    orderBy?: ChildOrderByWithRelationInput | ChildOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChildWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Children from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Children.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Children
+    **/
+    _count?: true | ChildCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChildMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChildMaxAggregateInputType
+  }
+
+  export type GetChildAggregateType<T extends ChildAggregateArgs> = {
+        [P in keyof T & keyof AggregateChild]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChild[P]>
+      : GetScalarType<T[P], AggregateChild[P]>
+  }
+
+
+
+
+  export type ChildGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChildWhereInput
+    orderBy?: ChildOrderByWithAggregationInput | ChildOrderByWithAggregationInput[]
+    by: ChildScalarFieldEnum[] | ChildScalarFieldEnum
+    having?: ChildScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChildCountAggregateInputType | true
+    _min?: ChildMinAggregateInputType
+    _max?: ChildMaxAggregateInputType
+  }
+
+  export type ChildGroupByOutputType = {
+    id: string
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    parentId: string
+    _count: ChildCountAggregateOutputType | null
+    _min: ChildMinAggregateOutputType | null
+    _max: ChildMaxAggregateOutputType | null
+  }
+
+  type GetChildGroupByPayload<T extends ChildGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChildGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChildGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChildGroupByOutputType[P]>
+            : GetScalarType<T[P], ChildGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChildSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    parentId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | ParentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["child"]>
+
+  export type ChildSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    parentId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | ParentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["child"]>
+
+  export type ChildSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    parentId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | ParentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["child"]>
+
+  export type ChildSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    parentId?: boolean
+  }
+
+  export type ChildOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "parentId", ExtArgs["result"]["child"]>
+  export type ChildInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | ParentDefaultArgs<ExtArgs>
+  }
+  export type ChildIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | ParentDefaultArgs<ExtArgs>
+  }
+  export type ChildIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | ParentDefaultArgs<ExtArgs>
+  }
+
+  export type $ChildPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Child"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      parent: Prisma.$ParentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+      parentId: string
+    }, ExtArgs["result"]["child"]>
+    composites: {}
+  }
+
+  type ChildGetPayload<S extends boolean | null | undefined | ChildDefaultArgs> = $Result.GetResult<Prisma.$ChildPayload, S>
+
+  type ChildCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChildFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChildCountAggregateInputType | true
+    }
+
+  export interface ChildDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Child'], meta: { name: 'Child' } }
+    /**
+     * Find zero or one Child that matches the filter.
+     * @param {ChildFindUniqueArgs} args - Arguments to find a Child
+     * @example
+     * // Get one Child
+     * const child = await prisma.child.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChildFindUniqueArgs>(args: SelectSubset<T, ChildFindUniqueArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Child that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChildFindUniqueOrThrowArgs} args - Arguments to find a Child
+     * @example
+     * // Get one Child
+     * const child = await prisma.child.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChildFindUniqueOrThrowArgs>(args: SelectSubset<T, ChildFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Child that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChildFindFirstArgs} args - Arguments to find a Child
+     * @example
+     * // Get one Child
+     * const child = await prisma.child.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChildFindFirstArgs>(args?: SelectSubset<T, ChildFindFirstArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Child that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChildFindFirstOrThrowArgs} args - Arguments to find a Child
+     * @example
+     * // Get one Child
+     * const child = await prisma.child.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChildFindFirstOrThrowArgs>(args?: SelectSubset<T, ChildFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Children that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChildFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Children
+     * const children = await prisma.child.findMany()
+     * 
+     * // Get first 10 Children
+     * const children = await prisma.child.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const childWithIdOnly = await prisma.child.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChildFindManyArgs>(args?: SelectSubset<T, ChildFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Child.
+     * @param {ChildCreateArgs} args - Arguments to create a Child.
+     * @example
+     * // Create one Child
+     * const Child = await prisma.child.create({
+     *   data: {
+     *     // ... data to create a Child
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChildCreateArgs>(args: SelectSubset<T, ChildCreateArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Children.
+     * @param {ChildCreateManyArgs} args - Arguments to create many Children.
+     * @example
+     * // Create many Children
+     * const child = await prisma.child.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChildCreateManyArgs>(args?: SelectSubset<T, ChildCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Children and returns the data saved in the database.
+     * @param {ChildCreateManyAndReturnArgs} args - Arguments to create many Children.
+     * @example
+     * // Create many Children
+     * const child = await prisma.child.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Children and only return the `id`
+     * const childWithIdOnly = await prisma.child.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChildCreateManyAndReturnArgs>(args?: SelectSubset<T, ChildCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Child.
+     * @param {ChildDeleteArgs} args - Arguments to delete one Child.
+     * @example
+     * // Delete one Child
+     * const Child = await prisma.child.delete({
+     *   where: {
+     *     // ... filter to delete one Child
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChildDeleteArgs>(args: SelectSubset<T, ChildDeleteArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Child.
+     * @param {ChildUpdateArgs} args - Arguments to update one Child.
+     * @example
+     * // Update one Child
+     * const child = await prisma.child.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChildUpdateArgs>(args: SelectSubset<T, ChildUpdateArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Children.
+     * @param {ChildDeleteManyArgs} args - Arguments to filter Children to delete.
+     * @example
+     * // Delete a few Children
+     * const { count } = await prisma.child.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChildDeleteManyArgs>(args?: SelectSubset<T, ChildDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Children.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChildUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Children
+     * const child = await prisma.child.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChildUpdateManyArgs>(args: SelectSubset<T, ChildUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Children and returns the data updated in the database.
+     * @param {ChildUpdateManyAndReturnArgs} args - Arguments to update many Children.
+     * @example
+     * // Update many Children
+     * const child = await prisma.child.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Children and only return the `id`
+     * const childWithIdOnly = await prisma.child.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChildUpdateManyAndReturnArgs>(args: SelectSubset<T, ChildUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Child.
+     * @param {ChildUpsertArgs} args - Arguments to update or create a Child.
+     * @example
+     * // Update or create a Child
+     * const child = await prisma.child.upsert({
+     *   create: {
+     *     // ... data to create a Child
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Child we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChildUpsertArgs>(args: SelectSubset<T, ChildUpsertArgs<ExtArgs>>): Prisma__ChildClient<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Children.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChildCountArgs} args - Arguments to filter Children to count.
+     * @example
+     * // Count the number of Children
+     * const count = await prisma.child.count({
+     *   where: {
+     *     // ... the filter for the Children we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChildCountArgs>(
+      args?: Subset<T, ChildCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChildCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Child.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChildAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChildAggregateArgs>(args: Subset<T, ChildAggregateArgs>): Prisma.PrismaPromise<GetChildAggregateType<T>>
+
+    /**
+     * Group by Child.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChildGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChildGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChildGroupByArgs['orderBy'] }
+        : { orderBy?: ChildGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChildGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChildGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Child model
+   */
+  readonly fields: ChildFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Child.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChildClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parent<T extends ParentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ParentDefaultArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Child model
+   */
+  interface ChildFieldRefs {
+    readonly id: FieldRef<"Child", 'String'>
+    readonly userId: FieldRef<"Child", 'String'>
+    readonly createdAt: FieldRef<"Child", 'DateTime'>
+    readonly updatedAt: FieldRef<"Child", 'DateTime'>
+    readonly parentId: FieldRef<"Child", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Child findUnique
+   */
+  export type ChildFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * Filter, which Child to fetch.
+     */
+    where: ChildWhereUniqueInput
+  }
+
+  /**
+   * Child findUniqueOrThrow
+   */
+  export type ChildFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * Filter, which Child to fetch.
+     */
+    where: ChildWhereUniqueInput
+  }
+
+  /**
+   * Child findFirst
+   */
+  export type ChildFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * Filter, which Child to fetch.
+     */
+    where?: ChildWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Children to fetch.
+     */
+    orderBy?: ChildOrderByWithRelationInput | ChildOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Children.
+     */
+    cursor?: ChildWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Children from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Children.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Children.
+     */
+    distinct?: ChildScalarFieldEnum | ChildScalarFieldEnum[]
+  }
+
+  /**
+   * Child findFirstOrThrow
+   */
+  export type ChildFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * Filter, which Child to fetch.
+     */
+    where?: ChildWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Children to fetch.
+     */
+    orderBy?: ChildOrderByWithRelationInput | ChildOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Children.
+     */
+    cursor?: ChildWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Children from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Children.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Children.
+     */
+    distinct?: ChildScalarFieldEnum | ChildScalarFieldEnum[]
+  }
+
+  /**
+   * Child findMany
+   */
+  export type ChildFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * Filter, which Children to fetch.
+     */
+    where?: ChildWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Children to fetch.
+     */
+    orderBy?: ChildOrderByWithRelationInput | ChildOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Children.
+     */
+    cursor?: ChildWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Children from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Children.
+     */
+    skip?: number
+    distinct?: ChildScalarFieldEnum | ChildScalarFieldEnum[]
+  }
+
+  /**
+   * Child create
+   */
+  export type ChildCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Child.
+     */
+    data: XOR<ChildCreateInput, ChildUncheckedCreateInput>
+  }
+
+  /**
+   * Child createMany
+   */
+  export type ChildCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Children.
+     */
+    data: ChildCreateManyInput | ChildCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Child createManyAndReturn
+   */
+  export type ChildCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * The data used to create many Children.
+     */
+    data: ChildCreateManyInput | ChildCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Child update
+   */
+  export type ChildUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Child.
+     */
+    data: XOR<ChildUpdateInput, ChildUncheckedUpdateInput>
+    /**
+     * Choose, which Child to update.
+     */
+    where: ChildWhereUniqueInput
+  }
+
+  /**
+   * Child updateMany
+   */
+  export type ChildUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Children.
+     */
+    data: XOR<ChildUpdateManyMutationInput, ChildUncheckedUpdateManyInput>
+    /**
+     * Filter which Children to update
+     */
+    where?: ChildWhereInput
+    /**
+     * Limit how many Children to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Child updateManyAndReturn
+   */
+  export type ChildUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * The data used to update Children.
+     */
+    data: XOR<ChildUpdateManyMutationInput, ChildUncheckedUpdateManyInput>
+    /**
+     * Filter which Children to update
+     */
+    where?: ChildWhereInput
+    /**
+     * Limit how many Children to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Child upsert
+   */
+  export type ChildUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Child to update in case it exists.
+     */
+    where: ChildWhereUniqueInput
+    /**
+     * In case the Child found by the `where` argument doesn't exist, create a new Child with this data.
+     */
+    create: XOR<ChildCreateInput, ChildUncheckedCreateInput>
+    /**
+     * In case the Child was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChildUpdateInput, ChildUncheckedUpdateInput>
+  }
+
+  /**
+   * Child delete
+   */
+  export type ChildDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    /**
+     * Filter which Child to delete.
+     */
+    where: ChildWhereUniqueInput
+  }
+
+  /**
+   * Child deleteMany
+   */
+  export type ChildDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Children to delete
+     */
+    where?: ChildWhereInput
+    /**
+     * Limit how many Children to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Child without action
+   */
+  export type ChildDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Parent
+   */
+
+  export type AggregateParent = {
+    _count: ParentCountAggregateOutputType | null
+    _min: ParentMinAggregateOutputType | null
+    _max: ParentMaxAggregateOutputType | null
+  }
+
+  export type ParentMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ParentMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ParentCountAggregateOutputType = {
+    id: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ParentMinAggregateInputType = {
+    id?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ParentMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ParentCountAggregateInputType = {
+    id?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ParentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Parent to aggregate.
+     */
+    where?: ParentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Parents to fetch.
+     */
+    orderBy?: ParentOrderByWithRelationInput | ParentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ParentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Parents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Parents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Parents
+    **/
+    _count?: true | ParentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ParentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ParentMaxAggregateInputType
+  }
+
+  export type GetParentAggregateType<T extends ParentAggregateArgs> = {
+        [P in keyof T & keyof AggregateParent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateParent[P]>
+      : GetScalarType<T[P], AggregateParent[P]>
+  }
+
+
+
+
+  export type ParentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParentWhereInput
+    orderBy?: ParentOrderByWithAggregationInput | ParentOrderByWithAggregationInput[]
+    by: ParentScalarFieldEnum[] | ParentScalarFieldEnum
+    having?: ParentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ParentCountAggregateInputType | true
+    _min?: ParentMinAggregateInputType
+    _max?: ParentMaxAggregateInputType
+  }
+
+  export type ParentGroupByOutputType = {
+    id: string
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ParentCountAggregateOutputType | null
+    _min: ParentMinAggregateOutputType | null
+    _max: ParentMaxAggregateOutputType | null
+  }
+
+  type GetParentGroupByPayload<T extends ParentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ParentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ParentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ParentGroupByOutputType[P]>
+            : GetScalarType<T[P], ParentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ParentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    children?: boolean | Parent$childrenArgs<ExtArgs>
+    _count?: boolean | ParentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["parent"]>
+
+  export type ParentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["parent"]>
+
+  export type ParentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["parent"]>
+
+  export type ParentSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ParentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["parent"]>
+  export type ParentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    children?: boolean | Parent$childrenArgs<ExtArgs>
+    _count?: boolean | ParentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ParentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ParentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ParentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Parent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      children: Prisma.$ChildPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["parent"]>
+    composites: {}
+  }
+
+  type ParentGetPayload<S extends boolean | null | undefined | ParentDefaultArgs> = $Result.GetResult<Prisma.$ParentPayload, S>
+
+  type ParentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ParentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ParentCountAggregateInputType | true
+    }
+
+  export interface ParentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Parent'], meta: { name: 'Parent' } }
+    /**
+     * Find zero or one Parent that matches the filter.
+     * @param {ParentFindUniqueArgs} args - Arguments to find a Parent
+     * @example
+     * // Get one Parent
+     * const parent = await prisma.parent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ParentFindUniqueArgs>(args: SelectSubset<T, ParentFindUniqueArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Parent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ParentFindUniqueOrThrowArgs} args - Arguments to find a Parent
+     * @example
+     * // Get one Parent
+     * const parent = await prisma.parent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ParentFindUniqueOrThrowArgs>(args: SelectSubset<T, ParentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Parent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentFindFirstArgs} args - Arguments to find a Parent
+     * @example
+     * // Get one Parent
+     * const parent = await prisma.parent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ParentFindFirstArgs>(args?: SelectSubset<T, ParentFindFirstArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Parent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentFindFirstOrThrowArgs} args - Arguments to find a Parent
+     * @example
+     * // Get one Parent
+     * const parent = await prisma.parent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ParentFindFirstOrThrowArgs>(args?: SelectSubset<T, ParentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Parents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Parents
+     * const parents = await prisma.parent.findMany()
+     * 
+     * // Get first 10 Parents
+     * const parents = await prisma.parent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const parentWithIdOnly = await prisma.parent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ParentFindManyArgs>(args?: SelectSubset<T, ParentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Parent.
+     * @param {ParentCreateArgs} args - Arguments to create a Parent.
+     * @example
+     * // Create one Parent
+     * const Parent = await prisma.parent.create({
+     *   data: {
+     *     // ... data to create a Parent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ParentCreateArgs>(args: SelectSubset<T, ParentCreateArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Parents.
+     * @param {ParentCreateManyArgs} args - Arguments to create many Parents.
+     * @example
+     * // Create many Parents
+     * const parent = await prisma.parent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ParentCreateManyArgs>(args?: SelectSubset<T, ParentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Parents and returns the data saved in the database.
+     * @param {ParentCreateManyAndReturnArgs} args - Arguments to create many Parents.
+     * @example
+     * // Create many Parents
+     * const parent = await prisma.parent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Parents and only return the `id`
+     * const parentWithIdOnly = await prisma.parent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ParentCreateManyAndReturnArgs>(args?: SelectSubset<T, ParentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Parent.
+     * @param {ParentDeleteArgs} args - Arguments to delete one Parent.
+     * @example
+     * // Delete one Parent
+     * const Parent = await prisma.parent.delete({
+     *   where: {
+     *     // ... filter to delete one Parent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ParentDeleteArgs>(args: SelectSubset<T, ParentDeleteArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Parent.
+     * @param {ParentUpdateArgs} args - Arguments to update one Parent.
+     * @example
+     * // Update one Parent
+     * const parent = await prisma.parent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ParentUpdateArgs>(args: SelectSubset<T, ParentUpdateArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Parents.
+     * @param {ParentDeleteManyArgs} args - Arguments to filter Parents to delete.
+     * @example
+     * // Delete a few Parents
+     * const { count } = await prisma.parent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ParentDeleteManyArgs>(args?: SelectSubset<T, ParentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Parents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Parents
+     * const parent = await prisma.parent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ParentUpdateManyArgs>(args: SelectSubset<T, ParentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Parents and returns the data updated in the database.
+     * @param {ParentUpdateManyAndReturnArgs} args - Arguments to update many Parents.
+     * @example
+     * // Update many Parents
+     * const parent = await prisma.parent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Parents and only return the `id`
+     * const parentWithIdOnly = await prisma.parent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ParentUpdateManyAndReturnArgs>(args: SelectSubset<T, ParentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Parent.
+     * @param {ParentUpsertArgs} args - Arguments to update or create a Parent.
+     * @example
+     * // Update or create a Parent
+     * const parent = await prisma.parent.upsert({
+     *   create: {
+     *     // ... data to create a Parent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Parent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ParentUpsertArgs>(args: SelectSubset<T, ParentUpsertArgs<ExtArgs>>): Prisma__ParentClient<$Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Parents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentCountArgs} args - Arguments to filter Parents to count.
+     * @example
+     * // Count the number of Parents
+     * const count = await prisma.parent.count({
+     *   where: {
+     *     // ... the filter for the Parents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ParentCountArgs>(
+      args?: Subset<T, ParentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ParentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Parent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ParentAggregateArgs>(args: Subset<T, ParentAggregateArgs>): Prisma.PrismaPromise<GetParentAggregateType<T>>
+
+    /**
+     * Group by Parent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ParentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ParentGroupByArgs['orderBy'] }
+        : { orderBy?: ParentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ParentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetParentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Parent model
+   */
+  readonly fields: ParentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Parent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ParentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    children<T extends Parent$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Parent$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChildPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Parent model
+   */
+  interface ParentFieldRefs {
+    readonly id: FieldRef<"Parent", 'String'>
+    readonly userId: FieldRef<"Parent", 'String'>
+    readonly createdAt: FieldRef<"Parent", 'DateTime'>
+    readonly updatedAt: FieldRef<"Parent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Parent findUnique
+   */
+  export type ParentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * Filter, which Parent to fetch.
+     */
+    where: ParentWhereUniqueInput
+  }
+
+  /**
+   * Parent findUniqueOrThrow
+   */
+  export type ParentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * Filter, which Parent to fetch.
+     */
+    where: ParentWhereUniqueInput
+  }
+
+  /**
+   * Parent findFirst
+   */
+  export type ParentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * Filter, which Parent to fetch.
+     */
+    where?: ParentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Parents to fetch.
+     */
+    orderBy?: ParentOrderByWithRelationInput | ParentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Parents.
+     */
+    cursor?: ParentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Parents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Parents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Parents.
+     */
+    distinct?: ParentScalarFieldEnum | ParentScalarFieldEnum[]
+  }
+
+  /**
+   * Parent findFirstOrThrow
+   */
+  export type ParentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * Filter, which Parent to fetch.
+     */
+    where?: ParentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Parents to fetch.
+     */
+    orderBy?: ParentOrderByWithRelationInput | ParentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Parents.
+     */
+    cursor?: ParentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Parents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Parents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Parents.
+     */
+    distinct?: ParentScalarFieldEnum | ParentScalarFieldEnum[]
+  }
+
+  /**
+   * Parent findMany
+   */
+  export type ParentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * Filter, which Parents to fetch.
+     */
+    where?: ParentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Parents to fetch.
+     */
+    orderBy?: ParentOrderByWithRelationInput | ParentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Parents.
+     */
+    cursor?: ParentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Parents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Parents.
+     */
+    skip?: number
+    distinct?: ParentScalarFieldEnum | ParentScalarFieldEnum[]
+  }
+
+  /**
+   * Parent create
+   */
+  export type ParentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Parent.
+     */
+    data: XOR<ParentCreateInput, ParentUncheckedCreateInput>
+  }
+
+  /**
+   * Parent createMany
+   */
+  export type ParentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Parents.
+     */
+    data: ParentCreateManyInput | ParentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Parent createManyAndReturn
+   */
+  export type ParentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Parents.
+     */
+    data: ParentCreateManyInput | ParentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Parent update
+   */
+  export type ParentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Parent.
+     */
+    data: XOR<ParentUpdateInput, ParentUncheckedUpdateInput>
+    /**
+     * Choose, which Parent to update.
+     */
+    where: ParentWhereUniqueInput
+  }
+
+  /**
+   * Parent updateMany
+   */
+  export type ParentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Parents.
+     */
+    data: XOR<ParentUpdateManyMutationInput, ParentUncheckedUpdateManyInput>
+    /**
+     * Filter which Parents to update
+     */
+    where?: ParentWhereInput
+    /**
+     * Limit how many Parents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Parent updateManyAndReturn
+   */
+  export type ParentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * The data used to update Parents.
+     */
+    data: XOR<ParentUpdateManyMutationInput, ParentUncheckedUpdateManyInput>
+    /**
+     * Filter which Parents to update
+     */
+    where?: ParentWhereInput
+    /**
+     * Limit how many Parents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Parent upsert
+   */
+  export type ParentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Parent to update in case it exists.
+     */
+    where: ParentWhereUniqueInput
+    /**
+     * In case the Parent found by the `where` argument doesn't exist, create a new Parent with this data.
+     */
+    create: XOR<ParentCreateInput, ParentUncheckedCreateInput>
+    /**
+     * In case the Parent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ParentUpdateInput, ParentUncheckedUpdateInput>
+  }
+
+  /**
+   * Parent delete
+   */
+  export type ParentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
+    /**
+     * Filter which Parent to delete.
+     */
+    where: ParentWhereUniqueInput
+  }
+
+  /**
+   * Parent deleteMany
+   */
+  export type ParentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Parents to delete
+     */
+    where?: ParentWhereInput
+    /**
+     * Limit how many Parents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Parent.children
+   */
+  export type Parent$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Child
+     */
+    select?: ChildSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Child
+     */
+    omit?: ChildOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChildInclude<ExtArgs> | null
+    where?: ChildWhereInput
+    orderBy?: ChildOrderByWithRelationInput | ChildOrderByWithRelationInput[]
+    cursor?: ChildWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChildScalarFieldEnum | ChildScalarFieldEnum[]
+  }
+
+  /**
+   * Parent without action
+   */
+  export type ParentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Parent
+     */
+    select?: ParentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Parent
+     */
+    omit?: ParentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParentInclude<ExtArgs> | null
   }
 
 
@@ -102044,6 +104472,27 @@ export namespace Prisma {
   export type TwoFactorScalarFieldEnum = (typeof TwoFactorScalarFieldEnum)[keyof typeof TwoFactorScalarFieldEnum]
 
 
+  export const ChildScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    parentId: 'parentId'
+  };
+
+  export type ChildScalarFieldEnum = (typeof ChildScalarFieldEnum)[keyof typeof ChildScalarFieldEnum]
+
+
+  export const ParentScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ParentScalarFieldEnum = (typeof ParentScalarFieldEnum)[keyof typeof ParentScalarFieldEnum]
+
+
   export const ProfileScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -103588,6 +106037,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonListRelationFilter
     Like?: LikeListRelationFilter
     EnrollmentCode?: EnrollmentCodeListRelationFilter
+    Child?: ChildListRelationFilter
+    Parent?: ParentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -103647,6 +106098,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonOrderByRelationAggregateInput
     Like?: LikeOrderByRelationAggregateInput
     EnrollmentCode?: EnrollmentCodeOrderByRelationAggregateInput
+    Child?: ChildOrderByRelationAggregateInput
+    Parent?: ParentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -103709,6 +106162,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonListRelationFilter
     Like?: LikeListRelationFilter
     EnrollmentCode?: EnrollmentCodeListRelationFilter
+    Child?: ChildListRelationFilter
+    Parent?: ParentListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -103902,6 +106357,117 @@ export namespace Prisma {
     secret?: StringNullableWithAggregatesFilter<"TwoFactor"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TwoFactor"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TwoFactor"> | Date | string
+  }
+
+  export type ChildWhereInput = {
+    AND?: ChildWhereInput | ChildWhereInput[]
+    OR?: ChildWhereInput[]
+    NOT?: ChildWhereInput | ChildWhereInput[]
+    id?: StringFilter<"Child"> | string
+    userId?: StringFilter<"Child"> | string
+    createdAt?: DateTimeFilter<"Child"> | Date | string
+    updatedAt?: DateTimeFilter<"Child"> | Date | string
+    parentId?: StringFilter<"Child"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    parent?: XOR<ParentScalarRelationFilter, ParentWhereInput>
+  }
+
+  export type ChildOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    parentId?: SortOrder
+    user?: UserOrderByWithRelationInput
+    parent?: ParentOrderByWithRelationInput
+  }
+
+  export type ChildWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ChildWhereInput | ChildWhereInput[]
+    OR?: ChildWhereInput[]
+    NOT?: ChildWhereInput | ChildWhereInput[]
+    userId?: StringFilter<"Child"> | string
+    createdAt?: DateTimeFilter<"Child"> | Date | string
+    updatedAt?: DateTimeFilter<"Child"> | Date | string
+    parentId?: StringFilter<"Child"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    parent?: XOR<ParentScalarRelationFilter, ParentWhereInput>
+  }, "id">
+
+  export type ChildOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    parentId?: SortOrder
+    _count?: ChildCountOrderByAggregateInput
+    _max?: ChildMaxOrderByAggregateInput
+    _min?: ChildMinOrderByAggregateInput
+  }
+
+  export type ChildScalarWhereWithAggregatesInput = {
+    AND?: ChildScalarWhereWithAggregatesInput | ChildScalarWhereWithAggregatesInput[]
+    OR?: ChildScalarWhereWithAggregatesInput[]
+    NOT?: ChildScalarWhereWithAggregatesInput | ChildScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Child"> | string
+    userId?: StringWithAggregatesFilter<"Child"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Child"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Child"> | Date | string
+    parentId?: StringWithAggregatesFilter<"Child"> | string
+  }
+
+  export type ParentWhereInput = {
+    AND?: ParentWhereInput | ParentWhereInput[]
+    OR?: ParentWhereInput[]
+    NOT?: ParentWhereInput | ParentWhereInput[]
+    id?: StringFilter<"Parent"> | string
+    userId?: StringFilter<"Parent"> | string
+    createdAt?: DateTimeFilter<"Parent"> | Date | string
+    updatedAt?: DateTimeFilter<"Parent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    children?: ChildListRelationFilter
+  }
+
+  export type ParentOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    children?: ChildOrderByRelationAggregateInput
+  }
+
+  export type ParentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ParentWhereInput | ParentWhereInput[]
+    OR?: ParentWhereInput[]
+    NOT?: ParentWhereInput | ParentWhereInput[]
+    userId?: StringFilter<"Parent"> | string
+    createdAt?: DateTimeFilter<"Parent"> | Date | string
+    updatedAt?: DateTimeFilter<"Parent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    children?: ChildListRelationFilter
+  }, "id">
+
+  export type ParentOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ParentCountOrderByAggregateInput
+    _max?: ParentMaxOrderByAggregateInput
+    _min?: ParentMinOrderByAggregateInput
+  }
+
+  export type ParentScalarWhereWithAggregatesInput = {
+    AND?: ParentScalarWhereWithAggregatesInput | ParentScalarWhereWithAggregatesInput[]
+    OR?: ParentScalarWhereWithAggregatesInput[]
+    NOT?: ParentScalarWhereWithAggregatesInput | ParentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Parent"> | string
+    userId?: StringWithAggregatesFilter<"Parent"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Parent"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Parent"> | Date | string
   }
 
   export type ProfileWhereInput = {
@@ -109862,6 +112428,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -109920,6 +112488,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -109978,6 +112548,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -110036,6 +112608,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -110252,6 +112826,112 @@ export namespace Prisma {
     sms?: BoolFieldUpdateOperationsInput | boolean
     authenticator?: BoolFieldUpdateOperationsInput | boolean
     secret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChildCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutChildInput
+    parent: ParentCreateNestedOneWithoutChildrenInput
+  }
+
+  export type ChildUncheckedCreateInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentId: string
+  }
+
+  export type ChildUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutChildNestedInput
+    parent?: ParentUpdateOneRequiredWithoutChildrenNestedInput
+  }
+
+  export type ChildUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ChildCreateManyInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentId: string
+  }
+
+  export type ChildUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChildUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ParentCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutParentInput
+    children?: ChildCreateNestedManyWithoutParentInput
+  }
+
+  export type ParentUncheckedCreateInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChildUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type ParentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutParentNestedInput
+    children?: ChildUpdateManyWithoutParentNestedInput
+  }
+
+  export type ParentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChildUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type ParentCreateManyInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ParentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -116870,6 +119550,18 @@ export namespace Prisma {
     none?: EnrollmentCodeWhereInput
   }
 
+  export type ChildListRelationFilter = {
+    every?: ChildWhereInput
+    some?: ChildWhereInput
+    none?: ChildWhereInput
+  }
+
+  export type ParentListRelationFilter = {
+    every?: ParentWhereInput
+    some?: ParentWhereInput
+    none?: ParentWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -117020,6 +119712,14 @@ export namespace Prisma {
   }
 
   export type EnrollmentCodeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChildOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ParentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -117263,6 +119963,56 @@ export namespace Prisma {
     sms?: SortOrder
     authenticator?: SortOrder
     secret?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ParentScalarRelationFilter = {
+    is?: ParentWhereInput
+    isNot?: ParentWhereInput
+  }
+
+  export type ChildCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type ChildMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type ChildMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type ParentCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ParentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ParentMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -121322,6 +124072,20 @@ export namespace Prisma {
     connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
   }
 
+  export type ChildCreateNestedManyWithoutUserInput = {
+    create?: XOR<ChildCreateWithoutUserInput, ChildUncheckedCreateWithoutUserInput> | ChildCreateWithoutUserInput[] | ChildUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutUserInput | ChildCreateOrConnectWithoutUserInput[]
+    createMany?: ChildCreateManyUserInputEnvelope
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+  }
+
+  export type ParentCreateNestedManyWithoutUserInput = {
+    create?: XOR<ParentCreateWithoutUserInput, ParentUncheckedCreateWithoutUserInput> | ParentCreateWithoutUserInput[] | ParentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ParentCreateOrConnectWithoutUserInput | ParentCreateOrConnectWithoutUserInput[]
+    createMany?: ParentCreateManyUserInputEnvelope
+    connect?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+  }
+
   export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
@@ -121578,6 +124342,20 @@ export namespace Prisma {
     connectOrCreate?: EnrollmentCodeCreateOrConnectWithoutUsedByInput | EnrollmentCodeCreateOrConnectWithoutUsedByInput[]
     createMany?: EnrollmentCodeCreateManyUsedByInputEnvelope
     connect?: EnrollmentCodeWhereUniqueInput | EnrollmentCodeWhereUniqueInput[]
+  }
+
+  export type ChildUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ChildCreateWithoutUserInput, ChildUncheckedCreateWithoutUserInput> | ChildCreateWithoutUserInput[] | ChildUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutUserInput | ChildCreateOrConnectWithoutUserInput[]
+    createMany?: ChildCreateManyUserInputEnvelope
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+  }
+
+  export type ParentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ParentCreateWithoutUserInput, ParentUncheckedCreateWithoutUserInput> | ParentCreateWithoutUserInput[] | ParentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ParentCreateOrConnectWithoutUserInput | ParentCreateOrConnectWithoutUserInput[]
+    createMany?: ParentCreateManyUserInputEnvelope
+    connect?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -122147,6 +124925,34 @@ export namespace Prisma {
     deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
   }
 
+  export type ChildUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ChildCreateWithoutUserInput, ChildUncheckedCreateWithoutUserInput> | ChildCreateWithoutUserInput[] | ChildUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutUserInput | ChildCreateOrConnectWithoutUserInput[]
+    upsert?: ChildUpsertWithWhereUniqueWithoutUserInput | ChildUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ChildCreateManyUserInputEnvelope
+    set?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    disconnect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    delete?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    update?: ChildUpdateWithWhereUniqueWithoutUserInput | ChildUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ChildUpdateManyWithWhereWithoutUserInput | ChildUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ChildScalarWhereInput | ChildScalarWhereInput[]
+  }
+
+  export type ParentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ParentCreateWithoutUserInput, ParentUncheckedCreateWithoutUserInput> | ParentCreateWithoutUserInput[] | ParentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ParentCreateOrConnectWithoutUserInput | ParentCreateOrConnectWithoutUserInput[]
+    upsert?: ParentUpsertWithWhereUniqueWithoutUserInput | ParentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ParentCreateManyUserInputEnvelope
+    set?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    disconnect?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    delete?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    connect?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    update?: ParentUpdateWithWhereUniqueWithoutUserInput | ParentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ParentUpdateManyWithWhereWithoutUserInput | ParentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ParentScalarWhereInput | ParentScalarWhereInput[]
+  }
+
   export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
@@ -122668,6 +125474,34 @@ export namespace Prisma {
     deleteMany?: EnrollmentCodeScalarWhereInput | EnrollmentCodeScalarWhereInput[]
   }
 
+  export type ChildUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ChildCreateWithoutUserInput, ChildUncheckedCreateWithoutUserInput> | ChildCreateWithoutUserInput[] | ChildUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutUserInput | ChildCreateOrConnectWithoutUserInput[]
+    upsert?: ChildUpsertWithWhereUniqueWithoutUserInput | ChildUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ChildCreateManyUserInputEnvelope
+    set?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    disconnect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    delete?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    update?: ChildUpdateWithWhereUniqueWithoutUserInput | ChildUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ChildUpdateManyWithWhereWithoutUserInput | ChildUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ChildScalarWhereInput | ChildScalarWhereInput[]
+  }
+
+  export type ParentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ParentCreateWithoutUserInput, ParentUncheckedCreateWithoutUserInput> | ParentCreateWithoutUserInput[] | ParentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ParentCreateOrConnectWithoutUserInput | ParentCreateOrConnectWithoutUserInput[]
+    upsert?: ParentUpsertWithWhereUniqueWithoutUserInput | ParentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ParentCreateManyUserInputEnvelope
+    set?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    disconnect?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    delete?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    connect?: ParentWhereUniqueInput | ParentWhereUniqueInput[]
+    update?: ParentUpdateWithWhereUniqueWithoutUserInput | ParentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ParentUpdateManyWithWhereWithoutUserInput | ParentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ParentScalarWhereInput | ParentScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutLoginHistoryInput = {
     create?: XOR<UserCreateWithoutLoginHistoryInput, UserUncheckedCreateWithoutLoginHistoryInput>
     connectOrCreate?: UserCreateOrConnectWithoutLoginHistoryInput
@@ -122694,6 +125528,90 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutTwoFactorInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTwoFactorInput, UserUpdateWithoutTwoFactorInput>, UserUncheckedUpdateWithoutTwoFactorInput>
+  }
+
+  export type UserCreateNestedOneWithoutChildInput = {
+    create?: XOR<UserCreateWithoutChildInput, UserUncheckedCreateWithoutChildInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChildInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ParentCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<ParentCreateWithoutChildrenInput, ParentUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: ParentCreateOrConnectWithoutChildrenInput
+    connect?: ParentWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutChildNestedInput = {
+    create?: XOR<UserCreateWithoutChildInput, UserUncheckedCreateWithoutChildInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChildInput
+    upsert?: UserUpsertWithoutChildInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChildInput, UserUpdateWithoutChildInput>, UserUncheckedUpdateWithoutChildInput>
+  }
+
+  export type ParentUpdateOneRequiredWithoutChildrenNestedInput = {
+    create?: XOR<ParentCreateWithoutChildrenInput, ParentUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: ParentCreateOrConnectWithoutChildrenInput
+    upsert?: ParentUpsertWithoutChildrenInput
+    connect?: ParentWhereUniqueInput
+    update?: XOR<XOR<ParentUpdateToOneWithWhereWithoutChildrenInput, ParentUpdateWithoutChildrenInput>, ParentUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type UserCreateNestedOneWithoutParentInput = {
+    create?: XOR<UserCreateWithoutParentInput, UserUncheckedCreateWithoutParentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutParentInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ChildCreateNestedManyWithoutParentInput = {
+    create?: XOR<ChildCreateWithoutParentInput, ChildUncheckedCreateWithoutParentInput> | ChildCreateWithoutParentInput[] | ChildUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutParentInput | ChildCreateOrConnectWithoutParentInput[]
+    createMany?: ChildCreateManyParentInputEnvelope
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+  }
+
+  export type ChildUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<ChildCreateWithoutParentInput, ChildUncheckedCreateWithoutParentInput> | ChildCreateWithoutParentInput[] | ChildUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutParentInput | ChildCreateOrConnectWithoutParentInput[]
+    createMany?: ChildCreateManyParentInputEnvelope
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutParentNestedInput = {
+    create?: XOR<UserCreateWithoutParentInput, UserUncheckedCreateWithoutParentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutParentInput
+    upsert?: UserUpsertWithoutParentInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutParentInput, UserUpdateWithoutParentInput>, UserUncheckedUpdateWithoutParentInput>
+  }
+
+  export type ChildUpdateManyWithoutParentNestedInput = {
+    create?: XOR<ChildCreateWithoutParentInput, ChildUncheckedCreateWithoutParentInput> | ChildCreateWithoutParentInput[] | ChildUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutParentInput | ChildCreateOrConnectWithoutParentInput[]
+    upsert?: ChildUpsertWithWhereUniqueWithoutParentInput | ChildUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: ChildCreateManyParentInputEnvelope
+    set?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    disconnect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    delete?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    update?: ChildUpdateWithWhereUniqueWithoutParentInput | ChildUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: ChildUpdateManyWithWhereWithoutParentInput | ChildUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: ChildScalarWhereInput | ChildScalarWhereInput[]
+  }
+
+  export type ChildUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<ChildCreateWithoutParentInput, ChildUncheckedCreateWithoutParentInput> | ChildCreateWithoutParentInput[] | ChildUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ChildCreateOrConnectWithoutParentInput | ChildCreateOrConnectWithoutParentInput[]
+    upsert?: ChildUpsertWithWhereUniqueWithoutParentInput | ChildUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: ChildCreateManyParentInputEnvelope
+    set?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    disconnect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    delete?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    connect?: ChildWhereUniqueInput | ChildWhereUniqueInput[]
+    update?: ChildUpdateWithWhereUniqueWithoutParentInput | ChildUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: ChildUpdateManyWithWhereWithoutParentInput | ChildUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: ChildScalarWhereInput | ChildScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutProfileInput = {
@@ -131017,6 +133935,54 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ChildCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parent: ParentCreateNestedOneWithoutChildrenInput
+  }
+
+  export type ChildUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentId: string
+  }
+
+  export type ChildCreateOrConnectWithoutUserInput = {
+    where: ChildWhereUniqueInput
+    create: XOR<ChildCreateWithoutUserInput, ChildUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChildCreateManyUserInputEnvelope = {
+    data: ChildCreateManyUserInput | ChildCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ParentCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChildCreateNestedManyWithoutParentInput
+  }
+
+  export type ParentUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: ChildUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type ParentCreateOrConnectWithoutUserInput = {
+    where: ParentWhereUniqueInput
+    create: XOR<ParentCreateWithoutUserInput, ParentUncheckedCreateWithoutUserInput>
+  }
+
+  export type ParentCreateManyUserInputEnvelope = {
+    data: ParentCreateManyUserInput | ParentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AcademyUpsertWithoutUsersInput = {
     update: XOR<AcademyUpdateWithoutUsersInput, AcademyUncheckedUpdateWithoutUsersInput>
     create: XOR<AcademyCreateWithoutUsersInput, AcademyUncheckedCreateWithoutUsersInput>
@@ -132207,6 +135173,59 @@ export namespace Prisma {
     usedAt?: DateTimeNullableFilter<"EnrollmentCode"> | Date | string | null
   }
 
+  export type ChildUpsertWithWhereUniqueWithoutUserInput = {
+    where: ChildWhereUniqueInput
+    update: XOR<ChildUpdateWithoutUserInput, ChildUncheckedUpdateWithoutUserInput>
+    create: XOR<ChildCreateWithoutUserInput, ChildUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChildUpdateWithWhereUniqueWithoutUserInput = {
+    where: ChildWhereUniqueInput
+    data: XOR<ChildUpdateWithoutUserInput, ChildUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ChildUpdateManyWithWhereWithoutUserInput = {
+    where: ChildScalarWhereInput
+    data: XOR<ChildUpdateManyMutationInput, ChildUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ChildScalarWhereInput = {
+    AND?: ChildScalarWhereInput | ChildScalarWhereInput[]
+    OR?: ChildScalarWhereInput[]
+    NOT?: ChildScalarWhereInput | ChildScalarWhereInput[]
+    id?: StringFilter<"Child"> | string
+    userId?: StringFilter<"Child"> | string
+    createdAt?: DateTimeFilter<"Child"> | Date | string
+    updatedAt?: DateTimeFilter<"Child"> | Date | string
+    parentId?: StringFilter<"Child"> | string
+  }
+
+  export type ParentUpsertWithWhereUniqueWithoutUserInput = {
+    where: ParentWhereUniqueInput
+    update: XOR<ParentUpdateWithoutUserInput, ParentUncheckedUpdateWithoutUserInput>
+    create: XOR<ParentCreateWithoutUserInput, ParentUncheckedCreateWithoutUserInput>
+  }
+
+  export type ParentUpdateWithWhereUniqueWithoutUserInput = {
+    where: ParentWhereUniqueInput
+    data: XOR<ParentUpdateWithoutUserInput, ParentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ParentUpdateManyWithWhereWithoutUserInput = {
+    where: ParentScalarWhereInput
+    data: XOR<ParentUpdateManyMutationInput, ParentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ParentScalarWhereInput = {
+    AND?: ParentScalarWhereInput | ParentScalarWhereInput[]
+    OR?: ParentScalarWhereInput[]
+    NOT?: ParentScalarWhereInput | ParentScalarWhereInput[]
+    id?: StringFilter<"Parent"> | string
+    userId?: StringFilter<"Parent"> | string
+    createdAt?: DateTimeFilter<"Parent"> | Date | string
+    updatedAt?: DateTimeFilter<"Parent"> | Date | string
+  }
+
   export type UserCreateWithoutLoginHistoryInput = {
     id?: string
     email: string
@@ -132262,6 +135281,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLoginHistoryInput = {
@@ -132319,6 +135340,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLoginHistoryInput = {
@@ -132392,6 +135415,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLoginHistoryInput = {
@@ -132449,6 +135474,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTwoFactorInput = {
@@ -132506,6 +135533,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTwoFactorInput = {
@@ -132563,6 +135592,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTwoFactorInput = {
@@ -132636,6 +135667,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTwoFactorInput = {
@@ -132693,6 +135726,596 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutChildInput = {
+    id?: string
+    email: string
+    password: string
+    phone?: string | null
+    firstName: string
+    lastName: string
+    role?: $Enums.UserRole
+    subRole?: string | null
+    avatar?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isOnline?: boolean
+    isVerified?: boolean
+    age?: number | null
+    progress?: number | null
+    location?: string | null
+    academy?: AcademyCreateNestedOneWithoutUsersInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    enrollments?: EnrollmentCreateNestedManyWithoutUserInput
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    groups?: GroupCreateNestedManyWithoutMembersInput
+    channels?: ChannelCreateNestedManyWithoutMembersInput
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    Submission?: SubmissionCreateNestedManyWithoutUserInput
+    Attendance?: AttendanceCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    installments?: InstallmentCreateNestedManyWithoutUserInput
+    Instructor?: InstructorCreateNestedManyWithoutUserInput
+    Owner?: OwnerCreateNestedManyWithoutUserInput
+    Admin?: AdminCreateNestedManyWithoutUserInput
+    Lesson?: LessonCreateNestedManyWithoutCompletedByInput
+    Report?: ReportCreateNestedManyWithoutUserInput
+    Badge?: BadgeCreateNestedManyWithoutUserInput
+    Certificate?: CertificateCreateNestedManyWithoutUserInput
+    Community?: CommunityCreateNestedManyWithoutParticipantsInput
+    LiveRoom?: LiveRoomCreateNestedManyWithoutUserInput
+    NotificationSettings?: NotificationSettingsCreateNestedManyWithoutUserInput
+    Path?: PathCreateNestedManyWithoutPeersInput
+    LoginHistory?: LoginHistoryCreateNestedManyWithoutUserInput
+    TwoFactor?: TwoFactorCreateNestedManyWithoutUserInput
+    UserAcademyCEO?: UserAcademyCEOCreateNestedManyWithoutUserInput
+    SalaryPayment?: SalaryPaymentCreateNestedManyWithoutEmployeeInput
+    MeetingParticipant?: MeetingParticipantCreateNestedManyWithoutUserInput
+    LegalCase?: LegalCaseCreateNestedManyWithoutRelatedUserInput
+    traineeManagement?: TraineeManagementCreateNestedManyWithoutUserInput
+    trainingSchedules?: TrainingScheduleCreateNestedManyWithoutParticipantsInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutEmployeeInput
+    Comment?: CommentCreateNestedManyWithoutAuthorInput
+    LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
+    WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
+    Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutChildInput = {
+    id?: string
+    email: string
+    password: string
+    phone?: string | null
+    firstName: string
+    lastName: string
+    role?: $Enums.UserRole
+    subRole?: string | null
+    avatar?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academyId?: string | null
+    isOnline?: boolean
+    isVerified?: boolean
+    age?: number | null
+    progress?: number | null
+    location?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    groups?: GroupUncheckedCreateNestedManyWithoutMembersInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutMembersInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    Attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    installments?: InstallmentUncheckedCreateNestedManyWithoutUserInput
+    Instructor?: InstructorUncheckedCreateNestedManyWithoutUserInput
+    Owner?: OwnerUncheckedCreateNestedManyWithoutUserInput
+    Admin?: AdminUncheckedCreateNestedManyWithoutUserInput
+    Lesson?: LessonUncheckedCreateNestedManyWithoutCompletedByInput
+    Report?: ReportUncheckedCreateNestedManyWithoutUserInput
+    Badge?: BadgeUncheckedCreateNestedManyWithoutUserInput
+    Certificate?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    Community?: CommunityUncheckedCreateNestedManyWithoutParticipantsInput
+    LiveRoom?: LiveRoomUncheckedCreateNestedManyWithoutUserInput
+    NotificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutUserInput
+    Path?: PathUncheckedCreateNestedManyWithoutPeersInput
+    LoginHistory?: LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+    TwoFactor?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    UserAcademyCEO?: UserAcademyCEOUncheckedCreateNestedManyWithoutUserInput
+    SalaryPayment?: SalaryPaymentUncheckedCreateNestedManyWithoutEmployeeInput
+    MeetingParticipant?: MeetingParticipantUncheckedCreateNestedManyWithoutUserInput
+    LegalCase?: LegalCaseUncheckedCreateNestedManyWithoutRelatedUserInput
+    traineeManagement?: TraineeManagementUncheckedCreateNestedManyWithoutUserInput
+    trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutParticipantsInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutEmployeeInput
+    Comment?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
+    WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
+    Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutChildInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutChildInput, UserUncheckedCreateWithoutChildInput>
+  }
+
+  export type ParentCreateWithoutChildrenInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutParentInput
+  }
+
+  export type ParentUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ParentCreateOrConnectWithoutChildrenInput = {
+    where: ParentWhereUniqueInput
+    create: XOR<ParentCreateWithoutChildrenInput, ParentUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type UserUpsertWithoutChildInput = {
+    update: XOR<UserUpdateWithoutChildInput, UserUncheckedUpdateWithoutChildInput>
+    create: XOR<UserCreateWithoutChildInput, UserUncheckedCreateWithoutChildInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutChildInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutChildInput, UserUncheckedUpdateWithoutChildInput>
+  }
+
+  export type UserUpdateWithoutChildInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    subRole?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    progress?: NullableFloatFieldUpdateOperationsInput | number | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    academy?: AcademyUpdateOneWithoutUsersNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    groups?: GroupUpdateManyWithoutMembersNestedInput
+    channels?: ChannelUpdateManyWithoutMembersNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUpdateManyWithoutUserNestedInput
+    Attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    installments?: InstallmentUpdateManyWithoutUserNestedInput
+    Instructor?: InstructorUpdateManyWithoutUserNestedInput
+    Owner?: OwnerUpdateManyWithoutUserNestedInput
+    Admin?: AdminUpdateManyWithoutUserNestedInput
+    Lesson?: LessonUpdateManyWithoutCompletedByNestedInput
+    Report?: ReportUpdateManyWithoutUserNestedInput
+    Badge?: BadgeUpdateManyWithoutUserNestedInput
+    Certificate?: CertificateUpdateManyWithoutUserNestedInput
+    Community?: CommunityUpdateManyWithoutParticipantsNestedInput
+    LiveRoom?: LiveRoomUpdateManyWithoutUserNestedInput
+    NotificationSettings?: NotificationSettingsUpdateManyWithoutUserNestedInput
+    Path?: PathUpdateManyWithoutPeersNestedInput
+    LoginHistory?: LoginHistoryUpdateManyWithoutUserNestedInput
+    TwoFactor?: TwoFactorUpdateManyWithoutUserNestedInput
+    UserAcademyCEO?: UserAcademyCEOUpdateManyWithoutUserNestedInput
+    SalaryPayment?: SalaryPaymentUpdateManyWithoutEmployeeNestedInput
+    MeetingParticipant?: MeetingParticipantUpdateManyWithoutUserNestedInput
+    LegalCase?: LegalCaseUpdateManyWithoutRelatedUserNestedInput
+    traineeManagement?: TraineeManagementUpdateManyWithoutUserNestedInput
+    trainingSchedules?: TrainingScheduleUpdateManyWithoutParticipantsNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutEmployeeNestedInput
+    Comment?: CommentUpdateManyWithoutAuthorNestedInput
+    LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
+    WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
+    Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutChildInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    subRole?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academyId?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    progress?: NullableFloatFieldUpdateOperationsInput | number | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutMembersNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutMembersNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    Attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    installments?: InstallmentUncheckedUpdateManyWithoutUserNestedInput
+    Instructor?: InstructorUncheckedUpdateManyWithoutUserNestedInput
+    Owner?: OwnerUncheckedUpdateManyWithoutUserNestedInput
+    Admin?: AdminUncheckedUpdateManyWithoutUserNestedInput
+    Lesson?: LessonUncheckedUpdateManyWithoutCompletedByNestedInput
+    Report?: ReportUncheckedUpdateManyWithoutUserNestedInput
+    Badge?: BadgeUncheckedUpdateManyWithoutUserNestedInput
+    Certificate?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    Community?: CommunityUncheckedUpdateManyWithoutParticipantsNestedInput
+    LiveRoom?: LiveRoomUncheckedUpdateManyWithoutUserNestedInput
+    NotificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutUserNestedInput
+    Path?: PathUncheckedUpdateManyWithoutPeersNestedInput
+    LoginHistory?: LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+    TwoFactor?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    UserAcademyCEO?: UserAcademyCEOUncheckedUpdateManyWithoutUserNestedInput
+    SalaryPayment?: SalaryPaymentUncheckedUpdateManyWithoutEmployeeNestedInput
+    MeetingParticipant?: MeetingParticipantUncheckedUpdateManyWithoutUserNestedInput
+    LegalCase?: LegalCaseUncheckedUpdateManyWithoutRelatedUserNestedInput
+    traineeManagement?: TraineeManagementUncheckedUpdateManyWithoutUserNestedInput
+    trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutParticipantsNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    Comment?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
+    WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
+    Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ParentUpsertWithoutChildrenInput = {
+    update: XOR<ParentUpdateWithoutChildrenInput, ParentUncheckedUpdateWithoutChildrenInput>
+    create: XOR<ParentCreateWithoutChildrenInput, ParentUncheckedCreateWithoutChildrenInput>
+    where?: ParentWhereInput
+  }
+
+  export type ParentUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: ParentWhereInput
+    data: XOR<ParentUpdateWithoutChildrenInput, ParentUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type ParentUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutParentNestedInput
+  }
+
+  export type ParentUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutParentInput = {
+    id?: string
+    email: string
+    password: string
+    phone?: string | null
+    firstName: string
+    lastName: string
+    role?: $Enums.UserRole
+    subRole?: string | null
+    avatar?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isOnline?: boolean
+    isVerified?: boolean
+    age?: number | null
+    progress?: number | null
+    location?: string | null
+    academy?: AcademyCreateNestedOneWithoutUsersInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    enrollments?: EnrollmentCreateNestedManyWithoutUserInput
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    groups?: GroupCreateNestedManyWithoutMembersInput
+    channels?: ChannelCreateNestedManyWithoutMembersInput
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    Submission?: SubmissionCreateNestedManyWithoutUserInput
+    Attendance?: AttendanceCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    installments?: InstallmentCreateNestedManyWithoutUserInput
+    Instructor?: InstructorCreateNestedManyWithoutUserInput
+    Owner?: OwnerCreateNestedManyWithoutUserInput
+    Admin?: AdminCreateNestedManyWithoutUserInput
+    Lesson?: LessonCreateNestedManyWithoutCompletedByInput
+    Report?: ReportCreateNestedManyWithoutUserInput
+    Badge?: BadgeCreateNestedManyWithoutUserInput
+    Certificate?: CertificateCreateNestedManyWithoutUserInput
+    Community?: CommunityCreateNestedManyWithoutParticipantsInput
+    LiveRoom?: LiveRoomCreateNestedManyWithoutUserInput
+    NotificationSettings?: NotificationSettingsCreateNestedManyWithoutUserInput
+    Path?: PathCreateNestedManyWithoutPeersInput
+    LoginHistory?: LoginHistoryCreateNestedManyWithoutUserInput
+    TwoFactor?: TwoFactorCreateNestedManyWithoutUserInput
+    UserAcademyCEO?: UserAcademyCEOCreateNestedManyWithoutUserInput
+    SalaryPayment?: SalaryPaymentCreateNestedManyWithoutEmployeeInput
+    MeetingParticipant?: MeetingParticipantCreateNestedManyWithoutUserInput
+    LegalCase?: LegalCaseCreateNestedManyWithoutRelatedUserInput
+    traineeManagement?: TraineeManagementCreateNestedManyWithoutUserInput
+    trainingSchedules?: TrainingScheduleCreateNestedManyWithoutParticipantsInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogCreateNestedManyWithoutEmployeeInput
+    Comment?: CommentCreateNestedManyWithoutAuthorInput
+    LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
+    WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
+    Like?: LikeCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutParentInput = {
+    id?: string
+    email: string
+    password: string
+    phone?: string | null
+    firstName: string
+    lastName: string
+    role?: $Enums.UserRole
+    subRole?: string | null
+    avatar?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academyId?: string | null
+    isOnline?: boolean
+    isVerified?: boolean
+    age?: number | null
+    progress?: number | null
+    location?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    groups?: GroupUncheckedCreateNestedManyWithoutMembersInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutMembersInput
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    Attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    installments?: InstallmentUncheckedCreateNestedManyWithoutUserInput
+    Instructor?: InstructorUncheckedCreateNestedManyWithoutUserInput
+    Owner?: OwnerUncheckedCreateNestedManyWithoutUserInput
+    Admin?: AdminUncheckedCreateNestedManyWithoutUserInput
+    Lesson?: LessonUncheckedCreateNestedManyWithoutCompletedByInput
+    Report?: ReportUncheckedCreateNestedManyWithoutUserInput
+    Badge?: BadgeUncheckedCreateNestedManyWithoutUserInput
+    Certificate?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    Community?: CommunityUncheckedCreateNestedManyWithoutParticipantsInput
+    LiveRoom?: LiveRoomUncheckedCreateNestedManyWithoutUserInput
+    NotificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutUserInput
+    Path?: PathUncheckedCreateNestedManyWithoutPeersInput
+    LoginHistory?: LoginHistoryUncheckedCreateNestedManyWithoutUserInput
+    TwoFactor?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    UserAcademyCEO?: UserAcademyCEOUncheckedCreateNestedManyWithoutUserInput
+    SalaryPayment?: SalaryPaymentUncheckedCreateNestedManyWithoutEmployeeInput
+    MeetingParticipant?: MeetingParticipantUncheckedCreateNestedManyWithoutUserInput
+    LegalCase?: LegalCaseUncheckedCreateNestedManyWithoutRelatedUserInput
+    traineeManagement?: TraineeManagementUncheckedCreateNestedManyWithoutUserInput
+    trainingSchedules?: TrainingScheduleUncheckedCreateNestedManyWithoutParticipantsInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedCreateNestedManyWithoutEmployeeInput
+    Comment?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
+    WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
+    Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutParentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutParentInput, UserUncheckedCreateWithoutParentInput>
+  }
+
+  export type ChildCreateWithoutParentInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutChildInput
+  }
+
+  export type ChildUncheckedCreateWithoutParentInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ChildCreateOrConnectWithoutParentInput = {
+    where: ChildWhereUniqueInput
+    create: XOR<ChildCreateWithoutParentInput, ChildUncheckedCreateWithoutParentInput>
+  }
+
+  export type ChildCreateManyParentInputEnvelope = {
+    data: ChildCreateManyParentInput | ChildCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutParentInput = {
+    update: XOR<UserUpdateWithoutParentInput, UserUncheckedUpdateWithoutParentInput>
+    create: XOR<UserCreateWithoutParentInput, UserUncheckedCreateWithoutParentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutParentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutParentInput, UserUncheckedUpdateWithoutParentInput>
+  }
+
+  export type UserUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    subRole?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    progress?: NullableFloatFieldUpdateOperationsInput | number | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    academy?: AcademyUpdateOneWithoutUsersNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    groups?: GroupUpdateManyWithoutMembersNestedInput
+    channels?: ChannelUpdateManyWithoutMembersNestedInput
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUpdateManyWithoutUserNestedInput
+    Attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    installments?: InstallmentUpdateManyWithoutUserNestedInput
+    Instructor?: InstructorUpdateManyWithoutUserNestedInput
+    Owner?: OwnerUpdateManyWithoutUserNestedInput
+    Admin?: AdminUpdateManyWithoutUserNestedInput
+    Lesson?: LessonUpdateManyWithoutCompletedByNestedInput
+    Report?: ReportUpdateManyWithoutUserNestedInput
+    Badge?: BadgeUpdateManyWithoutUserNestedInput
+    Certificate?: CertificateUpdateManyWithoutUserNestedInput
+    Community?: CommunityUpdateManyWithoutParticipantsNestedInput
+    LiveRoom?: LiveRoomUpdateManyWithoutUserNestedInput
+    NotificationSettings?: NotificationSettingsUpdateManyWithoutUserNestedInput
+    Path?: PathUpdateManyWithoutPeersNestedInput
+    LoginHistory?: LoginHistoryUpdateManyWithoutUserNestedInput
+    TwoFactor?: TwoFactorUpdateManyWithoutUserNestedInput
+    UserAcademyCEO?: UserAcademyCEOUpdateManyWithoutUserNestedInput
+    SalaryPayment?: SalaryPaymentUpdateManyWithoutEmployeeNestedInput
+    MeetingParticipant?: MeetingParticipantUpdateManyWithoutUserNestedInput
+    LegalCase?: LegalCaseUpdateManyWithoutRelatedUserNestedInput
+    traineeManagement?: TraineeManagementUpdateManyWithoutUserNestedInput
+    trainingSchedules?: TrainingScheduleUpdateManyWithoutParticipantsNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUpdateManyWithoutEmployeeNestedInput
+    Comment?: CommentUpdateManyWithoutAuthorNestedInput
+    LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
+    WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
+    Like?: LikeUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    subRole?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academyId?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    progress?: NullableFloatFieldUpdateOperationsInput | number | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutMembersNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutMembersNestedInput
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    Attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    installments?: InstallmentUncheckedUpdateManyWithoutUserNestedInput
+    Instructor?: InstructorUncheckedUpdateManyWithoutUserNestedInput
+    Owner?: OwnerUncheckedUpdateManyWithoutUserNestedInput
+    Admin?: AdminUncheckedUpdateManyWithoutUserNestedInput
+    Lesson?: LessonUncheckedUpdateManyWithoutCompletedByNestedInput
+    Report?: ReportUncheckedUpdateManyWithoutUserNestedInput
+    Badge?: BadgeUncheckedUpdateManyWithoutUserNestedInput
+    Certificate?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    Community?: CommunityUncheckedUpdateManyWithoutParticipantsNestedInput
+    LiveRoom?: LiveRoomUncheckedUpdateManyWithoutUserNestedInput
+    NotificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutUserNestedInput
+    Path?: PathUncheckedUpdateManyWithoutPeersNestedInput
+    LoginHistory?: LoginHistoryUncheckedUpdateManyWithoutUserNestedInput
+    TwoFactor?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    UserAcademyCEO?: UserAcademyCEOUncheckedUpdateManyWithoutUserNestedInput
+    SalaryPayment?: SalaryPaymentUncheckedUpdateManyWithoutEmployeeNestedInput
+    MeetingParticipant?: MeetingParticipantUncheckedUpdateManyWithoutUserNestedInput
+    LegalCase?: LegalCaseUncheckedUpdateManyWithoutRelatedUserNestedInput
+    traineeManagement?: TraineeManagementUncheckedUpdateManyWithoutUserNestedInput
+    trainingSchedules?: TrainingScheduleUncheckedUpdateManyWithoutParticipantsNestedInput
+    employeeAttendanceLogs?: EmployeeAttendanceLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    Comment?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
+    WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
+    Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ChildUpsertWithWhereUniqueWithoutParentInput = {
+    where: ChildWhereUniqueInput
+    update: XOR<ChildUpdateWithoutParentInput, ChildUncheckedUpdateWithoutParentInput>
+    create: XOR<ChildCreateWithoutParentInput, ChildUncheckedCreateWithoutParentInput>
+  }
+
+  export type ChildUpdateWithWhereUniqueWithoutParentInput = {
+    where: ChildWhereUniqueInput
+    data: XOR<ChildUpdateWithoutParentInput, ChildUncheckedUpdateWithoutParentInput>
+  }
+
+  export type ChildUpdateManyWithWhereWithoutParentInput = {
+    where: ChildScalarWhereInput
+    data: XOR<ChildUpdateManyMutationInput, ChildUncheckedUpdateManyWithoutParentInput>
   }
 
   export type UserCreateWithoutProfileInput = {
@@ -132750,6 +136373,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -132807,6 +136432,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -132880,6 +136507,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -132937,6 +136566,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUserAcademyCEOInput = {
@@ -132994,6 +136625,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserAcademyCEOInput = {
@@ -133051,6 +136684,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserAcademyCEOInput = {
@@ -133171,6 +136806,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserAcademyCEOInput = {
@@ -133228,6 +136865,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AcademyUpsertWithoutCeosInput = {
@@ -133338,6 +136977,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAcademyInput = {
@@ -133395,6 +137036,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAcademyInput = {
@@ -134227,6 +137870,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstructorInput = {
@@ -134284,6 +137929,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstructorInput = {
@@ -134459,6 +138106,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstructorInput = {
@@ -134516,6 +138165,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AcademyUpsertWithoutInstructorsInput = {
@@ -135399,6 +139050,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPathInput = {
@@ -135456,6 +139109,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPathInput = {
@@ -135701,6 +139356,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLessonWhiteListInput = {
@@ -135758,6 +139415,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLessonWhiteListInput = {
@@ -135876,6 +139535,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonWhiteListInput = {
@@ -135933,6 +139594,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseCreateWithoutLessonsInput = {
@@ -136147,6 +139810,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLessonInput = {
@@ -136204,6 +139869,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLessonInput = {
@@ -136559,6 +140226,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWatchedLessonInput = {
@@ -136616,6 +140285,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWatchedLessonInput = {
@@ -136734,6 +140405,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWatchedLessonInput = {
@@ -136791,6 +140464,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonCreateWithoutFilesInput = {
@@ -137483,6 +141158,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentCodeInput = {
@@ -137540,6 +141217,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentCodeInput = {
@@ -137733,6 +141412,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentCodeInput = {
@@ -137790,6 +141471,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AdminUpsertWithoutEnrollmentCodeInput = {
@@ -137912,6 +141595,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -137969,6 +141654,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -138127,6 +141814,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -138184,6 +141873,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutEnrollmentsInput = {
@@ -138874,6 +142565,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionInput = {
@@ -138931,6 +142624,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionInput = {
@@ -139057,6 +142752,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionInput = {
@@ -139114,6 +142811,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuizUpsertWithoutSubmissionsInput = {
@@ -139230,6 +142929,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -139287,6 +142988,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -139360,6 +143063,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -139417,6 +143122,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -139474,6 +143181,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -139531,6 +143240,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -139637,6 +143348,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -139694,6 +143407,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TrainingScheduleUpsertWithoutNotificationsInput = {
@@ -139790,6 +143505,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationSettingsInput = {
@@ -139847,6 +143564,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationSettingsInput = {
@@ -139920,6 +143639,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
@@ -139977,6 +143698,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutMessagesInput = {
@@ -140034,6 +143757,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -140091,6 +143816,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -140193,6 +143920,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -140250,6 +143979,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChannelUpsertWithWhereUniqueWithoutMessagesInput = {
@@ -140323,6 +144054,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -140380,6 +144113,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -140626,6 +144361,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -140683,6 +144420,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithWhereUniqueWithoutPostInput = {
@@ -140909,6 +144648,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLikeInput = {
@@ -140966,6 +144707,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedCreateNestedManyWithoutUserInput
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLikeInput = {
@@ -141080,6 +144823,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikeInput = {
@@ -141137,6 +144882,8 @@ export namespace Prisma {
     LessonWhiteList?: LessonWhiteListUncheckedUpdateManyWithoutUserNestedInput
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostCreateWithoutCommentsInput = {
@@ -141229,6 +144976,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentInput = {
@@ -141286,6 +145035,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentInput = {
@@ -141400,6 +145151,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentInput = {
@@ -141457,6 +145210,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGroupsInput = {
@@ -141514,6 +145269,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupsInput = {
@@ -141571,6 +145328,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupsInput = {
@@ -141908,6 +145667,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAdminInput = {
@@ -141965,6 +145726,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdminInput = {
@@ -142773,6 +146536,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminInput = {
@@ -142830,6 +146595,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupUpsertWithWhereUniqueWithoutAdminInput = {
@@ -143409,6 +147176,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChannelsInput = {
@@ -143466,6 +147235,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChannelsInput = {
@@ -143937,6 +147708,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOwnerInput = {
@@ -143994,6 +147767,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOwnerInput = {
@@ -144101,6 +147876,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnerInput = {
@@ -144158,6 +147935,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChannelUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -144231,6 +148010,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -144288,6 +148069,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -144361,6 +148144,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -144418,6 +148203,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PublicRelationsRecordCreateWithoutEventsInput = {
@@ -144715,6 +148502,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -144772,6 +148561,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAttendanceInput = {
@@ -144884,6 +148675,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -144941,6 +148734,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonUpsertWithoutAttendanceInput = {
@@ -145043,6 +148838,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -145100,6 +148897,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -145303,6 +149102,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -145360,6 +149161,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BranchUpsertWithoutPaymentsInput = {
@@ -145533,6 +149336,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReportInput = {
@@ -145590,6 +149395,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReportInput = {
@@ -145807,6 +149614,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportInput = {
@@ -145864,6 +149673,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountingEntryUpsertWithoutReportsInput = {
@@ -146089,6 +149900,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBadgeInput = {
@@ -146146,6 +149959,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBadgeInput = {
@@ -146219,6 +150034,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBadgeInput = {
@@ -146276,6 +150093,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCertificateInput = {
@@ -146333,6 +150152,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCertificateInput = {
@@ -146390,6 +150211,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCertificateInput = {
@@ -146518,6 +150341,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCertificateInput = {
@@ -146575,6 +150400,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutCertificateInput = {
@@ -146767,6 +150594,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityInput = {
@@ -146824,6 +150653,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityInput = {
@@ -147224,6 +151055,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLiveRoomInput = {
@@ -147281,6 +151114,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLiveRoomInput = {
@@ -148040,6 +151875,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSalaryPaymentInput = {
@@ -148097,6 +151934,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSalaryPaymentInput = {
@@ -148205,6 +152044,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSalaryPaymentInput = {
@@ -148262,6 +152103,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountingEntryUpsertWithoutSalaryPaymentInput = {
@@ -149524,6 +153367,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMeetingParticipantInput = {
@@ -149581,6 +153426,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMeetingParticipantInput = {
@@ -149695,6 +153542,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMeetingParticipantInput = {
@@ -149752,6 +153601,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AdminRoleCreateWithoutPermissionsInput = {
@@ -150588,6 +154439,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLegalCaseInput = {
@@ -150645,6 +154498,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLegalCaseInput = {
@@ -151018,6 +154873,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLegalCaseInput = {
@@ -151075,6 +154932,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FileUpsertWithWhereUniqueWithoutLegalCaseInput = {
@@ -151212,6 +155071,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstallmentsInput = {
@@ -151269,6 +155130,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstallmentsInput = {
@@ -151404,6 +155267,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstallmentsInput = {
@@ -151461,6 +155326,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PaymentUpsertWithoutInstallmentsInput = {
@@ -153416,6 +157283,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTraineeManagementInput = {
@@ -153473,6 +157342,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTraineeManagementInput = {
@@ -153610,6 +157481,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTraineeManagementInput = {
@@ -153667,6 +157540,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EnrollmentUpsertWithoutTraineeManagementInput = {
@@ -153826,6 +157701,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTrainingSchedulesInput = {
@@ -153883,6 +157760,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTrainingSchedulesInput = {
@@ -154673,6 +158552,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonCreateNestedManyWithoutUserInput
     Like?: LikeCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeCreateNestedManyWithoutUsedByInput
+    Child?: ChildCreateNestedManyWithoutUserInput
+    Parent?: ParentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmployeeAttendanceLogsInput = {
@@ -154730,6 +158611,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedCreateNestedManyWithoutUserInput
     Like?: LikeUncheckedCreateNestedManyWithoutUserInput
     EnrollmentCode?: EnrollmentCodeUncheckedCreateNestedManyWithoutUsedByInput
+    Child?: ChildUncheckedCreateNestedManyWithoutUserInput
+    Parent?: ParentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmployeeAttendanceLogsInput = {
@@ -154862,6 +158745,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmployeeAttendanceLogsInput = {
@@ -154919,6 +158804,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AdminUpsertWithoutEmployeeAttendanceLogsInput = {
@@ -155271,6 +159158,19 @@ export namespace Prisma {
     createdById: string
     createdAt?: Date | string
     usedAt?: Date | string | null
+  }
+
+  export type ChildCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parentId: string
+  }
+
+  export type ParentCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EnrollmentUpdateWithoutUserInput = {
@@ -156510,6 +160410,75 @@ export namespace Prisma {
     usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type ChildUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: ParentUpdateOneRequiredWithoutChildrenNestedInput
+  }
+
+  export type ChildUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ChildUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parentId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ParentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChildUpdateManyWithoutParentNestedInput
+  }
+
+  export type ParentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ChildUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type ParentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChildCreateManyParentInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ChildUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutChildNestedInput
+  }
+
+  export type ChildUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChildUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateManyAcademyInput = {
     id?: string
     email: string
@@ -156700,6 +160669,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAcademyInput = {
@@ -156757,6 +160728,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutAcademyInput = {
@@ -157987,6 +161960,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPathInput = {
@@ -158044,6 +162019,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPathInput = {
@@ -158301,6 +162278,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonInput = {
@@ -158358,6 +162337,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutLessonInput = {
@@ -158951,6 +162932,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupsInput = {
@@ -159008,6 +162991,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutGroupsInput = {
@@ -160099,6 +164084,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChannelsInput = {
@@ -160156,6 +164143,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutChannelsInput = {
@@ -160486,6 +164475,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityInput = {
@@ -160543,6 +164534,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCommunityInput = {
@@ -160682,6 +164675,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLiveRoomInput = {
@@ -160739,6 +164734,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutLiveRoomInput = {
@@ -162146,6 +166143,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUpdateManyWithoutUserNestedInput
     Like?: LikeUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUpdateManyWithoutUserNestedInput
+    Parent?: ParentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTrainingSchedulesInput = {
@@ -162203,6 +166202,8 @@ export namespace Prisma {
     WatchedLesson?: WatchedLessonUncheckedUpdateManyWithoutUserNestedInput
     Like?: LikeUncheckedUpdateManyWithoutUserNestedInput
     EnrollmentCode?: EnrollmentCodeUncheckedUpdateManyWithoutUsedByNestedInput
+    Child?: ChildUncheckedUpdateManyWithoutUserNestedInput
+    Parent?: ParentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutTrainingSchedulesInput = {

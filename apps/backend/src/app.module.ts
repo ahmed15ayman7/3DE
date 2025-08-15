@@ -50,6 +50,7 @@ import { InstructorsModule } from './instructors/instructors.module';
 import { SupportModule } from './support/support.module';
 import { ContactModule } from './contact/contact.module';
 import { PublicModule } from './public/public.module';
+import { ParentsModule } from './parents/parents.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -115,7 +116,8 @@ import { PublicModule } from './public/public.module';
         InstructorsModule,
         SupportModule,
         ContactModule,
-        PublicModule
+        PublicModule,
+        ParentsModule
     ],
     // providers: [
     //     {
