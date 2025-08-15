@@ -18,7 +18,7 @@ export default function InstructorDetailsPage() {
     queryFn: () => landingApi.getInstructor(instructorId),
     enabled: !!instructorId
   });
-
+  console.log(instructorData);
   const instructor = instructorData?.data;
 
   if (isLoading) {

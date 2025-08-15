@@ -29,17 +29,9 @@ export default function CourseDetails() {
     queryKey: ['courseData', params.courseId],
     queryFn: () => landingApi.getCourse(params.courseId as string),
   });
+  console.log(course);
   let courseData=course?.data;
 
-
-
-
-
-
-  const handleExportReport = () => {
-    // هنا سيتم إضافة منطق تصدير التقرير
-    console.log('تصدير تقرير الكورس');
-  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
