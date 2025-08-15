@@ -95,7 +95,6 @@ export class ParentsService {
             where: { email },
             include: {
                 profile: true,
-                branch: true,
             },
         });
     }
