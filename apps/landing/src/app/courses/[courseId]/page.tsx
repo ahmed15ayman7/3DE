@@ -126,7 +126,7 @@ export default function CourseDetails() {
             </Card>
             <div className="w-full flex items-center justify-end gap-4">
                 <Button variant="primary" onClick={()=>{
-                  window.open(`https://wa.me/`);
+                  window.open(`https://wa.me/+2${courseData?.instructors?.[0]?.user?.phone}`);
                 }}>
                   تواصل معنا 
                 </Button>
