@@ -339,8 +339,8 @@ export default function TermsPage() {
                   إذا كان لديك أي أسئلة حول هذه الشروط والأحكام، يمكنك التواصل معنا:
                 </p>
                 <div className="space-y-2 text-primary-dark">
-                  <p><strong>البريد الإلكتروني:</strong> legal@3de.sa</p>
-                  <p><strong>الهاتف:</strong> +966 11 123 4567</p>
+                  <p><strong>البريد الإلكتروني:</strong> legal@3de.school</p>
+                  <p><strong>الهاتف:</strong> +01284959694</p>
                   <p><strong>العنوان:</strong> الخانكة، مصر</p>
                 </div>
               </div>

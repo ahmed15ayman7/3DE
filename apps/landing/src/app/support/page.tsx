@@ -143,7 +143,7 @@ const contactMethods = [
     title: 'البريد الإلكتروني',
     description: 'أرسل استفسارك المفصل عبر البريد',
     icon: Mail,
-    availability: 'support@3de.sa',
+    availability: 'support@3de.school',
     responseTime: 'خلال 4 ساعات',
     color: 'bg-blue-500'
   },

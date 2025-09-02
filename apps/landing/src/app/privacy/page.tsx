@@ -378,9 +378,9 @@ export default function PrivacyPage() {
                     لممارسة أي من حقوقك، يمكنك التواصل معنا عبر:
                   </p>
                   <ul className="text-blue-700 text-sm space-y-1">
-                    <li>• البريد الإلكتروني: privacy@3de.sa</li>
+                    <li>• البريد الإلكتروني: privacy@3de.school</li>
                     <li>• نموذج طلب البيانات في حسابك الشخصي</li>
-                    <li>• الهاتف: +966 11 123 4567</li>
+                    <li>• الهاتف: +01284959694</li>
                   </ul>
                 </div>
               </div>
@@ -509,8 +509,8 @@ export default function PrivacyPage() {
                     <div>
                       <h4 className="font-semibold text-primary-dark mb-2">مسؤول حماية البيانات</h4>
                       <div className="space-y-2 text-primary-dark">
-                        <p><strong>البريد الإلكتروني:</strong> privacy@3de.sa</p>
-                        <p><strong>الهاتف:</strong> +966 11 123 4567</p>
+                        <p><strong>البريد الإلكتروني:</strong> privacy@3de.school</p>
+                        <p><strong>الهاتف:</strong> +01284959694</p>
                       </div>
                     </div>
                     

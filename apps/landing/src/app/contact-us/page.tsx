@@ -28,7 +28,7 @@ const contactInfo = [
     icon: MapPin,
     title: "العنوان",
     details: [
-      " الملك فهد، حي العليا",
+      " وسط البلد",
       "الخانكة 12344",
       "مصر"
     ],
@@ -41,7 +41,7 @@ const contactInfo = [
     icon: Phone,
     title: "الهاتف",
     details: [
-      "+966 11 123 4567",
+      "+01284959694",
       "+966 11 123 4568",
       "للدعم الفني: +966 11 123 4569"
     ],
@@ -54,13 +54,13 @@ const contactInfo = [
     icon: Mail,
     title: "البريد الإلكتروني",
     details: [
-      "info@3de.sa",
-      "support@3de.sa",
-      "admissions@3de.sa"
+      "info@3de.school",
+      "support@3de.school",
+      "admissions@3de.school"
     ],
     action: {
       label: "راسلنا",
-      href: "mailto:info@3de.sa"
+      href: "mailto:info@3de.school"
     }
   },
   {
