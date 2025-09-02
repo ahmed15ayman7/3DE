@@ -314,7 +314,7 @@ export default function TermsPage() {
               <div className="space-y-4 text-text-secondary leading-relaxed">
                 <h3 className="text-xl font-semibold text-text-primary">8.1 القانون المطبق</h3>
                 <p>
-                  تخضع هذه الشروط والأحكام لقوانين المملكة العربية السعودية، ويتم تفسيرها 
+                  تخضع هذه الشروط والأحكام لقوانين مصر، ويتم تفسيرها 
                   وفقاً لها.
                 </p>
 
@@ -341,7 +341,7 @@ export default function TermsPage() {
                 <div className="space-y-2 text-primary-dark">
                   <p><strong>البريد الإلكتروني:</strong> legal@3de.sa</p>
                   <p><strong>الهاتف:</strong> +966 11 123 4567</p>
-                  <p><strong>العنوان:</strong> الرياض، المملكة العربية السعودية</p>
+                  <p><strong>العنوان:</strong> الخانكة، مصر</p>
                 </div>
               </div>
             </motion.section>

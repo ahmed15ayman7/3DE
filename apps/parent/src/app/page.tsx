@@ -88,8 +88,8 @@ export default function ParentDashboard() {
   const [recentNotifications] = useState([
     {
       id: '1',
-      title: 'تم إكمال كورس الرياضيات',
-      message: 'أحمد أكمل كورس الرياضيات بنجاح',
+      title: 'تم إكمال كورس الخانكةيات',
+      message: 'أحمد أكمل كورس الخانكةيات بنجاح',
       time: 'منذ ساعتين',
       type: 'success',
     },

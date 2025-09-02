@@ -113,7 +113,7 @@ export default function HomePage() {
     totalStudents: instructor.courses?.reduce((total, course) => total + (course.enrollments?.length || 0), 0) || 0,
     totalCourses: instructor.courses?.length || 0,
     experience: instructor.experienceYears ? `${instructor.experienceYears} سنة` : "خبرة متميزة",
-    location: instructor.location || "المملكة العربية السعودية",
+    location: instructor.location || "مصر",
     isVerified: true,
     languages: ["العربية", "الإنجليزية"],
     socialLinks: {}
@@ -130,7 +130,7 @@ export default function HomePage() {
     location: {
       type: "offline" as const,
       venue: "أكاديمية 3DE",
-      city: "الرياض"
+      city: "الخانكة"
     },
     organizer: {
       name: "أكاديمية 3DE",

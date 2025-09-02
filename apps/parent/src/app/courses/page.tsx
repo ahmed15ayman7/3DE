@@ -20,8 +20,8 @@ import {
 const mockCourses = [
   {
     id: '1',
-    title: 'الرياضيات المتقدمة',
-    description: 'دورة شاملة في الرياضيات للمرحلة الثانوية',
+    title: 'الخانكةيات المتقدمة',
+    description: 'دورة شاملة في الخانكةيات للمرحلة الثانوية',
     instructor: 'د. محمد أحمد',
     duration: 60,
     progress: 85,

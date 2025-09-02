@@ -37,8 +37,8 @@ const mockChildData = {
   courses: [
     {
       id: '1',
-      title: 'الرياضيات المتقدمة',
-      description: 'دورة شاملة في الرياضيات للمرحلة الثانوية',
+      title: 'الخانكةيات المتقدمة',
+      description: 'دورة شاملة في الخانكةيات للمرحلة الثانوية',
       instructor: 'د. محمد أحمد',
       duration: 60,
       progress: 85,
@@ -89,7 +89,7 @@ const mockChildData = {
     { date: '2024-03-08', status: 'present' },
   ],
   recentGrades: [
-    { subject: 'الرياضيات', grade: 92, date: '2024-03-01' },
+    { subject: 'الخانكةيات', grade: 92, date: '2024-03-01' },
     { subject: 'الفيزياء', grade: 95, date: '2024-02-28' },
     { subject: 'اللغة الإنجليزية', grade: 88, date: '2024-02-25' },
     { subject: 'الكيمياء', grade: 90, date: '2024-02-20' },

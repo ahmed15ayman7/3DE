@@ -34,7 +34,7 @@ const teamMembers = [
     totalStudents: 5000,
     totalCourses: 25,
     experience: "20 سنة",
-    location: "الرياض",
+    location: "الخانكة",
     isVerified: true,
     languages: ["العربية", "الإنجليزية"],
     socialLinks: {
@@ -53,7 +53,7 @@ const teamMembers = [
     totalStudents: 3500,
     totalCourses: 18,
     experience: "15 سنة",
-    location: "الرياض",
+    location: "الخانكة",
     isVerified: true,
     languages: ["العربية", "الإنجليزية"]
   },
@@ -68,7 +68,7 @@ const teamMembers = [
     totalStudents: 2800,
     totalCourses: 12,
     experience: "12 سنة",
-    location: "الرياض",
+    location: "الخانكة",
     isVerified: true,
     languages: ["العربية", "الإنجليزية"]
   }

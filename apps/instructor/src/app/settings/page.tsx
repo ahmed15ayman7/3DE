@@ -63,7 +63,7 @@ export default function SettingsPage() {
       bio: 'محاضر متخصص في تطوير الويب وتقنيات JavaScript الحديثة، لدي خبرة 8 سنوات في التدريس والتطوير.',
       specialization: 'تطوير الويب',
       experience: 8,
-      location: 'الرياض، المملكة العربية السعودية',
+      location: 'الخانكة، مصر',
       website: 'https://ahmed-dev.com',
       linkedin: 'ahmed-mohammed',
       twitter: 'ahmed_dev',
@@ -438,7 +438,7 @@ export default function SettingsPage() {
                 <div>
                   <h4 className="font-medium text-gray-900">الجلسة الحالية</h4>
                   <p className="text-sm text-gray-600">
-                    Chrome على Windows • الرياض، السعودية
+                    Chrome على Windows • الخانكة، السعودية
                   </p>
                   <p className="text-xs text-gray-500">نشط الآن</p>
                 </div>
@@ -448,7 +448,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between p-4 border rounded-lg">
                 <div>
                   <h4 className="font-medium text-gray-900">Safari على iPhone</h4>
-                  <p className="text-sm text-gray-600">الرياض، السعودية</p>
+                  <p className="text-sm text-gray-600">الخانكة، السعودية</p>
                   <p className="text-xs text-gray-500">منذ ساعتين</p>
                 </div>
                 <Button variant="outline" size="sm">
@@ -530,7 +530,7 @@ export default function SettingsPage() {
                   </p>
                 </div>
                 <select className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-main">
-                  <option value="Asia/Riyadh">توقيت الرياض (GMT+3)</option>
+                  <option value="Asia/Riyadh">توقيت الخانكة (GMT+3)</option>
                   <option value="Asia/Dubai">توقيت دبي (GMT+4)</option>
                   <option value="UTC">توقيت عالمي (UTC)</option>
                 </select>

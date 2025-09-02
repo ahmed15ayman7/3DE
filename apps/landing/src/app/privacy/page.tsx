@@ -70,7 +70,7 @@ export default function PrivacyPage() {
                 
                 <p>
                   نحن ملتزمون بحماية خصوصيتك ونضمن أن معلوماتك الشخصية آمنة ومحمية وفقاً لأعلى 
-                  المعايير الدولية وقوانين حماية البيانات المعمول بها في المملكة العربية السعودية.
+                  المعايير الدولية وقوانين حماية البيانات المعمول بها في مصر.
                 </p>
 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -519,7 +519,7 @@ export default function PrivacyPage() {
                       <div className="text-primary-dark">
                         <p>أكاديمية 3DE للتعليم الرقمي</p>
                         <p>قسم حماية البيانات</p>
-                        <p>الرياض، المملكة العربية السعودية</p>
+                        <p>الخانكة، مصر</p>
                       </div>
                     </div>
                   </div>
