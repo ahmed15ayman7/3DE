@@ -1,5 +1,6 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import Layout from '../../components/Layout';
 import Hero from '../../components/Hero';
@@ -20,72 +21,25 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { Button } from '@3de/ui';
+import { landingApi } from '@3de/apis';
+import { Instructor } from '@3de/interfaces';
 
-// Team Members Data
-const teamMembers = [
-  {
-    id: "1",
-    name: "مصطفى مجدي",
-    title: "مدرس فيزياء",
-    bio: "متخصص في تدريس الفيزياء وتبسيط المفاهيم العلمية",
-    avatar: "https://res.cloudinary.com/dctpuy9r6/image/upload/v1753636716/uploads/akx3ajjah1c5k6wli5gu.jpg",
-    specializations: ["فيزياء", "علوم", "تجارب عملية"],
-    rating: 4.7,
-    totalStudents: 2000,
-    totalCourses: 10,
-    experience: "8 سنوات",
-    location: "الخانكة",
-    isVerified: true,
-    languages: ["العربية", "الإنجليزية"]
-  },
-  // {
-  //   id: "2",
-  //   name: "محمود كامل",
-  //   title: "مدرس أحياء",
-  //   bio: "خبير في تدريس الأحياء وعلم الوراثة",
-  //   avatar: "/images/team/biology.jpg",
-  //   specializations: ["أحياء", "وراثة", "تشريح"],
-  //   rating: 4.8,
-  //   totalStudents: 1800,
-  //   totalCourses: 9,
-  //   experience: "9 سنوات",
-  //   location: "الخانكة",
-  //   isVerified: true,
-  //   languages: ["العربية"]
-  // },
-  {
-    id: "3",
-    name: "أمجد رمضان",
-    title: "مدرس كيمياء",
-    bio: "مدرس كيمياء متخصص في الكيمياء العضوية والتحليلية",
-    avatar: "https://res.cloudinary.com/dctpuy9r6/image/upload/v1753826148/uploads/d6hmohjik3gumxjzvsr8.jpg",
-    specializations: ["كيمياء", "كيمياء عضوية", "كيمياء تحليلية"],
-    rating: 4.9,
-    totalStudents: 2200,
-    totalCourses: 11,
-    experience: "10 سنوات",
-    location: "الخانكة",
-    isVerified: true,
-    languages: ["العربية", "الإنجليزية"]
-  },
-  {
-    id: "4",
-    name: "محمد الجمل",
-    title: "مدرس رياضيات",
-    bio: "متخصص في تدريس الرياضيات وتبسيط المعادلات",
-    avatar: "https://res.cloudinary.com/dctpuy9r6/image/upload/v1753825983/uploads/j4tpimo1crcre07x5ndw.jpg",
-    specializations: ["رياضيات", "جبر", "إحصاء"],
-    rating: 4.6,
-    totalStudents: 2500,
-    totalCourses: 15,
-    experience: "11 سنة",
-    location: "الخانكة",
-    isVerified: true,
-    languages: ["العربية", "الإنجليزية"]
-  }
-];
-
-
+const transformInstructorData = (instructor: Instructor) => ({
+  id: instructor.id,
+  name: instructor.user?.firstName + " " + instructor.user?.lastName,
+  title: instructor.title || "مدرب متخصص",
+  bio: instructor.bio || "خبير في مجاله مع سنوات من الخبرة العملية",
+  avatar: instructor.user?.avatar || "/images/instructors/default.jpg",
+  specializations: instructor.skills || ["التدريس", "التطوير"],
+  rating: instructor.rating || 4.8,
+  totalStudents: instructor.courses?.reduce((total, course) => total + (course.enrollments?.length || 0), 0) || 0,
+  totalCourses: instructor.courses?.length || 0,
+  experience: instructor.experienceYears ? `${instructor.experienceYears} سنة` : "خبرة متميزة",
+  location: instructor.location || "مصر",
+  isVerified: true,
+  languages: ["العربية", "الإنجليزية"],
+  socialLinks: {}
+});
 // Company Values
 const values = [
   {
@@ -131,6 +85,12 @@ const statistics = [
 ];
 
 export default function AboutUsPage() {
+  const { data: instructorsData, isLoading: instructorsLoading, error: instructorsError } = useQuery({
+    queryKey: ['instructors'],
+    queryFn: () =>
+       landingApi.getInstructors("",3,0),
+  });
+  const teamMembers = instructorsData?.data?.instructors || [];
   return (
     <Layout showBreadcrumb={true}>
       {/* Hero Section */}
@@ -402,7 +362,7 @@ export default function AboutUsPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
+            {teamMembers.map((member:Instructor, index:number) => (
               <motion.div
                 key={member.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -410,7 +370,7 @@ export default function AboutUsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
               >
-                <InstructorCard {...member} variant="featured" />
+                <InstructorCard {...transformInstructorData(member)} variant="featured" />
               </motion.div>
             ))}
           </div>

@@ -70,6 +70,9 @@ export class PublicService {
                     },
                 },
             },
+            orderBy: {
+                experienceYears: 'desc',
+            },
             take: 3,
         });
         let total = await this.prisma.instructor.count();
