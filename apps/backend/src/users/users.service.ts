@@ -86,7 +86,7 @@ export class UsersService {
             where: { id },
             data: {
                 ...data,
-                password: data.password ? await bcrypt.hash(data.password, 10) : user.password,
+                password: data.password ? data.password : user.password,
             },
             include: {
                 profile: true,
