@@ -147,12 +147,15 @@ export async function register(data: {
 }
 
 export async function forgotPassword(email: string) {
-  return api.post('/auth/forgot-password', { email });
-}
+  let result = await api.post('/auth/forgot-password', { email });
+      return {data:result.data,status:result.status};
+    }
 
 export async function resetPassword(token: string, password: string) {
-  return api.post('/auth/reset-password', { token, password });
+  let result = await api.post('/auth/reset-password', { token, password });
+  return {data:result.data,status:result.status};
 }
+
 
 
 

@@ -113,7 +113,7 @@ export class AuthService {
             throw new NotFoundException('User not found');
         }
         // const hashedPassword = await bcrypt.hash(password, 10);
-        await this.usersService.update(user.id, { password: password } as UpdateUserDto);
+        await this.usersService.update(user.id, { password: password,role:user.role } as UpdateUserDto);
         return { message: 'Password reset successfully' };
     }
 } 

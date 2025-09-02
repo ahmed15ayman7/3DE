@@ -42,7 +42,12 @@ const nextConfig: NextConfig = {
                 scriptSrc: ["'self'", "'unsafe-inline'"],
                 styleSrc: ["'self'", "'unsafe-inline'"],
                 imgSrc: ["'self'", "data:"],
-                connectSrc: ["'self'"],
+                connectSrc: [
+                  "'self'",
+                  "http://localhost:3002",
+                  "https://3de.school",
+                  "https://api.3de.school",
+                ],                
               },
             },
           }),
