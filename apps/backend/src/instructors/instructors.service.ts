@@ -31,6 +31,9 @@ export class InstructorsService {
                     ],
                 },
             },
+            orderBy: {
+                experienceYears: 'desc',
+            },
             include: {
                 user: true,
                 courses: true,
