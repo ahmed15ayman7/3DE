@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: ['https://3de.school'],
   images: {
-    domains: ['localhost', '3de.school'],
+    domains: ['localhost', '3de.school','res.cloudinary.com'],
   },
   webpack: (config) => {
     config.resolve.alias = {
@@ -35,9 +35,9 @@ const nextConfig: NextConfig = {
               "default-src 'self'; " +
               "script-src 'self' 'unsafe-inline'; " +
               "style-src 'self' 'unsafe-inline'; " +
-              "img-src 'self' data: blob: https://3de.school https://cloudinary.com; " +
-              "media-src 'self' blob: https://3de.school https://cloudinary.com;  " +
-              "connect-src 'self' blob: https://3de.school https://www.3de.school https://cloudinary.com https://api.3de.school;"
+              "img-src 'self' data: blob: https://3de.school https://cloudinary.com https://res.cloudinary.com; " +
+              "media-src 'self' blob: https://3de.school https://cloudinary.com https://res.cloudinary.com;  " +
+              "connect-src 'self' blob: https://3de.school https://www.3de.school https://cloudinary.com https://api.3de.school https://res.cloudinary.com;"
           },
         ],
       },

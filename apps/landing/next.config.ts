@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['@3de/ui', 'lucide-react'],
   },
   images: {
-    domains: ['localhost', '3de.school'],
+    domains: ['localhost', '3de.school','res.cloudinary.com'],
   },
   webpack: (config) => {
     config.resolve.alias = {
@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
                 defaultSrc: ["'self'"],
                 scriptSrc: ["'self'", "'unsafe-inline'"],
                 styleSrc: ["'self'", "'unsafe-inline'"],
-                imgSrc: ["'self'", "data:"],
+                imgSrc: ["'self'", "data:","res.cloudinary.com"],
                 connectSrc: ["'self'"],
               },
             },

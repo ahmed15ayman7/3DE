@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
                 defaultSrc: ["'self'"],
                 scriptSrc: ["'self'", "'unsafe-inline'"],
                 styleSrc: ["'self'", "'unsafe-inline'"],
-                imgSrc: ["'self'", "data:"],
+                imgSrc: ["'self'", "data:","res.cloudinary.com"],
                 connectSrc: ["'self'"],
               },
             },
