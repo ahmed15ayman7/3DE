@@ -34,7 +34,7 @@ export class UsersController {
     }
 
     @Get()
-    @Roles(UserRole.ADMIN) // فقط الأدمن
+    @Roles(UserRole.ADMIN,UserRole.PARENT) // فقط الأدمن
     @ApiOperation({ summary: 'الحصول على جميع المستخدمين' })
     @ApiResponse({ status: 200, description: 'تم جلب المستخدمين بنجاح' })
     findAll() {
