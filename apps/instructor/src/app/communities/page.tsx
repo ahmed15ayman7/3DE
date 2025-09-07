@@ -223,14 +223,14 @@ export default function CommunitiesPage() {
 
   const {data:AllCommunities} = useQuery({
     queryKey: ['my-communities'],
-    queryFn: () => communityApi.getAll(0, 10, ''),
+    queryFn: () => communityApi.getAll(),
   })
   const {data:posts} = useQuery({
     queryKey: ['posts'],
     queryFn: () => postApi.getAll(),
   })
   const {user} = useAuth()
-  let myCommunities = AllCommunities?.data.communities.filter((community:any)=>community.members.some((member:any)=>member.userId === user?.id))
+  let myCommunities = AllCommunities?.data.filter((community:any)=>community.members.some((member:any)=>member.userId === user?.id))
 
 
   const tabItems = [
@@ -336,7 +336,7 @@ export default function CommunitiesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {AllCommunities?.data.communities?.map((community) => (
+            {AllCommunities?.data?.map((community) => (
               <Card key={community.id} className="p-6 hover:shadow-lg transition-all duration-200">
                 <div className="flex items-center gap-3 gap-reverse mb-4">
                   <Avatar
