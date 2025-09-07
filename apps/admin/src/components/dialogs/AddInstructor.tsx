@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, Input, Button, Select, toast, Textarea } from '@3de/ui';
+import React, { useRef, useState } from 'react';
+import { Modal, Input, Button, Select, toast, Textarea, UploadImage } from '@3de/ui';
 import { courseApi, instructorApi, userApi } from '@3de/apis';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -34,6 +34,8 @@ const AddInstructor = ({
   refetch: () => void;
 }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  let inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -87,40 +89,6 @@ const AddInstructor = ({
       toast.error('حدث خطأ ما');
     }
   };
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append(
-      'upload_preset',
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ''
-    ); // 👈 غيّرها
-    formData.append('folder', 'uploads');
-
-    try {
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.secure_url) {
-        console.log('🔗 Uploaded Image URL:', data.secure_url);
-        setImageUrl(data.secure_url);
-      }
-    } catch (err) {
-      console.error('Upload error:', err);
-      alert('❌ فشل رفع الصورة!');
-    }
-  };
 
   return (
     <Modal title="إضافة محاضر" isOpen={isOpen} onClose={onClose} size="md">
@@ -166,13 +134,11 @@ const AddInstructor = ({
           onChange={(e) => form.setValue('password', e.target.value)}
           error={form.formState.errors.password?.message}
         />
-        <Input
-          type="file"
-          label="الصورة الشخصية"
-          placeholder="الصورة الشخصية"
-          onChange={handleFileChange}
-          error={form.formState.errors.avatar?.message}
-        />
+        <UploadImage 
+          image={imageUrl as string}
+          setImage={setImageUrl}
+          className="w-full" inputRef={inputRef} setIsUploading={setIsUploading}
+            />
         <Input
           type="text"
           label="الهاتف"
@@ -242,7 +208,7 @@ const AddInstructor = ({
         </div>
       </div>
       <div className="flex justify-center py-5">
-        <Button type="submit" onClick={() => onSubmit(form.getValues())}>
+        <Button type="submit" disabled={isUploading} onClick={() => onSubmit(form.getValues())}>
           إضافة محاضر
         </Button>
       </div>
