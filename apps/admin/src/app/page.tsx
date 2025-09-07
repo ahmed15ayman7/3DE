@@ -12,11 +12,12 @@ import {
   Calendar,
   BarChart3 
 } from 'lucide-react';
-import { userApi, courseApi, instructorApi, enrollmentApi } from '@3de/apis';
+import { userApi, courseApi, instructorApi, enrollmentApi, notificationApi } from '@3de/apis';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import AddCourse from '../components/dialogs/AddCourse';
 import AddInstructor from '../components/dialogs/AddInstructor';
+import { useAuth } from '@3de/auth';
 
 const StatsCard = ({ 
   title, 
@@ -61,13 +62,17 @@ export default function Dashboard() {
   const router = useRouter();
   let [isADDCOURSEDialogOpen, setIsADDCOURSEDialogOpen] = useState(false);
   let [isADDINSTRUCTORDialogOpen, setIsADDINSTRUCTORDialogOpen] = useState(false);
-
+  const { user } = useAuth();
   // Fetch dashboard data
   const { data: usersData, isLoading: usersLoading, refetch: usersRefetch } = useQuery({
     queryKey: ['users', 1, 10, ''],
     queryFn: () => userApi.getAll(1, 10, ''),
   });
-
+  const { data: notificationsData, isLoading: notificationsLoading, refetch: notificationsRefetch } = useQuery({
+    queryKey: ['notifications',user?.id],
+    queryFn: () => notificationApi.getAllByUserId(user?.id ?? "",0,10,""),
+    enabled: !!user?.id,
+  });
   const { data: coursesData, isLoading: coursesLoading, refetch: coursesRefetch } = useQuery({
     queryKey: ['courses'],
     queryFn: () => courseApi.getAll(),
@@ -93,6 +98,14 @@ export default function Dashboard() {
     return 'غير محدد';
   };
   // Quick stats data
+  let notifications=notificationsData?.data.data?.map((activity, index:number) => {
+    return {
+      ...activity,
+      icon: activity.type === 'ASSIGNMENT' ? UserCheck : activity.type === 'GRADE' ? Award : activity.type === 'MESSAGE' ? BookOpen : activity.type === 'ACHIEVEMENT' ? UserCheck : activity.type === 'URGENT' ? Award : activity.type === 'EVENT' ? BookOpen : activity.type === 'ABSENCE' ? BookOpen : UserCheck,
+      color: activity.type === 'ASSIGNMENT' ? 'bg-green-500' : activity.type === 'GRADE' ? 'bg-yellow-500' : activity.type === 'MESSAGE' ? 'bg-blue-500' : activity.type === 'ACHIEVEMENT' ? 'bg-purple-500' : activity.type === 'URGENT' ? 'bg-red-500' : activity.type === 'EVENT' ? 'bg-orange-500' : activity.type === 'ABSENCE' ? 'bg-blue-500' : 'bg-purple-500',
+    }
+  })
+  
   const stats = [
     {
       title: 'إجمالي الطلاب',
@@ -123,42 +136,6 @@ export default function Dashboard() {
       change: '+15% هذا الشهر',
     },
   ];
-
-  const recentActivities = [
-    {
-      id: 1,
-      type: 'enrollment',
-      message: 'أحمد محمد انضم إلى كورس "البرمجة بـ React"',
-      time: 'منذ 5 دقائق',
-      icon: UserCheck,
-      color: 'text-green-600',
-    },
-    {
-      id: 2,
-      type: 'certificate',
-      message: 'فاطمة علي طلبت شهادة إتمام كورس "تطوير الويب"',
-      time: 'منذ 10 دقائق',
-      icon: Award,
-      color: 'text-yellow-600',
-    },
-    {
-      id: 3,
-      type: 'course',
-      message: 'د. سارة أضافت درس جديد في كورس "قواعد البيانات"',
-      time: 'منذ 15 دقيقة',
-      icon: BookOpen,
-      color: 'text-blue-600',
-    },
-    {
-      id: 4,
-      type: 'exam',
-      message: 'محمد حسن أكمل اختبار الوحدة الثالثة بدرجة 95%',
-      time: 'منذ 20 دقيقة',
-      icon: Calendar,
-      color: 'text-purple-600',
-    },
-  ];
-
   return (
     <div className="space-y-6">
       {/* Page Title */}
@@ -194,8 +171,8 @@ export default function Dashboard() {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Activity */}
-        <motion.div
+         {/* Recent Activity */}
+         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
@@ -203,13 +180,13 @@ export default function Dashboard() {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900">النشاط الأخير</h2>
-            <button className="text-sm text-primary-main hover:text-primary-dark font-medium" onClick={() => router.push('/admin/activities')}>
+            <button className="text-sm text-primary-main hover:text-primary-dark font-medium" onClick={() => router.push('/notifications')}>
               عرض الكل
             </button>
           </div>
           
           <div className="space-y-4">
-            {recentActivities.map((activity, index) => (
+            {notifications?.map((activity, index:number) => (
               <motion.div
                 key={activity.id}
                 initial={{ opacity: 0, x: -10 }}
@@ -224,11 +201,16 @@ export default function Dashboard() {
                   <p className="text-sm font-medium text-gray-900">
                     {activity.message}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
+                  <p className="text-xs text-gray-500 mt-1">{new Date(activity.createdAt).toLocaleDateString('ar-EG',{hour:'2-digit',minute:'2-digit'})}</p>
                 </div>
               </motion.div>
             ))}
           </div>
+          {notifications?.length === 0 && (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-gray-500">لا يوجد نشاط حدث</p>
+            </div>
+          )}
         </motion.div>
 
         {/* Quick Actions */}
