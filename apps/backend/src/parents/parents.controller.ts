@@ -84,8 +84,8 @@ export class ParentsController {
     @Get('for-children/:id')
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
-    @ApiOperation({ summary: 'الحصول على المدرسين للطلاب' })
-    @ApiResponse({ status: 200, description: 'تم جلب المدرسين بنجاح' })
+    @ApiOperation({ summary: 'الحصول على اطفال الولي' })
+    @ApiResponse({ status: 200, description: 'تم جلب اطفال الولي بنجاح' })
     getAllForChildren(@Param('id') id: string) {
         return this.parentsService.findAllForChildren(id);
     }

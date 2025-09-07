@@ -24,6 +24,9 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { Card, Button, Badge, Avatar, Tabs, Textarea } from '@3de/ui'
+import { useQuery } from '@tanstack/react-query'
+import { communityApi, postApi } from '@3de/apis'
+import { useAuth } from '@3de/auth'
 
 const PostCard = ({ post }: { post: any }) => {
   const [isLiked, setIsLiked] = useState(post.isLiked)
@@ -53,7 +56,7 @@ const PostCard = ({ post }: { post: any }) => {
         <div className="flex items-center gap-3 gap-reverse">
           <Avatar
             src={post.author.avatar}
-            fallback={post.author.name.split(' ').map((n: string) => n[0]).join('')}
+            fallback={post.author.name?.split(' ')?.map((n: string) => n[0]).join('')}
             size="md"
           />
           <div>
@@ -90,7 +93,7 @@ const PostCard = ({ post }: { post: any }) => {
         
         {post.attachments && post.attachments.length > 0 && (
           <div className="space-y-2">
-            {post.attachments.map((attachment: any, index: number) => (
+            {post.attachments?.map((attachment: any, index: number) => (
               <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
                 {getFileIcon(attachment.type)}
                 <span className="mr-2 text-sm font-medium text-gray-700">
@@ -161,7 +164,7 @@ const PostCard = ({ post }: { post: any }) => {
           className="mt-4 pt-4 border-t"
         >
           <div className="space-y-3 mb-4">
-            {post.comments.slice(0, 3).map((comment: any) => (
+            {post.comments?.slice(0, 3).map((comment: any) => (
               <div key={comment.id} className="flex items-start gap-2 gap-reverse">
                 <Avatar
                   src={comment.author.avatar}
@@ -218,110 +221,17 @@ export default function CommunitiesPage() {
   const [selectedTab, setSelectedTab] = useState('my-communities')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Mock data
-  const myCommunities = [
-    {
-      id: '1',
-      name: 'مطوري React',
-      description: 'مجتمع للمطورين المهتمين بـ React وتقنيات الواجهات الأمامية',
-      members: 1250,
-      posts: 89,
-      isOwner: true,
-      avatar: '/community1.jpg',
-      lastActivity: 'منذ ساعة واحدة',
-    },
-    {
-      id: '2',
-      name: 'خبراء JavaScript',
-      description: 'مناقشات حول أحدث تقنيات وأدوات JavaScript',
-      members: 890,
-      posts: 156,
-      isOwner: false,
-      avatar: '/community2.jpg',
-      lastActivity: 'منذ 3 ساعات',
-    },
-  ]
+  const {data:AllCommunities} = useQuery({
+    queryKey: ['my-communities'],
+    queryFn: () => communityApi.getAll(0, 10, ''),
+  })
+  const {data:posts} = useQuery({
+    queryKey: ['posts'],
+    queryFn: () => postApi.getAll(),
+  })
+  const {user} = useAuth()
+  let myCommunities = AllCommunities?.data.communities.filter((community:any)=>community.members.some((member:any)=>member.userId === user?.id))
 
-  const allCommunities = [
-    ...myCommunities,
-    {
-      id: '3',
-      name: 'مصممي UX/UI',
-      description: 'مجتمع المصممين ومطوري تجربة المستخدم',
-      members: 675,
-      posts: 234,
-      isOwner: false,
-      avatar: '/community3.jpg',
-      lastActivity: 'منذ يوم واحد',
-    },
-    {
-      id: '4',
-      name: 'مطوري الهواتف المحمولة',
-      description: 'تطوير تطبيقات الهواتف الذكية والأجهزة المحمولة',
-      members: 543,
-      posts: 67,
-      isOwner: false,
-      avatar: '/community4.jpg',
-      lastActivity: 'منذ يومين',
-    },
-  ]
-
-  const mockPosts = [
-    {
-      id: '1',
-      author: {
-        name: 'د. محمد أحمد',
-        avatar: '/instructor1.jpg',
-        role: 'محاضر',
-        isInstructor: true,
-      },
-      content: 'ما رأيكم في أحدث إصدار من React 18؟ هل جربتم ميزة Concurrent Features الجديدة؟ أريد أن أسمع تجاربكم وآرائكم.',
-      timeAgo: 'منذ ساعتين',
-      likes: 24,
-      isLiked: false,
-      isPinned: true,
-      comments: [
-        {
-          id: '1',
-          author: { name: 'أحمد محمد', avatar: '/student1.jpg' },
-          content: 'جربت الميزة وهي ممتازة! تحسن الأداء ملحوظ.',
-          timeAgo: 'منذ ساعة واحدة',
-        },
-        {
-          id: '2',
-          author: { name: 'فاطمة علي', avatar: '/student2.jpg' },
-          content: 'أتفق معك، لكن التوثيق ما زال محدود.',
-          timeAgo: 'منذ 45 دقيقة',
-        },
-      ],
-      attachments: [],
-    },
-    {
-      id: '2',
-      author: {
-        name: 'سارة أحمد',
-        avatar: '/student3.jpg',
-        role: 'طالبة',
-        isInstructor: false,
-      },
-      content: 'أحتاج مساعدة في فهم مفهوم State Management في React. هل يمكن لأحد أن يشرح لي الفرق بين useState و useReducer؟',
-      timeAgo: 'منذ 4 ساعات',
-      likes: 12,
-      isLiked: true,
-      isPinned: false,
-      comments: [
-        {
-          id: '3',
-          author: { name: 'محمد سالم', avatar: '/instructor2.jpg' },
-          content: 'useState للحالات البسيطة، useReducer للحالات المعقدة والمترابطة.',
-          timeAgo: 'منذ 3 ساعات',
-        },
-      ],
-      attachments: [
-        { name: 'state-management-guide.pdf', type: 'file' },
-      ],
-    },
-  ]
 
   const tabItems = [
     {
@@ -331,7 +241,7 @@ export default function CommunitiesPage() {
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">
-              المجتمعات التي أنتمي إليها ({myCommunities.length})
+              المجتمعات التي أنتمي إليها ({myCommunities?.length})
             </h3>
             <Button variant="primary">
               <Plus className="h-5 w-5 ml-2" />
@@ -340,12 +250,12 @@ export default function CommunitiesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {myCommunities.map((community) => (
+            {myCommunities?.map((community) => (
               <Card key={community.id} className="p-6 hover:shadow-lg transition-all duration-200">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3 gap-reverse">
                     <Avatar
-                      src={community.avatar}
+                      src={community.image}
                       fallback={community.name[0]}
                       size="lg"
                     />
@@ -359,31 +269,31 @@ export default function CommunitiesPage() {
                     </div>
                   </div>
                   
-                  {community.isOwner && (
+                  {/* {community.ownerId === user?.id && (
                     <Badge variant="success" size="sm">
                       مؤسس
                     </Badge>
-                  )}
+                  )} */}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="text-center">
                     <div className="text-lg font-bold text-primary-main">
-                      {community.members.toLocaleString()}
+                      {community.participants?.length || 0}
                     </div>
                     <div className="text-xs text-gray-500">عضو</div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg font-bold text-secondary-main">
-                      {community.posts}
+                      {community.posts?.length || 0}
                     </div>
                     <div className="text-xs text-gray-500">منشور</div>
                   </div>
                 </div>
 
-                <div className="text-sm text-gray-500 mb-4">
-                  آخر نشاط: {community.lastActivity}
-                </div>
+              {community.posts?.[0]?.createdAt && <div className="text-sm text-gray-500 mb-4">
+                  آخر نشاط: {new Date(community.posts?.[0]?.createdAt).toLocaleString()}
+                </div>}
 
                 <div className="flex gap-2 gap-reverse">
                   <Link href={`/communities/${community.id}`} className="flex-1">
@@ -392,11 +302,11 @@ export default function CommunitiesPage() {
                       دخول
                     </Button>
                   </Link>
-                  {community.isOwner && (
+                  {/* {community.ownerId === user?.id && (
                     <Button variant="outline" size="sm">
                       <Settings className="h-4 w-4" />
                     </Button>
-                  )}
+                  )} */}
                 </div>
               </Card>
             ))}
@@ -426,11 +336,11 @@ export default function CommunitiesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {allCommunities.map((community) => (
+            {AllCommunities?.data.communities?.map((community) => (
               <Card key={community.id} className="p-6 hover:shadow-lg transition-all duration-200">
                 <div className="flex items-center gap-3 gap-reverse mb-4">
                   <Avatar
-                    src={community.avatar}
+                    src={community.image}
                     fallback={community.name[0]}
                     size="md"
                   />
@@ -439,7 +349,7 @@ export default function CommunitiesPage() {
                       {community.name}
                     </h4>
                     <p className="text-sm text-gray-600">
-                      {community.members.toLocaleString()} عضو
+                      {community.participants?.length || 0} عضو
                     </p>
                   </div>
                 </div>
@@ -449,8 +359,8 @@ export default function CommunitiesPage() {
                 </p>
 
                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                  <span>{community.posts} منشور</span>
-                  <span>{community.lastActivity}</span>
+                  <span>{community.posts?.length || 0} منشور</span>
+                  {community.posts?.[0]?.createdAt && <span>{new Date(community.posts?.[0]?.createdAt).toLocaleString()}</span>}
                 </div>
 
                 <Button variant="primary" size="sm" className="w-full">
@@ -508,7 +418,7 @@ export default function CommunitiesPage() {
 
           {/* Posts Feed */}
           <div className="space-y-6">
-            {mockPosts.map((post) => (
+            {posts?.data.posts?.map((post:any) => (
               <PostCard key={post.id} post={post} />
             ))}
           </div>
