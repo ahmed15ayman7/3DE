@@ -35,6 +35,7 @@ export class ParentsService {
                 },
             },
             include: {
+                user: true,
                 children: {
                     include: {
                         user: true,
