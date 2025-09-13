@@ -66,7 +66,7 @@ export default function Dashboard() {
   // Fetch dashboard data
   const { data: usersData, isLoading: usersLoading, refetch: usersRefetch } = useQuery({
     queryKey: ['users', 1, 10, ''],
-    queryFn: () => userApi.getAll(1, 10, ''),
+    queryFn: () => userApi.getAll(1, 10, '',true),
   });
   const { data: notificationsData, isLoading: notificationsLoading, refetch: notificationsRefetch } = useQuery({
     queryKey: ['notifications',user?.id],

@@ -6,7 +6,8 @@ import {
     Patch, 
     Param, 
     Delete, 
-    UseGuards 
+    UseGuards,
+    Query
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
@@ -37,8 +38,8 @@ export class UsersController {
     @Roles(UserRole.ADMIN,UserRole.PARENT) // فقط الأدمن
     @ApiOperation({ summary: 'الحصول على جميع المستخدمين' })
     @ApiResponse({ status: 200, description: 'تم جلب المستخدمين بنجاح' })
-    findAll() {
-        return this.usersService.findAll();
+    findAll(@Query('isStudent') isStudent?: string) {
+        return this.usersService.findAll(isStudent);
     }
 
     @Get(':id')
