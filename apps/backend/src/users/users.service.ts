@@ -5,6 +5,7 @@ import { UserRole } from '@shared/prisma';
 import { CreateUserDto } from 'dtos/User.create.dto';
 import { UpdateUserDto } from 'dtos/User.update.dto';
 import { UpdateTwoFactorDto } from 'dtos/TwoFactor.update.dto';
+import { Prisma } from '@shared/prisma';
 @Injectable()
 export class UsersService {
     constructor(private prisma: PrismaService) { }
@@ -31,8 +32,13 @@ export class UsersService {
         });
     }
 
-    async findAll() {
+    async findAll(isStudent?: string) {
+        let where: Prisma.UserWhereInput = {};
+        if(isStudent=="true"){
+            where.role = UserRole.STUDENT;
+        }
         return this.prisma.user.findMany({
+where,
             include: {
                 profile: true,
                 academy: true,

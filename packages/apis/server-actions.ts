@@ -325,8 +325,8 @@ export async function updateEnrollment(courseId: string, enrollmentId: string, d
 }
 //??userApis
 //!!userApis
-export async function getAllUsers(page: number, limit: number, search: string): Promise<{ status: number; data: User[] }> {
-  const response = await api.get(`/users?page=${page}&limit=${limit}&search=${search}`);
+export async function getAllUsers(page: number, limit: number, search: string,isStudent?: boolean): Promise<{ status: number; data: User[] }> {
+  const response = await api.get(`/users?page=${page}&limit=${limit}&search=${search}&isStudent=${isStudent||""}`);
   return { status: response.status, data: response.data };
 }
 
