@@ -37,6 +37,8 @@ import {
   EnrollmentCode,
   BlogPost,
   Admin,
+  Parent,
+  Child,
 } from '@3de/interfaces';
 import axios, { AxiosProgressEvent } from "axios";
 export async function getAccessTokenFromCookieServer(): Promise<string> {
@@ -1755,6 +1757,56 @@ export async function deleteSupport(id: string) {
 }
 //!!supportApis
 
+//??parentApis
+export async function getAllParents(search: string, take: number, skip: number): Promise<{ status: number, data: {data: Parent[], total: number, totalPages: number} }> {
+  const response = await api.get(`/parents?search=${search}&take=${take}&skip=${skip}`);
+  return { status: response.status, data: response.data };
+}
+
+export async function getParentById(id: string) {
+  const response = await api.get(`/parents/${id}`);
+  return { status: response.status, data: response.data };
+}
+
+export async function createParent(data: Partial<Parent>) {
+  const response = await api.post(`/parents`, data);
+  return { status: response.status, data: response.data };
+}
+
+export async function updateParent(id: string, data: Partial<User>) {
+  const response = await api.patch(`/parents/${id}`, data);
+  return { status: response.status, data: response.data };
+}
+
+export async function updateParentUser(id: string, data: Partial<User>) {
+  const response = await api.patch(`/parents/${id}/user`, data);
+  return { status: response.status, data: response.data };
+}
+export async function deleteParent(id: string) {
+  const response = await api.delete(`/parents/${id}`);
+  return { status: response.status, data: response.data };
+}
+export async function getAllChildren(parentId: string) {
+  const response = await api.get(`/parents/${parentId}/children`);
+  return { status: response.status, data: response.data };
+}
+export async function getChildById(parentId: string, childId: string) {
+  const response = await api.get(`/parents/${parentId}/children/${childId}`);
+  return { status: response.status, data: response.data };
+}
+export async function createChild(parentId: string, data: Partial<Child>) {
+  const response = await api.post(`/parents/${parentId}/children`, data);
+  return { status: response.status, data: response.data };
+}
+export async function updateChild(parentId: string, childId: string, data: Partial<Child>) {
+  const response = await api.patch(`/parents/${parentId}/children/${childId}`, data);
+  return { status: response.status, data: response.data };
+}
+export async function deleteChild(parentId: string, childId: string) {
+  const response = await api.delete(`/parents/${parentId}/children/${childId}`);
+  return { status: response.status, data: response.data };
+}
+//!!parentApis  
 
 //??landingApis
 export async function getCourses(search: string, take: number, skip: number) {

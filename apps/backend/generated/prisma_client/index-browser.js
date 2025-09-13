@@ -166,6 +166,7 @@ exports.Prisma.TwoFactorScalarFieldEnum = {
 exports.Prisma.ChildScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   parentId: 'parentId'
@@ -1066,6 +1067,12 @@ exports.UserRole = exports.$Enums.UserRole = {
   PARENT: 'PARENT',
   ADMIN: 'ADMIN',
   ACADEMY: 'ACADEMY'
+};
+
+exports.ChildStatus = exports.$Enums.ChildStatus = {
+  PENDING: 'PENDING',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
 };
 
 exports.CourseStatus = exports.$Enums.CourseStatus = {

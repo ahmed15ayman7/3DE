@@ -1,5 +1,7 @@
 export type UserRole = 'STUDENT' | 'INSTRUCTOR' | 'PARENT' | 'ADMIN' | 'ACADEMY';
 
+export type ChildStatus = 'PENDING' | 'ACTIVE' | 'INACTIVE';
+
 export type CourseStatus = 'PENDING' | 'ACTIVE' | 'COMPLETED';
 
 export type MilestoneStatus = 'IN_PROGRESS' | 'COMPLETED' | 'NOT_STARTED';
@@ -126,6 +128,7 @@ export interface Child {
   id: string;
   userId: string;
   user: User | undefined;
+  status: ChildStatus;
   createdAt: Date;
   updatedAt: Date;
   parentId: string;

@@ -20,6 +20,7 @@ import {
   ChevronRight,
   KeyRound,
   Bell,
+  Users2,
 } from 'lucide-react';
 
 interface MenuItem {
@@ -35,6 +36,7 @@ const menuItems: MenuItem[] = [
   { title: 'الطلاب', href: '/students', icon: Users },
   { title: 'الاشتراكات', href: '/enrollments', icon: UserCheck },
   { title: 'الأكواد', href: '/enrollment-codes', icon: KeyRound },
+  { title: 'الوليين', href: '/parents', icon: Users2 },
   // { title: 'الشهادات', href: '/certificates', icon: Award },
   { title: 'الغيابات', href: '/absences', icon: UserX },
   // { title: 'الإنجازات', href: '/achievements', icon: Award },

@@ -429,6 +429,15 @@ export namespace $Enums {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
+export const ChildStatus: {
+  PENDING: 'PENDING',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+};
+
+export type ChildStatus = (typeof ChildStatus)[keyof typeof ChildStatus]
+
+
 export const CourseStatus: {
   PENDING: 'PENDING',
   ACTIVE: 'ACTIVE',
@@ -621,6 +630,10 @@ export type ExpenseType = (typeof ExpenseType)[keyof typeof ExpenseType]
 export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
+
+export type ChildStatus = $Enums.ChildStatus
+
+export const ChildStatus: typeof $Enums.ChildStatus
 
 export type CourseStatus = $Enums.CourseStatus
 
@@ -14977,6 +14990,7 @@ export namespace Prisma {
   export type ChildMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    status: $Enums.ChildStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     parentId: string | null
@@ -14985,6 +14999,7 @@ export namespace Prisma {
   export type ChildMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    status: $Enums.ChildStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     parentId: string | null
@@ -14993,6 +15008,7 @@ export namespace Prisma {
   export type ChildCountAggregateOutputType = {
     id: number
     userId: number
+    status: number
     createdAt: number
     updatedAt: number
     parentId: number
@@ -15003,6 +15019,7 @@ export namespace Prisma {
   export type ChildMinAggregateInputType = {
     id?: true
     userId?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     parentId?: true
@@ -15011,6 +15028,7 @@ export namespace Prisma {
   export type ChildMaxAggregateInputType = {
     id?: true
     userId?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     parentId?: true
@@ -15019,6 +15037,7 @@ export namespace Prisma {
   export type ChildCountAggregateInputType = {
     id?: true
     userId?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     parentId?: true
@@ -15100,6 +15119,7 @@ export namespace Prisma {
   export type ChildGroupByOutputType = {
     id: string
     userId: string
+    status: $Enums.ChildStatus
     createdAt: Date
     updatedAt: Date
     parentId: string
@@ -15125,6 +15145,7 @@ export namespace Prisma {
   export type ChildSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     parentId?: boolean
@@ -15135,6 +15156,7 @@ export namespace Prisma {
   export type ChildSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     parentId?: boolean
@@ -15145,6 +15167,7 @@ export namespace Prisma {
   export type ChildSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     parentId?: boolean
@@ -15155,12 +15178,13 @@ export namespace Prisma {
   export type ChildSelectScalar = {
     id?: boolean
     userId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     parentId?: boolean
   }
 
-  export type ChildOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "parentId", ExtArgs["result"]["child"]>
+  export type ChildOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "createdAt" | "updatedAt" | "parentId", ExtArgs["result"]["child"]>
   export type ChildInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | ParentDefaultArgs<ExtArgs>
@@ -15183,6 +15207,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
+      status: $Enums.ChildStatus
       createdAt: Date
       updatedAt: Date
       parentId: string
@@ -15613,6 +15638,7 @@ export namespace Prisma {
   interface ChildFieldRefs {
     readonly id: FieldRef<"Child", 'String'>
     readonly userId: FieldRef<"Child", 'String'>
+    readonly status: FieldRef<"Child", 'ChildStatus'>
     readonly createdAt: FieldRef<"Child", 'DateTime'>
     readonly updatedAt: FieldRef<"Child", 'DateTime'>
     readonly parentId: FieldRef<"Child", 'String'>
@@ -104475,6 +104501,7 @@ export namespace Prisma {
   export const ChildScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     parentId: 'parentId'
@@ -105702,6 +105729,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ChildStatus'
+   */
+  export type EnumChildStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChildStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ChildStatus[]'
+   */
+  export type ListEnumChildStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChildStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -106365,6 +106406,7 @@ export namespace Prisma {
     NOT?: ChildWhereInput | ChildWhereInput[]
     id?: StringFilter<"Child"> | string
     userId?: StringFilter<"Child"> | string
+    status?: EnumChildStatusFilter<"Child"> | $Enums.ChildStatus
     createdAt?: DateTimeFilter<"Child"> | Date | string
     updatedAt?: DateTimeFilter<"Child"> | Date | string
     parentId?: StringFilter<"Child"> | string
@@ -106375,6 +106417,7 @@ export namespace Prisma {
   export type ChildOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     parentId?: SortOrder
@@ -106388,6 +106431,7 @@ export namespace Prisma {
     OR?: ChildWhereInput[]
     NOT?: ChildWhereInput | ChildWhereInput[]
     userId?: StringFilter<"Child"> | string
+    status?: EnumChildStatusFilter<"Child"> | $Enums.ChildStatus
     createdAt?: DateTimeFilter<"Child"> | Date | string
     updatedAt?: DateTimeFilter<"Child"> | Date | string
     parentId?: StringFilter<"Child"> | string
@@ -106398,6 +106442,7 @@ export namespace Prisma {
   export type ChildOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     parentId?: SortOrder
@@ -106412,6 +106457,7 @@ export namespace Prisma {
     NOT?: ChildScalarWhereWithAggregatesInput | ChildScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Child"> | string
     userId?: StringWithAggregatesFilter<"Child"> | string
+    status?: EnumChildStatusWithAggregatesFilter<"Child"> | $Enums.ChildStatus
     createdAt?: DateTimeWithAggregatesFilter<"Child"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Child"> | Date | string
     parentId?: StringWithAggregatesFilter<"Child"> | string
@@ -112832,6 +112878,7 @@ export namespace Prisma {
 
   export type ChildCreateInput = {
     id?: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutChildInput
@@ -112841,6 +112888,7 @@ export namespace Prisma {
   export type ChildUncheckedCreateInput = {
     id?: string
     userId: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     parentId: string
@@ -112848,6 +112896,7 @@ export namespace Prisma {
 
   export type ChildUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChildNestedInput
@@ -112857,6 +112906,7 @@ export namespace Prisma {
   export type ChildUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parentId?: StringFieldUpdateOperationsInput | string
@@ -112865,6 +112915,7 @@ export namespace Prisma {
   export type ChildCreateManyInput = {
     id?: string
     userId: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     parentId: string
@@ -112872,6 +112923,7 @@ export namespace Prisma {
 
   export type ChildUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -112879,6 +112931,7 @@ export namespace Prisma {
   export type ChildUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parentId?: StringFieldUpdateOperationsInput | string
@@ -119967,6 +120020,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumChildStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChildStatus | EnumChildStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChildStatusFilter<$PrismaModel> | $Enums.ChildStatus
+  }
+
   export type ParentScalarRelationFilter = {
     is?: ParentWhereInput
     isNot?: ParentWhereInput
@@ -119975,6 +120035,7 @@ export namespace Prisma {
   export type ChildCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     parentId?: SortOrder
@@ -119983,6 +120044,7 @@ export namespace Prisma {
   export type ChildMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     parentId?: SortOrder
@@ -119991,9 +120053,20 @@ export namespace Prisma {
   export type ChildMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     parentId?: SortOrder
+  }
+
+  export type EnumChildStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChildStatus | EnumChildStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChildStatusWithAggregatesFilter<$PrismaModel> | $Enums.ChildStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumChildStatusFilter<$PrismaModel>
+    _max?: NestedEnumChildStatusFilter<$PrismaModel>
   }
 
   export type ParentCountOrderByAggregateInput = {
@@ -125540,6 +125613,10 @@ export namespace Prisma {
     create?: XOR<ParentCreateWithoutChildrenInput, ParentUncheckedCreateWithoutChildrenInput>
     connectOrCreate?: ParentCreateOrConnectWithoutChildrenInput
     connect?: ParentWhereUniqueInput
+  }
+
+  export type EnumChildStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ChildStatus
   }
 
   export type UserUpdateOneRequiredWithoutChildNestedInput = {
@@ -132238,6 +132315,23 @@ export namespace Prisma {
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
+
+  export type NestedEnumChildStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChildStatus | EnumChildStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChildStatusFilter<$PrismaModel> | $Enums.ChildStatus
+  }
+
+  export type NestedEnumChildStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChildStatus | EnumChildStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChildStatus[] | ListEnumChildStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumChildStatusWithAggregatesFilter<$PrismaModel> | $Enums.ChildStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumChildStatusFilter<$PrismaModel>
+    _max?: NestedEnumChildStatusFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -133937,6 +134031,7 @@ export namespace Prisma {
 
   export type ChildCreateWithoutUserInput = {
     id?: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     parent: ParentCreateNestedOneWithoutChildrenInput
@@ -133944,6 +134039,7 @@ export namespace Prisma {
 
   export type ChildUncheckedCreateWithoutUserInput = {
     id?: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     parentId: string
@@ -135195,6 +135291,7 @@ export namespace Prisma {
     NOT?: ChildScalarWhereInput | ChildScalarWhereInput[]
     id?: StringFilter<"Child"> | string
     userId?: StringFilter<"Child"> | string
+    status?: EnumChildStatusFilter<"Child"> | $Enums.ChildStatus
     createdAt?: DateTimeFilter<"Child"> | Date | string
     updatedAt?: DateTimeFilter<"Child"> | Date | string
     parentId?: StringFilter<"Child"> | string
@@ -136151,6 +136248,7 @@ export namespace Prisma {
 
   export type ChildCreateWithoutParentInput = {
     id?: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutChildInput
@@ -136159,6 +136257,7 @@ export namespace Prisma {
   export type ChildUncheckedCreateWithoutParentInput = {
     id?: string
     userId: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -159162,6 +159261,7 @@ export namespace Prisma {
 
   export type ChildCreateManyUserInput = {
     id?: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     parentId: string
@@ -160412,6 +160512,7 @@ export namespace Prisma {
 
   export type ChildUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: ParentUpdateOneRequiredWithoutChildrenNestedInput
@@ -160419,6 +160520,7 @@ export namespace Prisma {
 
   export type ChildUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parentId?: StringFieldUpdateOperationsInput | string
@@ -160426,6 +160528,7 @@ export namespace Prisma {
 
   export type ChildUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parentId?: StringFieldUpdateOperationsInput | string
@@ -160454,12 +160557,14 @@ export namespace Prisma {
   export type ChildCreateManyParentInput = {
     id?: string
     userId: string
+    status?: $Enums.ChildStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ChildUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChildNestedInput
@@ -160468,6 +160573,7 @@ export namespace Prisma {
   export type ChildUncheckedUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -160475,6 +160581,7 @@ export namespace Prisma {
   export type ChildUncheckedUpdateManyWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumChildStatusFieldUpdateOperationsInput | $Enums.ChildStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

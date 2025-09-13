@@ -135,10 +135,16 @@ enum UserRole {
     ADMIN
     ACADEMY
 }
+enum ChildStatus {
+    PENDING
+    ACTIVE
+    INACTIVE
+}
 model Child {
     id        String   @id @default(cuid())
     userId    String
     user      User     @relation(fields: [userId], references: [id])
+    status    ChildStatus @default(PENDING)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     parentId  String

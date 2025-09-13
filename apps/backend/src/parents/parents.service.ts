@@ -3,6 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateParentDto } from 'dtos/Parent.create.dto';
 import { UpdateParentDto } from 'dtos/Parent.update.dto';
 import { CreateChildDto } from 'dtos/Child.create.dto';
+import { UpdateChildDto } from 'dtos/Child.update.dto';
+import { UpdateUserDto } from 'dtos/User.update.dto';
 @Injectable()
 export class ParentsService {
     constructor(private prisma: PrismaService) { }
@@ -78,7 +80,11 @@ export class ParentsService {
                         },
                     },
                 },
-                children: true,
+                children: {
+                    include: {
+                        user: true,
+                    },
+                },
             },
         });
 
@@ -121,6 +127,18 @@ export class ParentsService {
             },
         });
     }
+    async updateUserByParentId(id: string, data: UpdateUserDto) {
+        const parent = await this.prisma.parent.findFirst({
+            where: { userId: id },
+        });
+        if (!parent) {
+            throw new NotFoundException('Parent not found');
+        }
+        return this.prisma.user.update({
+            where: { id: parent.userId },
+            data: { ...data },
+        });
+    }
 
     async remove(id: string) {
         await this.findOne(id);
@@ -143,6 +161,24 @@ export class ParentsService {
                 parentId: parent.id,
                 userId: data.userId,
             },
+        });
+    }
+    async updateChild(id: string, childId: string, data: UpdateChildDto) {
+        const parent = await this.prisma.parent.findFirst({
+            where: { userId: id },
+        });
+        if (!parent) {
+            throw new NotFoundException('Parent not found');
+        }
+        const child = await this.prisma.child.findFirst({
+            where: { id: childId, parentId: parent.id },
+        });
+        if (!child) {
+            throw new NotFoundException('Child not found');
+        }
+        return this.prisma.child.update({
+            where: { id: childId },
+            data: { ...data },
         });
     }
 
@@ -209,6 +245,7 @@ export class ParentsService {
                Child: {
                 some: {
                     parentId: parent.id,
+                    status: 'ACTIVE',
                 },
                }
             },
@@ -521,7 +558,7 @@ export class ParentsService {
         let children = await this.prisma.user.findMany({
             where: {
                 Child: {
-                    some: { parentId: parent.id },
+                    some: {AND: [ { parentId: parent.id }, { status: 'ACTIVE' } ] },
                 },
             },
             include: {

@@ -637,7 +637,20 @@ export const supportApi = {
     update: serverActions.updateSupport,
     delete: serverActions.deleteSupport,
   };
-
+// ?? Parent APIs
+export const parentApi = {
+    getAll: serverActions.getAllParents,
+    getById: serverActions.getParentById,
+    create: serverActions.createParent,
+    update: serverActions.updateParent,
+    delete: serverActions.deleteParent,
+    getAllChildren: serverActions.getAllChildren,
+    getChildById: serverActions.getChildById,
+    createChild: serverActions.createChild,
+    updateChild: serverActions.updateChild,
+    deleteChild: serverActions.deleteChild,
+    updateParentUser: serverActions.updateParentUser,
+  };
 // ?? Landing APIs
 export const landingApi = {
   getCourses: serverActions.getCourses,

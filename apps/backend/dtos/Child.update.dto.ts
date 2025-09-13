@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { User, Parent } from "@shared/prisma";
+import { User, ChildStatus, Parent } from "@shared/prisma";
 
 import { Entity, Column } from "typeorm";
 @Entity()
@@ -9,6 +9,11 @@ export class UpdateChildDto {
   // Field: userId, Type: string
   @Column()
   userId: string;
+
+  @ApiProperty({ enum: ChildStatus })
+  // Field: status, Type: ChildStatus
+  @Column()
+  status: ChildStatus;
 
   @ApiProperty({ type: "string", format: "date-time" })
   // Field: createdAt, Type: Date
