@@ -134,11 +134,14 @@ const AddInstructor = ({
           onChange={(e) => form.setValue('password', e.target.value)}
           error={form.formState.errors.password?.message}
         />
+        <div className="">
+          <label htmlFor="avatar" className="text-sm font-medium">الصورة الشخصية</label>
         <UploadImage 
           image={imageUrl as string}
           setImage={setImageUrl}
           className="w-full" inputRef={inputRef} setIsUploading={setIsUploading}
-            />
+          />
+          </div>
         <Input
           type="text"
           label="الهاتف"
