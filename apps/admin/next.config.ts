@@ -31,11 +31,12 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value:
               "default-src 'self'; " +
-              "script-src 'self' 'unsafe-inline'; " +
-              "style-src 'self' 'unsafe-inline'; " +
-              "img-src 'self' data: blob: https://3de.school https://cloudinary.com https://res.cloudinary.com; " +
-              "media-src 'self' blob: https://3de.school https://cloudinary.com;  " +
-              "connect-src 'self' blob: https://3de.school https://www.3de.school https://cloudinary.com https://api.3de.school;"
+"script-src 'self' 'unsafe-inline'; " +
+"style-src 'self' 'unsafe-inline'; " +
+"img-src 'self' data: blob: https://3de.school https://cloudinary.com https://res.cloudinary.com; " +
+"media-src 'self' blob: https://3de.school https://cloudinary.com; " +
+"connect-src 'self' blob: https://3de.school https://www.3de.school https://cloudinary.com https://api.3de.school https://api.cloudinary.com;"
+
           },
         ],
       },
